@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOAConnect - Payment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+      [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen flex">
+      <!-- Sidebar -->
+      <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
+        <div class="px-6 mb-8">
+          <h1 class="text-2xl font-bold">HOAConnect</h1>
+          <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
+        </div>
+        <nav class="flex-1">
+          <a
+            href="homeowner-dashboard.html"
+            class="flex items-center px-6 py-3 hover:bg-teal-600"
+          >
+            <i class="fas fa-tachometer-alt mr-3"></i>
+            <span>Dashboard</span>
+          </a>
+
+          <!-- Payments Dropdown -->
+          <div x-data="{ open: true }" class="relative">
+            <button
+              @click="open = !open"
+              :aria-expanded="open"
+              class="flex items-center px-6 py-3 w-full text-left hover:bg-teal-600 focus:outline-none"
+            >
+              <i class="fas fa-credit-card mr-3"></i>
+              <span>Payments</span>
+              <i
+                :class="{ 'rotate-180': open }"
+                class="fas fa-chevron-down ml-auto transform transition-transform duration-200"
+              ></i>
+            </button>
+            <div
+              x-show="open"
+              x-cloak
+              class="bg-teal-800"
+            >
+              <a
+                href="homeowner-payment.html"
+                class="flex items-center px-8 py-2 bg-teal-700 hover:bg-teal-700"
+              >
+                <i class="fas fa-wallet mr-2"></i>
+                View Payments
+              </a>
+              <a
+                href="homeowner-history.html"
+                class="flex items-center px-8 py-2 hover:bg-teal-600"
+              >
+                <i class="fas fa-history mr-2"></i>
+                Payment History
+              </a>
+            </div>
+          </div>
+
+          <a href="homeowner-hoa-projects.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+            <i class="fas fa-gavel mr-3"></i>
+            <span>Resolution</span>
+          </a>
+          <a href="homeowner-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+            <i class="fas fa-newspaper mr-3"></i>
+            <span>News Feed</span>
+          </a>
+          <a href="homeowner-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+            <i class="fas fa-book mr-3"></i>
+            <span>Ledger</span>
+          </a>
+          <a href="homeowner-message.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+              <i class="fas fa-comments mr-3"></i>
+              <span>Messages</span>
+          </a>
+          <a href="homeowner-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+              <i class="fas fa-calendar-alt mr-3"></i>
+              <span>Calendar</span>
+          </a>
+          <a href="homeowner-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+            <i class="fas fa-user-circle mr-3"></i>
+            <span>Profile</span>
+        </a> 
+      </nav>
+      <div class="px-6 py-4 mt-auto">
+          <button
+              class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center justify-center"
+          >
+              <i class="fas fa-sign-out-alt mr-2"></i> Logout
+          </button>
+      </div>
+  </div>
+  <!--End of Sidebar-->
+
+
+      <!-- Main Content -->
+      <div class="flex-1 overflow-x-hidden overflow-y-auto">
+        <header class="bg-white shadow-md">
+          <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+              <h1 class="text-2xl font-bold text-gray-900">Payment</h1>
+              <div class="flex items-center space-x-2">
+                <button class="bg-teal-100 p-2 rounded-full text-teal-600 hover:bg-teal-200">
+                  <i class="fas fa-bell"></i>
+                </button>
+              </div>
+            </div>
+      </header>
+
+        <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <!-- Outstanding Balance -->
+  <div class="bg-gradient-to-r from-teal-500 to-teal-700 rounded-xl shadow-lg mb-8 p-4 max-w-xs text-white">
+    <div class="flex items-center space-x-3">
+      <!-- Icon -->
+      <div class="bg-white bg-opacity-20 p-2 rounded-full">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <h2 class="text-md font-semibold">Outstanding Balance</h2>
+    </div>
+
+    <p class="text-2xl font-bold mt-3" id="outstandingBalance">₱100</p>
+    <p class="text-xs text-white text-opacity-90 mt-1">
+      This is the total amount of unpaid and overdue fees.
+    </p>
+  </div>
+
+          <!-- Payment Table -->
+          <div class="bg-white rounded-lg shadow mb-8">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+              <h2 class="text-lg font-medium">Payment Table</h2>
+              <div class="flex space-x-2">
+                <select id="statusFilter" class="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" onchange="filterTableByStatus()">
+                  <option value="All">All</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Unpaid">Unpaid</option>
+                  <option value="Overdue">Overdue</option>
+                </select>
+                <input type="text" placeholder="Search..." class="border rounded-l px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <button class="bg-teal-600 text-white px-4 py-2 rounded-r hover:bg-teal-700">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fee Name</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr data-payment-id="PAY003">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Monthly Dues Fee - May 2025</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">₱50</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">2025-05-31</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <button onclick="viewPayment('PAY003', 'Monthly Dues Fee - May 2025', '50', '2025-05-31', 'Pending', 'GCash')" class="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700 w-20">View</button>
+                    </td>
+                  </tr>
+                  <tr data-payment-id="PAY002">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Monthly Dues Fee - April 2025</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">₱50</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">2025-04-30</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">Overdue</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <button onclick="showPayNowModal('PAY002', 'Monthly Dues Fee - April 2025', '50', '2025-04-30', 'Overdue')" class="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700 w-20">Pay Now</button>
+                    </td>
+                  </tr>
+                  <tr data-payment-id="PAY001">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Monthly Dues Fee - March 2025</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">₱50</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">2025-03-31</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">Overdue</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <button onclick="showPayNowModal('PAY001', 'Monthly Dues Fee - March 2025', '50', '2025-03-31', 'Overdue')" class="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700 w-20">Pay Now</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+              <div class="text-sm text-gray-500">
+                Showing 1 to 3 of 3 entries
+              </div>
+              <div class="flex space-x-2">
+                <button class="px-3 py-1 border rounded text-sm bg-gray-100">Previous</button>
+                <button class="px-3 py-1 border rounded text-sm bg-teal-600 text-white">1</button>
+                <button class="px-3 py-1 border rounded text-sm bg-gray-100">Next</button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Pay Now Modal -->
+    <div id="payNowModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+      <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h3 class="text-lg font-medium">Make a Payment</h3>
+          <button onclick="closePayNowModal()" class="text-gray-400 hover:text-gray-500">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="p-6">
+          <div class="mb-4">
+            <h4 class="text-sm font-medium text-gray-700 mb-2">Payment Details</h4>
+            <p class="text-sm text-gray-900">Fee Name: <span id="payNowFeeName"></span></p>
+            <p class="text-sm text-gray-900">Amount: <span id="payNowAmount"></span></p>
+            <p class="text-sm text-gray-900">Due Date: <span id="payNowDate"></span></p>
+            <p class="text-sm text-gray-900">Status: <span id="payNowStatus"></span></p>
+          </div>
+          <h4 class="text-sm font-medium text-gray-700 mb-2">Payment Method</h4>
+          <div class="flex justify-center space-x-6">
+            <button onclick="showGCashModal()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-28">GCash</button>
+            <button onclick="showBankTransferModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-28">Bank Transfer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GCash Payment Modal -->
+    <div id="gcashModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+      <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h3 class="text-lg font-medium">GCash Payment</h3>
+          <button onclick="closeGCashModal()" class="text-gray-400 hover:text-gray-500">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="p-6">
+          <form id="gcashForm">
+            <div class="mb-4">
+              <h4 class="text-sm font-medium text-gray-700 mb-2">Payment Details</h4>
+              <p class="text-sm text-gray-900">Fee Name: <span id="gcashFeeName"></span></p>
+              <p class="text-sm text-gray-900">Amount: <span id="gcashAmount"></span></p>
+            </div>
+            <div class="mb-4 bg-gray-100 p-4 rounded-md shadow-sm">
+              <h4 class="text-sm font-medium text-gray-700 mb-2">GCash Details</h4>
+              <p class="text-sm text-gray-900">GCash Number: 0917 123 4567</p>
+              <p class="text-sm text-gray-900">GCash Name: Mabuhay Homes 2000 HOA</p>
+              <div class="mt-2">
+                <p class="text-sm font-medium text-gray-700">Scan GCash QR Code</p>
+                <img src="https://via.placeholder.com/150" alt="GCash QR Code" class="w-32 h-32 mt-2">
+              </div>
+            </div>
+            <div class="mb-4">
+              <h4 class="text-sm font-medium text-gray-700 mb-2">Proof of Payment</h4>
+              <div class="mb-2">
+                <label for="gcashReferenceNumber" class="block text-sm font-medium text-gray-700 mb-1">Reference Number</label>
+                <input type="number" id="gcashReferenceNumber" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Enter reference number" required>
+              </div>
+              <div class="mb-2">
+                <label for="gcashReceipt" class="block text-sm font-medium text-gray-700 mb-1">Upload Receipt</label>
+                <input type="file" id="gcashReceipt" accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+              </div>
+            </div>
+            <div class="mt-6">
+              <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded">Submit Receipt</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bank Transfer Payment Modal -->
+    <div id="bankTransferModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+      <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h3 class="text-lg font-medium">Bank Transfer Payment</h3>
+          <button onclick="closeBankTransferModal()" class="text-gray-400 hover:text-gray-500">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="p-6">
+          <form id="bankTransferForm">
+            <div class="mb-4">
+              <h4 class="text-sm font-medium text-gray-700 mb-2">Payment Details</h4>
+              <p class="text-sm text-gray-900">Fee Name: <span id="bankFeeName"></span></p>
+              <p class="text-sm text-gray-900">Amount: <span id="bankAmount"></span></p>
+            </div>
+            <div class="mb-4 bg-gray-100 p-4 rounded-md shadow-sm">
+              <h4 class="text-sm font-medium text-gray-700 mb-2">Bank Details</h4>
+              <p class="text-sm text-gray-900">Bank Name: BDO</p>
+              <p class="text-sm text-gray-900">Account Number: 1234 5678 9012</p>
+              <p class="text-sm text-gray-900">Account Name: Mabuhay Homes 2000 HOA</p>
+            </div>
+            <div class="mb-4">
+              <h4 class="text-sm font-medium text-gray-700 mb-2">Proof of Payment</h4>
+              <div class="mb-2">
+                <label for="bankReferenceNumber" class="block text-sm font-medium text-gray-700 mb-1">Reference Number</label>
+                <input type="number" id="bankReferenceNumber" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Enter reference number" required>
+              </div>
+              <div class="mb-2">
+                <label for="bankReceipt" class="block text-sm font-medium text-gray-700 mb-1">Upload Receipt</label>
+                <input type="file" id="bankReceipt" accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+              </div>
+            </div>
+            <div class="mt-6">
+              <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded">Submit Receipt</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Payment Modal -->
+    <div id="viewPaymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+      <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h3 class="text-lg font-medium">Payment Details</h3>
+          <button onclick="closeViewPaymentModal()" class="text-gray-400 hover:text-gray-500">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="p-6">
+          <div class="mb-4">
+            <h4 class="text-sm font-medium text-gray-700 mb-2">Payment Details</h4>
+            <p class="text-sm text-gray-900">Fee Name: <span id="viewFeeName"></span></p>
+            <p class="text-sm text-gray-900">Amount: <span id="viewAmount"></span></p>
+            <p class="text-sm text-gray-900">Due Date: <span id="viewDate"></span></p>
+            <p class="text-sm text-gray-900">Status: <span id="viewStatus"></span></p>
+            <p class="text-sm text-gray-900">Payment Method: <span id="viewPaymentMethod"></span></p>
+          </div>
+          <div class="mb-4">
+            <h4 class="text-sm font-medium text-gray-700 mb-2">Proof of Payment</h4>
+          <div class="mb-4">
+            <label for="viewReferenceNumber" class="block text-sm font-medium text-gray-700 mb-1">Reference Number</label>
+            <input type="number" id="viewReferenceNumber" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Enter reference number">
+          </div>
+          <div class="mb-2">
+            <label for="viewProofUpload" class="block text-sm font-medium text-gray-700 mb-1">Upload Receipt</label>
+            <img id="viewProof" src="/placeholder.svg" alt="Proof of Payment" class="w-full h-auto rounded-md">  
+          </div>
+          <div class="mt-6 flex space-x-2">
+            <button onclick="savePaymentChanges()" class="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded">Save Changes</button>
+            <button onclick="closeViewPaymentModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium py-2 px-4 rounded">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Mock database to store payment data and proofs
+      const paymentData = {
+        'PAY001': { paymentId: 'PAY001', feeName: 'Monthly Dues Fee - March 2025', amount: '50', dueDate: '2025-03-31', status: 'Overdue', proof: '', paymentMethod: '' },
+        'PAY002': { paymentId: 'PAY002', feeName: 'Monthly Dues Fee - April 2025', amount: '50', dueDate: '2025-04-30', status: 'Overdue', proof: '', paymentMethod: '' },
+        'PAY003': { paymentId: 'PAY003', feeName: 'Monthly Dues Fee - May 2025', amount: '50', dueDate: '2025-05-31', status: 'Pending', proof: 'https://via.placeholder.com/150', paymentMethod: 'GCash', referenceNumber: '1234567890' },
+        'PAY004': { paymentId: 'PAY004', feeName: 'Monthly Dues Fee - February 2025', amount: '50', dueDate: '2025-02-28', status: 'Paid', proof: '', paymentMethod: 'GCash' },
+        'PAY005': { paymentId: 'PAY005', feeName: 'Monthly Dues Fee - January 2025', amount: '50', dueDate: '2025-01-31', status: 'Paid', proof: '', paymentMethod: 'Bank Transfer' }
+      };
+
+      // Show Pay Now modal with details
+      function showPayNowModal(paymentId, feeName, amount, dueDate, status) {
+        document.getElementById('payNowFeeName').textContent = feeName;
+        document.getElementById('payNowAmount').textContent = `₱${amount}`;
+        document.getElementById('payNowDate').textContent = dueDate;
+        document.getElementById('payNowStatus').textContent = status;
+        document.getElementById('payNowModal').classList.remove('hidden');
+
+        // Store payment details for payment method modals
+        document.getElementById('gcashFeeName').textContent = feeName;
+        document.getElementById('gcashAmount').textContent = `₱${amount}`;
+
+        document.getElementById('bankFeeName').textContent = feeName;
+        document.getElementById('bankAmount').textContent = `₱${amount}`;
+      }
+
+      function closePayNowModal() {
+        document.getElementById('payNowModal').classList.add('hidden');
+      }
+
+      // Modal functions for payment methods
+      function showGCashModal() {
+        document.getElementById('payNowModal').classList.add('hidden');
+        document.getElementById('gcashModal').classList.remove('hidden');
+      }
+
+      function closeGCashModal() {
+        document.getElementById('gcashModal').classList.add('hidden');
+        document.getElementById('payNowModal').classList.remove('hidden');
+      }
+
+      function showBankTransferModal() {
+        document.getElementById('payNowModal').classList.add('hidden');
+        document.getElementById('bankTransferModal').classList.remove('hidden');
+      }
+
+      function closeBankTransferModal() {
+        document.getElementById('bankTransferModal').classList.add('hidden');
+        document.getElementById('payNowModal').classList.remove('hidden');
+      }
+
+      function viewPayment(paymentId, feeName, amount, dueDate, status, paymentMethod) {
+        document.getElementById('viewFeeName').textContent = feeName;
+        document.getElementById('viewAmount').textContent = `₱${amount}`;
+        document.getElementById('viewDate').textContent = dueDate;
+        document.getElementById('viewStatus').textContent = status;
+        document.getElementById('viewPaymentMethod').textContent = paymentMethod || 'Not specified';
+        document.getElementById('viewProof').src = paymentData[paymentId].proof || 'https://via.placeholder.com/150';
+        document.getElementById('viewReferenceNumber').value = paymentData[paymentId].referenceNumber || '';
+        document.getElementById('viewPaymentModal').setAttribute('data-payment-id', paymentId);
+        document.getElementById('viewPaymentModal').classList.remove('hidden');
+      }
+
+      function closeViewPaymentModal() {
+        document.getElementById('viewPaymentModal').classList.add('hidden');
+      }
+
+      function savePaymentChanges() {
+        const paymentId = document.getElementById('viewPaymentModal').getAttribute('data-payment-id');
+        const referenceNumber = document.getElementById('viewReferenceNumber').value;
+        const fileInput = document.getElementById('viewProofUpload');
+        
+        // Update reference number
+        if (referenceNumber) {
+          paymentData[paymentId].referenceNumber = referenceNumber;
+        }
+        
+        // Update proof of payment if new file uploaded
+        if (fileInput.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            paymentData[paymentId].proof = e.target.result;
+            document.getElementById('viewProof').src = e.target.result;
+            alert('Payment details updated successfully!');
+          };
+          reader.readAsDataURL(fileInput.files[0]);
+        } else {
+          alert('Payment details updated successfully!');
+        }
+      }
+
+      // Filter table by status
+      function filterTableByStatus() {
+        const filterValue = document.getElementById('statusFilter').value;
+        const rows = document.querySelectorAll('tbody tr[data-payment-id]');
+        rows.forEach(row => {
+          const statusCell = row.querySelector('td:nth-child(4) span');
+          const statusText = statusCell ? statusCell.textContent.trim() : '';
+          if (filterValue === 'All' || statusText === filterValue) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      }
+
+      // Handle form submissions
+      document.getElementById('gcashForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const paymentId = document.getElementById('gcashPaymentId').textContent;
+        const fileInput = document.getElementById('gcashReceipt');
+        const referenceNumber = document.getElementById('gcashReferenceNumber').value;
+        if (fileInput.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            paymentData[paymentId].status = 'Pending';
+            paymentData[paymentId].proof = e.target.result;
+            paymentData[paymentId].paymentMethod = 'GCash';
+            paymentData[paymentId].referenceNumber = referenceNumber;
+            updateTable();
+            updateOutstandingBalance();
+            closePayNowModal();
+            closeGCashModal();
+          };
+          reader.readAsDataURL(fileInput.files[0]);
+        }
+      });
+
+      document.getElementById('bankTransferForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const paymentId = document.getElementById('bankPaymentId').textContent;
+        const fileInput = document.getElementById('bankReceipt');
+        const referenceNumber = document.getElementById('bankReferenceNumber').value;
+        if (fileInput.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            paymentData[paymentId].status = 'Pending';
+            paymentData[paymentId].proof = e.target.result;
+            paymentData[paymentId].paymentMethod = 'Bank Transfer';
+            paymentData[paymentId].referenceNumber = referenceNumber;
+            updateTable();
+            updateOutstandingBalance();
+            closePayNowModal();
+            closeBankTransferModal();
+          };
+          reader.readAsDataURL(fileInput.files[0]);
+        }
+      });
+
+      // Update table after status change
+      function updateTable() {
+        const tbody = document.querySelector('tbody');
+        tbody.innerHTML = '';
+        // Sort payments by due date (most recent first)
+        const sortedPayments = Object.values(paymentData)
+          .filter(payment => payment.status !== 'Paid')
+          .sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
+
+        sortedPayments.forEach(payment => {
+          const row = document.createElement('tr');
+          row.setAttribute('data-payment-id', payment.paymentId);
+          row.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">${payment.feeName}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">₱${payment.amount}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">${payment.dueDate}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                ${payment.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 
+                  payment.status === 'Unpaid' ? 'bg-red-100 text-red-800' : 'bg-orange-100 text-orange-800'}">
+                ${payment.status}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              ${payment.status === 'Pending' ? 
+                `<button onclick="viewPayment('${payment.paymentId}', '${payment.feeName}', '${payment.amount}', '${payment.dueDate}', '${payment.status}', '${payment.paymentMethod || ''}')" class="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700 w-20">View</button>` :
+                `<button onclick="showPayNowModal('${payment.paymentId}', '${payment.feeName}', '${payment.amount}', '${payment.dueDate}', '${payment.status}')" class="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700 w-20">Pay Now</button>`}
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+        filterTableByStatus(); // Re-apply filter after updating table
+      }
+
+      // Update outstanding balance
+      function updateOutstandingBalance() {
+        const unpaidPayments = Object.values(paymentData).filter(payment => ['Unpaid', 'Overdue'].includes(payment.status));
+        const total = unpaidPayments.reduce((sum, payment) => sum + parseInt(payment.amount), 0);
+        document.getElementById('outstandingBalance').textContent = `₱${total}`;
+      }
+
+      // Sidebar Navigation
+      document.addEventListener('DOMContentLoaded', () => {
+        const sidebarLinks = document.querySelectorAll('nav a');
+        sidebarLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          const currentPath = window.location.pathname.split('/').pop();
+          if (href === currentPath) {
+            link.classList.add('bg-teal-700');
+          }
+
+          link.addEventListener('click', function(e) {
+            if (href === currentPath) {
+              e.preventDefault();
+            }
+            sidebarLinks.forEach(l => l.classList.remove('bg-teal-700'));
+            link.classList.add('bg-teal-700');
+          });
+        });
+
+        updateTable();
+        updateOutstandingBalance();
+      });
+    </script>
+</body>
+</html>

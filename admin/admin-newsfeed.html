@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOAConnect - News Feed</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <style>
+    [x-cloak] {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div class="min-h-screen flex">
+    <!-- Sidebar -->
+    <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
+      <div class="px-6 mb-8">
+        <h1 class="text-2xl font-bold">HOAConnect</h1>
+        <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
+      </div>
+      <nav class="flex-1">
+        <a href="admin-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-tachometer-alt mr-3"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="admin-users.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-users mr-3"></i>
+          <span>User Management</span>
+        </a>
+    
+        <!-- Payment Management Dropdown -->
+        <div x-data="{ open: false }">
+          <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
+            <i class="fas fa-credit-card mr-3"></i>
+            <span class="flex-1 text-left">Payment Management</span>
+            <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div x-show="open" x-cloak class="bg-teal-800 text-sm">
+            <a href="fee-types.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+              <i class="fas fa-tag mr-2" title="Fee Type"></i>
+              Fee Type
+            </a>
+            <a href="fee-assignation.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+              <i class="fas fa-clipboard-list mr-2" title="Fee Assignation"></i>
+              Fee Assignation
+            </a>
+            <a href="payment-verification.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+              <i class="fas fa-check-circle mr-2" title="Payment Verification"></i>
+              Payment Verification
+            </a>
+            <a href="admin-remittance.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+              <i class="fas fa-money-check mr-3"></i>
+              Remittance
+            </a>
+            <a href="payment-history.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+              <i class="fas fa-history mr-2" title="Payment History"></i>
+              Payment History
+            </a>
+          </div>
+        </div>
+
+        <!-- Amenities Dropdown -->
+<div x-data="{ open: false }">
+  <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
+    <i class="fas fa-swimming-pool mr-3"></i>
+    <span class="flex-1 text-left">Amenities</span>
+    <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+  <div x-show="open" x-cloak class="bg-teal-800 text-sm">
+    <!-- Tricycle Navigation -->
+    <div class="relative">
+      <button @click="window.location.href='admin-tricycle.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+        <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
+        <span class="flex-1 text-left">Tricycle</span>
+      </button>
+    </div>
+
+    <!-- Court Navigation -->
+    <div class="relative">
+      <button @click="window.location.href='admin-court.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+        <i class="fas fa-basketball-ball mr-2" title="Court"></i>
+        <span class="flex-1 text-left">Court</span>
+      </button>
+    </div>
+
+    <!-- Stall Navigation -->
+    <div class="relative">
+      <button @click="window.location.href='admin-stall.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+        <i class="fas fa-store mr-2" title="Stall"></i>
+        <span class="flex-1 text-left">Stall</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<a href="admin-hoaprojects.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+  <i class="fas fa-gavel mr-3"></i>
+        <span>Resolution</span>
+</a>
+
+<a href="admin-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+  <i class="fas fa-book mr-3"></i>
+  <span>Ledger</span>
+</a>
+
+        <a href="admin-newsfeed.html" class="flex items-center px-6 py-3 bg-teal-700">
+          <i class="fas fa-newspaper mr-3"></i>
+          <span>News Feed</span>
+        </a>
+
+        <a href="admin-messages.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-comments mr-3"></i>
+          <span>Messages</span>
+        </a>
+        <a href="admin-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-calendar-alt mr-3"></i>
+          <span>Calendar</span>
+        </a>
+        <a href="admin-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-user-circle mr-3"></i>
+          <span>Profile</span>
+        </a>
+      </nav>
+      <div class="px-6 py-4 mt-auto">
+        <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center justify-center">
+          <i class="fas fa-sign-out-alt mr-2"></i> Logout
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 overflow-x-hidden overflow-y-auto">
+      <header class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-gray-900">News Feed</h1>
+            <div class="flex items-center space-x-2">
+              <button class="bg-teal-100 p-2 rounded-full text-teal-600 hover:bg-teal-200">
+                <i class="fas fa-bell"></i>
+              </button>
+            </div>
+          </div>
+    </header>
+
+      <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <!-- Action Buttons -->
+        <div class="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
+          <button onclick="openCreateProjectModal()"
+            class="bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-md flex items-center justify-center">
+            <i class="fas fa-plus mr-2"></i> Create New Post
+          </button>
+          <div class="relative">
+            <input type="text" id="searchInput" placeholder="Search posts..."
+              class="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 w-full sm:w-64" />
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-search text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects Feed -->
+        <div id="projectsFeed" class="space-y-6">
+          <!-- Posts will be rendered dynamically -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create Project Modal -->
+  <div id="createProjectModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
+        <h3 class="text-lg font-medium text-gray-900">Create New Post</h3>
+        <button onclick="closeCreateProjectModal()" class="text-gray-400 hover:text-gray-500">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <form id="createProjectForm" class="space-y-6">
+          <div>
+            <label for="projectTitle" class="block text-sm font-medium text-gray-700">Post Title</label>
+            <input type="text" id="projectTitle" name="projectTitle" required
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
+          </div>
+          <div>
+            <label for="projectDescription" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="projectDescription" name="projectDescription" rows="4" required
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Post Images</label>
+            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+              <div class="space-y-1 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <div class="flex text-sm text-gray-600">
+                  <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-teal-500">
+                    <span>Upload images</span>
+                    <input id="file-upload" name="file-upload" type="file" accept="image/png,image/jpeg" multiple class="sr-only" />
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs text-gray-500">PNG, JPG up to 10MB</p>
+              </div>
+            </div>
+            <div id="imagePreview" class="mt-2 grid grid-cols-2 gap-2"></div>
+          </div>
+          <div>
+            <label for="projectPdf" class="block text-sm font-medium text-gray-700">Project Details (PDF)</label>
+            <input type="file" id="projectPdf" name="projectPdf" accept="application/pdf"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
+          </div>
+          <div class="flex justify-end space-x-3">
+            <button type="button" onclick="closeCreateProjectModal()"
+              class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+              Cancel
+            </button>
+            <button type="submit"
+              class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+              Post Project
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simulated in-memory data store for posts
+    let posts = [
+      {
+        id: 1,
+        title: "Building Speed Humps",
+        description: "We are installing speed humps in key areas of the community to enhance safety and reduce speeding. The project is being carried out by SafeRoad Contractors and will cover main roads near the park and school zones.",
+        author: "Maria Santos",
+        role: "Admin",
+        date: "2025-05-01",
+        images: [
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "https://images.unsplash.com/photo-1581091012184-5e40d0e9e292?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        ],
+        pdf: "Speed_Humps_Details.pdf",
+        profilePic: "https://randomuser.me/api/portraits/women/8.jpg"
+      },
+      {
+        id: 2,
+        title: "Renovation of Main Gate",
+        description: "The main entrance gate is being renovated to improve security and aesthetics. The new design includes modern lighting and a reinforced structure, with work being done by GateMasters Inc.",
+        author: "Maria Santos",
+        role: "Admin",
+        date: "2025-05-02",
+        images: [
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        ],
+        pdf: "Gate_Renovation_Details.pdf",
+        profilePic: "https://randomuser.me/api/portraits/women/8.jpg"
+      },
+      {
+        id: 3,
+        title: "Renovation of Community Park",
+        description: "The community park is undergoing a full renovation, including new playground equipment, benches, and landscaping. This project, led by GreenSpace Solutions, aims to create a more welcoming space for families.",
+        author: "Maria Santos",
+        role: "Admin",
+        date: "2025-05-03",
+        images: [
+          "https://images.unsplash.com/photo-1562183241-b937e9557185?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "https://images.unsplash.com/photo-1596646658039-45fd4d5e9f25?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        ],
+        pdf: "Park_Renovation_Details.pdf",
+        profilePic: "https://randomuser.me/api/portraits/women/8.jpg"
+      },
+      {
+        id: 4,
+        title: "Renovation of Community Hall Gym",
+        description: "The community hall gym is being upgraded with new flooring, equipment, and improved lighting. FitWell Builders are handling the renovation to make the space more functional for residents.",
+        author: "Maria Santos",
+        role: "Admin",
+        date: "2025-05-04",
+        images: [
+          "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "https://images.unsplash.com/photo-1571908598661-9d9c956dd998?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        ],
+        pdf: "Gym_Renovation_Details.pdf",
+        profilePic: "https://randomuser.me/api/portraits/women/8.jpg"
+      },
+      {
+        id: 5,
+        title: "Community Garden Initiative",
+        description: "We're excited to announce the launch of our community garden project! This initiative will provide residents with plots to grow their own vegetables and herbs, fostering community spirit and promoting sustainable living. The garden will be located near the community center.",
+        author: "Kendall Jenner",
+        role: "Secretary",
+        date: "2025-05-05",
+        images: [
+          "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        ],
+        pdf: "Community_Garden_Details.pdf",
+        profilePic: "https://randomuser.me/api/portraits/women/44.jpg"
+      }
+    ];
+
+    const currentUser = { name: "Admin User", role: "Admin" };
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function () {
+      function updatePostsFeed(filteredPosts = posts) {
+        const feed = document.getElementById('projectsFeed');
+        feed.innerHTML = '';
+        // Sort posts by date in descending order
+        const sortedPosts = [...filteredPosts].sort((a, b) => new Date(b.date) - new Date(a.date));
+        sortedPosts.forEach(post => {
+          const postDiv = document.createElement('div');
+          postDiv.className = 'bg-white rounded-lg shadow overflow-hidden';
+          
+          const canEditDelete = post.role === "Admin";
+          const actionButtons = canEditDelete ? `
+            <div class="flex space-x-2">
+              <button onclick="editPost(${post.id})" class="text-teal-600 hover:text-teal-800 text-sm font-medium">
+                <i class="fas fa-edit mr-1"></i> Edit
+              </button>
+              <button onclick="deletePost(${post.id})" class="text-red-600 hover:text-red-800 text-sm font-medium">
+                <i class="fas fa-trash mr-1"></i> Delete
+              </button>
+            </div>
+          ` : '';
+
+          postDiv.innerHTML = `
+            <div class="p-4 border-b">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <img src="${post.profilePic}" alt="Profile" class="w-10 h-10 rounded-full mr-3" />
+                  <div>
+                    <p class="font-semibold">${post.author}</p>
+                    <p class="text-xs text-gray-500">${post.role} • ${new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric' })}</p>
+                  </div>
+                </div>
+                <div class="flex space-x-2">
+                  <button class="text-gray-400 hover:text-gray-500">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="text-lg font-semibold mb-2">${post.title}</h3>
+              <p class="text-gray-700 mb-4">${post.description}</p>
+              <div class="grid grid-cols-2 gap-2 mb-4">
+                ${post.images.map(img => `<img src="${img}" alt="${post.title}" class="rounded-lg w-full h-48 object-cover" />`).join('')}
+              </div>
+              <div class="flex items-center justify-between">
+                <a href="${post.pdf}" target="_blank" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700">
+                  <i class="fas fa-file-pdf mr-2"></i> View Project Details (PDF)
+                </a>
+                ${actionButtons}
+              </div>
+            </div>
+          `;
+          feed.appendChild(postDiv);
+        });
+      }
+
+      // Handle Create Project Form submission
+      const createProjectForm = document.getElementById('createProjectForm');
+      createProjectForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const title = document.getElementById('projectTitle').value;
+        const description = document.getElementById('projectDescription').value;
+        const fileInput = document.getElementById('file-upload');
+        const pdfInput = document.getElementById('projectPdf');
+        
+        // Handle images (use placeholders for demo)
+        const images = fileInput.files.length > 0 
+          ? Array.from(fileInput.files).map(file => URL.createObjectURL(file))
+          : ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"];
+        
+        // Handle PDF (use placeholder for demo)
+        const pdf = pdfInput.files.length > 0 
+          ? URL.createObjectURL(pdfInput.files[0]) 
+          : `${title.replace(/\s+/g, '_')}_Details.pdf`;
+
+        const editingId = createProjectForm.dataset.editingId;
+        if (editingId) {
+          // Update existing post
+          const postIndex = posts.findIndex(p => p.id === parseInt(editingId));
+          if (postIndex !== -1) {
+            posts[postIndex] = {
+              ...posts[postIndex],
+              title,
+              description,
+              images,
+              pdf
+            };
+            alert('Post updated successfully!');
+          }
+        } else {
+          // Create new post
+          const newPost = {
+            id: Math.max(...posts.map(p => p.id), 0) + 1,
+            title,
+            description,
+            author: "Maria Santos", // Hardcoded for demo
+            role: "Admin",
+            date: new Date().toISOString().split('T')[0],
+            images,
+            pdf,
+            profilePic: "https://randomuser.me/api/portraits/women/8.jpg"
+          };
+
+          posts.unshift(newPost);
+          alert('Post created successfully!');
+        }
+
+        closeCreateProjectModal();
+        createProjectForm.reset();
+        document.getElementById('imagePreview').innerHTML = '';
+        delete createProjectForm.dataset.editingId;
+        document.querySelector('#createProjectModal h3').textContent = 'Create New Post';
+        document.querySelector('#createProjectForm button[type="submit"]').textContent = 'Post Project';
+        updatePostsFeed();
+      });
+
+      // Image preview for file upload
+      const fileInput = document.getElementById('file-upload');
+      fileInput.addEventListener('change', function () {
+        const preview = document.getElementById('imagePreview');
+        preview.innerHTML = '';
+        Array.from(fileInput.files).forEach(file => {
+          if (file.type.match('image.*') && file.size <= 10 * 1024 * 1024) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.className = 'rounded-lg w-full h-24 object-cover';
+            preview.appendChild(img);
+          } else {
+            alert('Please upload PNG or JPG images under 10MB.');
+            fileInput.value = '';
+          }
+        });
+      });
+
+      // Search functionality
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', function () {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredPosts = posts.filter(post => 
+          post.title.toLowerCase().includes(searchTerm) || 
+          post.description.toLowerCase().includes(searchTerm)
+        );
+        updatePostsFeed(filteredPosts);
+      });
+
+      // Edit post (placeholder)
+      window.editPost = function (id) {
+        const post = posts.find(p => p.id === id);
+        if (!post) return;
+
+        // Pre-fill the form with existing post data
+        document.getElementById('projectTitle').value = post.title;
+        document.getElementById('projectDescription').value = post.description;
+        
+        // Store the post ID for updating
+        document.getElementById('createProjectForm').dataset.editingId = id;
+        
+        // Change modal title and button text
+        document.querySelector('#createProjectModal h3').textContent = 'Edit Post';
+        document.querySelector('#createProjectForm button[type="submit"]').textContent = 'Update Post';
+        
+        // Open the modal
+        openCreateProjectModal();
+      };
+
+      window.deletePost = function (id) {
+        const post = posts.find(p => p.id === id);
+        if (!post) return;
+        
+        if (confirm(`Are you sure you want to delete "${post.title}"? This action cannot be undone.`)) {
+          posts = posts.filter(post => post.id !== id);
+          updatePostsFeed();
+          alert('Post deleted successfully!');
+        }
+      };
+
+      // Initial render
+      updatePostsFeed();
+    });
+
+    function openCreateProjectModal() {
+      document.getElementById('createProjectModal').classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeCreateProjectModal() {
+      document.getElementById('createProjectModal').classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      
+      // Reset form and modal state
+      document.getElementById('createProjectForm').reset();
+      document.getElementById('imagePreview').innerHTML = '';
+      delete document.getElementById('createProjectForm').dataset.editingId;
+      document.querySelector('#createProjectModal h3').textContent = 'Create New Post';
+      document.querySelector('#createProjectForm button[type="submit"]').textContent = 'Post Project';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOAConnect - Welcome Notification</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Consistent styling inspired by homeowner-history.html */
+    .proof-card {
+      border: 1px solid #99f6e4; /* teal-200 */
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+    }
+    .excel-table th {
+      padding: 12px 10px;
+      font-size: 0.95rem;
+      border-right: 1px solid black;
+    }
+    .excel-table th:last-child {
+      border-right: none;
+    }
+    .excel-table td {
+      padding: 10px;
+      font-size: 0.93rem;
+      border-right: 1px solid black;
+    }
+    .excel-table td:last-child {
+      border-right: none;
+    }
+    @media only screen and (max-width: 600px) {
+      .email-content {
+        width: 100% !important;
+        padding: 10px !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+  <table class="email-content w-[600px] mx-auto bg-white shadow-lg rounded-lg mt-10" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="p-6">
+        <div class="text-center mb-6">
+          <h1 class="text-2xl font-bold text-teal-800">HOAConnect</h1>
+          <p class="text-sm text-teal-600">Mabuhay Homes 2000</p>
+        </div>
+        <div class="border-b border-teal-600 mb-6"></div> <!-- Changed to darker teal (teal-600) -->
+        <h2 class="text-xl font-semibold text-gray-900 mb-4 text-center">Welcome to HOAConnect!</h2>
+        <p class="text-gray-700 mb-4">
+          Dear User,
+        </p>
+        <p class="text-gray-700 mb-4">
+          Your account has been successfully created. Below are your login details:
+        </p>
+        <p class="text-gray-700 mb-4">
+          Email: <span class="text-teal-600">marjsanjose7@gmail.com</span><br>
+          Password: <span class="text-teal-600">F7jUMT6s</span>
+        </p>
+        <p class="text-gray-700 mb-4">
+          For security reasons, please change your password after logging in for the first time.
+        </p>
+        <p class="text-gray-700 mb-4">
+          You can access your account by visiting <a href="homeowner-history.html" class="text-teal-600 hover:underline">HOAConnect</a>.
+        </p>
+        <div class="border-b border-teal-600 mb-6"></div> <!-- Changed to darker teal (teal-600) -->
+        <p class="text-gray-700 mt-6 text-sm text-center">
+          © HOAConnect. All rights reserved.
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

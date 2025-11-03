@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOAConnect - News Feed</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <style>
+    [x-cloak] {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div class="min-h-screen flex">
+    <!-- Sidebar -->
+    <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
+      <div class="px-6 mb-8">
+        <h1 class="text-2xl font-bold">HOAConnect</h1>
+        <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
+      </div>
+      <nav class="flex-1">
+        <a href="sec-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+          <i class="fas fa-tachometer-alt mr-3"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="sec-projectproposal.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-gavel mr-3"></i>
+    <span>Resolution</span>
+        </a>
+        <a href="sec-newsfeed.html" class="flex items-center px-6 py-3 bg-teal-700">
+          <i class="fas fa-newspaper mr-3"></i>
+          <span>News Feed</span>
+        </a>
+        <a href="sec-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-book mr-3"></i>
+          <span>Ledger</span>
+        </a>
+        <a href="sec-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+          <i class="fas fa-calendar-alt mr-3"></i>
+          <span>Calendar</span>
+        </a>
+        <a href="sec-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+          <i class="fas fa-user-circle mr-3"></i>
+          <span>Profile</span>
+        </a>
+      </nav>
+      <div class="px-6 py-4 mt-auto">
+        <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center justify-center">
+          <i class="fas fa-sign-out-alt mr-2"></i> Logout
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 overflow-x-hidden overflow-y-auto">
+      <header class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-gray-900">News Feed</h1>
+            <div class="flex items-center space-x-2">
+              <button class="bg-teal-100 p-2 rounded-full text-teal-600 hover:bg-teal-200">
+                <i class="fas fa-bell"></i>
+              </button>
+            </div>
+          </div>
+    </header>
+
+      <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <!-- Action Buttons -->
+        <div class="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
+          <button onclick="openCreateProjectModal()"
+            class="bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-md flex items-center justify-center">
+            <i class="fas fa-plus mr-2"></i> Create New Post
+          </button>
+          <div class="relative">
+            <input type="text" id="searchInput" placeholder="Search posts..."
+              class="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 w-full sm:w-64" />
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-search text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects Feed -->
+        <div id="projectsFeed" class="space-y-6">
+          <!-- Posts will be rendered dynamically -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create Project Modal -->
+  <div id="createProjectModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
+        <h3 class="text-lg font-medium text-gray-900">Create New Post</h3>
+        <button onclick="closeCreateProjectModal()" class="text-gray-400 hover:text-gray-500">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <form id="createProjectForm" class="space-y-6">
+          <div>
+            <label for="projectTitle" class="block text-sm font-medium text-gray-700">Post Title</label>
+            <input type="text" id="projectTitle" name="projectTitle" required
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
+          </div>
+          <div>
+            <label for="projectDescription" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="projectDescription" name="projectDescription" rows="4" required
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Post Images</label>
+            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+              <div class="space-y-1 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <div class="flex text-sm text-gray-600">
+                  <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-teal-500">
+                    <span>Upload images</span>
+                    <input id="file-upload" name="file-upload" type="file" accept="image/png,image/jpeg" multiple class="sr-only" />
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs text-gray-500">PNG, JPG up to 10MB</p>
+              </div>
+            </div>
+            <div id="imagePreview" class="mt-2 grid grid-cols-2 gap-2"></div>
+          </div>
+          <div>
+            <label for="projectPdf" class="block text-sm font-medium text-gray-700">Project Details (PDF)</label>
+            <input type="file" id="projectPdf" name="projectPdf" accept="application/pdf"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
+          </div>
+          <div class="flex justify-end space-x-3">
+            <button type="button" onclick="closeCreateProjectModal()"
+              class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+              Cancel
+            </button>
+            <button type="submit"
+              class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+              Post Project
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Project Modal -->
+  <div id="editProjectModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
+        <h3 class="text-lg font-medium text-gray-900">Edit Post</h3>
+        <button onclick="closeEditProjectModal()" class="text-gray-400 hover:text-gray-500">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <form id="editProjectForm" class="space-y-6">
+          <div>
+            <label for="editProjectTitle" class="block text-sm font-medium text-gray-700">Post Title</label>
+            <input type="text" id="editProjectTitle" name="editProjectTitle" required
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
+          </div>
+          <div>
+            <label for="editProjectDescription" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="editProjectDescription" name="editProjectDescription" rows="4" required
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Post Images</label>
+            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+              <div class="space-y-1 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <div class="flex text-sm text-gray-600">
+                  <label for="edit-file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-teal-500">
+                    <span>Upload new images</span>
+                    <input id="edit-file-upload" name="edit-file-upload" type="file" accept="image/png,image/jpeg" multiple class="sr-only" />
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs text-gray-500">PNG, JPG up to 10MB (leave empty to keep current images)</p>
+              </div>
+            </div>
+            <div id="editImagePreview" class="mt-2 grid grid-cols-2 gap-2"></div>
+          </div>
+          <div>
+            <label for="editProjectPdf" class="block text-sm font-medium text-gray-700">Project Details (PDF)</label>
+            <input type="file" id="editProjectPdf" name="editProjectPdf" accept="application/pdf"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
+            <p class="text-xs text-gray-500 mt-1">Leave empty to keep current PDF</p>
+          </div>
+          <div class="flex justify-end space-x-3">
+            <button type="button" onclick="closeEditProjectModal()"
+              class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+              Cancel
+            </button>
+            <button type="submit"
+              class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+              Update Post
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simulated in-memory data store for posts
+    let posts = [
+      {
+        id: 1,
+        title: "Building Speed Humps",
+        description: "We are installing speed humps in key areas of the community to enhance safety and reduce speeding. The project is being carried out by SafeRoad Contractors and will cover main roads near the park and school zones.",
+        author: "Maria Reyes",
+        role: "Admin",
+        date: "2025-05-01",
+        images: [
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        ],
+        pdf: "Speed_Humps_Details.pdf",
+        profilePic: "https://randomuser.me/api/portraits/women/8.jpg"
+      },
+      {
+        id: 2,
+        title: "Renovation of Main Gate",
+        description: "The main entrance gate is being renovated to improve security and aesthetics. The new design includes modern lighting and a reinforced structure, with work being done by GateMasters Inc.",
+        author: "Maria Reyes",
+        role: "Admin",
+        date: "2025-05-02",
+        images: [
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        ],
+        pdf: "Gate_Renovation_Details.pdf",
+        profilePic: "https://randomuser.me/api/portraits/women/8.jpg"
+      },
+      {
+        id: 3,
+        title: "Renovation of Community Park",
+        description: "The community park is undergoing a full renovation, including new playground equipment, benches, and landscaping. This project, led by GreenSpace Solutions, aims to create a more welcoming space for families.",
+        author: "Maria Reyes",
+        role: "Admin",
+        date: "2025-05-03",
+        images: [
+          "https://images.unsplash.com/photo-1562183241-b937e9557185?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "https://images.unsplash.com/photo-1596646658039-45fd4d5e9f25?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        ],
+        pdf: "Park_Renovation_Details.pdf",
+        profilePic: "https://randomuser.me/api/portraits/women/8.jpg"
+      },
+      {
+        id: 4,
+        title: "Renovation of Community Hall Gym",
+        description: "The community hall gym is being upgraded with new flooring, equipment, and improved lighting. FitWell Builders are handling the renovation to make the space more functional for residents.",
+        author: "Kendall Jenner",
+        role: "Secretary",
+        date: "2025-05-04",
+        images: [
+          "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "https://images.unsplash.com/photo-1571908598661-9d9c956dd998?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        ],
+        pdf: "Gym_Renovation_Details.pdf",
+        profilePic: "https://randomuser.me/api/portraits/women/12.jpg"
+      },
+      {
+        id: 5,
+        title: "Community Garden Initiative",
+        description: "We are launching a new community garden project to promote sustainable living and provide fresh produce for residents. The garden will be located near the community center and will include raised beds and composting areas.",
+        author: "Kendall Jenner",
+        role: "Secretary",
+        date: "2025-05-05",
+        images: [
+          "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        ],
+        pdf: "Garden_Initiative_Details.pdf",
+        profilePic: "https://randomuser.me/api/portraits/women/12.jpg"
+      }
+    ];
+
+    const currentUser = {
+      name: "Kendall Jenner",
+      role: "Secretary"
+    };
+
+    // Variable to track post being edited
+    let editingPostId = null;
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function () {
+      // Update posts feed
+      function updatePostsFeed(filteredPosts = posts) {
+        const feed = document.getElementById('projectsFeed');
+        feed.innerHTML = '';
+        // Sort posts by date in descending order
+        const sortedPosts = [...filteredPosts].sort((a, b) => new Date(b.date) - new Date(a.date));
+        sortedPosts.forEach(post => {
+          const postDiv = document.createElement('div');
+          postDiv.className = 'bg-white rounded-lg shadow overflow-hidden';
+          
+          const canEditDelete = currentUser.name === post.author && currentUser.role === "Secretary";
+          const actionButtons = canEditDelete ? `<div class="flex space-x-4">
+              <button onclick="editPost(${post.id})" class="text-teal-600 hover:text-teal-700 text-sm font-medium transition-colors duration-200 flex items-center">
+                <i class="fas fa-edit mr-1"></i> Edit
+              </button>
+              <button onclick="deletePost(${post.id})" class="text-red-600 hover:text-red-700 text-sm font-medium transition-colors duration-200 flex items-center">
+                <i class="fas fa-trash mr-1"></i> Delete
+              </button>
+            </div>` : '';
+
+          postDiv.innerHTML = `
+            <div class="p-4 border-b">
+              <div class="flex items-center">
+                <img src="${post.profilePic}" alt="Profile" class="w-10 h-10 rounded-full mr-3" />
+                <div>
+                  <p class="font-semibold">${post.author}</p>
+                  <p class="text-xs text-gray-500">${post.role} • ${new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric' })}</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="text-lg font-semibold mb-2">${post.title}</h3>
+              <p class="text-gray-700 mb-4">${post.description}</p>
+              <div class="grid grid-cols-2 gap-2 mb-4">
+                ${post.images.map(img => `<img src="${img}" alt="${post.title}" class="rounded-lg w-full h-48 object-cover" />`).join('')}
+              </div>
+              <div class="flex items-center justify-between">
+                <a href="${post.pdf}" target="_blank" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700">
+                  <i class="fas fa-file-pdf mr-2"></i> View Project Details (PDF)
+                </a>
+                ${actionButtons}
+              </div>
+            </div>
+          `;
+          feed.appendChild(postDiv);
+        });
+      }
+
+      // Handle Create Project Form submission
+      const createProjectForm = document.getElementById('createProjectForm');
+      createProjectForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const title = document.getElementById('projectTitle').value;
+        const description = document.getElementById('projectDescription').value;
+        const fileInput = document.getElementById('file-upload');
+        const pdfInput = document.getElementById('projectPdf');
+        
+        // Handle images (use placeholders for demo)
+        const images = fileInput.files.length > 0 
+          ? Array.from(fileInput.files).map(file => URL.createObjectURL(file))
+          : ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"];
+        
+        // Handle PDF (use placeholder for demo)
+        const pdf = pdfInput.files.length > 0 
+          ? URL.createObjectURL(pdfInput.files[0]) 
+          : `${title.replace(/\s+/g, '_')}_Details.pdf`;
+
+        const newPost = {
+          id: Math.max(...posts.map(p => p.id), 0) + 1,
+          title,
+          description,
+          author: currentUser.name,
+          role: currentUser.role,
+          date: new Date().toISOString().split('T')[0],
+          images,
+          pdf,
+          profilePic: "https://randomuser.me/api/portraits/women/12.jpg"
+        };
+
+        posts.unshift(newPost);
+        closeCreateProjectModal();
+        createProjectForm.reset();
+        document.getElementById('imagePreview').innerHTML = '';
+        updatePostsFeed();
+        alert('Post created successfully!');
+      });
+
+      // Image preview for file upload
+      const fileInput = document.getElementById('file-upload');
+      fileInput.addEventListener('change', function () {
+        const preview = document.getElementById('imagePreview');
+        preview.innerHTML = '';
+        Array.from(fileInput.files).forEach(file => {
+          if (file.type.match('image.*') && file.size <= 10 * 1024 * 1024) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.className = 'rounded-lg w-full h-24 object-cover';
+            preview.appendChild(img);
+          } else {
+            alert('Please upload PNG or JPG images under 10MB.');
+            fileInput.value = '';
+          }
+        });
+      });
+
+      // Handle Edit Project Form submission
+      const editProjectForm = document.getElementById('editProjectForm');
+      editProjectForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!editingPostId) return;
+        
+        const post = posts.find(p => p.id === editingPostId);
+        if (!post) return;
+        
+        const title = document.getElementById('editProjectTitle').value;
+        const description = document.getElementById('editProjectDescription').value;
+        const fileInput = document.getElementById('edit-file-upload');
+        const pdfInput = document.getElementById('editProjectPdf');
+        
+        // Update post data
+        post.title = title;
+        post.description = description;
+        
+        // Handle images (only update if new files are selected)
+        if (fileInput.files.length > 0) {
+          post.images = Array.from(fileInput.files).map(file => URL.createObjectURL(file));
+        }
+        
+        // Handle PDF (only update if new file is selected)
+        if (pdfInput.files.length > 0) {
+          post.pdf = URL.createObjectURL(pdfInput.files[0]);
+        }
+
+        closeEditProjectModal();
+        updatePostsFeed();
+        alert('Post updated successfully!');
+      });
+
+      // Image preview for edit file upload
+      const editFileInput = document.getElementById('edit-file-upload');
+      editFileInput.addEventListener('change', function () {
+        const preview = document.getElementById('editImagePreview');
+        preview.innerHTML = '';
+        Array.from(editFileInput.files).forEach(file => {
+          if (file.type.match('image.*') && file.size <= 10 * 1024 * 1024) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.className = 'rounded-lg w-full h-24 object-cover';
+            preview.appendChild(img);
+          } else {
+            alert('Please upload PNG or JPG images under 10MB.');
+            editFileInput.value = '';
+          }
+        });
+      });
+
+      // Search functionality
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', function () {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredPosts = posts.filter(post => 
+          post.title.toLowerCase().includes(searchTerm) || 
+          post.description.toLowerCase().includes(searchTerm)
+        );
+        updatePostsFeed(filteredPosts);
+      });
+
+      // Initial render
+      updatePostsFeed();
+    });
+
+    function editPost(postId) {
+      const post = posts.find(p => p.id === postId);
+      if (post && currentUser.name === post.author && currentUser.role === "Secretary") {
+        editingPostId = postId;
+        
+        // Pre-fill the edit form with current post data
+        document.getElementById('editProjectTitle').value = post.title;
+        document.getElementById('editProjectDescription').value = post.description;
+        
+        // Show current images in preview
+        const preview = document.getElementById('editImagePreview');
+        preview.innerHTML = '';
+        post.images.forEach(imgSrc => {
+          const img = document.createElement('img');
+          img.src = imgSrc;
+          img.className = 'rounded-lg w-full h-24 object-cover';
+          preview.appendChild(img);
+        });
+        
+        // Clear file inputs
+        document.getElementById('edit-file-upload').value = '';
+        document.getElementById('editProjectPdf').value = '';
+        
+        // Open the edit modal
+        document.getElementById('editProjectModal').classList.remove('hidden');
+      } else {
+        alert('You can only edit your own posts.');
+      }
+    }
+
+    function deletePost(postId) {
+      const post = posts.find(p => p.id === postId);
+      if (post && currentUser.name === post.author && currentUser.role === "Secretary") {
+        if (confirm(`Are you sure you want to delete the post "${post.title}"? This action cannot be undone.`)) {
+          posts = posts.filter(p => p.id !== postId);
+          updatePostsFeed();
+          alert('Post deleted successfully!');
+        }
+      } else {
+        alert('You can only delete your own posts.');
+      }
+    }
+
+    function openEditProjectModal() {
+      document.getElementById('editProjectModal').classList.remove('hidden');
+    }
+
+    function closeEditProjectModal() {
+      document.getElementById('editProjectModal').classList.add('hidden');
+      editingPostId = null;
+      document.getElementById('editProjectForm').reset();
+      document.getElementById('editImagePreview').innerHTML = '';
+    }
+
+    // Function to open create project modal
+    function openCreateProjectModal() {
+      document.getElementById('createProjectModal').classList.remove('hidden');
+    }
+
+    // Function to close create project modal
+    function closeCreateProjectModal() {
+      document.getElementById('createProjectModal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

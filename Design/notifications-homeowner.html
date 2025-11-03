@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notification Homeowner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <style>
+    [x-cloak] {
+      display: none !important;
+    }
+    
+    .notification-bell {
+      position: relative;
+    }
+    
+    .notification-count {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background-color: #ef4444;
+      color: white;
+      font-size: 0.65rem;
+      font-weight: bold;
+      border-radius: 9999px;
+      padding: 0.125rem 0.5rem;
+      min-width: 1.25rem;
+      text-align: center;
+    }
+    
+    .notification-dropdown {
+      position: absolute;
+      right: 0;
+      z-index: 50;
+      width: 20rem;
+      transform-origin: top right;
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+    
+    .notification-item {
+      padding: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+      transition: background-color 0.2s;
+    }
+    
+    .notification-item:hover {
+      background-color: #f9fafb;
+    }
+    
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+    
+    .notification-icon {
+      flex-shrink: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+    }
+    
+    .notification-time {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+    
+    .clear-all-btn {
+      width: 100%;
+      padding: 0.75rem;
+      text-align: center;
+      color: #ef4444;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+    
+    .clear-all-btn:hover {
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div class="min-h-screen flex flex-col">
+    <!-- Header with Notification Bell -->
+    <header class="bg-white shadow-sm">
+      <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+        <div class="flex items-center space-x-4">
+          <div x-data="{ notificationsOpen: false, notifications: [
+            { id: 1, type: 'dues_deadline', title: 'Monthly Dues Deadline Approaching', message: 'Your September dues are due in 3 days.', time: '2 hours ago', icon: 'fa-money-bill-wave', color: 'bg-yellow-100 text-yellow-600' },
+            { id: 2, type: 'new_dues', title: 'New Monthly Dues Charged', message: 'November dues have been added to your account.', time: '1 day ago', icon: 'fa-file-invoice-dollar', color: 'bg-blue-100 text-blue-600' },
+            { id: 3, type: 'payment_verified', title: 'Payment Verified', message: 'Your August payment has been verified and marked as paid.', time: '3 days ago', icon: 'fa-check-circle', color: 'bg-green-100 text-green-600' },
+            { id: 4, type: 'new_post', title: 'New Community Post', message: 'New announcement about upcoming events.', time: '4 hours ago', icon: 'fa-bell', color: 'bg-indigo-100 text-indigo-600' },
+            { id: 5, type: 'ledger_update', title: 'Ledger Updated', message: 'New entry added to your ledger.', time: '5 hours ago', icon: 'fa-book', color: 'bg-purple-100 text-purple-600' },
+            { id: 6, type: 'new_event', title: 'New Event Added to Calendar', message: 'Community meeting scheduled for next week.', time: '1 day ago', icon: 'fa-calendar-alt', color: 'bg-pink-100 text-pink-600' },
+            { id: 7, type: 'new_message', title: 'New Message Received', message: 'You have a new message from the HOA admin.', time: '2 days ago', icon: 'fa-envelope', color: 'bg-red-100 text-red-600' }
+          ] }" class="notification-bell">
+            <button @click="notificationsOpen = !notificationsOpen" class="bg-teal-100 p-2 rounded-full text-teal-600 hover:bg-teal-200 relative">
+              <i class="fas fa-bell"></i>
+              <span x-show="notifications.length > 0" class="notification-count" x-text="notifications.length"></span>
+            </button>
+            <div x-show="notificationsOpen" x-cloak x-transition.origin.top.right class="notification-dropdown">
+              <template x-for="notification in notifications" :key="notification.id">
+                <div class="notification-item flex items-start space-x-4">
+                  <div :class="notification.color" class="notification-icon">
+                    <i :class="'fas ' + notification.icon"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-gray-900" x-text="notification.title"></p>
+                    <p class="text-sm text-gray-600" x-text="notification.message"></p>
+                    <p class="notification-time mt-1" x-text="notification.time"></p>
+                  </div>
+                </div>
+              </template>
+              <button @click="notifications = []" x-show="notifications.length > 0" class="clear-all-btn">Clear All Notifications</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Rest of the page content would go here, but since the request is for the notification module, I've focused on the header with the bell icon and dropdown -->
+
+    <script>
+      // Additional script if needed
+    </script>
+  </body>
+</html>
