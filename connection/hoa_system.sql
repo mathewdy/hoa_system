@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2025 at 07:08 PM
+-- Generation Time: Nov 04, 2025 at 08:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -65,7 +65,7 @@ CREATE TABLE `users` (
   `date_of_birth` date NOT NULL,
   `citizenship` varchar(100) NOT NULL,
   `civil_status` varchar(100) NOT NULL,
-  `home_address` varchar(255) NOT NULL,
+  `home_address` varchar(255) DEFAULT NULL,
   `lot_number` int(11) NOT NULL,
   `block_number` int(11) NOT NULL,
   `phase_number` int(11) NOT NULL,
@@ -79,12 +79,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `user_id`, `first_name`, `middle_name`, `last_name`, `suffix`, `email_address`, `hoa_number`, `phone_number`, `age`, `date_of_birth`, `citizenship`, `civil_status`, `home_address`, `lot_number`, `block_number`, `phase_number`, `village_name`, `date_created`, `date_updated`) VALUES
-(11, 3, 20252051, 'Yuli', 'Nathan', 'Nichole', 'Pandora', 'buvip@mailinator.com', 0, '+639Amanda', 389, '2004-11-25', 'Chaney', 'Single', 'Lucian', 0, 0, 0, 'Jenna', '2025-11-05', '2025-11-05'),
-(15, 2, 20254385, 'Isabelle', 'Rebecca Briggs', 'Jones', '0', 'tywuly@mailinator.com', 750, '+639917137979', 63, '2003-05-17', 'Perferendis sunt sit', 'Annulled', 'Eum ea id saepe adi', 435, 557, 191, 'Hiram Hickman', '2025-11-05', '2025-11-05'),
 (16, 2, 20257108, 'Isabelle', 'Rebecca Briggs', 'Jones', '0', 'tywuly@mailinator.com', 750, '+639917137979', 63, '2003-05-17', 'Perferendis sunt sit', 'Annulled', 'Eum ea id saepe adi', 435, 557, 191, 'Hiram Hickman', '2025-11-05', '2025-11-05'),
 (18, 2, 20255472, 'Isabelle', 'Rebecca Briggs', 'Jones', '0', 'tywuly@mailinator.com', 750, '+639917137979', 63, '2003-05-17', 'Perferendis sunt sit', 'Annulled', 'Eum ea id saepe adi', 435, 557, 191, 'Hiram Hickman', '2025-11-05', '2025-11-05'),
 (19, 2, 20258055, 'Nadine', 'Erin Morgan', 'Richards', '0', 'jyrydo@mailinator.com', 362, '+639917137979', 34, '1997-10-10', 'Velit dolorem quos r', 'Widowed', 'Anim architecto veni', 239, 264, 513, 'Salvador Sellers', '2025-11-05', '2025-11-05'),
-(21, 2, 20254331, 'Maxine', 'McKenzie Villarreal', 'Levy', '0', 'sysedib@mailinator.com', 388, '+639917137979', 52, '1979-04-08', 'Et voluptatem Conse', 'Annulled', 'Enim molestiae ullam', 601, 713, 394, 'Scott Holman', '2025-11-05', '2025-11-05');
+(21, 2, 20254331, 'Maxine', 'McKenzie Villarreal', 'Levy', '0', 'sysedib@mailinator.com', 388, '+639917137979', 52, '1979-04-08', 'Et voluptatem Conse', 'Annulled', 'Enim molestiae ullam', 601, 713, 394, 'Scott Holman', '2025-11-05', '2025-11-05'),
+(25, 2, 20255137, 'Kylynn', 'Marshall Blackwell', 'Mcgowan', 'Cedric Briggs', 'lumyve@mailinator.com', 0, '+639917137979', 43, '1983-06-11', 'Non voluptatem archi', 'Single', 'Est laudantium veri', 666, 890, 560, 'Remedios Parks', '2025-11-05', '2025-11-05'),
+(26, 2, 20257915, 'Thaddeus', 'Malcolm King', 'Austin', 'Ivor Harvey', 'xetasuwobe@mailinator.com', 0, '+639917137979', 54, '1982-09-30', 'Dolor ut blanditiis ', 'Single', 'Voluptatibus fugiat ', 353, 496, 430, 'Nathan Curtis', '2025-11-05', '2025-11-05'),
+(29, 6, 20258319, 'Simon', 'Raya Avery', 'Johnston', 'Mira Vaughn', 'botur@mailinator.com', 330, '+639+1 (896) 606-4244', 26, '1980-03-07', 'Nisi nulla maiores e', 'married', NULL, 487, 275, 4, 'Bruce Huber', '2025-11-05', '2025-11-05'),
+(31, 6, 20257130, 'Wallace', 'Tanek Holcomb', 'Rodgers', 'Rose Cohen', 'tyqox@mailinator.com', 950, '+639+1 (311) 914-2143', 35, '2003-04-06', 'Aperiam ut aut hic d', 'divorced', NULL, 665, 159, 2, 'Bo Cabrera', '2025-11-05', '2025-11-05');
 
 --
 -- Indexes for dumped tables
@@ -118,7 +120,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints for dumped tables

@@ -1,3 +1,12 @@
+<?php
+
+include('../../connection/connection.php'); 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -199,16 +208,44 @@
                   <!-- Removed HOA Number column -->
                   <th scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody id="userTableBody" class="bg-white divide-y divide-gray-200">
                 <!-- Users will be rendered dynamically -->
+
+                <?php
+
+                $sql_users = "SELECT * FROM users WHERE role_id = 6";
+                $run_sql_users = mysqli_query($conn, $sql_users);
+                foreach($run_sql_users as $row_users){
+                  ?>
+
+                  <tr>
+                  
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <?php echo $row_users['first_name'] . ' ' . $row_users['middle_name'] . ' ' . $row_users['last_name'] . ' ' . $row_users['suffix']; ?>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <?php echo $row_users['email_address']; ?>
+                  </td>
+                  
+                
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <a href="admin-edit-accounts.php?user_id=<?php echo $row_users['user_id']; ?>"
+                      class="text-teal-600 hover:text-teal-900 mr-4">Edit</a>
+                    <a href="../../Query/delete-account.php?user_id=<?php echo $row_users['user_id']; ?>&role_id=<?php echo $row_users['role_id']; ?>"
+                      class="text-red-600 hover:text-red-900"
+                      onclick="return confirm('Are you sure you want to delete this account?');">Delete</a>
+                  </td>
+
+
+                <?php
+               }
+               ?> 
+
+
               </tbody>
             </table>
           </div>
@@ -258,39 +295,39 @@
           </div>
 
           <!-- Single User Form -->
-          <form id="singleUserForm">
+          <form id="singleUserForm" method="POST" action="../../Query/create-account.php" class="space-y-6" enctype="multipart/form-data">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
-                <input type="text" id="firstName" name="firstName"
+                <input type="text" id="firstName" name="first_name"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
                 <!-- Added validation error message for first name -->
                 <div id="firstNameError" class="text-red-500 text-sm mt-1 hidden">First name should only contain letters and spaces</div>
               </div>
               <div>
                 <label for="middleName" class="block text-sm font-medium text-gray-700">Middle Name</label>
-                <input type="text" id="middleName" name="middleName"
+                <input type="text" id="middleName" name="middle_name"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
                 <!-- Added validation error message for middle name -->
                 <div id="middleNameError" class="text-red-500 text-sm mt-1 hidden">Middle name should only contain letters and spaces</div>
               </div>
               <div>
                 <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
-                <input type="text" id="lastName" name="lastName"
+                <input type="text" id="lastName" name="last_name"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
                 <!-- Added validation error message for last name -->
                 <div id="lastNameError" class="text-red-500 text-sm mt-1 hidden">Last name should only contain letters and spaces</div>
               </div>
               <div>
                 <label for="nameSuffix" class="block text-sm font-medium text-gray-700">Name Suffix</label>
-                <input type="text" id="nameSuffix" name="nameSuffix"
+                <input type="text" id="nameSuffix" name="name_suffix"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
                 <!-- Added validation error message for name suffix -->
                 <div id="nameSuffixError" class="text-red-500 text-sm mt-1 hidden">Name suffix should only contain letters and spaces</div>
               </div>
               <div>
                 <label for="hoaNumber" class="block text-sm font-medium text-gray-700">HOA Number</label>
-                <input type="text" id="hoaNumber" name="hoaNumber"
+                <input type="text" id="hoaNumber" name="hoa_number"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
               </div>
               <div>
@@ -314,7 +351,7 @@
               </div>
               <div>
                 <label for="dob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
-                <input type="date" id="dob" name="dob"
+                <input type="date" id="dob" name="date_of_birth"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
               </div>
               <div>
@@ -324,7 +361,7 @@
               </div>
               <div>
                 <label for="civilStatus" class="block text-sm font-medium text-gray-700">Civil Status</label>
-                <select id="civilStatus" name="civilStatus"
+                <select id="civilStatus" name="civil_status"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
                   <option value="">Select status</option>
                   <option value="single">Single</option>
@@ -340,17 +377,17 @@
               <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
                   <label for="lotNumber" class="block text-sm font-medium text-gray-700">Lot #</label>
-                  <input type="text" id="lotNumber" name="lotNumber"
+                  <input type="text" id="lotNumber" name="lot_number"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
                 </div>
                 <div>
                   <label for="blockNumber" class="block text-sm font-medium text-gray-700">Block #</label>
-                  <input type="text" id="blockNumber" name="blockNumber"
+                  <input type="text" id="blockNumber" name="block_number"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
                 </div>
                 <div>
                   <label for="phaseNumber" class="block text-sm font-medium text-gray-700">Phase #</label>
-                  <select id="phaseNumber" name="phaseNumber"
+                  <select id="phaseNumber" name="phase_number"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
                     <option value="">Select phase</option>
                     <option value="1">Phase 1</option>
@@ -360,7 +397,7 @@
                 </div>
                 <div>
                   <label for="villageName" class="block text-sm font-medium text-gray-700">Village Name</label>
-                  <input type="text" id="villageName" name="villageName" value="Mabuhay Homes 2000"
+                  <input type="text" id="villageName" name="village_name" value="Mabuhay Homes 2000"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
                 </div>
               </div>
@@ -370,7 +407,7 @@
                 class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
                 Cancel
               </button>
-              <button type="submit"
+              <button type="submit" name="create_account_admin" id="create-submit-btn"
                 class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
                 Save
               </button>
@@ -554,67 +591,7 @@
   </div>
 
   <script>
-    // Simulated in-memory data store for users
-    let users = [
-      {
-        id: 1,
-        firstName: "Maria",
-        middleName: "Lourdes",
-        lastName: "Santos",
-        nameSuffix: "",
-        hoaNumber: "HOA-001",
-        email: "maria.santos@example.com",
-        phone: "+63 912 345 6789",
-        age: 35,
-        dob: "1988-05-12",
-        citizenship: "Filipino",
-        civilStatus: "married",
-        lotNumber: "12",
-        blockNumber: "5",
-        phaseNumber: "1",
-        villageName: "Mabuhay Homes 2000",
-        status: "active"
-      },
-      {
-        id: 2,
-        firstName: "Juan",
-        middleName: "Miguel",
-        lastName: "Cruz",
-        nameSuffix: "Jr.",
-        hoaNumber: "HOA-002",
-        email: "juan.cruz@example.com",
-        phone: "+63 923 456 7890",
-        age: 42,
-        dob: "1981-08-25",
-        citizenship: "Filipino",
-        civilStatus: "single",
-        lotNumber: "8",
-        blockNumber: "2",
-        phaseNumber: "1",
-        villageName: "Mabuhay Homes 2000",
-        status: "active"
-      },
-      {
-        id: 3,
-        firstName: "Ana",
-        middleName: "Clara",
-        lastName: "Reyes",
-        nameSuffix: "",
-        hoaNumber: "HOA-003",
-        email: "ana.reyes@example.com",
-        phone: "+63 934 567 8901",
-        age: 29,
-        dob: "1994-02-14",
-        citizenship: "Filipino",
-        civilStatus: "single",
-        lotNumber: "15",
-        blockNumber: "3",
-        phaseNumber: "1",
-        villageName: "Mabuhay Homes 2000",
-        status: "inactive"
-      }
-    ];
-
+    
     // Initialize page
     document.addEventListener('DOMContentLoaded', function () {
       const phoneInput = document.getElementById('phone');
@@ -740,41 +717,41 @@
         });
       });
 
-      // Handle Single User Form submission
-      const singleUserForm = document.getElementById('singleUserForm');
-      singleUserForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+      // // Handle Single User Form submission
+      // const singleUserForm = document.getElementById('singleUserForm');
+      // singleUserForm.addEventListener('submit', function (e) {
+      //   e.preventDefault();
         
-        if (!validateForm()) {
-          return;
-        }
+      //   if (!validateForm()) {
+      //     return;
+      //   }
         
-        const maxId = Math.max(...users.map(u => u.id), 0);
-        const newUser = {
-          id: maxId + 1,
-          firstName: document.getElementById('firstName').value,
-          middleName: document.getElementById('middleName').value,
-          lastName: document.getElementById('lastName').value,
-          nameSuffix: document.getElementById('nameSuffix').value,
-          hoaNumber: document.getElementById('hoaNumber').value,
-          email: document.getElementById('email').value,
-          phone: document.getElementById('phone').value,
-          age: parseInt(document.getElementById('age').value),
-          dob: document.getElementById('dob').value,
-          citizenship: document.getElementById('citizenship').value,
-          civilStatus: document.getElementById('civilStatus').value,
-          lotNumber: document.getElementById('lotNumber').value,
-          blockNumber: document.getElementById('blockNumber').value,
-          phaseNumber: document.getElementById('phaseNumber').value,
-          villageName: document.getElementById('villageName').value,
-          status: 'active'
-        };
-        users.unshift(newUser); // Add to beginning of array
-        closeAddHomeownerModal();
-        singleUserForm.reset();
-        updateUserTable();
-        alert('Homeowner added successfully!');
-      });
+      //   const maxId = Math.max(...users.map(u => u.id), 0);
+      //   const newUser = {
+      //     id: maxId + 1,
+      //     firstName: document.getElementById('firstName').value,
+      //     middleName: document.getElementById('middleName').value,
+      //     lastName: document.getElementById('lastName').value,
+      //     nameSuffix: document.getElementById('nameSuffix').value,
+      //     hoaNumber: document.getElementById('hoaNumber').value,
+      //     email: document.getElementById('email').value,
+      //     phone: document.getElementById('phone').value,
+      //     age: parseInt(document.getElementById('age').value),
+      //     dob: document.getElementById('dob').value,
+      //     citizenship: document.getElementById('citizenship').value,
+      //     civilStatus: document.getElementById('civilStatus').value,
+      //     lotNumber: document.getElementById('lotNumber').value,
+      //     blockNumber: document.getElementById('blockNumber').value,
+      //     phaseNumber: document.getElementById('phaseNumber').value,
+      //     villageName: document.getElementById('villageName').value,
+      //     status: 'active'
+      //   };
+      //   users.unshift(newUser); // Add to beginning of array
+      //   closeAddHomeownerModal();
+      //   singleUserForm.reset();
+      //   updateUserTable();
+      //   alert('Homeowner added successfully!');
+      // });
 
       // Handle Edit User Form submission
       const editUserForm = document.getElementById('editUserForm');
@@ -893,30 +870,6 @@
       document.getElementById('bulkUploadBtn').classList.add('bg-teal-600', 'text-white');
     }
 
-    function openEditModal(userId) {
-      const user = users.find(u => u.id === userId);
-      if (user) {
-        document.getElementById('editFirstName').value = user.firstName || '';
-        document.getElementById('editMiddleName').value = user.middleName || '';
-        document.getElementById('editLastName').value = user.lastName || '';
-        document.getElementById('editNameSuffix').value = user.nameSuffix || '';
-        document.getElementById('editHoaNumber').value = user.hoaNumber || '';
-        document.getElementById('editEmail').value = user.email || '';
-        document.getElementById('editPhone').value = user.phone || '';
-        document.getElementById('editAge').value = user.age || '';
-        document.getElementById('editDob').value = user.dob || '';
-        document.getElementById('editCitizenship').value = user.citizenship || '';
-        document.getElementById('editCivilStatus').value = user.civilStatus || '';
-        document.getElementById('editLotNumber').value = user.lotNumber || '';
-        document.getElementById('editBlockNumber').value = user.blockNumber || '';
-        document.getElementById('editPhaseNumber').value = user.phaseNumber || '';
-        document.getElementById('editVillageName').value = user.villageName || '';
-        document.getElementById('editStatus').value = user.status || 'active';
-        document.getElementById('editUserForm').dataset.userId = userId;
-        document.getElementById('editHomeownerModal').classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-      }
-    }
 
     function closeEditModal() {
       document.getElementById('editHomeownerModal').classList.add('hidden');

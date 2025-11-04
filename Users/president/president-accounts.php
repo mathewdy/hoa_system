@@ -344,11 +344,7 @@ error_reporting(E_ALL);
               <input type="email" name="email" id="sec-email" placeholder="Enter email address"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
             </div>
-            <div>
-              <label for="sec-hoa-number" class="block text-sm font-medium text-gray-700">Hoa Number</label>
-              <input type="text" name="hoa_number" id="sec-hoa-number" placeholder="Enter hoa number"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
-            </div>
+            
             <div>
               <label for="sec-age" class="block text-sm font-medium text-gray-700">Age</label>
               <input type="number" name="age" id="sec-age" placeholder="Enter age" min="18"
