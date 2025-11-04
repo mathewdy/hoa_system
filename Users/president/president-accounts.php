@@ -1,3 +1,10 @@
+<?php
+include('../../connection/connection.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -233,119 +240,57 @@
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Maria Reyes</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        <i class="fas fa-user-tie mr-1"></i>
-                        Secretary
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">maria.reyes@example.com</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <!-- removed icon from edit button -->
-                      <button onclick="openEditModal('ADM001', 'Maria', '', 'Reyes', '', 'Secretary', 'maria.reyes@example.com', '35', '9123456789', '1988-05-15', 'Filipino', 'Single', '123 Mabuhay St.', '12', '3', '2', 'Mabuhay Village', 'active')"
-                        class="inline-flex items-center py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Juan Dela Cruz</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        <i class="fas fa-user-tie mr-1"></i>
-                        Secretary
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">juan.delacruz@example.com</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                        Inactive
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <!-- removed icon from edit button -->
-                      <button onclick="openEditModal('ADM002', 'Juan', 'Santos', 'Dela Cruz', 'Jr.', 'Secretary', 'juan.delacruz@example.com', '40', '9876543210', '1983-11-22', 'Filipino', 'Married', '456 Sampaguita St.', '15', '4', '1', 'Mabuhay Village', 'inactive')"
-                        class="inline-flex items-center py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- Added new Admin record -->
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Ana Santos</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        <i class="fas fa-user-cog mr-1"></i>
-                        Admin
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">ana.santos@example.com</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <!-- removed icon from edit button -->
-                      <button onclick="openEditModal('ADM003', 'Ana', 'Maria', 'Santos', '', 'Admin', 'ana.santos@example.com', '42', '9551234567', '1981-03-10', 'Filipino', 'Married', '789 Rose St.', '8', '2', '1', 'Mabuhay Village', 'active')"
-                        class="inline-flex items-center py-1 px-3  border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- Added new Treasurer record -->
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Carlos Mendoza</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                        <i class="fas fa-calculator mr-1"></i>
-                        Treasurer
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">carlos.mendoza@example.com</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <!-- removed icon from edit button -->
-                      <button onclick="openEditModal('ADM004', 'Carlos', 'Antonio', 'Mendoza', '', 'Treasurer', 'carlos.mendoza@example.com', '38', '9559876543', '1985-07-22', 'Filipino', 'Single', '321 Lily Ave.', '20', '5', '3', 'Mabuhay Village', 'active')"
-                        class="inline-flex items-center py-1 px-3  border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- Added new Audit record -->
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Lina Garcia</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                        <i class="fas fa-shield-alt mr-1"></i>
-                        Audit
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">lina.garcia@example.com</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <!-- removed icon from edit button -->
-                      <button onclick="openEditModal('ADM005', 'Lina', '', 'Garcia', '', 'Audit', 'lina.garcia@example.com', '45', '9123456780', '1980-09-12', 'Filipino', 'Married', '654 Jasmine St.', '10', '3', '1', 'Mabuhay Village', 'active')"
-                        class="inline-flex items-center py-1 px-3  border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
+                
+                <?php
+
+
+                $sql_query_accounts = "SELECT * FROM users";
+                $run_sql_query_accounts = mysqli_query($conn, $sql_query_accounts);
+
+                if(mysqli_num_rows($run_sql_query_accounts) > 0){
+                  foreach($run_sql_query_accounts as $row_accounts){
+                    ?>
+
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <?php echo $row_accounts['first_name'] . ' ' . $row_accounts['middle_name'] . ' ' . $row_accounts['last_name'] . ' ' . $row_accounts['suffix']; ?>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <?php 
+                          if($row_accounts['role_id'] == 2){
+                            echo "Secretary";
+                          }elseif($row_accounts['role_id'] == 3){
+                            echo "Admin";
+                          }elseif($row_accounts['role_id'] == 4){
+                            echo "Treasurer";
+                          }elseif($row_accounts['role_id'] == 5){
+                            echo "Audit";
+                          }else{
+                            echo "Homeowner";
+                          }
+                        ?>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <?php echo $row_accounts['email_address']; ?>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          Active
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                        <a href="president-edit-accounts.php?user_id=<?php echo $row_accounts['user_id']; ?>"
+                          class="text-indigo-600 hover:text-indigo-900">
+                          Edit
+                        </a>
+                        <a href="../../Query/delete-account.php?user_id=<?php echo $row_accounts['user_id']; ?>" onclick="return confirm('Are you sure you want to delete this account?')" class="text-red-600 hover:text-red-900">Delete</a>
+
+                      </td>
+
+                    <?php
+                  }
+                }
+                ?>
                 </tbody>
               </table>
             </div>
@@ -366,26 +311,26 @@
         </button>
       </div>
       <div class="p-6">
-        <form id="create-secretary-form">
+        <form id="create-secretary-form" method="POST" enctype="multipart/form-data" action="../../Query/create-account.php">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label for="sec-first-name" class="block text-sm font-medium text-gray-700">First Name</label>
-              <input type="text" name="first-name" id="sec-first-name" placeholder="Enter first name"
+              <input type="text" name="first_name" id="sec-first-name" placeholder="Enter first name"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
             </div>
             <div>
               <label for="sec-middle-name" class="block text-sm font-medium text-gray-700">Middle Name</label>
-              <input type="text" name="middle-name" id="sec-middle-name" placeholder="Enter middle name"
+              <input type="text" name="middle_name" id="sec-middle-name" placeholder="Enter middle name"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
             </div>
             <div>
               <label for="sec-last-name" class="block text-sm font-medium text-gray-700">Last Name</label>
-              <input type="text" name="last-name" id="sec-last-name" placeholder="Enter last name"
+              <input type="text" name="last_name" id="sec-last-name" placeholder="Enter last name"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
             </div>
             <div>
               <label for="sec-name-suffix" class="block text-sm font-medium text-gray-700">Name Suffix</label>
-              <input type="text" name="name-suffix" id="sec-name-suffix" placeholder="e.g., Jr., Sr."
+              <input type="text" name="name_suffix" id="sec-name-suffix" placeholder="e.g., Jr., Sr."
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
             </div>
             <div>
@@ -397,6 +342,11 @@
             <div>
               <label for="sec-email" class="block text-sm font-medium text-gray-700">Email</label>
               <input type="email" name="email" id="sec-email" placeholder="Enter email address"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
+            </div>
+            <div>
+              <label for="sec-hoa-number" class="block text-sm font-medium text-gray-700">Hoa Number</label>
+              <input type="text" name="hoa_number" id="sec-hoa-number" placeholder="Enter hoa number"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
             </div>
             <div>
@@ -418,7 +368,7 @@
             </div>
             <div>
               <label for="sec-dob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
-              <input type="date" name="dob" id="sec-dob"
+              <input type="date" name="date_of_birth" id="sec-dob"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
             </div>
             <div>
@@ -428,7 +378,7 @@
             </div>
             <div>
               <label for="sec-relationship-status" class="block text-sm font-medium text-gray-700">Civil Status</label>
-              <select name="relationship-status" id="sec-relationship-status"
+              <select name="civil_status" id="sec-relationship-status"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required>
                 <option value="" disabled selected>Select status</option>
                 <option value="Single">Single</option>
@@ -440,27 +390,27 @@
             </div>
             <div class="sm:col-span-2">
               <label for="sec-home-address" class="block text-sm font-medium text-gray-700">Home Address</label>
-              <input type="text" name="home-address" id="sec-home-address" placeholder="Enter home address"
+              <input type="text" name="home_address" id="sec-home-address" placeholder="Enter home address"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
             </div>
             <div>
               <label for="sec-lot-number" class="block text-sm font-medium text-gray-700">Lot #</label>
-              <input type="text" name="lot-number" id="sec-lot-number" placeholder="Enter lot number"
+              <input type="text" name="lot_number" id="sec-lot-number" placeholder="Enter lot number"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
             </div>
             <div>
               <label for="sec-block-number" class="block text-sm font-medium text-gray-700">Block #</label>
-              <input type="text" name="block-number" id="sec-block-number" placeholder="Enter block number"
+              <input type="text" name="block_number" id="sec-block-number" placeholder="Enter block number"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
             </div>
             <div>
               <label for="sec-phase-number" class="block text-sm font-medium text-gray-700">Phase #</label>
-              <input type="text" name="phase-number" id="sec-phase-number" placeholder="Enter phase number"
+              <input type="text" name="phase_number" id="sec-phase-number" placeholder="Enter phase number"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
             </div>
             <div>
               <label for="sec-village-name" class="block text-sm font-medium text-gray-700">Village Name</label>
-              <input type="text" name="village-name" id="sec-village-name" placeholder="Enter village name"
+              <input type="text" name="village_name" id="sec-village-name" placeholder="Enter village name"
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
             </div>
           </div>
@@ -469,7 +419,7 @@
               class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 mr-2">
               Cancel
             </button>
-            <button type="submit" id="create-submit-btn"
+            <button type="submit" id="create-submit-btn" name="create_account"
               class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
               Create Account
             </button>
@@ -674,13 +624,7 @@
       }
     });
 
-    // Create Secretary Form Submission
-    document.getElementById('create-secretary-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Secretary account created successfully!');
-      document.getElementById('create-secretary-form').reset();
-      document.getElementById('create-secretary-modal').classList.add('hidden');
-    });
+  
 
     // Open Edit Secretary Modal
     function openEditModal(id, firstName, middleName, lastName, suffix, role, email, age, phone, dob, citizenship, relationshipStatus, homeAddress, lotNumber, blockNumber, phaseNumber, villageName, status) {
@@ -755,3 +699,4 @@
   </script>
 </body>
 </html>
+
