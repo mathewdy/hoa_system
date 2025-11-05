@@ -1,3 +1,11 @@
+
+<?php
+include('../../connection/connection.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,48 +221,40 @@
                 </tr>
               </thead>
               <tbody id="userTableBody" class="bg-white divide-y divide-gray-200">
-                <tr data-id="1">
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm font-medium text-gray-900">Maria Santos</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">maria.santos@example.com</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Active</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button onclick="openViewModal(1)" class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">View</button>
-                  </td>
-                </tr>
-                <tr data-id="2">
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm font-medium text-gray-900">Juan Cruz</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">juan.cruz@example.com</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Active</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button onclick="openViewModal(2)" class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">View</button>
-                  </td>
-                </tr>
-                <tr data-id="3">
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm font-medium text-gray-900">Ana Reyes</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">ana.reyes@example.com</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Inactive</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button onclick="openViewModal(3)" class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">View</button>
-                  </td>
-                </tr>
+                <?php
+
+                  $sql_homeowners = "SELECT * FROM users WHERE role_id='6'";
+                  $run_sql_homeowners = mysqli_query($conn, $sql_homeowners);
+                  if(mysqli_num_rows($run_sql_homeowners) > 0){
+                    foreach($run_sql_homeowners as $row_homeowner){
+                      ?>
+                        <tr>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <?php echo $row_homeowner['first_name'] . ' ' . $row_homeowner['last_name']; ?>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <?php echo $row_homeowner['email_address']; ?>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <?php
+                              if($row_homeowner['account_status'] == '1'){
+                                echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>';
+                              }else{
+                                echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-red-800">Inactive</span>';
+                              }
+                            ?>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <a href="view-homeowner.php?user_id=<?php echo $row_homeowner['user_id']; ?>" class="text-teal-600 hover:text-teal-900">View</a>
+                          </td>
+                        </tr>
+
+
+                      <?php
+                    }
+                  }
+
+                ?>
               </tbody>
             </table>
           </div>
