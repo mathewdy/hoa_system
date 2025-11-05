@@ -46,15 +46,15 @@
         <i class="fas fa-file-invoice-dollar mr-3"></i>
         <span>Liquidation of Expenses</span>
       </a>
-      <a href="president-ledger.html" class="flex items-center px-6 py-3 bg-teal-700">
+      <a href="president-ledger.php" class="flex items-center px-6 py-3 bg-teal-700">
         <i class="fas fa-book mr-3"></i>
         <span>Ledger</span>
       </a>
-      <a href="president-remittance.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="president-remittance.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-money-check mr-3"></i>
         <span>Remittance</span>
       </a>
-      <a href="president-payment-history.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="president-payment-history.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-receipt mr-3"></i>
         <span>Payment History</span>
       </a>
@@ -70,7 +70,7 @@
         <div x-show="open" x-cloak class="bg-teal-800 text-sm">
           <!-- Tricycle Navigation -->
           <div class="relative">
-            <button @click="window.location.href='president-tricycle.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+            <button @click="window.location.href='president-tricycle.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
               <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
               <span class="flex-1 text-left">Tricycle</span>
             </button>
@@ -78,7 +78,7 @@
 
           <!-- Court Navigation -->
           <div class="relative">
-            <button @click="window.location.href='president-court.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+            <button @click="window.location.href='president-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
               <i class="fas fa-basketball-ball mr-2" title="Court"></i>
               <span class="flex-1 text-left">Court</span>
             </button>
@@ -86,7 +86,7 @@
 
           <!-- Stall Navigation -->
           <div class="relative">
-            <button @click="window.location.href='president-stall.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+            <button @click="window.location.href='president-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
               <i class="fas fa-store mr-2" title="Stall"></i>
               <span class="flex-1 text-left">Stall</span>
             </button>
@@ -94,19 +94,19 @@
         </div>
       </div>
 
-      <a href="president-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="president-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-newspaper mr-3"></i>
         <span>News Feed</span>
       </a>
-      <a href="president-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="president-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-calendar-alt mr-3"></i>
         <span>Calendar</span>
       </a>
-      <a href="president-logs.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="president-logs.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-history mr-3"></i>
         <span>Activity Logs</span>
       </a>
-      <a href="president-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="president-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-user-circle mr-3"></i>
         <span>Profile</span>
       </a>
