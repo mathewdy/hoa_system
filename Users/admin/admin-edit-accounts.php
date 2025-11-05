@@ -48,16 +48,7 @@ include('../../connection/connection.php');
                             echo 'Member';
                         }
                     ?>" readonly>
-
-                    <select name="role" id=""
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required>
-                        <option value="" disabled selected>Select status</option>
-                        <option value="Secretary">Secretary</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Treasurer">Treasurer</option>
-                        <option value="Audit">Audit</option>
-                        <option value="Member">Member</option>
-                    </select>
+                    
                     <label for="">Email Address:</label>
                     <input type="email" name="email" value="<?php echo $row_user['email_address']; ?>">
                     <label for="">HOA Number:</label>
@@ -82,6 +73,13 @@ include('../../connection/connection.php');
                         <option value="Widowed">Widowed</option>
                         <option value="Annulled">Annulled</option>
                     </select>
+                    <input type="text" name="account_status" value="<?php echo $row_user['account_status']; ?>" readonly>
+                    <select name="account_status" id="sec-relationship-status"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required>
+                        <option value="" disabled selected>Select status</option>
+                        <option value="1">Active</option>
+                        <option value="2">Inactive</option>
+                    </select>
                     <label for="">Home Address:</label>
                     <input type="text" name="home_address" value="<?php echo $row_user['home_address']; ?>">
                     <label for="">Lot Number:</label>
@@ -89,12 +87,21 @@ include('../../connection/connection.php');
                     <label for="">Block Number:</label>
                     <input type="text" name="block_number" value="<?php echo $row_user  ['block_number']; ?>">
                     <label for="">Phase Number:</label>
-                    <input type="text" name="phase_number" value="<?php echo $row_user  ['phase_number']; ?>">
+                    <input type="text" name="phase_number" value="<?php echo $row_user  ['phase_number']; ?>" readonly>
+                    <select id="phaseNumber" name="phase_number"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
+                        <option value="">Select phase</option>
+                        <option value="1">Phase 1</option>
+                        <option value="2">Phase 2</option>
+                        <option value="3">Phase 3</option>
+                        <option value="4">Phase 4</option>
+                    </select>
+                    
                     <label for="">Village Name:</label>
                     <input type="text" name="village_name" value="<?php echo $row_user  ['village_name']; ?>">
                     <br>
                     <input type="hidden" name="user_id" value="<?php echo $row_user['user_id']; ?>">
-                    <button type="submit" name="update_account">Update Account</button>
+                    <button type="submit" name="update_account_admin">Update Account</button>
                     </form>
 
                 <?php

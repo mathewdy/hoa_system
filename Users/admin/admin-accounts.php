@@ -180,8 +180,8 @@ error_reporting(E_ALL);
               <select id="statusFilter"
                 class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
                 <option value="all">All</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="1">Active</option>
+                <option value="2">Inactive</option>
               </select>
             </div>
           </div>
@@ -206,6 +206,10 @@ error_reporting(E_ALL);
                     Email
                   </th>
                   <!-- Removed HOA Number column -->
+                   <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
                   <th scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Action
@@ -230,14 +234,24 @@ error_reporting(E_ALL);
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     <?php echo $row_users['email_address']; ?>
                   </td>
+
+                  <td>
+                    <?php 
+                      if($row_users['account_status'] == 1){
+                        echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>';
+                      }else{
+                        echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-red-800">Inactive</span>';
+                      }
+                    ?>
+                  </td>
                   
                 
                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <a href="admin-edit-accounts.php?user_id=<?php echo $row_users['user_id']; ?>"
                       class="text-teal-600 hover:text-teal-900 mr-4">Edit</a>
-                    <a href="../../Query/delete-account.php?user_id=<?php echo $row_users['user_id']; ?>&role_id=<?php echo $row_users['role_id']; ?>"
+                    <!-- <a href="../../Query/delete-account.php?user_id=<?php echo $row_users['user_id']; ?>&role_id=<?php echo $row_users['role_id']; ?>"
                       class="text-red-600 hover:text-red-900"
-                      onclick="return confirm('Are you sure you want to delete this account?');">Delete</a>
+                      onclick="return confirm('Are you sure you want to delete this account?');">Delete</a> -->
                   </td>
 
 
@@ -368,6 +382,16 @@ error_reporting(E_ALL);
                   <option value="married">Married</option>
                   <option value="divorced">Divorced</option>
                   <option value="widowed">Widowed</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="civilStatus" class="block text-sm font-medium text-gray-700">Account Status</label>
+                <select id="civilStatus" name="account_status"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
+                  <option value="">Select status</option>
+                  <option value="1">Active</option>
+                  <option value="2">Inactive</option>
                 </select>
               </div>
             </div>
