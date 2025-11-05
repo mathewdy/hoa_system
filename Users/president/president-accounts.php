@@ -48,7 +48,7 @@ error_reporting(E_ALL);
         <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
       </div>
       <nav class="flex-1">
-        <a href="president-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-tachometer-alt mr-3"></i>
           <span>Dashboard</span>
         </a>
@@ -62,27 +62,27 @@ error_reporting(E_ALL);
           <span>Homeowners</span>
         </a>
 
-        <a href="president-feetype.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-feetype.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-money-check mr-3"></i>
           <span>Fee Type</span>
         </a>
-        <a href="president-projectproposal.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-projectproposal.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-gavel mr-3"></i>
           <span>Resolution</span>
         </a>
-        <a href="president-liquidation.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-liquidation.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-file-invoice-dollar mr-3"></i>
           <span>Liquidation of Expenses</span>
         </a>
-        <a href="president-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-book mr-3"></i>
           <span>Ledger</span>
         </a>
-        <a href="president-remittance.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-remittance.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-money-check mr-3"></i>
           <span>Remittance</span>
         </a>
-        <a href="president-payment-history.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-payment-history.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-receipt mr-3"></i>
           <span>Payment History</span>
         </a>      
