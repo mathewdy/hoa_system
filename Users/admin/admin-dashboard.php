@@ -126,11 +126,11 @@
       <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
     </div>
     <nav class="flex-1">
-      <a href="admin-dashboard.html" class="flex items-center px-6 py-3 bg-teal-700">
+      <a href="admin-dashboard.php" class="flex items-center px-6 py-3 bg-teal-700">
         <i class="fas fa-tachometer-alt mr-3"></i>
         <span>Dashboard</span>
       </a>
-      <a href="admin-users.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="admin-accounts.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-users mr-3"></i>
         <span>User Management</span>
       </a>
@@ -145,23 +145,23 @@
           </svg>
         </button>
         <div x-show="open" x-cloak class="bg-teal-800 text-sm">
-          <a href="fee-types.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+          <a href="fee-types.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
             <i class="fas fa-tag mr-2" title="Fee Type"></i>
             Fee Type
           </a>
-          <a href="fee-assignation.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+          <a href="fee-assignation.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
             <i class="fas fa-clipboard-list mr-2" title="Fee Assignation"></i>
             Fee Assignation
           </a>
-          <a href="payment-verification.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+          <a href="payment-verification.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
             <i class="fas fa-check-circle mr-2" title="Payment Verification"></i>
             Payment Verification
           </a>
-          <a href="admin-remittance.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+          <a href="admin-remittance.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
             <i class="fas fa-money-check mr-3"></i>
             Remittance
           </a>
-          <a href="payment-history.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+          <a href="payment-history.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
             <i class="fas fa-history mr-2" title="Payment History"></i>
             Payment History
           </a>
@@ -180,7 +180,7 @@
 <div x-show="open" x-cloak class="bg-teal-800 text-sm">
   <!-- Tricycle Navigation -->
   <div class="relative">
-    <button @click="window.location.href='admin-tricycle.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+    <button @click="window.location.href='admin-tricycle.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
       <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
       <span class="flex-1 text-left">Tricycle</span>
     </button>
@@ -188,7 +188,7 @@
 
   <!-- Court Navigation -->
   <div class="relative">
-    <button @click="window.location.href='admin-court.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+    <button @click="window.location.href='admin-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
       <i class="fas fa-basketball-ball mr-2" title="Court"></i>
       <span class="flex-1 text-left">Court</span>
     </button>
@@ -196,7 +196,7 @@
 
   <!-- Stall Navigation -->
   <div class="relative">
-    <button @click="window.location.href='admin-stall.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+    <button @click="window.location.href='admin-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
       <i class="fas fa-store mr-2" title="Stall"></i>
       <span class="flex-1 text-left">Stall</span>
     </button>
@@ -204,30 +204,30 @@
 </div>
 </div>
 
-<a href="admin-hoaprojects.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+<a href="admin-hoaprojects.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
 <i class="fas fa-gavel mr-3"></i>
       <span>Resolution</span>
 </a>
 
-<a href="admin-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+<a href="admin-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
   <i class="fas fa-book mr-3"></i>
   <span>Ledger</span>
 </a>
 
-<a href="admin-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+<a href="admin-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
 <i class="fas fa-newspaper mr-3"></i>
 <span>News Feed</span>
 </a>
 
-      <a href="admin-messages.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="admin-messages.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-comments mr-3"></i>
         <span>Messages</span>
       </a>
-      <a href="admin-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="admin-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-calendar-alt mr-3"></i>
         <span>Calendar</span>
       </a>
-      <a href="admin-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="admin-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-user-circle mr-3"></i>
         <span>Profile</span>
       </a>

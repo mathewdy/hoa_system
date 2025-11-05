@@ -10,126 +10,109 @@
 </head>
 <body class="bg-gray-50">
   <div class="min-h-screen flex">
-     <!-- Sidebar -->
-     <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
-        <div class="px-6 mb-8">
-          <h1 class="text-2xl font-bold">HOAConnect</h1>
-          <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
-        </div>
-        <nav class="flex-1">
-          <a href="admin-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-            <i class="fas fa-tachometer-alt mr-3"></i>
-            <span>Dashboard</span>
-          </a>
-          <a href="admin-users.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-            <i class="fas fa-users mr-3"></i>
-            <span>User Management</span>
-          </a>
-          
-          <!-- Payment Management Dropdown -->
-          <div x-data="{ open: false }">
-            <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
-              <i class="fas fa-credit-card mr-3"></i>
-              <span class="flex-1 text-left">Payment Management</span>
-              <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div x-show="open" x-cloak class="bg-teal-800 text-sm">
-              <a href="fee-types.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
-                <i class="fas fa-tag mr-2" title="Fee Type"></i>
-                Fee Type
-              </a>
-              <a href="fee-assignation.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
-                <i class="fas fa-clipboard-list mr-2" title="Fee Assignation"></i>
-                Fee Assignation
-              </a>
-              <a href="payment-verification.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
-                <i class="fas fa-check-circle mr-2" title="Payment Verification"></i>
-                Payment Verification
-              </a>
-              <a href="admin-remittance.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
-                <i class="fas fa-money-check mr-3"></i>
-                Remittance
-              </a>
-              <a href="payment-history.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
-                <i class="fas fa-history mr-2" title="Payment History"></i>
-                Payment History
-              </a>
+    <!-- Sidebar -->
+    <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
+      <div class="px-6 mb-8">
+        <h1 class="text-2xl font-bold">HOAConnect</h1>
+        <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
+      </div>
+      <nav class="flex-1">
+        <a href="president-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-tachometer-alt mr-3"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="president-accounts.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-user-gear mr-3"></i>
+          <span>Admin Management</span>
+        </a>
+        <a href="registered-homeowners.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-home mr-3"></i>
+          <span>Homeowners</span>
+        </a>
+        <a href="president-feetype.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-money-check mr-3"></i>
+          <span>Fee Type</span>
+        </a>
+        <a href="president-projectproposal.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-gavel mr-3"></i>
+          <span>Resolution</span>
+        </a>
+        <a href="president-liquidation.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-file-invoice-dollar mr-3"></i>
+          <span>Liquidation of Expenses</span>
+        </a>
+        <a href="president-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-book mr-3"></i>
+          <span>Ledger</span>
+        </a>
+        <a href="president-remittance.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-money-check mr-3"></i>
+          <span>Remittance</span>
+        </a>
+        <a href="president-payment-history.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-receipt mr-3"></i>
+          <span>Payment History</span>
+        </a>
+        <!-- Amenities Dropdown -->
+        <div x-data="{ open: false }">
+          <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
+            <i class="fas fa-swimming-pool mr-3"></i>
+            <span class="flex-1 text-left">Amenities</span>
+            <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div x-show="open" x-cloak class="bg-teal-800 text-sm">
+            <!-- Tricycle Navigation -->
+            <div class="relative">
+              <button @click="window.location.href='president-tricycle.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+                <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
+                <span class="flex-1 text-left">Tricycle</span>
+              </button>
+            </div>
+
+            <!-- Court Navigation -->
+            <div class="relative">
+              <button @click="window.location.href='president-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+                <i class="fas fa-basketball-ball mr-2" title="Court"></i>
+                <span class="flex-1 text-left">Court</span>
+              </button>
+            </div>
+
+            <!-- Stall Navigation -->
+            <div class="relative">
+              <button @click="window.location.href='president-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+                <i class="fas fa-store mr-2" title="Stall"></i>
+                <span class="flex-1 text-left">Stall</span>
+              </button>
             </div>
           </div>
-  
-  
-  <!-- Amenities Dropdown -->
-<div x-data="{ open: false }">
-    <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
-      <i class="fas fa-swimming-pool mr-3"></i>
-      <span class="flex-1 text-left">Amenities</span>
-      <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </button>
-    <div x-show="open" x-cloak class="bg-teal-800 text-sm">
-      <!-- Tricycle Navigation -->
-      <div class="relative">
-        <button @click="window.location.href='admin-tricycle.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-          <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
-          <span class="flex-1 text-left">Tricycle</span>
-        </button>
-      </div>
-  
-      <!-- Court Navigation -->
-      <div class="relative">
-        <button @click="window.location.href='admin-court.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-          <i class="fas fa-basketball-ball mr-2" title="Court"></i>
-          <span class="flex-1 text-left">Court</span>
-        </button>
-      </div>
-  
-      <!-- Stall Navigation -->
-      <div class="relative">
-        <button @click="window.location.href='admin-stall.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-          <i class="fas fa-store mr-2" title="Stall"></i>
-          <span class="flex-1 text-left">Stall</span>
+        </div>
+
+        <a href="president-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-newspaper mr-3"></i>
+          <span>News Feed</span>
+        </a>
+        <a href="president-calendar.php" class="flex items-center px-6 py-3 bg-teal-700">
+          <i class="fas fa-calendar-alt mr-3"></i>
+          <span>Calendar</span>
+        </a>
+        <a href="president-logs.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-history mr-3"></i>
+          <span>Activity Logs</span>
+        </a>
+        <a href="president-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-user-circle mr-3"></i>
+          <span>Profile</span>
+        </a>
+      </nav>
+      <div class="px-6 py-4 mt-auto">
+        <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center justify-center">
+          <i class="fas fa-sign-out-alt mr-2"></i> Logout
         </button>
       </div>
     </div>
-  </div>
-  
-  <a href="admin-hoaprojects.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-    <i class="fas fa-gavel mr-3"></i>
-          <span>Resolution</span>
-  </a>
-  
-  <a href="admin-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-    <i class="fas fa-book mr-3"></i>
-    <span>Ledger</span>
-  </a>
-  
-  <a href="admin-projects.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-    <i class="fas fa-newspaper mr-3"></i>
-  <span>News Feed</span>
-  </a>
-  
-          <a href="admin-messages.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-            <i class="fas fa-comments mr-3"></i>
-            <span>Messages</span>
-          </a>
-          <a href="admin-calendar.html" class="flex items-center px-6 py-3 bg-teal-700">
-            <i class="fas fa-calendar-alt mr-3"></i>
-            <span>Calendar</span>
-          </a>
-          <a href="admin-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-            <i class="fas fa-user-circle mr-3"></i>
-            <span>Profile</span>
-          </a>
-        </nav>
-        <div class="px-6 py-4 mt-auto">
-          <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center justify-center">
-            <i class="fas fa-sign-out-alt mr-2"></i> Logout
-          </button>
-        </div>
-      </div>
+    <!--End of sidebar-->
 
     <!-- Main Content -->
     <div class="flex-1 overflow-x-hidden overflow-y-auto">

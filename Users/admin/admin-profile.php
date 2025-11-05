@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HOAConnect - Pres Profile</title>
+  <title>HOAConnect - Admin Profile</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -81,98 +81,113 @@
 </head>
 <body class="bg-gray-50">
   <div class="min-h-screen flex">
-    <!-- Sidebar -->
-    <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
+     <!-- Sidebar -->
+     <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
       <div class="px-6 mb-8">
         <h1 class="text-2xl font-bold">HOAConnect</h1>
         <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
       </div>
       <nav class="flex-1">
-        <a href="president-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="admin-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-tachometer-alt mr-3"></i>
           <span>Dashboard</span>
         </a>
-        <a href="president-create-accounts.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-user-gear mr-3"></i>
-          <span>Admin Management</span>
+        <a href="admin-accounts.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-users mr-3"></i>
+          <span>User Management</span>
         </a>
-        <a href="registered-homeowners.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-home mr-3"></i>
-          <span>Homeowners</span>
-        </a>
-        <a href="president-feetype.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-money-check mr-3"></i>
-          <span>Fee Type</span>
-        </a>
-        <a href="president-projectproposal.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-gavel mr-3"></i>
-          <span>Resolution</span>
-        </a>
-        <a href="president-liquidation.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-file-invoice-dollar mr-3"></i>
-          <span>Liquidation of Expenses</span>
-        </a>
-        <a href="president-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-book mr-3"></i>
-          <span>Ledger</span>
-        </a>
-        <a href="president-remittance.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-money-check mr-3"></i>
-          <span>Remittance</span>
-        </a>
-        <a href="president-payment-history.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-receipt mr-3"></i>
-          <span>Payment History</span>
-        </a>
-        <!-- Amenities Dropdown -->
+       
+        <!-- Payment Management Dropdown -->
         <div x-data="{ open: false }">
           <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
-            <i class="fas fa-swimming-pool mr-3"></i>
-            <span class="flex-1 text-left">Amenities</span>
+            <i class="fas fa-credit-card mr-3"></i>
+            <span class="flex-1 text-left">Payment Management</span>
             <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
           <div x-show="open" x-cloak class="bg-teal-800 text-sm">
-            <!-- Tricycle Navigation -->
-            <div class="relative">
-              <button @click="window.location.href='president-tricycle.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-                <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
-                <span class="flex-1 text-left">Tricycle</span>
-              </button>
-            </div>
-
-            <!-- Court Navigation -->
-            <div class="relative">
-              <button @click="window.location.href='president-court.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-                <i class="fas fa-basketball-ball mr-2" title="Court"></i>
-                <span class="flex-1 text-left">Court</span>
-              </button>
-            </div>
-
-            <!-- Stall Navigation -->
-            <div class="relative">
-              <button @click="window.location.href='president-stall.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-                <i class="fas fa-store mr-2" title="Stall"></i>
-                <span class="flex-1 text-left">Stall</span>
-              </button>
-            </div>
+            <a href="fee-types.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
+              <i class="fas fa-tag mr-2" title="Fee Type"></i>
+              Fee Type
+            </a>
+            <a href="fee-assignation.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
+              <i class="fas fa-clipboard-list mr-2" title="Fee Assignation"></i>
+              Fee Assignation
+            </a>
+            <a href="payment-verification.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
+              <i class="fas fa-check-circle mr-2" title="Payment Verification"></i>
+              Payment Verification
+            </a>
+            <a href="admin-remittance.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
+              <i class="fas fa-money-check mr-3"></i>
+              Remittance
+            </a>
+            <a href="payment-history.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
+              <i class="fas fa-history mr-2" title="Payment History"></i>
+              Payment History
+            </a>
           </div>
         </div>
 
-        <a href="president-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-newspaper mr-3"></i>
-          <span>News Feed</span>
+        <!-- Amenities Dropdown -->
+<div x-data="{ open: false }">
+  <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
+    <i class="fas fa-swimming-pool mr-3"></i>
+    <span class="flex-1 text-left">Amenities</span>
+    <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+  <div x-show="open" x-cloak class="bg-teal-800 text-sm">
+    <!-- Tricycle Navigation -->
+    <div class="relative">
+      <button @click="window.location.href='admin-tricycle.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+        <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
+        <span class="flex-1 text-left">Tricycle</span>
+      </button>
+    </div>
+
+    <!-- Court Navigation -->
+    <div class="relative">
+      <button @click="window.location.href='admin-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+        <i class="fas fa-basketball-ball mr-2" title="Court"></i>
+        <span class="flex-1 text-left">Court</span>
+      </button>
+    </div>
+
+    <!-- Stall Navigation -->
+    <div class="relative">
+      <button @click="window.location.href='admin-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+        <i class="fas fa-store mr-2" title="Stall"></i>
+        <span class="flex-1 text-left">Stall</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<a href="admin-hoaprojects.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+  <i class="fas fa-gavel mr-3"></i>
+        <span>Resolution</span>
+</a>
+
+<a href="admin-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+  <i class="fas fa-book mr-3"></i>
+  <span>Ledger</span>
+</a>
+<a href="admin-projects.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
+  <i class="fas fa-newspaper mr-3"></i>
+<span>News Feed</span>
+</a>
+        <a href="admin-messages.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-comments mr-3"></i>
+          <span>Messages</span>
         </a>
-        <a href="president-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="admin-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-calendar-alt mr-3"></i>
           <span>Calendar</span>
         </a>
-        <a href="president-logs.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-history mr-3"></i>
-          <span>Activity Logs</span>
-        </a>
-        <a href="president-profile.html" class="flex items-center px-6 py-3 bg-teal-700">
+        <a href="admin-profile.php" class="flex items-center px-6 py-3 bg-teal-700">
           <i class="fas fa-user-circle mr-3"></i>
           <span>Profile</span>
         </a>
@@ -183,8 +198,6 @@
         </button>
       </div>
     </div>
-    <!--End of sidebar-->
-
     <!-- Main Content -->
     <div class="flex-1 overflow-x-hidden overflow-y-auto">
       <header class="bg-white shadow-md">
@@ -198,8 +211,9 @@
           </div>
     </header>
 
+      <!-- make main full width (inside the remaining area beside the sidebar) so cards expand -->
       <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <!-- Profile Header -->
+        <!-- Profile Header (card will stretch to the available width) -->
         <div class="bg-white rounded-lg shadow-sm p-6 mb-6 w-full">
           <div class="flex items-center space-x-6">
             <div class="relative">
@@ -214,8 +228,8 @@
               </label>
             </div>
             <div>
-              <h2 class="text-2xl font-bold text-gray-900">Marj Celine A. San Jose</h2>
-              <p class="text-gray-600">President • Mabuhay Homes 2000</p>
+              <h2 class="text-2xl font-bold text-gray-900">Marj Celine Aberia San Jose</h2>
+              <p class="text-gray-600">Admin • Mabuhay Homes 2000</p>
             </div>
           </div>
         </div>
@@ -239,7 +253,7 @@
                 <div class="flex justify-between items-center">
                   <div>
                     <p class="text-sm font-medium text-gray-500">Full Name</p>
-                    <p class="text-gray-900" id="display-name">Marj Celine A. San Jose</p>
+                    <p class="text-gray-900" id="display-name">Marj Celine Aberia San Jose</p>
                   </div>
                   <i class="fas fa-user text-gray-400"></i>
                 </div>
@@ -248,7 +262,7 @@
                 <div class="flex justify-between items-center">
                   <div>
                     <p class="text-sm font-medium text-gray-500">Role</p>
-                    <p class="text-gray-900">President</p>
+                    <p class="text-gray-900">Admin</p>
                   </div>
                   <i class="fas fa-user-tie text-gray-400"></i>
                 </div>
@@ -260,13 +274,17 @@
             <div class="space-y-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                <input type="text" id="edit-name" value="Marj Celine A. San Jose" 
-                       class="form-input w-full p-3 rounded-md">
+                <input type="text" id="edit-name" value="Marj Celine Aberia San Jose" 
+                       class="form-input w-full p-3 rounded-md" readonly 
+                       style="background-color: #f9fafb; color: #6b7280;">
+                <p class="text-xs text-gray-500 mt-1">Name cannot be changed. Contact administrator if needed.</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Role</label>
-                <input type="text" value="President" 
-                       class="form-input w-full p-3 rounded-md">
+                <input type="text" value="Secretary" 
+                       class="form-input w-full p-3 rounded-md" readonly 
+                       style="background-color: #f9fafb; color: #6b7280;">
+                <p class="text-xs text-gray-500 mt-1">Role is assigned by administrator.</p>
               </div>
             </div>
             <div class="save-cancel-buttons flex justify-end space-x-3 mt-6 pt-4 border-t border-gray-100">
@@ -301,7 +319,7 @@
                 <div class="flex justify-between items-center">
                   <div>
                     <p class="text-sm font-medium text-gray-500">Email</p>
-                    <p class="text-gray-900" id="display-email">jannerishluneta.@email.com</p>
+                    <p class="text-gray-900" id="display-email">maria.santos@email.com</p>
                   </div>
                   <i class="fas fa-envelope text-gray-400"></i>
                 </div>
@@ -331,8 +349,10 @@
             <div class="space-y-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <input type="email" id="edit-email" value="jannerishluneta@email.com" 
-                       class="form-input w-full p-3 rounded-md">
+                <input type="email" id="edit-email" value="maria.santos@email.com" 
+                       class="form-input w-full p-3 rounded-md" readonly 
+                       style="background-color: #f9fafb; color: #6b7280;">
+                <p class="text-xs text-gray-500 mt-1">Email cannot be changed. Contact administrator if needed.</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
@@ -343,7 +363,9 @@
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
                 <input type="text" id="edit-address" value="123 Mabuhay St. Lot 12, Block 3, Phase 2, Mabuhay Homes 2000" 
-                       class="form-input w-full p-3 rounded-md">
+                       class="form-input w-full p-3 rounded-md" readonly 
+                       style="background-color: #f9fafb; color: #6b7280;">
+                <p class="text-xs text-gray-500 mt-1">Address is based on your property registration.</p>
               </div>
             </div>
             <div class="save-cancel-buttons flex justify-end space-x-3 mt-6 pt-4 border-t border-gray-100">
@@ -417,8 +439,10 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
-                <input type="date" value="1985-06-15" 
-                       class="form-input w-full p-3 rounded-md">
+                <input type="text" value="June 15, 1985" 
+                       class="form-input w-full p-3 rounded-md" readonly 
+                       style="background-color: #f9fafb; color: #6b7280;">
+                <p class="text-xs text-gray-500 mt-1">Cannot be changed.</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Relationship Status</label>
@@ -432,7 +456,9 @@
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Citizenship</label>
                 <input type="text" value="Filipino" 
-                       class="form-input w-full p-3 rounded-md">
+                       class="form-input w-full p-3 rounded-md" readonly 
+                       style="background-color: #f9fafb; color: #6b7280;">
+                <p class="text-xs text-gray-500 mt-1">Cannot be changed.</p>
               </div>
             </div>
             <div class="save-cancel-buttons flex justify-end space-x-3 mt-6 pt-4 border-t border-gray-100">
@@ -557,31 +583,18 @@
       
       // Reset form values
       if (sectionName === 'contact-info') {
-        document.getElementById('edit-email').value = 'jannerishluneta@email.com';
         document.getElementById('edit-phone').value = '+63 917 123 4567';
-        document.getElementById('edit-address').value = '123 Mabuhay St. Lot 12, Block 3, Phase 2, Mabuhay Homes 2000';
       } else if (sectionName === 'personal-details') {
         document.getElementById('edit-relationship').value = 'Single';
-      } else if (sectionName === 'basic-info') {
-        document.getElementById('edit-name').value = 'Marj Celine A. San Jose';
       }
     }
 
     function saveSection(sectionName) {
-      if (sectionName === 'basic-info') {
-        const name = document.getElementById('edit-name').value;
-        document.getElementById('display-name').textContent = name;
-      } else if (sectionName === 'contact-info') {
-        const email = document.getElementById('edit-email').value;
+      if (sectionName === 'contact-info') {
         const phone = document.getElementById('edit-phone').value;
-        const address = document.getElementById('edit-address').value;
-        document.getElementById('display-email').textContent = email;
         document.getElementById('display-phone').textContent = phone;
-        document.getElementById('display-address').textContent = address;
       } else if (sectionName === 'personal-details') {
-        const dob = document.getElementById('edit-dob').value;
         const relationship = document.getElementById('edit-relationship').value;
-        document.getElementById('display-dob').textContent = dob ? new Date(dob).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'June 15, 1985';
         document.getElementById('display-relationship').textContent = relationship;
       }
       

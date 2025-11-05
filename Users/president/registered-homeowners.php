@@ -1,3 +1,11 @@
+
+<?php
+include('../../connection/connection.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,7 +54,7 @@
         <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
       </div>
       <nav class="flex-1">
-        <a href="president-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-tachometer-alt mr-3"></i>
           <span>Dashboard</span>
         </a>
@@ -55,36 +63,36 @@
           <span>Addmin Management</span>
         </a>
 
-        <a href="registered-homeowners.html" class="flex items-center px-6 py-3 bg-teal-700">
+        <a href="registered-homeowners.php" class="flex items-center px-6 py-3 bg-teal-700">
           <i class="fas fa-home mr-3"></i>
           <span>Homeowners</span>
         </a>
 
-        <a href="president-feetype.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-feetype.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-money-check mr-3"></i>
           <span>Fee Type</span>
         </a>
 
-        <a href="president-projectproposal.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-projectproposal.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-gavel mr-3"></i>
           <span>Resolution</span>
         </a>
 
-        <a href="president-liquidation.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-liquidation.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-file-invoice-dollar mr-3"></i>
           <span>Liquidation of Expenses</span>
         </a>
 
-        <a href="president-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-book mr-3"></i>
           <span>Ledger</span>
         </a>
-        <a href="president-remittance.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-remittance.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-money-check mr-3"></i>
           <span>Remittance</span>
         </a>
 
-        <a href="president-payment-history.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-payment-history.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-receipt mr-3"></i>
           <span>Payment History</span>
         </a>
@@ -102,7 +110,7 @@
           <div x-show="amenitiesOpen" x-cloak class="bg-teal-800 text-sm">
             <!-- Tricycle Navigation -->
             <div class="relative">
-              <button @click="window.location.href='president-tricycle.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+              <button @click="window.location.href='president-tricycle.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
                 <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
                 <span class="flex-1 text-left">Tricycle</span>
               </button>
@@ -110,7 +118,7 @@
 
             <!-- Court Navigation -->
             <div class="relative">
-              <button @click="window.location.href='president-court.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+              <button @click="window.location.href='president-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
                 <i class="fas fa-basketball-ball mr-2" title="Court"></i>
                 <span class="flex-1 text-left">Court</span>
               </button>
@@ -118,7 +126,7 @@
 
             <!-- Stall Navigation -->
             <div class="relative">
-              <button @click="window.location.href='president-stall.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+              <button @click="window.location.href='president-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
                 <i class="fas fa-store mr-2" title="Stall"></i>
                 <span class="flex-1 text-left">Stall</span>
               </button>
@@ -127,19 +135,19 @@
         </div>
 
         
-        <a href="president-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-newspaper mr-3"></i>
           <span>News Feed</span>
         </a>
-        <a href="president-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-calendar-alt mr-3"></i>
           <span>Calendar</span>
         </a>
-        <a href="president-logs.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-logs.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-history mr-3"></i>
           <span>Activity Logs</span>
         </a>
-        <a href="president-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-user-circle mr-3"></i>
           <span>Profile</span>
         </a>
@@ -213,48 +221,40 @@
                 </tr>
               </thead>
               <tbody id="userTableBody" class="bg-white divide-y divide-gray-200">
-                <tr data-id="1">
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm font-medium text-gray-900">Maria Santos</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">maria.santos@example.com</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Active</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button onclick="openViewModal(1)" class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">View</button>
-                  </td>
-                </tr>
-                <tr data-id="2">
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm font-medium text-gray-900">Juan Cruz</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">juan.cruz@example.com</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Active</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button onclick="openViewModal(2)" class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">View</button>
-                  </td>
-                </tr>
-                <tr data-id="3">
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm font-medium text-gray-900">Ana Reyes</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">ana.reyes@example.com</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Inactive</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button onclick="openViewModal(3)" class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">View</button>
-                  </td>
-                </tr>
+                <?php
+
+                  $sql_homeowners = "SELECT * FROM users WHERE role_id='6'";
+                  $run_sql_homeowners = mysqli_query($conn, $sql_homeowners);
+                  if(mysqli_num_rows($run_sql_homeowners) > 0){
+                    foreach($run_sql_homeowners as $row_homeowner){
+                      ?>
+                        <tr>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <?php echo $row_homeowner['first_name'] . ' ' . $row_homeowner['last_name']; ?>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <?php echo $row_homeowner['email_address']; ?>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <?php
+                              if($row_homeowner['account_status'] == '1'){
+                                echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>';
+                              }else{
+                                echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-red-800">Inactive</span>';
+                              }
+                            ?>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <a href="view-homeowner.php?user_id=<?php echo $row_homeowner['user_id']; ?>" class="text-teal-600 hover:text-teal-900">View</a>
+                          </td>
+                        </tr>
+
+
+                      <?php
+                    }
+                  }
+
+                ?>
               </tbody>
             </table>
           </div>

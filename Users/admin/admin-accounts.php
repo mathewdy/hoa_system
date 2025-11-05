@@ -32,11 +32,11 @@ error_reporting(E_ALL);
         <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
       </div>
       <nav class="flex-1">
-        <a href="admin-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+        <a href="admin-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
           <i class="fas fa-tachometer-alt mr-3"></i>
           <span>Dashboard</span>
         </a>
-        <a href="admin-users.html" class="flex items-center px-6 py-3 bg-teal-700">
+        <a href="admin-users.php" class="flex items-center px-6 py-3 bg-teal-700">
           <i class="fas fa-users mr-3"></i>
           <span>User Management</span>
         </a>
@@ -51,23 +51,23 @@ error_reporting(E_ALL);
             </svg>
           </button>
           <div x-show="open" x-cloak class="bg-teal-800 text-sm">
-            <a href="fee-types.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+            <a href="fee-types.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
               <i class="fas fa-tag mr-2" title="Fee Type"></i>
               Fee Type
             </a>
-            <a href="fee-assignation.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+            <a href="fee-assignation.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
               <i class="fas fa-clipboard-list mr-2" title="Fee Assignation"></i>
               Fee Assignation
             </a>
-            <a href="payment-verification.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+            <a href="payment-verification.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
               <i class="fas fa-check-circle mr-2" title="Payment Verification"></i>
               Payment Verification
             </a>
-            <a href="admin-remittance.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+            <a href="admin-remittance.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
               <i class="fas fa-money-check mr-3"></i>
               Remittance
             </a>
-            <a href="payment-history.html" class="flex items-center px-10 py-2 hover:bg-teal-600">
+            <a href="payment-history.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
               <i class="fas fa-history mr-2" title="Payment History"></i>
               Payment History
             </a>
@@ -86,7 +86,7 @@ error_reporting(E_ALL);
   <div x-show="open" x-cloak class="bg-teal-800 text-sm">
     <!-- Tricycle Navigation -->
     <div class="relative">
-      <button @click="window.location.href='admin-tricycle.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+      <button @click="window.location.href='admin-tricycle.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
         <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
         <span class="flex-1 text-left">Tricycle</span>
       </button>
@@ -94,7 +94,7 @@ error_reporting(E_ALL);
 
     <!-- Court Navigation -->
     <div class="relative">
-      <button @click="window.location.href='admin-court.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+      <button @click="window.location.href='admin-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
         <i class="fas fa-basketball-ball mr-2" title="Court"></i>
         <span class="flex-1 text-left">Court</span>
       </button>
@@ -102,7 +102,7 @@ error_reporting(E_ALL);
 
     <!-- Stall Navigation -->
     <div class="relative">
-      <button @click="window.location.href='admin-stall.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+      <button @click="window.location.href='admin-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
         <i class="fas fa-store mr-2" title="Stall"></i>
         <span class="flex-1 text-left">Stall</span>
       </button>
@@ -111,30 +111,30 @@ error_reporting(E_ALL);
 </div>
 
 
-<a href="admin-hoaprojects.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+<a href="admin-hoaprojects.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
   <i class="fas fa-gavel mr-3"></i>
         <span>Resolution</span>
 </a>
 
-<a href="admin-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+<a href="admin-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
   <i class="fas fa-book mr-3"></i>
   <span>Ledger</span>
 </a>
 
-<a href="admin-projects.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+<a href="admin-projects.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
   <i class="fas fa-newspaper mr-3"></i>
 <span>News Feed</span>
 </a>
-       
-        <a href="admin-messages.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+
+        <a href="admin-messages.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
           <i class="fas fa-comments mr-3"></i>
           <span>Messages</span>
         </a>
-        <a href="admin-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+        <a href="admin-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
           <i class="fas fa-calendar-alt mr-3"></i>
           <span>Calendar</span>
         </a>
-        <a href="admin-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+        <a href="admin-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
           <i class="fas fa-user-circle mr-3"></i>
           <span>Profile</span>
         </a>
@@ -180,8 +180,8 @@ error_reporting(E_ALL);
               <select id="statusFilter"
                 class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
                 <option value="all">All</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="1">Active</option>
+                <option value="2">Inactive</option>
               </select>
             </div>
           </div>
@@ -206,6 +206,10 @@ error_reporting(E_ALL);
                     Email
                   </th>
                   <!-- Removed HOA Number column -->
+                   <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
                   <th scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Action
@@ -230,14 +234,24 @@ error_reporting(E_ALL);
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     <?php echo $row_users['email_address']; ?>
                   </td>
+
+                  <td>
+                    <?php 
+                      if($row_users['account_status'] == 1){
+                        echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>';
+                      }else{
+                        echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-red-800">Inactive</span>';
+                      }
+                    ?>
+                  </td>
                   
                 
                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <a href="admin-edit-accounts.php?user_id=<?php echo $row_users['user_id']; ?>"
                       class="text-teal-600 hover:text-teal-900 mr-4">Edit</a>
-                    <a href="../../Query/delete-account.php?user_id=<?php echo $row_users['user_id']; ?>&role_id=<?php echo $row_users['role_id']; ?>"
+                    <!-- <a href="../../Query/delete-account.php?user_id=<?php echo $row_users['user_id']; ?>&role_id=<?php echo $row_users['role_id']; ?>"
                       class="text-red-600 hover:text-red-900"
-                      onclick="return confirm('Are you sure you want to delete this account?');">Delete</a>
+                      onclick="return confirm('Are you sure you want to delete this account?');">Delete</a> -->
                   </td>
 
 
@@ -368,6 +382,16 @@ error_reporting(E_ALL);
                   <option value="married">Married</option>
                   <option value="divorced">Divorced</option>
                   <option value="widowed">Widowed</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="civilStatus" class="block text-sm font-medium text-gray-700">Account Status</label>
+                <select id="civilStatus" name="account_status"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
+                  <option value="">Select status</option>
+                  <option value="1">Active</option>
+                  <option value="2">Inactive</option>
                 </select>
               </div>
             </div>
