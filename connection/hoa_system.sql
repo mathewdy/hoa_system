@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2025 at 01:59 PM
+-- Generation Time: Nov 05, 2025 at 04:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,16 +29,36 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `fee_type` (
   `id` int(11) NOT NULL,
+  `fee_type_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `fee_name` varchar(50) NOT NULL,
   `description` varchar(255) NOT NULL,
   `amount` int(11) NOT NULL,
+  `cadence` int(11) NOT NULL,
   `start_date` date NOT NULL,
-  `remarks` varchar(255) NOT NULL,
-  `approved` int(11) NOT NULL,
+  `is_active` int(11) NOT NULL,
+  `remarks` varchar(255) DEFAULT NULL,
+  `approved` int(11) DEFAULT NULL,
   `datetime_created` datetime NOT NULL,
   `datetime_updated` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `fee_type`
+--
+
+INSERT INTO `fee_type` (`id`, `fee_type_id`, `user_id`, `fee_name`, `description`, `amount`, `cadence`, `start_date`, `is_active`, `remarks`, `approved`, `datetime_created`, `datetime_updated`) VALUES
+(1, 123, 0, 'Mari Mcfadden', '', 0, 1, '0000-00-00', 0, '', 3, '2025-11-05 21:33:38', '2025-11-05 21:33:38'),
+(2, 456, 0, 'Brett Atkinson', 'Duis anim nostrum numquam obcaecati dolore vel ad assumenda natus', 95, 0, '1979-05-13', 0, '', 3, '2025-11-05 21:34:24', '2025-11-05 21:34:24'),
+(3, 789, 0, 'Brett Atkinson', 'Duis anim nostrum numquam obcaecati dolore vel ad assumenda natus', 95, 0, '1979-05-13', 0, '', 3, '2025-11-05 21:34:48', '2025-11-05 21:34:48'),
+(4, 202010506, 0, 'Hedwig Yates', 'Consequat Dolor dolor qui rerum laudantium ex amet sint', 45, 0, '2014-10-22', 0, '', 1, '2025-11-05 21:51:20', '2025-11-05 21:51:20'),
+(5, 20203494, 0, 'Bernard Malone', 'Esse dolore mollit vero pariatur Possimus quis nisi qui qui eaque sunt et ut cupidatat fugit', 12, 0, '1991-09-06', 0, '', 2, '2025-11-05 22:10:09', '2025-11-05 22:10:09'),
+(6, 20203210, 0, 'Marshall Sullivan', 'Veniam quo adipisci est reprehenderit minima earum explicabo Maxime et omnis quis rerum aut amet quo quo distinctio Voluptas fuga', 29, 0, '2023-05-15', 0, '', 2, '2025-11-05 23:00:26', '2025-11-05 23:00:26'),
+(7, 20205024, 0, 'Callie Fisher', 'Est assumenda voluptatem atque est aliquip doloremque labore dolor ut assumenda rem praesentium', 47, 1, '1980-04-12', 0, '', 1, '2025-11-05 23:01:19', '2025-11-05 23:01:19'),
+(8, 20204690, 0, 'Ciaran Anthony', 'Voluptatem Vel non consequat Itaque eaque voluptatem est ut', 41, 2, '1991-08-01', 0, '', 3, '2025-11-05 23:03:45', '2025-11-05 23:03:45'),
+(9, 20209158, 0, 'Evelyn Harrison', 'Non nemo ratione ea quo esse voluptates esse aut voluptas aliquip dolorum aut adipisci veritatis pariatur Fugit ut id', 61, 0, '2013-06-26', 1, '', 3, '2025-11-05 23:41:59', '2025-11-05 23:44:47'),
+(10, 20209490, 0, 'Olga Maxwell', 'Aliqua Quae eu sapiente velit sit elit id', 46, 0, '2011-07-01', 1, '', 3, '2025-11-05 23:42:28', '2025-11-05 23:44:42'),
+(11, 20209480, 0, 'Ferdinand Washington', 'Harum hic sint sed consequatur architecto accusamus necessitatibus corporis quia necessitatibus dignissimos', 77, 1, '2016-09-08', 1, '', 3, '2025-11-05 23:44:08', '2025-11-05 23:44:08');
 
 -- --------------------------------------------------------
 
@@ -99,21 +119,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `user_id`, `first_name`, `middle_name`, `last_name`, `suffix`, `email_address`, `hoa_number`, `phone_number`, `age`, `date_of_birth`, `citizenship`, `civil_status`, `account_status`, `home_address`, `lot_number`, `block_number`, `phase_number`, `village_name`, `date_created`, `date_updated`) VALUES
-(16, 2, 20257108, 'Isabelle', 'Rebecca Briggs', 'Jones', '0', 'tywuly@mailinator.com', 750, '+639917137979', 63, '2003-05-17', 'Perferendis sunt sit', 'Annulled', 0, 'Eum ea id saepe adi', 435, 557, 191, 'Hiram Hickman', '2025-11-05', '2025-11-05'),
-(18, 2, 20255472, 'Isabelle', 'Rebecca Briggs', 'Jones', '0', 'tywuly@mailinator.com', 750, '+639917137979', 63, '2003-05-17', 'Perferendis sunt sit', 'Annulled', 0, 'Eum ea id saepe adi', 435, 557, 191, 'Hiram Hickman', '2025-11-05', '2025-11-05'),
-(19, 2, 20258055, 'Nadine', 'Erin Morgan', 'Richards', '0', 'jyrydo@mailinator.com', 362, '+639917137979', 34, '1997-10-10', 'Velit dolorem quos r', 'Widowed', 0, 'Anim architecto veni', 239, 264, 513, 'Salvador Sellers', '2025-11-05', '2025-11-05'),
-(21, 2, 20254331, 'Maxine', 'McKenzie Villarreal', 'Levy', '0', 'sysedib@mailinator.com', 388, '+639917137979', 52, '1979-04-08', 'Et voluptatem Conse', 'Annulled', 0, 'Enim molestiae ullam', 601, 713, 394, 'Scott Holman', '2025-11-05', '2025-11-05'),
-(25, 2, 20255137, 'Kylynn', 'Marshall Blackwell', 'Mcgowan', 'Cedric Briggs', 'lumyve@mailinator.com', 0, '+639917137979', 43, '1983-06-11', 'Non voluptatem archi', 'Single', 0, 'Est laudantium veri', 666, 890, 560, 'Remedios Parks', '2025-11-05', '2025-11-05'),
-(26, 2, 20257915, 'Thaddeus', 'Malcolm King', 'Austin', 'Ivor Harvey', 'xetasuwobe@mailinator.com', 0, '+639917137979', 54, '1982-09-30', 'Dolor ut blanditiis ', 'Single', 0, 'Voluptatibus fugiat ', 353, 496, 430, 'Nathan Curtis', '2025-11-05', '2025-11-05'),
-(29, 6, 20258319, 'Simon', 'Raya Avery', 'Johnston', 'Mira Vaughn', 'botur@mailinator.com', 330, '+639+1 (896) 606-4244', 26, '1980-03-07', 'Nisi nulla maiores e', 'married', 0, NULL, 487, 275, 4, 'Bruce Huber', '2025-11-05', '2025-11-05'),
-(31, 4, 20257130, 'Zeus', 'Sierra', 'Fatima', 'Hammett', 'rixefudobi@mailinator.com', 0, '+639Alfreda', 199, '2025-01-19', 'Maris', 'Annulled', 2, 'Axel', 0, 0, 4, 'Jacob', '2025-11-05', '2025-11-05'),
-(32, 3, 20251311, 'Tanner', 'Vladimir Love', 'Flowers', 'Ivor Guerrero', 'jalilikiwo@mailinator.com', 0, '+639171379796', 64, '2009-12-29', 'Culpa ut placeat q', 'Divorced', 1, 'Ipsam aliquip expedi', 3, 177, 275, 'Wilma Edwards', '2025-11-05', '2025-11-05'),
-(33, 6, 202510852, 'Elizabeth', 'Timothy Moody', 'Hernandez', 'Victoria Cook', 'bexy@mailinator.com', 188, '+639+1 (375) 133-8027', 18, '2009-09-28', 'Omnis voluptatum cup', '1', 0, NULL, 83, 781, 4, 'Kasper Mcgowan', '2025-11-05', '2025-11-05'),
-(34, 6, 20257767, 'Charles', 'Colt Phillips', 'Wagner', 'Mikayla Baker', 'gizaqa@mailinator.com', 99, '+639+1 (543) 218-8555', 18, '1982-06-23', 'Quaerat in enim omni', '2', 0, NULL, 645, 540, 2, 'Hasad Griffin', '2025-11-05', '2025-11-05'),
-(35, 6, 202510583, 'Tamara', 'Signe Contreras', 'Bray', 'Quinlan Jones', 'dubisu@mailinator.com', 481, '+639+1 (122) 766-8358', 100, '1972-08-23', 'Nemo sed in recusand', '2', 0, NULL, 692, 943, 1, 'Cheryl Fisher', '2025-11-05', '2025-11-05'),
-(36, 6, 20253956, 'Amir', 'Natalie Byrd', 'Rosa', 'Kareem Thompson', 'powapoji@mailinator.com', 98, '+639+1 (148) 238-6787', 91, '1994-06-16', 'Quis odit culpa sed ', 'widowed', 1, NULL, 684, 63, 2, 'Pascale Mosley', '2025-11-05', '2025-11-05'),
-(37, 6, 20253308, 'mathew', 'Althea Carter', 'Vega', 'Darryl Moss', 'xobyhuwiju@mailinator.com', 678, '+6391 (955) 232-6483', 21, '2014-05-05', 'Iste quia rerum anim', 'Single', 1, '', 874, 564, 2, 'Hilda Strong', '2025-11-05', '2025-11-05'),
-(38, 6, 20257587, 'mathew', 'Althea Carter', 'Vega', 'Darryl Moss', 'xobyhuwiju@mailinator.com', 678, '+6391 (955) 232-6483', 21, '2014-05-05', 'Iste quia rerum anim', 'Married', 1, '', 874, 564, 2, 'Hilda Strong', '2025-11-05', '2025-11-05');
+(39, 2, 20254061, 'Mechelle', 'Vielka Farrell', 'Palmer', 'Veronica Wheeler', 'verovalut@mailinator.com', 0, '+639917385959', 29, '1997-05-05', 'Deserunt tempora rep', 'Divorced', 1, 'Excepturi pariatur ', 310, 653, 145, 'Juliet Holland', '2025-11-05', '2025-11-05'),
+(40, 3, 20251458, 'Halee', 'Omar White', 'Oneill', 'Judah Barlow', 'cibawu@mailinator.com', 0, '+639917137979', 59, '2009-09-20', 'In nulla labore expe', 'Annulled', 1, 'Exercitation do susc', 857, 699, 555, 'Levi Deleon', '2025-11-05', '2025-11-05'),
+(41, 4, 20256086, 'Kelly', 'Ulric Mckee', 'Horn', 'Keegan Flores', 'wagecab@mailinator.com', 0, '+639173797931', 60, '1973-10-24', 'Ut in est molestiae', 'Widowed', 1, 'Numquam sit ea ut qu', 150, 392, 403, 'Liberty Bolton', '2025-11-05', '2025-11-05'),
+(42, 4, 20258505, 'Steven', 'Abra', 'Desiree', 'Lynn', 'byferulap@mailinator.com', 0, '+639Indigo', 179, '2024-09-20', 'Dawn', 'Married', 1, 'Mary', 0, 0, 0, 'Preston', '2025-11-05', '2025-11-05'),
+(43, 2, 20251709, 'Shannon', 'Holmes Walter', 'Tran', 'Julie Daugherty', 'verovalut@mailinator.com', 0, '+639312331233', 47, '2023-04-18', 'Amet accusantium op', 'Annulled', 1, 'Odit ullamco volupta', 871, 481, 590, 'Noelani Mcguire', '2025-11-05', '2025-11-05'),
+(44, 6, 20255661, 'Sonia', 'Jakeem Hopkins', 'Wheeler', 'Victor Kinney', 'betogix@mailinator.com', 778, '+6391 (499) 918-5992', 90, '2019-09-19', 'Perspiciatis nostru', 'Widowed', 1, '', 204, 350, 2, 'Lucian Miranda', '2025-11-05', '2025-11-05'),
+(45, 6, 20257123, 'Fritz', 'Addison Curtis', 'Bean', 'Josephine Brennan', 'nygiv@mailinator.com', 190, '+639+639823172321', 34, '1998-04-06', 'Sed tempor dolore te', 'married', 1, NULL, 897, 485, 4, 'Gemma Kane', '2025-11-05', '2025-11-05');
 
 --
 -- Indexes for dumped tables
@@ -148,7 +160,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `fee_type`
 --
 ALTER TABLE `fee_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -160,7 +172,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Constraints for dumped tables

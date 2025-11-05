@@ -1,3 +1,14 @@
+<?php
+
+include('../../connection/connection.php'); 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+session_start();
+$user_id = $_SESSION['user_id'];
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -294,10 +305,13 @@
                       Amount
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
+                      Status of Approval
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Start Date
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
@@ -305,72 +319,59 @@
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                  <tr data-fee-id="FEE002">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm font-medium text-gray-900">Monthly Dues Fee</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">₱50</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                        Pending
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">2025-09-01</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button onclick="openEditFeeModal('FEE002', 'Monthly Dues Fee', 'General monthly HOA fee', '50', 'pending', '2025-05-01 09:00 AM', 'Maria Santos', '', '2025-09-01')"
-                        class="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700">
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                  <tr data-fee-id="FEE001">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm font-medium text-gray-900">Monthly Dues Fee</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">₱25</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">2025-06-01</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button onclick="openEditFeeModal('FEE001', 'Monthly Dues Fee', 'Settle your monthly HOA fee', '25', 'active', '2025-03-01 09:00 AM', 'Maria Santos', 'Kendall Jenner', '2025-06-01')"
-                        class="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700">
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                  <tr data-fee-id="FEE000">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm font-medium text-gray-900">Monthly Dues Fee</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">₱20</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                        Inactive
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">2025-03-01</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button onclick="openEditFeeModal('FEE000', 'Monthly Dues Fee', 'Settle your monthly HOA fee', '20', 'inactive', '2025-01-01 10:30 AM', 'Maria Santos', 'Kendall Jenner', '2025-03-01')"
-                        class="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700">
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
+                 <?php
+
+                  $sql_fee_type = "SELECT * FROM fee_type";
+                  $run_sql_fee_type = mysqli_query($conn, $sql_fee_type);
+
+                  if(mysqli_num_rows($run_sql_fee_type) > 0){
+                    while($row_fee_type = mysqli_fetch_assoc($run_sql_fee_type)){
+                      ?>
+                      <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <?php echo $row_fee_type['fee_name']; ?>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          ₱ <?php echo number_format($row_fee_type['amount'], 2); ?>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <?php 
+                            if($row_fee_type['approved'] == 1){
+                              echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Approved</span>';
+                            } elseif($row_fee_type['approved'] == 2){
+                              echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>';
+                            } elseif($row_fee_type['approved'] == 3){
+                              echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>';
+                            } else {
+                              echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Unknown</span>';
+                            }
+                          ?>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <?php echo date('F d, Y', strtotime($row_fee_type['start_date'])); ?>
+                        </td>
+                        <td>
+                          <?php 
+                            if($row_fee_type['is_active'] == 1){
+                              echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>';
+                            } else {
+                              echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Inactive</span>';
+                            }
+                          ?>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <?php if($row_fee_type['approved'] == 1): ?>
+                            <span class="text-gray-400 cursor-not-allowed">Edit</span>
+                          <?php else: ?>
+                            <a href="edit-fee-type.php?fee_type_id=<?php echo $row_fee_type['fee_type_id']; ?>" class="text-blue-600 hover:text-blue-800">Edit</a>
+                          <?php endif; ?>
+                        </td>
+                      </tr>
+                      <?php
+                    }
+                  }
+
+                  ?>
                 </tbody>
               </table>
             </div>
@@ -390,97 +391,57 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="add-fee-form" class="space-y-3">
+        <form id="add-fee-form" class="space-y-3" method="POST" action="../../Query/create-fee-type.php">
           <div>
             <label for="fee-name">Fee Name</label>
-            <input type="text" id="fee-name" name="fee-name" maxlength="50" required />
+            <input type="text" id="fee-name" name="fee_name" required />
           </div>
           <div>
             <label for="fee-description">Description</label>
-            <textarea id="fee-description" name="fee-description" rows="3" maxlength="200" required></textarea>
+            <textarea id="fee-description" name="description" rows="3" maxlength="200" required></textarea>
           </div>
           <div>
             <label for="fee-amount">Amount (₱)</label>
-            <input type="number" id="fee-amount" name="fee-amount" min="1" step="1" required />
+            <input type="number" id="fee-amount" name="amount" min="1" step="1" required />
           </div>
+
+          <div>
+            <label for="fee-cadence">Cadence</label>
+            <select name="cadence" id="fee-cadence">
+              <option value="">Select cadence</option>
+              <option value="1">Monthly</option>
+              <option value="2">One-Time</option>
+            </select>
+          </div>
+
           <div>
             <label for="fee-start-date">Start Date</label>
-            <input type="date" id="fee-start-date" name="fee-start-date" required />
+            <input type="date" id="fee-start-date" name="start_date" required>
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" onclick="closeAddFeeModal()" class="cancel-btn">Cancel</button>
-        <button type="submit" form="add-fee-form" class="save-btn">Save Fee</button>
-      </div>
-    </div>
-  </div>
 
-  <!-- Edit Fee Modal -->
-  <div id="editFeeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="edit-fee-title">
-    <div class="edit-modal-content">
-      <div class="modal-header">
-        <h3 id="edit-fee-title">Edit Fee</h3>
-        <button onclick="closeEditFeeModal()" aria-label="Close">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="edit-fee-form" class="space-y-4">
-          <input type="hidden" id="edit-fee-id" name="fee-id" />
           <div>
-            <label for="edit-fee-name">Fee Name</label>
-            <input type="text" id="edit-fee-name" name="fee-name" maxlength="50" required />
-          </div>
-          <div>
-            <label for="edit-fee-description">Description</label>
-            <textarea id="edit-fee-description" name="fee-description" rows="3" maxlength="200" required></textarea>
-          </div>
-          <div>
-            <label for="edit-fee-amount">Amount (₱)</label>
-            <input type="number" id="edit-fee-amount" name="fee-amount" min="1" step="1" required />
-          </div>
-          <div>
-            <label for="edit-fee-start-date">Start Date</label>
-            <input type="date" id="edit-fee-start-date" name="fee-start-date" required />
-          </div>
-          <div>
-            <label for="edit-fee-secretary">Created By</label>
-            <input type="text" id="edit-fee-secretary" name="fee-secretary" value="Secretary" readonly />
-          </div>
-          <div>
-            <label for="edit-fee-date-time">Date & Time</label>
-            <input type="text" id="edit-fee-date-time" name="fee-date-time" readonly />
-          </div>
-          <div>
-            <label for="edit-fee-status">Status</label>
-            <select id="edit-fee-status" name="fee-status" disabled>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-              <option value="pending">Pending</option>
+            <label for="">Active</label>
+            <select name="active" id="">
+              <option value="">Select</option>
+              <option value="1">Active</option>
+              <option value="0">Inactive</option>
             </select>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" onclick="closeEditFeeModal()" class="cancel-btn">Cancel</button>
-        <button type="submit" form="edit-fee-form" class="save-btn" id="edit-fee-save-btn">Save Changes</button>
+        <button type="button" onclick="closeAddFeeModal()" class="cancel-btn">Cancel</button>
+        <button type="submit" name="create_fee_type" form="add-fee-form" class="save-btn">Save Fee</button>
       </div>
     </div>
   </div>
 
-  <script>
-    function validateStartDate(dateInput) {
-      const selectedDate = new Date(dateInput.value);
-      if (selectedDate.getDate() !== 1) {
-        alert('Start date must be the first day of the month (e.g., 2025-09-01)');
-        dateInput.value = '';
-        return false;
-      }
-      return true;
-    }
+  <!-- Edit Fee Modal -->
+    </div>
+  </div>
 
-    // Add Fee Modal
+<script>
+   
     window.openAddFeeModal = function() {
       document.getElementById('add-fee-form').reset();
       
@@ -493,140 +454,17 @@
       document.body.classList.remove('overflow-hidden');
     };
 
-    document.getElementById('add-fee-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('fee-name').value.trim();
-      const description = document.getElementById('fee-description').value.trim();
-      const amount = parseInt(document.getElementById('fee-amount').value);
-      const startDate = document.getElementById('fee-start-date').value;
-      const status = 'pending';
-
-      if (!validateStartDate(document.getElementById('fee-start-date'))) {
-        return;
-      }
-
-      if (name.length < 3) {
-        alert('Fee name must be at least 3 characters long.');
-        return;
-      }
-      if (amount < 1) {
-        alert('Amount must be at least ₱1.');
-        return;
-      }
-
-      // Generate a new fee ID
-      const feeId = 'FEE' + (Math.floor(Math.random() * 10000)).toString().padStart(4, '0');
-
-      // Add new row to the table at the correct position
-      const tbody = document.querySelector('tbody');
-      const row = document.createElement('tr');
-      row.setAttribute('data-fee-id', feeId);
-      row.innerHTML = `
-        <td class="px-6 py-4 whitespace-nowrap">
-          <div class="text-sm font-medium text-gray-900">${name}</div>
-        </td>
-        <td class="px-6 py-4 whitespace-nowrap">
-          <div class="text-sm text-gray-900">₱${amount}</div>
-        </td>
-        <td class="px-6 py-4 whitespace-nowrap">
-          <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-            Pending
-          </span>
-        </td>
-        <td class="px-6 py-4 whitespace-nowrap">
-          <div class="text-sm text-gray-900">${startDate}</div>
-        </td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-          <button onclick="openEditFeeModal('${feeId}', '${name}', '${description}', '${amount}', '${status}', '', 'Secretary', '', '${startDate}')"
-            class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-700">
-            Edit
-          </button>
-        </td>
-      `;
-
-      // Sort and insert row
-      const rows = Array.from(tbody.querySelectorAll('tr'));
-      const newDate = new Date(startDate);
-      let inserted = false;
-      for (let i = 0; i < rows.length; i++) {
-        const rowDate = new Date(rows[i].cells[3].querySelector('div').textContent);
-        if (newDate > rowDate) {
-          tbody.insertBefore(row, rows[i]);
-          inserted = true;
-          break;
-        }
-      }
-      if (!inserted) {
-        tbody.appendChild(row);
-      }
-
-      alert('Fee added successfully!');
-      closeAddFeeModal();
-    });
-
-    // Edit Fee Modal
-    window.openEditFeeModal = function(feeId, name, description, amount, status, timestamp, secretary, approvedBy, startDate = '') {
-      document.getElementById('edit-fee-id').value = feeId;
-      document.getElementById('edit-fee-name').value = name;
-      document.getElementById('edit-fee-description').value = description;
-      document.getElementById('edit-fee-amount').value = amount;
-      document.getElementById('edit-fee-start-date').value = startDate;
-      document.getElementById('edit-fee-secretary').value = 'Secretary';
-      document.getElementById('edit-fee-date-time').value = timestamp;
-      
-      const statusSelect = document.getElementById('edit-fee-status');
-      statusSelect.value = status;
-
-      document.getElementById('editFeeModal').classList.remove('hidden');
-      document.body.classList.add('overflow-hidden');
-    };
-
-    window.closeEditFeeModal = function() {
-      document.getElementById('editFeeModal').classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
-    };
-
-    document.getElementById('edit-fee-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const feeId = document.getElementById('edit-fee-id').value;
-      const name = document.getElementById('edit-fee-name').value;
-      const description = document.getElementById('edit-fee-description').value;
-      const amount = document.getElementById('edit-fee-amount').value;
-      const startDate = document.getElementById('edit-fee-start-date').value;
-      const status = document.getElementById('edit-fee-status').value;
-      const timestamp = document.getElementById('edit-fee-date-time').value;
-
-      if (!validateStartDate(document.getElementById('edit-fee-start-date'))) {
-        return;
-      }
-
-      // Update the table row
-      const row = document.querySelector(`tr[data-fee-id="${feeId}"]`);
-      if (row) {
-        row.cells[0].querySelector('div').textContent = name;
-        row.cells[1].querySelector('div').textContent = `₱${amount}`;
-        const statusSpan = row.cells[2].querySelector('span');
-        statusSpan.textContent = status.charAt(0).toUpperCase() + status.slice(1);
-        statusSpan.className = `px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-          status === 'active' ? 'bg-green-100 text-green-800' :
-          status === 'inactive' ? 'bg-red-100 text-red-800' :
-          'bg-yellow-100 text-yellow-800'
-        }`;
-        row.cells[3].querySelector('div').textContent = startDate;
-        row.cells[4].querySelector('button').setAttribute('onclick', `openEditFeeModal('${feeId}', '${name}', '${description}', '${amount}', '${status}', '', 'Secretary', '', '${startDate}')`);
-      }
-
-      alert('Fee updated successfully!');
-      closeEditFeeModal();
-    });
-
+        
     document.getElementById('fee-start-date').addEventListener('change', function() {
-      validateStartDate(this);
+      const cadence = document.getElementById('fee-cadence').value;
+      const selectedDate = new Date(this.value);
+
+      if (cadence === '1' && selectedDate.getDate() !== 1) {
+        alert('Please select the first day of the month only.');
+        this.value = '';
+      }
     });
     
-    document.getElementById('edit-fee-start-date').addEventListener('change', function() {
-      validateStartDate(this);
-    });
-  </script>
+</script>
 </body>
 </html>
