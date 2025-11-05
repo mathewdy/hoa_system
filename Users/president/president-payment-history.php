@@ -142,7 +142,7 @@
           <i class="fas fa-tachometer-alt mr-3"></i>
           <span>Dashboard</span>
         </a>
-        <a href="president-create-accounts.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="president-accounts.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-user-gear mr-3"></i>
           <span>Admin Management</span>
         </a>
