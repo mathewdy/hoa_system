@@ -274,16 +274,25 @@ error_reporting(E_ALL);
                         <?php echo $row_accounts['email_address']; ?>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          Active
-                        </span>
+                          <?php 
+                            if($row_accounts['account_status'] == 1){
+                              $statusClass = "bg-green-100 text-green-800";
+                              $statusText = "Active";
+                            } else {
+                              $statusClass = "bg-gray-200 text-gray-700";
+                              $statusText = "Inactive";
+                            }
+                          ?>
+                          <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?php echo $statusClass; ?>">
+                            <?php echo $statusText; ?>
+                          </span>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                         <a href="president-edit-accounts.php?user_id=<?php echo $row_accounts['user_id']; ?>"
                           class="text-indigo-600 hover:text-indigo-900">
                           Edit
                         </a>
-                        <a href="../../Query/delete-account.php?user_id=<?php echo $row_accounts['user_id']; ?>" onclick="return confirm('Are you sure you want to delete this account?')" class="text-red-600 hover:text-red-900">Delete</a>
+                        <!-- <a href="../../Query/delete-account.php?user_id=<?php echo $row_accounts['user_id']; ?>" onclick="return confirm('Are you sure you want to delete this account?')" class="text-red-600 hover:text-red-900">Delete</a> -->
 
                       </td>
 
@@ -384,6 +393,15 @@ error_reporting(E_ALL);
                 <option value="Annulled">Annulled</option>
               </select>
             </div>
+            <div>
+              <label for="sec-relationship-status" class="block text-sm font-medium text-gray-700">Status</label>
+              <select name="account_status" id="sec-relationship-status"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required>
+                <option value="" disabled selected>Select status</option>
+                <option value="1">Active</option>
+                <option value="2">Inactive</option>
+              </select>
+            </div>
             <div class="sm:col-span-2">
               <label for="sec-home-address" class="block text-sm font-medium text-gray-700">Home Address</label>
               <input type="text" name="home_address" id="sec-home-address" placeholder="Enter home address"
@@ -427,7 +445,7 @@ error_reporting(E_ALL);
 
   <!-- Edit Secretary Account Modal -->
   <!-- updated edit modal to match add admin modal design and content -->
-  <div id="edit-secretary-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+  <!-- <div id="edit-secretary-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl max-h-screen overflow-y-auto">
       <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
         <h3 id="edit-modal-title" class="text-lg font-medium text-gray-900">Edit Admin Account</h3>
@@ -506,6 +524,15 @@ error_reporting(E_ALL);
                 <option value="Annulled">Annulled</option>
               </select>
             </div>
+            <div>
+              <label for="" class="block text-sm font-medium text-gray-700">Civil Status</label>
+              <select name="account_status" id=""
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required>
+                <option value="" disabled>Select status</option>
+                <option value="1">Active</option>
+                <option value="2">Inactive</option>
+              </select>
+            </div>
             <div class="sm:col-span-2">
               <label for="edit-home-address" class="block text-sm font-medium text-gray-700">Home Address</label>
               <input type="text" name="home-address" id="edit-home-address" placeholder="Enter home address"
@@ -549,7 +576,7 @@ error_reporting(E_ALL);
               class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
               Save Changes
             </button>
-          </div>
+          </div> -->
         </form>
       </div>
     </div>

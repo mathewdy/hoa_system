@@ -26,6 +26,7 @@ if(isset($_POST['create_account'])){
   $phase_number = $_POST['phase_number'];
   $village_name = $_POST['village_name'];
   $hoa_number = NULL;
+  $account_status = $_POST['account_status'];
   
 
   if($role == 'Secretary'){
@@ -40,7 +41,7 @@ if(isset($_POST['create_account'])){
     $new_role = '6';
   }
 
-  $sql_create_account = "INSERT INTO users (role_id,user_id,first_name, middle_name, last_name, suffix, email_address,hoa_number, phone_number, age , date_of_birth, citizenship, civil_status, home_address, lot_number, block_number, phase_number, village_name, date_created,date_updated) VALUES ('$new_role', '$user_id', '$first_name', '$middle_name', '$last_name', '$name_suffix', '$email', '$hoa_number','$phone', '$age','$date_of_birth', '$citizenship', '$civil_status', '$home_address', '$lot_number', '$block_number', '$phase_number', '$village_name', NOW(), NOW())";
+  $sql_create_account = "INSERT INTO users (role_id,user_id,first_name, middle_name, last_name, suffix, email_address,hoa_number, phone_number, age , date_of_birth, citizenship, civil_status,account_status, home_address, lot_number, block_number, phase_number, village_name, date_created,date_updated) VALUES ('$new_role', '$user_id', '$first_name', '$middle_name', '$last_name', '$name_suffix', '$email', '$hoa_number','$phone', '$age','$date_of_birth', '$citizenship', '$civil_status', '$account_status', '$home_address', '$lot_number', '$block_number', '$phase_number', '$village_name', NOW(), NOW())";
   $run_sql_create_account = mysqli_query($conn, $sql_create_account);
 
     if(!$run_sql_create_account){
@@ -76,9 +77,10 @@ if(isset($_POST['create_account_admin'])){
   $phase_number = $_POST['phase_number'];
   $village_name = $_POST['village_name'];
   $hoa_number = $_POST['hoa_number'];
+  $account_status = $_POST['account_status'];
   
 
-  $sql_create_account = "INSERT INTO users (role_id,user_id,first_name, middle_name, last_name, suffix, email_address,hoa_number, phone_number, age , date_of_birth, citizenship, civil_status, home_address, lot_number, block_number, phase_number, village_name, date_created,date_updated) VALUES ('$role', '$user_id', '$first_name', '$middle_name', '$last_name', '$name_suffix', '$email', '$hoa_number','$phone', '$age','$date_of_birth', '$citizenship', '$civil_status', NULL, '$lot_number', '$block_number', '$phase_number', '$village_name', NOW(), NOW())";
+  $sql_create_account = "INSERT INTO users (role_id,user_id,first_name, middle_name, last_name, suffix, email_address,hoa_number, phone_number, age , date_of_birth, citizenship, civil_status,account_status, home_address, lot_number, block_number, phase_number, village_name, date_created,date_updated) VALUES ('$role', '$user_id', '$first_name', '$middle_name', '$last_name', '$name_suffix', '$email', '$hoa_number','$phone', '$age','$date_of_birth', '$citizenship', '$civil_status', '$account_status',NULL, '$lot_number', '$block_number', '$phase_number', '$village_name', NOW(), NOW())";
   $run_sql_create_account = mysqli_query($conn, $sql_create_account);
 
     if(!$run_sql_create_account){
