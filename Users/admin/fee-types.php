@@ -360,11 +360,26 @@ $user_id = $_SESSION['user_id'];
                           ?>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <?php if($row_fee_type['approved'] == 1): ?>
-                            <span class="text-gray-400 cursor-not-allowed">Edit</span>
-                          <?php else: ?>
-                            <a href="edit-fee-type.php?fee_type_id=<?php echo $row_fee_type['fee_type_id']; ?>" class="text-blue-600 hover:text-blue-800">Edit</a>
-                          <?php endif; ?>
+                            
+                          <?php
+
+                            if($row_fee_type['approved'] == 3){
+                              ?>
+                              <a href="edit-fee-type.php?fee_type_id=<?php echo $row_fee_type['fee_type_id']; ?>" class="text-blue-600 hover:text-blue-800 mr-4">Edit</a>
+                              <?php //pending
+                            }elseif($row_fee_type['approved'] == 2){
+                              ?>
+                              <a href="reapprove-fee-type.php?fee_type_id=<?php echo $row_fee_type['fee_type_id']; ?>" class="text-blue-600 hover:text-blue-800 mr-4">Edit</a>
+                              <?php //rejected
+                            }else{
+                              ?>
+                              <a href="approve-fee-type.php?fee_type_id=<?php echo $row_fee_type['fee_type_id']; ?>" class="text-blue-600 hover:text-blue-800 mr-4">Edit</a>
+                              <?php //approved
+                            }
+
+                          ?>
+                         
+                          
                         </td>
                       </tr>
                       <?php

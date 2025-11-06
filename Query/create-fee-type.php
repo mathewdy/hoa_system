@@ -14,7 +14,7 @@ if(isset($_POST['create_fee_type'])){
     $amount = $_POST['amount'];
     $cadence = $_POST['cadence'];
     $start_date = $_POST['start_date'];
-    $user_id = $_SESSION['user_id'];
+    $user_id = '202540617'; //session user id
     $remarks =  NULL;
     $approved = 3; //pending
     $active = $_POST['active'];

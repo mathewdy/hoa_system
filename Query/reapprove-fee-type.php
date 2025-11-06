@@ -15,7 +15,7 @@ if(isset($_POST['fee_type_id'])){
     $start_date = $_POST['start_date'];
     $active = $_POST['active'];
 
-    $sql_update_fee_type = "UPDATE fee_type SET fee_name='$fee_name', description='$description', amount='$amount', cadence='$cadence', start_date='$start_date', is_active='$active', datetime_updated=NOW() WHERE fee_type_id='$fee_type_id'";
+    $sql_update_fee_type = "UPDATE fee_type SET fee_name='$fee_name', approved = 3, description='$description', amount='$amount', cadence='$cadence', start_date='$start_date', is_active='$active', datetime_updated=NOW() WHERE fee_type_id='$fee_type_id'";
     $run_sql_update_fee_type = mysqli_query($conn, $sql_update_fee_type);
 
       if(!$run_sql_update_fee_type){

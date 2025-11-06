@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2025 at 04:47 PM
+-- Generation Time: Nov 06, 2025 at 05:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,17 +48,15 @@ CREATE TABLE `fee_type` (
 --
 
 INSERT INTO `fee_type` (`id`, `fee_type_id`, `user_id`, `fee_name`, `description`, `amount`, `cadence`, `start_date`, `is_active`, `remarks`, `approved`, `datetime_created`, `datetime_updated`) VALUES
-(1, 123, 0, 'Mari Mcfadden', '', 0, 1, '0000-00-00', 0, '', 3, '2025-11-05 21:33:38', '2025-11-05 21:33:38'),
-(2, 456, 0, 'Brett Atkinson', 'Duis anim nostrum numquam obcaecati dolore vel ad assumenda natus', 95, 0, '1979-05-13', 0, '', 3, '2025-11-05 21:34:24', '2025-11-05 21:34:24'),
-(3, 789, 0, 'Brett Atkinson', 'Duis anim nostrum numquam obcaecati dolore vel ad assumenda natus', 95, 0, '1979-05-13', 0, '', 3, '2025-11-05 21:34:48', '2025-11-05 21:34:48'),
-(4, 202010506, 0, 'Hedwig Yates', 'Consequat Dolor dolor qui rerum laudantium ex amet sint', 45, 0, '2014-10-22', 0, '', 1, '2025-11-05 21:51:20', '2025-11-05 21:51:20'),
-(5, 20203494, 0, 'Bernard Malone', 'Esse dolore mollit vero pariatur Possimus quis nisi qui qui eaque sunt et ut cupidatat fugit', 12, 0, '1991-09-06', 0, '', 2, '2025-11-05 22:10:09', '2025-11-05 22:10:09'),
-(6, 20203210, 0, 'Marshall Sullivan', 'Veniam quo adipisci est reprehenderit minima earum explicabo Maxime et omnis quis rerum aut amet quo quo distinctio Voluptas fuga', 29, 0, '2023-05-15', 0, '', 2, '2025-11-05 23:00:26', '2025-11-05 23:00:26'),
-(7, 20205024, 0, 'Callie Fisher', 'Est assumenda voluptatem atque est aliquip doloremque labore dolor ut assumenda rem praesentium', 47, 1, '1980-04-12', 0, '', 1, '2025-11-05 23:01:19', '2025-11-05 23:01:19'),
-(8, 20204690, 0, 'Ciaran Anthony', 'Voluptatem Vel non consequat Itaque eaque voluptatem est ut', 41, 2, '1991-08-01', 0, '', 3, '2025-11-05 23:03:45', '2025-11-05 23:03:45'),
-(9, 20209158, 0, 'Evelyn Harrison', 'Non nemo ratione ea quo esse voluptates esse aut voluptas aliquip dolorum aut adipisci veritatis pariatur Fugit ut id', 61, 0, '2013-06-26', 1, '', 3, '2025-11-05 23:41:59', '2025-11-05 23:44:47'),
-(10, 20209490, 0, 'Olga Maxwell', 'Aliqua Quae eu sapiente velit sit elit id', 46, 0, '2011-07-01', 1, '', 3, '2025-11-05 23:42:28', '2025-11-05 23:44:42'),
-(11, 20209480, 0, 'Ferdinand Washington', 'Harum hic sint sed consequatur architecto accusamus necessitatibus corporis quia necessitatibus dignissimos', 77, 1, '2016-09-08', 1, '', 3, '2025-11-05 23:44:08', '2025-11-05 23:44:08');
+(11, 20208293, 202540617, 'Nehru Ewing', 'Quo anim doloremque ut itaque maiores et pariatur Sint temporibus in repellendus Et reprehenderit', 55, 0, '2021-05-01', 0, '', 1, '2025-11-06 23:00:44', '2025-11-06 23:01:52'),
+(12, 20209303, 202540617, 'Samuel Hunt', 'Ea iure rerum deserunt odio consequat Ea unde cumque', 73, 0, '1984-11-30', 0, '', 1, '2025-11-06 23:00:48', '2025-11-06 23:06:06'),
+(13, 20206643, 202540617, 'Elaine Hampton', 'Incididunt et quo laborum distinctio Dicta quibusdam sint quaerat est qui', 29, 0, '2006-07-15', 0, '', 1, '2025-11-06 23:00:52', '2025-11-06 23:06:46'),
+(14, 20205279, 202540617, 'Charity Ferguson', 'Ut facere velit nesciunt id sunt', 55, 2, '1988-08-30', 0, '', 1, '2025-11-06 23:09:46', '2025-11-07 00:13:16'),
+(15, 20207655, 202540617, 'Jin Reed asdasdasdasdsa', 'Vel numquam eligendi nulla dolor e123123123123u error ratione voluptate minus in exercitation qui dolore', 2147483647, 2, '1985-11-11', 1, '', 1, '2025-11-06 23:09:51', '2025-11-07 00:13:39'),
+(16, 20201577, 202540617, 'Bernard Ramos', 'Odit molestiae in autem doloribus sunt ut voluptas nihil totam veniam repudiandae nisi molestias sit', 42, 0, '1977-01-02', 0, '', 1, '2025-11-06 23:09:56', '2025-11-07 00:13:50'),
+(17, 20201429, 202540617, 'Dara Cotton', 'Cumque illo ab illo illo saepe et et est ipsam veniam in consequatur Velit dolore quibusdam dolores et', 44, 1, '1983-03-10', 0, '', 1, '2025-11-06 23:12:26', '2025-11-07 00:05:45'),
+(18, 20204131, 202540617, 'Eve Dickerson', 'Ad vel esse non qui', 44, 1, '2025-11-01', 0, '', 1, '2025-11-06 23:12:44', '2025-11-07 00:12:59'),
+(19, 20206162, 202540617, 'Samson Richardson e', 'Qui edited ', 30, 0, '1987-02-18', 1, '', 1, '2025-11-06 23:19:33', '2025-11-07 00:11:18');
 
 -- --------------------------------------------------------
 
@@ -119,8 +117,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `user_id`, `first_name`, `middle_name`, `last_name`, `suffix`, `email_address`, `hoa_number`, `phone_number`, `age`, `date_of_birth`, `citizenship`, `civil_status`, `account_status`, `home_address`, `lot_number`, `block_number`, `phase_number`, `village_name`, `date_created`, `date_updated`) VALUES
-(39, 2, 20254061, 'Mechelle', 'Vielka Farrell', 'Palmer', 'Veronica Wheeler', 'verovalut@mailinator.com', 0, '+639917385959', 29, '1997-05-05', 'Deserunt tempora rep', 'Divorced', 1, 'Excepturi pariatur ', 310, 653, 145, 'Juliet Holland', '2025-11-05', '2025-11-05'),
-(40, 3, 20251458, 'Halee', 'Omar White', 'Oneill', 'Judah Barlow', 'cibawu@mailinator.com', 0, '+639917137979', 59, '2009-09-20', 'In nulla labore expe', 'Annulled', 1, 'Exercitation do susc', 857, 699, 555, 'Levi Deleon', '2025-11-05', '2025-11-05'),
+(39, 2, 202540617, 'Mechelle', 'Vielka Farrell', 'Palmer', 'Veronica Wheeler', 'verovalut@mailinator.com', 0, '+639917385959', 29, '1997-05-05', 'Deserunt tempora rep', 'Divorced', 1, 'Excepturi pariatur ', 310, 653, 145, 'Juliet Holland', '2025-11-05', '2025-11-05'),
+(40, 3, 2025406137, 'Halee', 'Omar White', 'Oneill', 'Judah Barlow', 'cibawu@mailinator.com', 0, '+639917137979', 59, '2009-09-20', 'In nulla labore expe', 'Annulled', 1, 'Exercitation do susc', 857, 699, 555, 'Levi Deleon', '2025-11-05', '2025-11-05'),
 (41, 4, 20256086, 'Kelly', 'Ulric Mckee', 'Horn', 'Keegan Flores', 'wagecab@mailinator.com', 0, '+639173797931', 60, '1973-10-24', 'Ut in est molestiae', 'Widowed', 1, 'Numquam sit ea ut qu', 150, 392, 403, 'Liberty Bolton', '2025-11-05', '2025-11-05'),
 (42, 4, 20258505, 'Steven', 'Abra', 'Desiree', 'Lynn', 'byferulap@mailinator.com', 0, '+639Indigo', 179, '2024-09-20', 'Dawn', 'Married', 1, 'Mary', 0, 0, 0, 'Preston', '2025-11-05', '2025-11-05'),
 (43, 2, 20251709, 'Shannon', 'Holmes Walter', 'Tran', 'Julie Daugherty', 'verovalut@mailinator.com', 0, '+639312331233', 47, '2023-04-18', 'Amet accusantium op', 'Annulled', 1, 'Odit ullamco volupta', 871, 481, 590, 'Noelani Mcguire', '2025-11-05', '2025-11-05'),
@@ -149,8 +147,9 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `role_id` (`role_id`,`user_id`),
-  ADD KEY `hoa_number` (`hoa_number`);
+  ADD KEY `hoa_number` (`hoa_number`),
+  ADD KEY `role_id` (`role_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -160,7 +159,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `fee_type`
 --
 ALTER TABLE `fee_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -177,6 +176,12 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `fee_type`
+--
+ALTER TABLE `fee_type`
+  ADD CONSTRAINT `fee_type_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`
