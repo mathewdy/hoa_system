@@ -1,3 +1,9 @@
+<?php
+include('../../connection/connection.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -243,6 +249,9 @@
                       Amount
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status of Approval
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       START DATE
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -254,72 +263,52 @@
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                  <tr data-fee-id="FEE002">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm font-medium text-gray-900">Monthly Dues Fee</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">₱50</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">2025-01-01</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                        Pending
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button onclick="openViewFeeModal('FEE002', 'Monthly Dues Fee', 'Settle your payment!', '50', 'pending', '2025-01-01 09:00 AM', 'Secretary', '', '2025-01-01')"
-                        class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                        View
-                      </button>
-                    </td>
-                  </tr>
-                  <tr data-fee-id="FEE001">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm font-medium text-gray-900">Monthly Dues Fee</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">₱25</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">2025-03-01</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button onclick="openViewFeeModal('FEE001', 'Monthly Dues Fee', 'Settle your payment!', '25', 'active', '2025-03-01 09:00 AM', 'Secretary', 'Kendall Jenner', '2025-03-01')"
-                        class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                        View
-                      </button>
-                    </td>
-                  </tr>
-                  <tr data-fee-id="FEE00">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm font-medium text-gray-900">Monthly Dues Fee</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">₱20</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">2025-04-01</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                        Inactive
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button onclick="openViewFeeModal('FEE00', 'Monthly Dues Fee', 'Settle your payment!', '20', 'inactive', '2025-04-01 10:30 AM', 'Secretary', 'Kendall Jenner', '2025-04-01')"
-                        class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                        View
-                      </button>
-                    </td>
-                  </tr>
+                  <?php
+
+                    $sql_fee_type = "SELECT * FROM fee_type";
+                    $run_sql_fee_type = mysqli_query($conn, $sql_fee_type);
+
+                    if(mysqli_num_rows($run_sql_fee_type) > 0){
+                      foreach($run_sql_fee_type as $row_fee_type){
+                        ?>
+                          <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              <?php echo $row_fee_type['fee_name']; ?>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              ₱<?php echo number_format($row_fee_type['amount'], 2); ?>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              <?php 
+                                if($row_fee_type['approved'] == 1){
+                                  echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Approved</span>';
+                                } elseif($row_fee_type['approved'] == 2){
+                                  echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>';
+                                } else {
+                                  echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>';
+                                }
+                              ?>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              <?php echo date('F d, Y', strtotime($row_fee_type['start_date'])); ?>
+                            </td>
+                            <td>
+                              <?php 
+                                if($row_fee_type['is_active'] == 1){
+                                  echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>';
+                                } else {
+                                  echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Inactive</span>';
+                                }
+                              ?>
+                            </td>
+                            <td>
+                              <a href="president-view-feetype.php?fee_type_id=<?php echo $row_fee_type['fee_type_id']; ?>">View</a>
+                            </td>
+                        <?php
+                      }
+                    }
+
+                  ?>
                 </tbody>
               </table>
             </div>
