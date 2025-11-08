@@ -1,5 +1,6 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "hoa_system");
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/config.php');
+$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
