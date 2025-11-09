@@ -52,7 +52,7 @@
     </div>
     <nav class="flex-1">
       <a
-        href="homeowner-dashboard.html"
+        href="homeowner-dashboard.php"
         class="flex items-center px-6 py-3 hover:bg-teal-600"
       >
         <i class="fas fa-tachometer-alt mr-3"></i>
@@ -79,14 +79,14 @@
           class="bg-teal-800"
         >
           <a
-            href="homeowner-payment.html"
+            href="homeowner-payment.php"
             class="flex items-center px-8 py-2 hover:bg-teal-600"
           >
             <i class="fas fa-wallet mr-2"></i>
             View Payments
           </a>
           <a
-            href="homeowner-history.html"
+            href="homeowner-history.php"
             class="flex items-center px-8 py-2 bg-teal-700 hover:bg-teal-700"
           >
             <i class="fas fa-history mr-2"></i>
@@ -95,27 +95,27 @@
         </div>
       </div>
 
-      <a href="homeowner-hoa-projects.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="homeowner-hoa-projects.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-gavel mr-3"></i>
         <span>Resolution</span>
       </a>
-      <a href="homeowner-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="homeowner-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-newspaper mr-3"></i>
         <span>News Feed</span>
       </a>
-      <a href="homeowner-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="homeowner-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-book mr-3"></i>
         <span>Ledger</span>
       </a>
-      <a href="homeowner-message.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="homeowner-message.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-comments mr-3"></i>
           <span>Messages</span>
       </a>
-      <a href="homeowner-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="homeowner-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-calendar-alt mr-3"></i>
           <span>Calendar</span>
       </a>
-      <a href="homeowner-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+      <a href="homeowner-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
         <i class="fas fa-user-circle mr-3"></i>
         <span>Profile</span>
     </a> 

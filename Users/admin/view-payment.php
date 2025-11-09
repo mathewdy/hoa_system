@@ -51,6 +51,7 @@ if(isset($_GET['user_id'])){
                 <label>Payment Method:</label> <span><?php echo $row_history['payment_method']; ?></span><br>
                 <label>Receipt Name:</label> <span><?php echo $row_history['payment_receipt_name']; ?></span><br>
                 <label>Remarks:</label> <span><?php echo $row_history['remarks']; ?></span><br>
+                <!-- view receipt--->
             </div>
             <?php
         }
