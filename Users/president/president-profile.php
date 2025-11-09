@@ -168,20 +168,7 @@
           <i class="fas fa-calendar-alt mr-3"></i>
           <span>Calendar</span>
         </a>
-        <a href="president-logs.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-history mr-3"></i>
-          <span>Activity Logs</span>
-        </a>
-        <a href="president-profile.php" class="flex items-center px-6 py-3 bg-teal-700">
-          <i class="fas fa-user-circle mr-3"></i>
-          <span>Profile</span>
-        </a>
       </nav>
-      <div class="px-6 py-4 mt-auto">
-        <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center justify-center">
-          <i class="fas fa-sign-out-alt mr-2"></i> Logout
-        </button>
-      </div>
     </div>
     <!--End of sidebar-->
 

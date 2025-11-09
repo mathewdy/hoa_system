@@ -64,7 +64,7 @@ function render() {
   if (users.length === 0 && !loading) {
     $tableBody.append(`
       <tr>
-        <td colspan="3" class="text-center">
+        <td colspan="5" class="text-center">
           No users found.
         </td>
       </tr>`
@@ -133,7 +133,7 @@ function render() {
     for (let i = startPage; i <= endPage; i++) {
       const active =
         i === pagination.currentPage
-          ? 'text-white bg-teal-500'
+          ? 'text-white bg-teal-500 disabled'
           : 'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700';
       $paginationList.append(`
         <li>

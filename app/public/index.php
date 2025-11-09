@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to HOAConnect</title>
+  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/page-icon.php'); ?>
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/styles.php'); ?>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -35,9 +35,6 @@
                     PROJECTS
                   </a>
                 </div>
-                <nav class="hidden md:flex space-x-4">
-                 
-                </nav>
                 <div>
                     <a 
                       href="<?= BASE_PATH . '/app/public/auth/login.php'?>" 

@@ -32,15 +32,17 @@ $sql = "SELECT
     END AS status
   FROM users u 
   LEFT JOIN roles r ON u.role_id = r.id
-  LIMIT $limit OFFSET $offset";
-$result = mysqli_query($conn, $sql);
+  LIMIT ? OFFSET ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "ii", $limit, $offset);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
 $users = [];
 while ($row = mysqli_fetch_assoc($result)) {
     $users[] = $row;
 }
 
-// Return JSON response
 echo json_encode([
     'success' => true,
     'data' => $users,

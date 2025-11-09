@@ -16,8 +16,8 @@
 
   </style>
 </head>
-<body class="bg-gray-50">
-  <div class="min-h-screen flex">
+<body class="">
+  <div class="min-h-screen flex bg-gray-50">
     <!-- Sidebar -->
     <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
       <div class="px-6 mb-8">
@@ -194,13 +194,22 @@
             <div id="dropdownBottom" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-[15rem] border border-gray-200">
                 <ul class="py-2 text-sm text-gray-600 font-medium" aria-labelledby="dropdownBottomButton">
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100" onclick="openCreateModal('Admin')" >
+                    <a 
+                      href="#" 
+                      class="item block px-4 py-2 hover:bg-gray-100" 
+                      data-modal-target="default-modal" 
+                      data-modal-toggle="default-modal"
+                      data-role-id="3"
+                      data-role-name="Admin"
+                    >
                       <i class="ri-admin-fill text-blue-400 me-2"></i>
                       Admin
                     </a>
                   </li>
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100" onclick="openCreateModal('Secretary')" >
+                    <a 
+                      href="#" 
+                      class="block px-4 py-2 hover:bg-gray-100" onclick="openCreateModal('Secretary')" >
                       <i class="ri-briefcase-4-fill text-amber-900 me-2"></i>
                       Secretary
                     </a>
@@ -266,16 +275,25 @@
     </div>
   </div>
 
-  <div id="create-secretary-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-    <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl max-h-screen overflow-y-auto">
-      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
-        <h3 id="modal-title" class="text-lg font-medium text-gray-900">Create Admin Account</h3>
-        <button id="close-create-modal" class="text-gray-400 hover:text-gray-500">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="p-6">
-        <form id="create-secretary-form" method="POST" enctype="multipart/form-data" action="../../Query/create-account.php">
+  <div 
+    id="default-modal" 
+    tabindex="-1" 
+    aria-hidden="true" 
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
+    justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+      <form id="createForm" method="POST" enctype="multipart/form-data" class="relative bg-white rounded-lg shadow-sm">
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
+          <h3 class="form-title text-xl font-semibold text-gray-900"></h3>
+          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal">
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <div class="p-4 md:p-5 space-y-4">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label for="sec-first-name" class="block text-sm font-medium text-gray-700">First Name</label>
@@ -297,11 +315,8 @@
               <input type="text" name="name_suffix" id="sec-name-suffix" placeholder="e.g., Jr., Sr."
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" />
             </div>
-            <div>
-              <label for="sec-role" class="block text-sm font-medium text-gray-700">Role</label>
-              <input type="text" name="role" id="sec-role" readonly
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-100 sm:text-sm" />
-            </div>
+            <input type="hidden" name="role" id="sec-role" readonly
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-100 sm:text-sm" />
             <div>
               <label for="sec-email" class="block text-sm font-medium text-gray-700">Email</label>
               <input type="email" name="email" id="sec-email" placeholder="Enter email address"
@@ -346,15 +361,6 @@
                 <option value="Annulled">Annulled</option>
               </select>
             </div>
-            <div>
-              <label for="sec-relationship-status" class="block text-sm font-medium text-gray-700">Status</label>
-              <select name="account_status" id="sec-relationship-status"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required>
-                <option value="" disabled selected>Select status</option>
-                <option value="1">Active</option>
-                <option value="2">Inactive</option>
-              </select>
-            </div>
             <div class="sm:col-span-2">
               <label for="sec-home-address" class="block text-sm font-medium text-gray-700">Home Address</label>
               <input type="text" name="home_address" id="sec-home-address" placeholder="Enter home address"
@@ -381,160 +387,37 @@
                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required />
             </div>
           </div>
-          <div class="mt-6 flex justify-end">
-            <button type="button" id="cancel-create-modal"
-              class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 mr-2">
-              Cancel
-            </button>
-            <button type="submit" id="create-submit-btn" name="create_account"
-              class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-              Create Account
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="flex justify-end items-center p-4 md:p-5 gap-2 border-t border-gray-200 rounded-b">
+          <button 
+            type="button" 
+            data-modal-hide="default-modal" 
+            class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg 
+            border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
+          >
+            Cancel
+          </button>
+          <button 
+            id="submitBtn" 
+            type="submit" 
+            name="create_account"
+            class="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium 
+            rounded-lg text-sm px-5 py-2.5 text-center"
+          >
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   </div>
-  <script>
-    // Sidebar functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const sidebarLinks = document.querySelectorAll('nav a');
-      const currentPath = window.location.pathname.split('/').pop();
-
-      sidebarLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
-          sidebarLinks.forEach(l => l.classList.remove('bg-teal-700', 'bg-teal-900'));
-          link.classList.add('bg-teal-700');
-        }
-
-        link.addEventListener('mouseenter', function() {
-          if (!link.classList.contains('bg-teal-700')) {
-            link.classList.add('bg-teal-600');
-          }
-        });
-
-        link.addEventListener('mouseleave', function() {
-          if (!link.classList.contains('bg-teal-700')) {
-            link.classList.remove('bg-teal-600');
-          }
-        });
-
-        link.addEventListener('click', function(e) {
-          // Stop event propagation to prevent triggering the dropdown toggle
-          e.stopPropagation();
-          if (link.getAttribute('href') === currentPath) {
-            e.preventDefault();
-            sidebarLinks.forEach(l => l.classList.remove('bg-teal-700', 'bg-teal-900'));
-            link.classList.add('bg-teal-700');
-          }
-        });
-      });
-    });
-
-    function openCreateModal(role) {
-      const modal = document.getElementById('create-secretary-modal');
-      const modalTitle = document.getElementById('modal-title');
-      const roleInput = document.getElementById('sec-role');
-      const submitBtn = document.getElementById('create-submit-btn');
-      
-      // Update modal content based on role
-      modalTitle.textContent = `Create ${role} Account`;
-      roleInput.value = role;
-      submitBtn.textContent = `Create ${role} Account`;
-      
-      modal.classList.remove('hidden');
-    }
-
-    // Update existing event listeners
-    document.getElementById('close-create-modal').addEventListener('click', function() {
-      document.getElementById('create-secretary-modal').classList.add('hidden');
-    });
-
-    document.getElementById('cancel-create-modal').addEventListener('click', function() {
-      document.getElementById('create-secretary-modal').classList.add('hidden');
-    });
-
-    window.addEventListener('click', (e) => {
-      if (e.target === document.getElementById('create-secretary-modal')) {
-        document.getElementById('create-secretary-modal').classList.add('hidden');
-      }
-    });
-
-  
-
-    // Open Edit Secretary Modal
-    function openEditModal(id, firstName, middleName, lastName, suffix, role, email, age, phone, dob, citizenship, relationshipStatus, homeAddress, lotNumber, blockNumber, phaseNumber, villageName, status) {
-      const modal = document.getElementById('edit-secretary-modal');
-      const modalTitle = document.getElementById('edit-modal-title');
-      modalTitle.textContent = `Edit ${role} Account`;
-      
-      document.getElementById('edit-first-name').value = firstName;
-      document.getElementById('edit-middle-name').value = middleName;
-      document.getElementById('edit-last-name').value = lastName;
-      document.getElementById('edit-name-suffix').value = suffix;
-      document.getElementById('edit-role').value = role;
-      document.getElementById('edit-email').value = email;
-      document.getElementById('edit-status').value = status;
-      document.getElementById('edit-age').value = age;
-      document.getElementById('edit-phone').value = phone;
-      document.getElementById('edit-dob').value = dob;
-      document.getElementById('edit-citizenship').value = citizenship;
-      document.getElementById('edit-relationship-status').value = relationshipStatus;
-      document.getElementById('edit-home-address').value = homeAddress;
-      document.getElementById('edit-lot-number').value = lotNumber;
-      document.getElementById('edit-block-number').value = blockNumber;
-      document.getElementById('edit-phase-number').value = phaseNumber;
-      document.getElementById('edit-village-name').value = villageName;
-      modal.classList.remove('hidden');
-    }
-
-    // Close Edit Secretary Modal
-    document.getElementById('close-edit-modal').addEventListener('click', () => {
-      document.getElementById('edit-secretary-modal').classList.add('hidden');
-    });
-
-    document.getElementById('cancel-edit-modal').addEventListener('click', () => {
-      document.getElementById('edit-secretary-modal').classList.add('hidden');
-    });
-
-    window.addEventListener('click', (e) => {
-      if (e.target === document.getElementById('edit-secretary-modal')) {
-        document.getElementById('edit-secretary-modal').classList.add('hidden');
-      }
-    });
-
-    // Edit Secretary Form Submission
-    document.getElementById('edit-secretary-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const status = document.getElementById('edit-status').value;
-      alert(`Changes saved successfully! Status updated to ${status.charAt(0).toUpperCase() + status.slice(1)}.`);
-      document.getElementById('edit-secretary-modal').classList.add('hidden');
-    });
-
-    function searchTable() {
-      const input = document.getElementById('search-input');
-      const filter = input.value.toUpperCase();
-      const table = document.getElementById('secretary-table');
-      const tr = table.getElementsByTagName('tr');
-
-      for (let i = 1; i < tr.length; i++) {
-        const td = tr[i].getElementsByTagName('td');
-        let txtValue = '';
-        
-        for (let j = 0; j < td.length - 1; j++) {
-          txtValue += td[j].textContent || td[j].innerText;
-        }
-        
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = '';
-        } else {
-          tr[i].style.display = 'none';
-        }
-      }
-    }
-  </script>
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/scripts.php'); ?>
-  <?php echo '<script src="'. BASE_PATH .'/assets/js/users/fetch.js"></script>'; ?>
+  <?php 
+    echo '
+      <script src="'. BASE_PATH .'/assets/js/users/fetch.js"></script>
+      <script src="'. BASE_PATH .'/assets/js/users/form.info.js"></script>
+      <script src="'. BASE_PATH .'/assets/js/users/create.js"></script>
+    '; 
+  ?>
 </body>
 </html>
 
