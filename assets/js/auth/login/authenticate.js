@@ -46,7 +46,7 @@ function showToast(type, message) {
 }
 
 function handleLogin(event) {
-  event.preventDefault(); // extra safety
+  event.preventDefault();
   const username = $('#username').val().trim();
   const password = $('#password').val().trim();
 

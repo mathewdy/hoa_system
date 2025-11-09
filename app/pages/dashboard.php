@@ -1,5 +1,6 @@
 <?php
   include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/config.php');
+  include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/connection/connection.php');
   include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/session.php');
   $id = $_SESSION['user_id'];
 ?>
@@ -135,7 +136,7 @@
         <i class="fas fa-tachometer-alt mr-3"></i>
         <span>Dashboard</span>
       </a>
-      <a href="admin-accounts.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="<?= BASE_PATH . '/app/pages/user-management/accounts.php'?>" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-users mr-3"></i>
         <span>User Management</span>
       </a>
