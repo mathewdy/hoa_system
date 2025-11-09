@@ -301,76 +301,7 @@
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
-                    <tr data-user-id="USER001">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Maria Santos</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">maria.santos@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER001', 'Maria Santos', 'maria.santos@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER002">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Juan Cruz</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">juan.cruz@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER002', 'Juan Cruz', 'juan.cruz@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER003">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Ana Reyes</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">ana.reyes@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER003', 'Ana Reyes', 'ana.reyes@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER004">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Pedro Lim</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">pedro.lim@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER004', 'Pedro Lim', 'pedro.lim@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER005">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Sofia Garcia</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">sofia.garcia@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER005', 'Sofia Garcia', 'sofia.garcia@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
+                    
                   </tbody>
                 </table>
               </div>
