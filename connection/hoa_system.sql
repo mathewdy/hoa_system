@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2025 at 05:15 PM
+-- Generation Time: Nov 09, 2025 at 02:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `hoa_system`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fee_assignation`
+--
+
+CREATE TABLE `fee_assignation` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `fee_type_id` int(11) NOT NULL,
+  `next_due` date DEFAULT NULL,
+  `is_paid` int(11) NOT NULL,
+  `payment_method` varchar(100) NOT NULL,
+  `payment_receipt_name` varchar(255) NOT NULL,
+  `remarks` varchar(255) NOT NULL,
+  `date_created` date NOT NULL,
+  `date_updated` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `fee_assignation`
+--
+
+INSERT INTO `fee_assignation` (`id`, `user_id`, `fee_type_id`, `next_due`, `is_paid`, `payment_method`, `payment_receipt_name`, `remarks`, `date_created`, `date_updated`) VALUES
+(2927, 20255661, 20207488, '2025-12-01', 1, 'Bank Transfer', 'Mathew Melendez ', '', '2025-11-09', '2025-11-09'),
+(2928, 20255661, 202010458, '2025-12-01', 1, 'Bank Transfer', 'Mathew Melendez ', '', '2025-11-09', '2025-11-09');
 
 -- --------------------------------------------------------
 
@@ -48,15 +75,12 @@ CREATE TABLE `fee_type` (
 --
 
 INSERT INTO `fee_type` (`id`, `fee_type_id`, `user_id`, `fee_name`, `description`, `amount`, `cadence`, `start_date`, `is_active`, `remarks`, `approved`, `datetime_created`, `datetime_updated`) VALUES
-(11, 20208293, 202540617, 'Nehru Ewing', 'Quo anim doloremque ut itaque maiores et pariatur Sint temporibus in repellendus Et reprehenderit', 55, 0, '2021-05-01', 0, '', 1, '2025-11-06 23:00:44', '2025-11-06 23:01:52'),
-(12, 20209303, 202540617, 'Samuel Hunt', 'Ea iure rerum deserunt odio consequat Ea unde cumque', 73, 0, '1984-11-30', 0, '', 1, '2025-11-06 23:00:48', '2025-11-06 23:06:06'),
-(13, 20206643, 202540617, 'Elaine Hampton', 'Incididunt et quo laborum distinctio Dicta quibusdam sint quaerat est qui', 29, 0, '2006-07-15', 0, '', 1, '2025-11-06 23:00:52', '2025-11-06 23:06:46'),
-(14, 20205279, 202540617, 'Charity Ferguson', 'Ut facere velit nesciunt id sunt', 55, 2, '1988-08-30', 0, '', 1, '2025-11-06 23:09:46', '2025-11-07 00:13:16'),
-(15, 20207655, 202540617, 'Jin Reed asdasdasdasdsa', 'Vel numquam eligendi nulla dolor e123123123123u error ratione voluptate minus in exercitation qui dolore', 2147483647, 2, '1985-11-11', 1, '', 1, '2025-11-06 23:09:51', '2025-11-07 00:13:39'),
-(16, 20201577, 202540617, 'Bernard Ramos', 'Odit molestiae in autem doloribus sunt ut voluptas nihil totam veniam repudiandae nisi molestias sit', 42, 0, '1977-01-02', 0, '', 1, '2025-11-06 23:09:56', '2025-11-07 00:13:50'),
-(17, 20201429, 202540617, 'Dara Cotton', 'Cumque illo ab illo illo saepe et et est ipsam veniam in consequatur Velit dolore quibusdam dolores et', 44, 1, '1983-03-10', 0, '', 1, '2025-11-06 23:12:26', '2025-11-07 00:05:45'),
-(18, 20204131, 202540617, 'Eve Dickerson', 'Ad vel esse non qui', 44, 1, '2025-11-01', 0, '', 1, '2025-11-06 23:12:44', '2025-11-07 00:12:59'),
-(19, 20206162, 202540617, 'Samson Richardson e', 'Qui edited ', 30, 0, '1987-02-18', 1, '', 1, '2025-11-06 23:19:33', '2025-11-07 00:11:18');
+(25, 20207488, 202540617, 'Cat food', 'Provident iste at est ut vero ratione eos', 51, 1, '2025-11-01', 1, '', 1, '2025-11-08 13:49:15', '2025-11-08 13:50:47'),
+(26, 202010458, 202540617, 'Dog food', 'Dicta et commodo amet architecto at sint facilis quas maxime', 8, 1, '2025-11-01', 1, '', 1, '2025-11-08 13:50:12', '2025-11-08 13:50:50'),
+(27, 20204767, 202540617, 'Hose and Lot', 'Sapiente occaecat numquam ut dolor ullamco magnam sint reprehenderit consequat Aut esse eligendi aliquam autem sed eaque dolorem earum', 48, 2, '2024-07-20', 1, '', 1, '2025-11-08 14:28:13', '2025-11-08 14:28:28'),
+(28, 20201222, 202540617, 'Pool', 'Atque ea ratione quasi perspiciatis veritatis optio commodo aut aspernatur', 57, 2, '2016-03-06', 1, '', 1, '2025-11-08 14:28:24', '2025-11-08 14:28:31'),
+(29, 20202339, 202540617, 'DinaSure', 'Odio quia incididunt qui temporibus dolores deserunt facilis sint dolor vel enim', 79, 1, '2025-01-01', 1, '', 1, '2025-11-08 14:57:40', '2025-11-08 14:57:46'),
+(30, 20201395, 202540617, 'Internet', 'Repellendus Nostrud fugiat excepteur culpa et ipsam sed sint ad sed ipsam', 99, 1, '2025-11-01', 1, '', 1, '2025-11-08 22:12:28', '2025-11-08 22:13:26');
 
 -- --------------------------------------------------------
 
@@ -80,6 +104,27 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 (4, 'Treasury '),
 (5, 'Audit'),
 (6, 'Home Owner');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `unpaid_fees`
+--
+
+CREATE TABLE `unpaid_fees` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `total_balance` decimal(10,2) NOT NULL,
+  `date_created` date NOT NULL,
+  `date_updated` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `unpaid_fees`
+--
+
+INSERT INTO `unpaid_fees` (`id`, `user_id`, `total_balance`, `date_created`, `date_updated`) VALUES
+(44, 20255661, 0.00, '2025-11-09', '2025-11-09');
 
 -- --------------------------------------------------------
 
@@ -123,24 +168,42 @@ INSERT INTO `users` (`id`, `role_id`, `user_id`, `first_name`, `middle_name`, `l
 (42, 4, 20258505, 'Steven', 'Abra', 'Desiree', 'Lynn', 'byferulap@mailinator.com', 0, '+639Indigo', 179, '2024-09-20', 'Dawn', 'Married', 1, 'Mary', 0, 0, 0, 'Preston', '2025-11-05', '2025-11-05'),
 (43, 2, 20251709, 'Shannon', 'Holmes Walter', 'Tran', 'Julie Daugherty', 'verovalut@mailinator.com', 0, '+639312331233', 47, '2023-04-18', 'Amet accusantium op', 'Annulled', 1, 'Odit ullamco volupta', 871, 481, 590, 'Noelani Mcguire', '2025-11-05', '2025-11-05'),
 (44, 6, 20255661, 'Sonia', 'Jakeem Hopkins', 'Wheeler', 'Victor Kinney', 'betogix@mailinator.com', 778, '+6391 (499) 918-5992', 90, '2019-09-19', 'Perspiciatis nostru', 'Widowed', 1, '', 204, 350, 2, 'Lucian Miranda', '2025-11-05', '2025-11-05'),
-(45, 6, 20257123, 'Fritz', 'Addison Curtis', 'Bean', 'Josephine Brennan', 'nygiv@mailinator.com', 190, '+639+639823172321', 34, '1998-04-06', 'Sed tempor dolore te', 'married', 1, NULL, 897, 485, 4, 'Gemma Kane', '2025-11-05', '2025-11-05');
+(45, 6, 20257123, 'Fritz', 'Addison Curtis', 'Bean', 'Josephine Brennan', 'nygiv@mailinator.com', 190, '+639823172321', 34, '1998-04-06', 'Sed tempor dolore te', 'Single', 1, '', 897, 485, 4, 'Gemma Kane', '2025-11-05', '2025-11-08'),
+(46, 6, 20254233, 'Tanisha', 'Francis Ortiz', 'Walters', 'Nathan Cooley', 'niruluwek@mailinator.com', 376, '+6391 (284) 999-9366', 84, '1985-12-30', 'Irure perferendis qu', 'Single', 1, '', 424, 773, 1, 'Galena Crosby', '2025-11-08', '2025-11-08'),
+(47, 6, 20252509, 'Hector', 'Kim Pierce', 'Crawford', 'Edward Taylor', 'tidoz@mailinator.com', 385, '+639+1 (696) 533-7476', 72, '1990-12-13', 'Natus et obcaecati s', 'divorced', 1, NULL, 209, 750, 2, 'Kristen Chapman', '2025-11-08', '2025-11-08');
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `fee_assignation`
+--
+ALTER TABLE `fee_assignation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`,`fee_type_id`),
+  ADD KEY `fee_type_id` (`fee_type_id`);
+
+--
 -- Indexes for table `fee_type`
 --
 ALTER TABLE `fee_type`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `fee_type_id` (`fee_type_id`);
 
 --
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `unpaid_fees`
+--
+ALTER TABLE `unpaid_fees`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -156,10 +219,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `fee_assignation`
+--
+ALTER TABLE `fee_assignation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2929;
+
+--
 -- AUTO_INCREMENT for table `fee_type`
 --
 ALTER TABLE `fee_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -168,20 +237,39 @@ ALTER TABLE `roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `unpaid_fees`
+--
+ALTER TABLE `unpaid_fees`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `fee_assignation`
+--
+ALTER TABLE `fee_assignation`
+  ADD CONSTRAINT `fee_assignation_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fee_assignation_ibfk_2` FOREIGN KEY (`fee_type_id`) REFERENCES `fee_type` (`fee_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `fee_type`
 --
 ALTER TABLE `fee_type`
   ADD CONSTRAINT `fee_type_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `unpaid_fees`
+--
+ALTER TABLE `unpaid_fees`
+  ADD CONSTRAINT `unpaid_fees_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`

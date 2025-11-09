@@ -1,3 +1,13 @@
+<?php
+
+include('../../connection/connection.php'); 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -322,14 +332,7 @@
     </header>
       <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <!-- Assignation of Monthly HOA Fee Section -->
-        <div id="fee-assignation" class="mb-8">
-          <div class="mb-4">
-            <button id="assign-fee-btn"
-              class="bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-md flex items-center shadow disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled>
-              <i class="fas fa-plus mr-2"></i> Assign Fee
-            </button>
-          </div>
+          
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-semibold text-gray-900">Assignation of Monthly HOA Fee</h2>
             <div class="flex items-center space-x-4">
@@ -349,10 +352,6 @@
                 <thead class="bg-gray-50">
                   <tr>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      <input type="checkbox" id="select-all-homeowners" class="focus:ring-teal-500 h-4 w-4 text-teal-600 border-gray-300 rounded" />
-                      SELECT ALL
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Name
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -370,91 +369,45 @@
                   </tr>
                 </thead>
                 <tbody id="homeownersTableBody" class="bg-white divide-y divide-gray-200">
-                  <tr data-hoa-id="HOA001">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <input type="checkbox" class="homeowner-checkbox focus:ring-teal-500 h-4 w-4 text-teal-600 border-gray-300 rounded" />
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">Maria Santos</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">maria.santos@example.com</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <button onclick="openUnpaidFeesModal('HOA001', 'Maria Santos')"
-                        class="view-fee-btn bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                        View
-                      </button>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                      <button onclick="openEditFeeAssignmentModal('HOA001', 'Maria Santos')"
-                        class="edit-fee-btn bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                  <tr data-hoa-id="HOA002">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <input type="checkbox" class="homeowner-checkbox focus:ring-teal-500 h-4 w-4 text-teal-600 border-gray-300 rounded" />
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">Juan Cruz</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">juan.cruz@example.com</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <button onclick="openUnpaidFeesModal('HOA002', 'Juan Cruz')"
-                        class="view-fee-btn bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                        View
-                      </button>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                      <button onclick="openEditFeeAssignmentModal('HOA002', 'Juan Cruz')"
-                        class="edit-fee-btn bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                  <tr data-hoa-id="HOA003">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <input type="checkbox" class="homeowner-checkbox focus:ring-teal-500 h-4 w-4 text-teal-600 border-gray-300 rounded" />
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">Ana Reyes</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">ana.reyes@example.com</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <button onclick="openUnpaidFeesModal('HOA003', 'Ana Reyes')"
-                        class="view-fee-btn bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                        View
-                      </button>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                        Inactive
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                      <button onclick="openEditFeeAssignmentModal('HOA003', 'Ana Reyes')"
-                        class="edit-fee-btn bg-teal-600 text-white px-2 py-1 rounded opacity-50 cursor-not-allowed"
-                        disabled>
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
+                  <?php
+                  $query_homeowners = "SELECT * FROM users WHERE role_id ='6'";
+                  $run_homeowners = mysqli_query($conn,$query_homeowners);
+
+                  if(mysqli_num_rows($run_homeowners) > 0){
+                        foreach($run_homeowners as $row_homeowners){
+                          ?>
+                        <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <?php echo $row_homeowners['first_name'] . " " . $row_homeowners['last_name']; ?>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <?php echo $row_homeowners['email_address']; ?>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <a href="admin-view-fee-assignation.php?user_id=<?php echo $row_homeowners['user_id']; ?>">View</a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <?php
+
+                          if($row_homeowners['account_status'] == 1){
+                            echo "<span class='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800'>Active</span>";
+                          } else {
+                            echo "<span class='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800'>Inactive</span>";
+                          }
+
+                          ?>
+                        </td>
+                        
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <a href="add-fee-assignation.php?user_id=<?php echo $row_homeowners['user_id']; ?>" class="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700">
+                            Edit
+                        </td>
+                      </tr>
+                      <?php
+                    }
+                  }
+
+                  ?>
                 </tbody>
               </table>
             </div>
