@@ -37,13 +37,25 @@ if(isset($_POST['mark_as_paid'])) {
                        WHERE id = '{$fee['id']}'";
         mysqli_query($conn, $update_sql);
 
-        // 2️⃣ Add to payment history
+        // 2️⃣ Generate reference number
+        // Get last ID in payment_history to generate next sequence
+        $last_ref = mysqli_query($conn, "SELECT id FROM payment_history ORDER BY id DESC LIMIT 1");
+        $last_id = 0;
+        if(mysqli_num_rows($last_ref) > 0) {
+            $last_row = mysqli_fetch_assoc($last_ref);
+            $last_id = $last_row['id'];
+        }
+        $next_ref_num = $last_id + 1;
+        $year = date('Y');
+        $ref_number = sprintf("REF-%s-%04d", $year, $next_ref_num);
+
+        // 3️⃣ Add to payment history
         $insert_history = "INSERT INTO payment_history 
-                           (user_id, amount, payment_method, payment_receipt_name, remarks, date_created, date_updated)
-                           VALUES ('{$user_id}', '{$fee['amount']}', '$payment_method', '$payment_receipt_name', '$remarks', NOW(), NOW())";
+                           (user_id, amount, payment_method, payment_receipt_name, remarks, date_created, date_updated, reference_number)
+                           VALUES ('{$user_id}', '{$fee['amount']}', '$payment_method', '$payment_receipt_name', '$remarks', NOW(), NOW(), '$ref_number')";
         mysqli_query($conn, $insert_history);
 
-        // 3️⃣ Generate next month for monthly cadence fees
+        // 4️⃣ Generate next month for monthly cadence fees
         if($fee['cadence'] == 1) {
             $current_due = new DateTime($fee['next_due']);
             $today = new DateTime();
@@ -67,7 +79,7 @@ if(isset($_POST['mark_as_paid'])) {
         }
     }
 
-    // 4️⃣ Recalculate unpaid balance
+    // 5️⃣ Recalculate unpaid balance
     $sum_sql = "SELECT SUM(ft.amount) AS total_balance
                 FROM fee_assignation fa
                 JOIN fee_type ft ON fa.fee_type_id = ft.fee_type_id
@@ -76,7 +88,7 @@ if(isset($_POST['mark_as_paid'])) {
     $sum_row = mysqli_fetch_assoc($sum_res);
     $total_balance = $sum_row['total_balance'] ?? 0;
 
-    // 5️⃣ Update or remove unpaid_fees
+    // 6️⃣ Update or remove unpaid_fees
     if($total_balance > 0) {
         $check_unpaid = mysqli_query($conn, "SELECT 1 FROM unpaid_fees WHERE user_id='$user_id'");
         if(mysqli_num_rows($check_unpaid) > 0) {
