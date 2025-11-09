@@ -10,6 +10,7 @@ if(isset($_POST['mark_as_paid'])) {
     $payment_method = $_POST['payment_method'] ?? '';
     $payment_receipt_name = $_POST['payment_receipt_name'] ?? '';
     $remarks = $_POST['remarks'] ?? '';
+    $is_walk_in = 1;
 
     if(empty($user_id)) {
         echo "<script>alert('Missing user ID.'); window.history.back();</script>";
@@ -51,8 +52,8 @@ if(isset($_POST['mark_as_paid'])) {
 
         // 3️⃣ Add to payment history
         $insert_history = "INSERT INTO payment_history 
-                           (user_id, amount, payment_method, payment_receipt_name, remarks, date_created, date_updated, reference_number)
-                           VALUES ('{$user_id}', '{$fee['amount']}', '$payment_method', '$payment_receipt_name', '$remarks', NOW(), NOW(), '$ref_number')";
+                           (user_id, amount, payment_method, payment_receipt_name, remarks,is_walk_in,proof_of_payment, date_created, date_updated, reference_number)
+                           VALUES ('{$user_id}', '{$fee['amount']}', '$payment_method', '$payment_receipt_name', '$remarks', '$is_walk_in', NULL, NOW(), NOW(), '$ref_number')";
         mysqli_query($conn, $insert_history);
 
         // 4️⃣ Generate next month for monthly cadence fees
