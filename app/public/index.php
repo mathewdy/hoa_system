@@ -11,7 +11,6 @@
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/styles.php'); ?>
 </head>
 <body class="min-h-screen flex flex-col">
-    <!-- Header -->
     <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between py-4">
@@ -46,7 +45,6 @@
                 </div>
             </div>
         </div>
-                    <!-- Mobile Navigation -->
         <div class="md:hidden py-2 flex justify-around gap-2 text-sm w-100">
           <a href="#home" class="text-gray-700 hover:text-teal-600 font-medium transition-colors">
             <i class="ri-home-9-fill text-2xl"></i>

@@ -12,103 +12,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/page-icon.php'); ?>
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/styles.php'); ?>
-  <style>
-
-  </style>
 </head>
+
 <body class="">
   <div class="min-h-screen flex bg-gray-50">
-    <!-- Sidebar -->
-    <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
-      <div class="px-6 mb-8">
+    <aside id="sidebar" class="w-64 h-screen bg-teal-700 text-white border-r border-gray-200 p-4">
+      <div class="px-3 mb-8">
         <h1 class="text-2xl font-bold">HOAConnect</h1>
         <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
       </div>
-      <nav class="flex-1">
-        <a href="president-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-tachometer-alt mr-3"></i>
-          <span>Dashboard</span>
-        </a>
-        <a href="president-accounts.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-user-gear mr-3"></i>
-          <span>Admin Management</span>
-        </a>
-
-        <a href="registered-homeowners.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-home mr-3"></i>
-          <span>Homeowners</span>
-        </a>
-
-        <a href="president-feetype.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-money-check mr-3"></i>
-          <span>Fee Type</span>
-        </a>
-        <a href="president-projectproposal.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-gavel mr-3"></i>
-          <span>Resolution</span>
-        </a>
-        <a href="president-liquidation.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-file-invoice-dollar mr-3"></i>
-          <span>Liquidation of Expenses</span>
-        </a>
-        <a href="president-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-book mr-3"></i>
-          <span>Ledger</span>
-        </a>
-        <a href="president-remittance.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-money-check mr-3"></i>
-          <span>Remittance</span>
-        </a>
-        <a href="president-payment-history.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-receipt mr-3"></i>
-          <span>Payment History</span>
-        </a>      
-
-         <!-- Amenities Dropdown -->
-         <div x-data="{ open: false }">
-          <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
-            <i class="fas fa-swimming-pool mr-3"></i>
-            <span class="flex-1 text-left">Amenities</span>
-            <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <div x-show="open" x-cloak class="bg-teal-800 text-sm">
-            <div class="relative">
-              <button @click="window.location.href='president-tricycle.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-                <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
-                <span class="flex-1 text-left">Tricycle</span>
-              </button>
-            </div>
-            <div class="relative">
-              <button @click="window.location.href='president-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-                <i class="fas fa-basketball-ball mr-2" title="Court"></i>
-                <span class="flex-1 text-left">Court</span>
-              </button>
-            </div>
-            <div class="relative">
-              <button @click="window.location.href='president-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-                <i class="fas fa-store mr-2" title="Stall"></i>
-                <span class="flex-1 text-left">Stall</span>
-              </button>
-            </div>
-          </div>
-        </div>
-        <a href="president-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-newspaper mr-3"></i>
-          <span>News Feed</span>
-        </a>
-        <a href="president-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-calendar-alt mr-3"></i>
-          <span>Calendar</span>
-        </a>
-      </nav>
-    </div>
-
+      <div id="sidebarList">
+      </div>
+    </aside>
     <div class="flex-1 flex flex-col">
       <header class="flex flex-row justify-between items-center p-4 sm:px-6 lg:px-8 gap-2 bg-white shadow-md">
         <span>
-          <a href="#" id="menuToggler" class="flex items-center text-lg font-black text-teal-600 hover:text-teal-800">
+          <a href="javascript:void(0 )" id="sidebarToggle" class="flex items-center text-lg font-black text-teal-600 hover:text-teal-800">
             <i class="ri-menu-2-fill"></i>
           </a>
         </span>
@@ -125,7 +44,6 @@
             class="text-md font-medium text-gray-600 hover:text-black-800"
           >
             <span class="flex items-center">
-              <!-- <i class="ri-account-circle-fill text-2xl me-2"></i> -->
               <img class="w-8 h-8 rounded-sm ring-2 ring-gray-300 p-2 me-2" src="<?= BASE_PATH. '/assets/img/user-alt-64.png'?>" alt="Default avatar">
               <span class="flex flex-col gap-0 leading-none">
                 <span>
@@ -162,7 +80,7 @@
                 </li>
               </ul>
               <div class="py-2">
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                <a href="<?= BASE_PATH . '/core/auth/logout.php'?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   <i class="ri-logout-box-line me-2"></i>
                   Sign out
                 </a>
@@ -195,7 +113,7 @@
                 <ul class="py-2 text-sm text-gray-600 font-medium" aria-labelledby="dropdownBottomButton">
                   <li>
                     <a 
-                      href="#" 
+                      href="javascript:void(0)" 
                       class="item block px-4 py-2 hover:bg-gray-100" 
                       data-modal-target="default-modal" 
                       data-modal-toggle="default-modal"
@@ -208,20 +126,39 @@
                   </li>
                   <li>
                     <a 
-                      href="#" 
-                      class="block px-4 py-2 hover:bg-gray-100" onclick="openCreateModal('Secretary')" >
+                      href="javascript:void(0)" 
+                      class="item block px-4 py-2 hover:bg-gray-100" 
+                      data-modal-target="default-modal" 
+                      data-modal-toggle="default-modal"
+                      data-role-id="3"
+                      data-role-name="Admin"
+                    >
                       <i class="ri-briefcase-4-fill text-amber-900 me-2"></i>
                       Secretary
                     </a>
                   </li>
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100" onclick="openCreateModal('Treasurer')" >
+                    <a 
+                      href="javascript:void(0)" 
+                      class="item block px-4 py-2 hover:bg-gray-100" 
+                      data-modal-target="default-modal" 
+                      data-modal-toggle="default-modal"
+                      data-role-id="4"
+                      data-role-name="Treasury"
+                    >
                       <i class="ri-cash-line text-green-800 me-2"></i>
                       Treasurer
                     </a>
                   </li>
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100" onclick="openCreateModal('Audit')" >
+                    <a 
+                      href="javascript:void(0)" 
+                      class="item block px-4 py-2 hover:bg-gray-100" 
+                      data-modal-target="default-modal" 
+                      data-modal-toggle="default-modal"
+                      data-role-id="5"
+                      data-role-name="Audit"
+                    >
                       <i class="ri-survey-fill me-2"></i>
                       Audit
                     </a>
@@ -277,8 +214,6 @@
 
   <div 
     id="default-modal" 
-    tabindex="-1" 
-    aria-hidden="true" 
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
     justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
   >
@@ -287,7 +222,7 @@
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
           <h3 class="form-title text-xl font-semibold text-gray-900"></h3>
           <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal">
-            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
             </svg>
             <span class="sr-only">Close modal</span>
@@ -400,7 +335,6 @@
           <button 
             id="submitBtn" 
             type="submit" 
-            name="create_account"
             class="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium 
             rounded-lg text-sm px-5 py-2.5 text-center"
           >
@@ -413,11 +347,12 @@
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/scripts.php'); ?>
   <?php 
     echo '
+      <script src="'. BASE_PATH .'/assets/js/sidebar.js"></script>
       <script src="'. BASE_PATH .'/assets/js/users/fetch.js"></script>
+      <script type="module" src="'. BASE_PATH .'/assets/js/users/create.js"></script>
       <script src="'. BASE_PATH .'/assets/js/users/form.info.js"></script>
-      <script src="'. BASE_PATH .'/assets/js/users/create.js"></script>
     '; 
   ?>
-</body>
+  </body>
 </html>
 

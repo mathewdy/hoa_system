@@ -9,9 +9,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HOAConnect - Admin Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/page-icon.php'); ?>
+  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/styles.php'); ?>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -125,143 +124,82 @@
 </head>
 <body class="bg-gray-50">
   <div class="min-h-screen flex">
-   <!-- Sidebar -->
-   <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
-    <div class="px-6 mb-8">
-      <h1 class="text-2xl font-bold">HOAConnect</h1>
-      <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
-    </div>
-    <nav class="flex-1">
-      <a href="admin-dashboard.php" class="flex items-center px-6 py-3 bg-teal-700">
-        <i class="fas fa-tachometer-alt mr-3"></i>
-        <span>Dashboard</span>
-      </a>
-      <a href="<?= BASE_PATH . '/app/pages/user-management/accounts.php'?>" class="flex items-center px-6 py-3 hover:bg-teal-600">
-        <i class="fas fa-users mr-3"></i>
-        <span>User Management</span>
-      </a>
-      
-      <!-- Payment Management Dropdown -->
-      <div x-data="{ open: false }">
-        <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
-          <i class="fas fa-credit-card mr-3"></i>
-          <span class="flex-1 text-left">Payment Management</span>
-          <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        <div x-show="open" x-cloak class="bg-teal-800 text-sm">
-          <a href="fee-types.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
-            <i class="fas fa-tag mr-2" title="Fee Type"></i>
-            Fee Type
-          </a>
-          <a href="fee-assignation.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
-            <i class="fas fa-clipboard-list mr-2" title="Fee Assignation"></i>
-            Fee Assignation
-          </a>
-          <a href="payment-verification.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
-            <i class="fas fa-check-circle mr-2" title="Payment Verification"></i>
-            Payment Verification
-          </a>
-          <a href="admin-remittance.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
-            <i class="fas fa-money-check mr-3"></i>
-            Remittance
-          </a>
-          <a href="payment-history.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
-            <i class="fas fa-history mr-2" title="Payment History"></i>
-            Payment History
-          </a>
-        </div>
+    <aside id="sidebar" class="w-64 h-screen bg-teal-700 text-white border-r border-gray-200 p-4">
+      <div class="px-3 mb-8">
+        <h1 class="text-2xl font-bold">HOAConnect</h1>
+        <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
       </div>
-
-<!-- Amenities Dropdown -->
-<div x-data="{ open: false }">
-<button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
-  <i class="fas fa-swimming-pool mr-3"></i>
-  <span class="flex-1 text-left">Amenities</span>
-  <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-  </svg>
-</button>
-<div x-show="open" x-cloak class="bg-teal-800 text-sm">
-  <!-- Tricycle Navigation -->
-  <div class="relative">
-    <button @click="window.location.href='admin-tricycle.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-      <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
-      <span class="flex-1 text-left">Tricycle</span>
-    </button>
-  </div>
-
-  <!-- Court Navigation -->
-  <div class="relative">
-    <button @click="window.location.href='admin-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-      <i class="fas fa-basketball-ball mr-2" title="Court"></i>
-      <span class="flex-1 text-left">Court</span>
-    </button>
-  </div>
-
-  <!-- Stall Navigation -->
-  <div class="relative">
-    <button @click="window.location.href='admin-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-      <i class="fas fa-store mr-2" title="Stall"></i>
-      <span class="flex-1 text-left">Stall</span>
-    </button>
-  </div>
-</div>
-</div>
-
-<a href="admin-hoaprojects.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-<i class="fas fa-gavel mr-3"></i>
-      <span>Resolution</span>
-</a>
-
-<a href="admin-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-  <i class="fas fa-book mr-3"></i>
-  <span>Ledger</span>
-</a>
-
-<a href="admin-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-<i class="fas fa-newspaper mr-3"></i>
-<span>News Feed</span>
-</a>
-
-      <a href="admin-messages.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-        <i class="fas fa-comments mr-3"></i>
-        <span>Messages</span>
-      </a>
-      <a href="admin-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-        <i class="fas fa-calendar-alt mr-3"></i>
-        <span>Calendar</span>
-      </a>
-      <a href="admin-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-        <i class="fas fa-user-circle mr-3"></i>
-        <span>Profile</span>
-      </a>
-    </nav>
-    <div class="px-6 py-4 mt-auto">
-      <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center justify-center">
-        <i class="fas fa-sign-out-alt mr-2"></i> Logout
-      </button>
-    </div>
-  </div>
-    <!--End of sidebar-->
-
-
-    <!-- Main Content -->
-    <div class="flex-1 overflow-x-hidden overflow-y-auto">
-      <header class="bg-white shadow-md">
-        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-gray-900">Admin's Dashbord</h1>
-            <div class="flex items-center space-x-2">
-              <button class="bg-teal-100 p-2 rounded-full text-teal-600 hover:bg-teal-200">
-                <i class="fas fa-bell"></i>
-              </button>
-            </div>
+      <div id="sidebarList">
+        <!-- Sidebar menu will be loaded here via AJAX -->
+      </div>
+    </aside>
+    <div class="flex-1 flex flex-col">
+      <header class="flex flex-row justify-between items-center p-4 sm:px-6 lg:px-8 gap-2 bg-white shadow-md">
+        <span>
+          <a href="javascript:void(0 )" id="sidebarToggle" class="flex items-center text-lg font-black text-teal-600 hover:text-teal-800">
+            <i class="ri-menu-2-fill"></i>
+          </a>
+        </span>
+        <div class="flex flex-row items-center gap-2">
+          <a href="#" id="dropdownAvatarNameButton" class="flex items-center text-md font-medium text-teal-600 hover:text-teal-800 p-2">
+            <i class="ri-notification-3-fill"></i>
+          </a>
+          <a 
+            href="#" 
+            id="dropdownAvatarNameButton" 
+            data-dropdown-toggle="dropdownAvatarName" 
+            data-dropdown-placement="bottom"
+            data-dropdown-offset-distance="10"
+            class="text-md font-medium text-gray-600 hover:text-black-800"
+          >
+            <span class="flex items-center">
+              <!-- <i class="ri-account-circle-fill text-2xl me-2"></i> -->
+              <img class="w-8 h-8 rounded-sm ring-2 ring-gray-300 p-2 me-2" src="<?= BASE_PATH. '/assets/img/user-alt-64.png'?>" alt="Default avatar">
+              <span class="flex flex-col gap-0 leading-none">
+                <span>
+                  <p class="text-sm m-0 p-0 leading-none">
+                    Bonnie Green
+                  </p>
+                </span>
+                <span>
+                  <span class="text-blue-800 text-xs font-medium me-2 rounded-lg">Admin</span>
+                </span>
+              </span>
+            </span>  
+          </a>
+          <div id="dropdownAvatarName" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 w-[20rem]">
+              <div class="flex flex-row items-center px-4 py-3 ">
+                <img class="w-10 h-10 rounded-sm ring-2 ring-gray-300 p-2 me-2" src="<?= BASE_PATH. '/assets/img/user-alt-64.png'?>" alt="Default avatar">
+                <div class="text-sm text-gray-900">
+                  <div class="font-medium ">Sample User</div>
+                  <div class="truncate">Sample@mailinator.com</div>
+                </div>
+              </div>
+              <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
+                <li>
+                  <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    <i class="ri-history-line me-2"></i>
+                    Activity Logs
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    <i class="ri-account-circle-fill me-2"></i>
+                    Profile
+                  </a>
+                </li>
+              </ul>
+              <div class="py-2">
+                <a href="<?= BASE_PATH . '/core/auth/logout.php'?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  <i class="ri-logout-box-line me-2"></i>
+                  Sign out
+                </a>
+              </div>
           </div>
-    </header>
-
-      <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <!-- Stats Cards -->
+        </div>
+      </header>
+      <main class="flex-1 p-6">
+      <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <!-- Total Users -->
           <a href="registered-homeowners.html" class="block">
@@ -457,78 +395,42 @@
       </main>
     </div>
   </div>
-
+  
   <!-- Payment History Modal -->
-  <div id="paymentHistoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modal-user-name" class="text-lg font-semibold text-gray-900"></h3>
-        <button onclick="closePaymentHistoryModal()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <!-- Added filtering controls section -->
-      <div class="p-4 border-b border-gray-200 flex flex-wrap items-center justify-between gap-4">
-        <div class="flex items-center space-x-2">
-          <label for="filterMonth" class="text-sm font-medium text-gray-700">Month:</label>
-          <select id="filterMonth" class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-teal-500" onchange="filterPaymentsInModal()">
-            <option value="">All</option>
-            <option value="01">January</option>
-            <option value="02">February</option>
-            <option value="03">March</option>
-            <option value="04">April</option>
-            <option value="05">May</option>
-            <option value="06">June</option>
-            <option value="07">July</option>
-            <option value="08">August</option>
-            <option value="09">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
-          </select>
-          <label for="filterYear" class="text-sm font-medium text-gray-700">Year:</label>
-          <select id="filterYear" class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-teal-500" onchange="filterPaymentsInModal()">
-            <option value="">All</option>
-            <option value="2023">2023</option>
-            <option value="2024">2024</option>
-            <option value="2025">2025</option>
-          </select>
-          <label for="filterDay" class="text-sm font-medium text-gray-700">Day:</label>
-          <input type="number" id="filterDay" placeholder="Day" min="1" max="31" class="w-20 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-teal-500" oninput="filterPaymentsInModal()">
-        </div>
-        <div class="flex items-center space-x-4">
-          <button onclick="selectAllPayments()" class="text-teal-600 hover:text-teal-800 text-sm">
-            <i class="fas fa-check-square mr-1"></i> Select All
+  <div id="paymentHistoryModal"
+    class="hidden fixed inset-0 z-50 justify-center items-center w-full h-full overflow-y-auto overflow-x-hidden">
+    <div class="relative p-4 w-full max-w-4xl">
+      <div class="relative bg-white rounded-lg shadow">
+        <div class="flex items-center justify-between p-4 border-b border-gray-200 rounded-t">
+          <h3 class="text-xl font-semibold text-gray-900">Payment History</h3>
+          <button type="button"
+            class="text-gray-400 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center"
+            data-modal-hide="paymentHistoryModal">
+            <i class="ri-close-line text-lg"></i>
           </button>
-          <button onclick="deselectAllPayments()" class="text-gray-600 hover:text-gray-800 text-sm">
-            <i class="fas fa-square mr-1"></i> Deselect All
-          </button>
-          <span id="selectedPaymentsCount" class="text-sm text-gray-600">0 selected</span>
         </div>
-      </div>
-      <div class="modal-body" id="paymentHistoryBody">
-        <!-- Payment table will be dynamically inserted here -->
-      </div>
-      <div class="modal-footer">
-        <button onclick="closePaymentHistoryModal()" class="close-btn">Close</button>
-        <button onclick="downloadPDF()" class="download-btn">Download PDF</button>
-        <button onclick="printPaymentHistory()" class="print-btn">Print</button>
+        <div class="p-6 space-y-4">
+          <div id="paymentHistoryContent" class="overflow-x-auto"></div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Proof View Modal -->
-  <div id="proofViewModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden">
-      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-        <h3 class="text-lg font-medium text-gray-900 pl-4">Proof of Payment</h3>
-        <button onclick="closeProofViewModal()" class="text-gray-400 hover:text-gray-600 pr-4">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="p-6 overflow-y-auto max-h-[70vh]">
-        <div id="proofViewContent" class="text-center">
-          <!-- Proof content will be displayed here -->
+  <div id="proofViewModal"
+    class="hidden fixed inset-0 z-50 justify-center items-center w-full h-full overflow-y-auto overflow-x-hidden">
+    <div class="relative p-4 w-full max-w-3xl">
+      <div class="relative bg-white rounded-lg shadow">
+        <div class="flex items-center justify-between p-4 border-b border-gray-200 rounded-t">
+          <h3 class="text-xl font-semibold text-gray-900">Payment Proof</h3>
+          <button type="button"
+            class="text-gray-400 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center"
+            data-modal-hide="proofViewModal">
+            <i class="ri-close-line text-lg"></i>
+          </button>
+        </div>
+        <div class="p-6 flex justify-center">
+          <img id="proofImage" src="" alt="Payment Proof" class="max-h-[70vh] rounded-md shadow">
         </div>
       </div>
     </div>
@@ -536,36 +438,6 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Sidebar functionality
-      const sidebarLinks = document.querySelectorAll('nav a');
-      const currentPath = window.location.pathname.split('/').pop();
-
-      sidebarLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
-          sidebarLinks.forEach(l => l.classList.remove('bg-teal-700', 'bg-teal-900'));
-          link.classList.add('bg-teal-700');
-        }
-
-        link.addEventListener('mouseenter', function() {
-          if (!link.classList.contains('bg-teal-700')) {
-            link.classList.add('bg-teal-600');
-          }
-        });
-
-        link.addEventListener('mouseleave', function() {
-          if (!link.classList.contains('bg-teal-700')) {
-            link.classList.remove('bg-teal-600');
-          }
-        });
-
-        link.addEventListener('click', function(e) {
-          if (link.getAttribute('href') === currentPath) {
-            e.preventDefault();
-            sidebarLinks.forEach(l => l.classList.remove('bg-teal-700', 'bg-teal-900'));
-            link.classList.add('bg-teal-700');
-          }
-        });
-      });
 
       // Sample payment data for each user
       const paymentData = {
@@ -1022,5 +894,12 @@
       });
     });
   </script>
+  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/scripts.php'); ?>
+
+  <?php 
+    echo '
+      <script src="'. BASE_PATH .'/assets/js/sidebar.js"></script>
+    '; 
+  ?>
 </body>
 </html>

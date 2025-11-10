@@ -1,3 +1,5 @@
+import { showToast } from '/hoa_system/assets/js/utils/toast.js';
+
 const state = {
   loading: false,
   error: '',
@@ -18,6 +20,7 @@ $(document).ready(function() {
   });
 });
 
+
 function handleLogin(event) {
   event.preventDefault();
   const username = $('#username').val().trim();
@@ -36,21 +39,21 @@ function handleLogin(event) {
     type: 'POST',
     data: { username, password },
     dataType: 'json',
-    success: function(response) {
-      if (response.success) {
-        state.set({ loading: true, success: response.message, user: response.user });
-        showToast('success', response.message)
+    success: function(res) {
+      if (res.success) {
+        state.set({ loading: true, success: res.message, user: res.user });
+        showToast({ type: 'success', message: res.message, position: 'bottom-right'});
         setTimeout(() => {
           window.location.href = "../../pages/dashboard.php";
         }, 1500);
       } else {
-        state.set({ loading: false, error: response.message });
-        showToast('error', response.message);
+        state.set({ loading: false, error: res.message });
+        showToast({ type: 'error', message: res.message, position: 'bottom-right'});
       }
     },
     error: function() {
       state.set({ loading: false, error: 'Server error.' });
-      showToast('error', 'Server error.');
+      showToast({ type: 'error', message: 'Something went wrong!', position: 'bottom-right'});
     }
   });
 }

@@ -13,7 +13,6 @@ const state = {
 
 $(document).ready(function() {
   fetchUsers(1);
-
   $(document).on('click', '.page-btn', function() {
     const page = $(this).data('page');
     fetchUsers(page);
@@ -61,36 +60,54 @@ function render() {
 
   $tableBody.empty();
 
-  if (users.length === 0 && !loading) {
+  // ✅ Show Flowbite skeletons when loading
+  if (loading) {
+    for (let i = 0; i < 5; i++) {
+      $tableBody.append(`
+        <tr class="animate-pulse">
+          <td class="px-6 py-4">
+            <div class="h-4 bg-gray-200 rounded-full w-full"></div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="h-4 bg-gray-200 rounded-full w-full"></div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="h-4 bg-gray-200 rounded-full w-full"></div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="h-4 bg-gray-200 rounded-full w-full"></div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="h-4 bg-gray-200 rounded-full w-full"></div>
+          </td>
+        </tr>
+      `);
+    }
+
+    $('#paginationList').empty();
+    return; 
+  }
+
+  if (users.length === 0) {
     $tableBody.append(`
       <tr>
         <td colspan="5" class="text-center">
           No users found.
         </td>
-      </tr>`
-    );
+      </tr>
+    `);
   } else {
     users.forEach(user => {
-      let color;
-      if(user.status == 'Active') {
-        color = 'green'
-      } else {
-        color = 'red'
-      }
-
+      const color = user.status === 'Active' ? 'green' : 'red';
       $tableBody.append(`
         <tr class="bg-white border-b border-gray-200 hover:bg-gray-100">
-          <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+          <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
             ${user.fullName}
           </td>
+          <td class="px-6 py-4 text-gray-900">${user.role_name}</td>
+          <td class="px-6 py-4 text-gray-900">${user.email_address}</td>
           <td class="px-6 py-4 text-gray-900">
-            ${user.role_name}
-          </td>
-          <td class="px-6 py-4 text-gray-900">
-            ${user.email_address}
-          </td>
-          <td class="px-6 py-4 text-gray-900">
-            <span class="bg-${color}-100 text-${color}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">
+            <span class="bg-${color}-100 text-${color}-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
               ${user.status}
             </span>
           </td>
@@ -104,7 +121,6 @@ function render() {
       `);
     });
   }
-
   if (pagination && pagination.totalRecords) {
     const start = (pagination.currentPage - 1) * pagination.limit + 1;
     const end = Math.min(start + pagination.limit - 1, pagination.totalRecords);

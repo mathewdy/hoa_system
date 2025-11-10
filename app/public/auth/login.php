@@ -137,6 +137,6 @@
       </div>
   </footer>
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/scripts.php'); ?>
-  <?php echo '<script src="'. BASE_PATH .'/assets/js/auth/login/authenticate.js"></script>'; ?>
+  <?php echo '<script type="module" src="'. BASE_PATH .'/assets/js/auth/login/authenticate.js"></script>'; ?>
   </body>
 </html>

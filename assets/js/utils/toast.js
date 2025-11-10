@@ -1,27 +1,53 @@
-function showToast(type, message) {
-  const icons = {
-    success: 'ri-checkbox-circle-line text-green-500',
-    error: 'ri-error-warning-line text-red-500',
-    info: 'ri-information-line text-blue-500'
-  };
+// toast.js
+export function showToast({ 
+  message = '', 
+  type = 'success', 
+  duration = 3000, 
+  position = 'top-right' 
+}) {
+  const existingToast = document.querySelector('.toast-notification');
+  if (existingToast) existingToast.remove();
 
-  const bg = type === 'error' ? 'bg-red-100' : type === 'success' ? 'bg-green-100' : 'bg-blue-100';
+  const toast = document.createElement('div');
+  toast.className = `toast-notification fixed z-50 text-white px-4 py-3 rounded shadow-lg 
+    transition-opacity duration-300 
+    ${type === 'success' ? 'bg-green-600' : 
+      type === 'error' ? 'bg-red-600' : 
+      type === 'warning' ? 'bg-yellow-500' : 'bg-blue-600'}
+    ${getPositionClass(position)}`;
 
-  const $toast = $(`
-    <div class="flex items-center w-full max-w-xs p-4 text-gray-700 ${bg} rounded-lg shadow transition transform">
-      <i class="${icons[type]} text-xl mr-2"></i>
-      <div class="text-sm font-medium flex-1">${message}</div>
-      <button type="button" class="ml-3 text-gray-500 hover:text-gray-700" onclick="$(this).parent().fadeOut(200, function(){ $(this).remove(); })">
-        <i class="ri-close-line"></i>
-      </button>
+  toast.innerHTML = `
+    <div class="flex items-center gap-2">
+      <i class="ri-${getIcon(type)} text-lg"></i>
+      <span>${message}</span>
     </div>
-  `);
+  `;
 
-  $('#toast-container').append($toast);
+  document.body.appendChild(toast);
+
+  setTimeout(() => (toast.style.opacity = '1'), 50);
+
   setTimeout(() => {
-    $toast.fadeOut(300, function() { 
-      $(this).remove()
-    });
-  }, 4000);
-  
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+}
+
+function getPositionClass(position) {
+  switch (position) {
+    case 'top-left': return 'top-5 left-5';
+    case 'top-right': return 'top-5 right-5';
+    case 'bottom-left': return 'bottom-5 left-5';
+    case 'bottom-right': return 'bottom-5 right-5';
+    default: return 'top-5 right-5';
+  }
+}
+
+function getIcon(type) {
+  switch (type) {
+    case 'success': return 'checkbox-circle-fill';
+    case 'error': return 'error-warning-fill';
+    case 'warning': return 'alert-fill';
+    default: return 'information-fill';
+  }
 }
