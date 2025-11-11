@@ -1,4 +1,5 @@
 <?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/config.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/connection/connection.php');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

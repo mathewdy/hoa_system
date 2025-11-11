@@ -16,9 +16,9 @@ $sidebarItems = [
     ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_PATH . 'app/pages/remittance.php'],
     ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_PATH . 'app/pages/payment_history.php'],
     ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
-        ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_PATH . 'app/pages/tricycle.php'],
-        ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_PATH . 'app/pages/court.php'],
-        ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_PATH . 'app/pages/stall.php'],
+      ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_PATH . 'app/pages/amenities/tricycle/list.php'],
+      ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_PATH . 'app/pages/amenities/court/list.php'],
+      ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_PATH . 'app/pages/amenities/stall/list.php'],
     ]],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_PATH . 'app/pages/news.php'],
     ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_PATH . 'app/pages/calendar.php']
@@ -35,9 +35,9 @@ $sidebarItems = [
         ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_PATH . 'app/pages/payment_history.php'],
     ]],
     ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
-        ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_PATH . 'app/pages/tricycle.php'],
-        ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_PATH . 'app/pages/court.php'],
-        ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_PATH . 'app/pages/stall.php'],
+        ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_PATH . 'app/pages/amenities/tricycle/list.php'],
+        ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_PATH . 'app/pages/amenities/court/list.php'],
+        ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_PATH . 'app/pages/amenities/stall/list.php'],
     ]],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_PATH . 'app/pages/resolution.php'],
     ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_PATH . 'app/pages/ledger.php'],
@@ -59,9 +59,9 @@ $sidebarItems = [
     ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_PATH . 'app/pages/payment_history.php'],
     ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_PATH . 'app/pages/remittance.php'],
     ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
-        ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_PATH . 'app/pages/tricycle.php'],
-        ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_PATH . 'app/pages/court.php'],
-        ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_PATH . 'app/pages/stall.php'],
+        ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_PATH . 'aapp/pages/amenities/tricycle/list.php'],
+        ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_PATH . 'app/pages/amenities/court/list.php'],
+        ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_PATH . 'app/pages/amenities/stall/list.php'],
     ]],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_PATH . 'app/pages/resolution.php'],
     ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_PATH . 'app/pages/ledger.php'],
