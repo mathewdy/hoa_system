@@ -1,3 +1,15 @@
+<?php
+
+include('../../connection/connection.php'); 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+session_start();
+$user_id = $_SESSION['user_id'];
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -275,83 +287,103 @@
           </div>
           <div class="bg-white shadow rounded-lg overflow-hidden">
             <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment For</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                  </tr>
+              <table class="min-w-full divide-y divide-gray-200 shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Name</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Payment For</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Amount</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Status</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Actions</th>
+                    </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200" id="payment-table-body">
-                  <tr data-user-id="HOA-001">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">Maria Santos</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">HOA Fee Month of May 2025</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">₱50</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button onclick="openPaymentVerificationModal('HOA-001', 'Maria Santos', 'Bank Transfer', 'HOA Fee Month of May 2025', '50', '2025-05-04', 'REF001')"
-                        class="text-white bg-teal-600 hover:bg-teal-700 px-3 py-1 rounded">View</button>
-                    </td>
-                  </tr>
-                  <tr data-user-id="HOA-003">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">Ana Reyes</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">HOA Fee Month of May 2025</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">₱50</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button onclick="openPaymentVerificationModal('HOA-003', 'Ana Reyes', 'GCash', 'HOA Fee Month of May 2025', '50', '2025-05-04', 'REF003')"
-                        class="text-white bg-teal-600 hover:bg-teal-700 px-3 py-1 rounded">View</button>
-                    </td>
-                  </tr>
-                  <tr data-user-id="HOA-005">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">Sofia Garcia</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">HOA Fee Month of May 2025</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">₱50</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button onclick="openPaymentVerificationModal('HOA-005', 'Sofia Garcia', 'Cash', 'HOA Fee Month of May 2025', '50', '2025-05-04', 'Marj San Jose')"
-                        class="text-white bg-teal-600 hover:bg-teal-700 px-3 py-1 rounded">View</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
-              <div class="flex items-center justify-between">
-                <div class="text-sm text-gray-700">
-                  Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">3</span> results
-                </div>
-                <div class="flex space-x-2">
-                  <button class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Previous</button>
-                  <button class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Next</button>
-                </div>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <?php
+                    $query_homeowners = "
+                        SELECT 
+                            u.user_id,
+                            u.first_name,
+                            u.last_name,
+                            fa.id AS fee_assignation_id,
+                            ft.fee_name,
+                            ft.amount,
+                            fa.is_paid,
+                            fa.is_approved
+                        FROM users u
+                        LEFT JOIN fee_assignation fa ON u.user_id = fa.user_id
+                        LEFT JOIN fee_type ft ON fa.fee_type_id = ft.fee_type_id
+                        WHERE u.role_id = '6'
+                          AND fa.id IS NOT NULL
+                        ORDER BY u.first_name, u.last_name
+                    ";
+
+                    $run_homeowners = mysqli_query($conn, $query_homeowners);
+
+                    if (mysqli_num_rows($run_homeowners) > 0) {
+                        foreach ($run_homeowners as $row_homeowners) {
+                            $approved = $row_homeowners['is_approved'];
+                            $paid = $row_homeowners['is_paid'];
+
+                            // 🧠 Logical Status Mapping
+                            if ($paid == 0 && $approved == 0) {
+                                $status_label = "<span class='px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold'>Unpaid</span>";
+                                $is_unpaid = true;
+                            } elseif ($approved == 2) {
+                                $status_label = "<span class='px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-xs font-semibold'>Pending</span>";
+                                $is_unpaid = false;
+                            } elseif ($approved == 1) {
+                                $status_label = "<span class='px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold'>Approved</span>";
+                                $is_unpaid = false;
+                            } elseif ($approved == 0 && $paid == 1) {
+                                $status_label = "<span class='px-3 py-1 rounded-full bg-red-100 text-red-800 text-xs font-semibold'>Rejected</span>";
+                                $is_unpaid = false;
+                            } else {
+                                $status_label = "<span class='px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold'>No Payment Yet</span>";
+                                $is_unpaid = true;
+                            }
+                    ?>
+                        <tr class="hover:bg-gray-50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-800">
+                                <?php echo htmlspecialchars($row_homeowners['first_name'] . " " . $row_homeowners['last_name']); ?>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">
+                                <?php echo htmlspecialchars($row_homeowners['fee_name'] ?? 'N/A'); ?>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">
+                                ₱<?php echo number_format($row_homeowners['amount'] ?? 0, 2); ?>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <?php echo $status_label; ?>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <?php if (!empty($row_homeowners['fee_assignation_id'])): ?>
+                                    <?php if ($is_unpaid): ?>
+                                        <button class="inline-flex items-center px-3 py-1.5 bg-gray-300 text-gray-500 rounded-md text-sm font-medium cursor-not-allowed" disabled>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                            View
+                                        </button>
+                                    <?php else: ?>
+                                        <!-- <a href="view-online-payment.php?id=<?php echo $row_homeowners['fee_assignation_id']; ?>&user_id=<?php echo $row_homeowners['user_id']; ?>" 
+                                            class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition">
+                                            View
+                                        </a> -->
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span class="text-gray-400 text-sm">N/A</span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php
+                        }
+                    } else {
+                        echo '<tr><td colspan="5" class="text-center py-4 text-gray-500">No payment records found.</td></tr>';
+                    }
+                    ?>
+                    </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -359,107 +391,6 @@
       </main>
     </div>
   </div>
-  <!-- Payment Verification Modal -->
-  <div id="paymentVerificationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modal-title">Payment Verification</h3>
-        <button onclick="closePaymentVerificationModal()" aria-label="Close">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <h4>Payment Details</h4>
-        <div class="payment-card" id="payment-card">
-          <p><strong>Name:</strong> <span id="verify-name"></span></p>
-          <p><strong>Payment For:</strong> <span id="verify-payment-for"></span></p>
-          <p><strong>Amount:</strong> ₱<span id="verify-amount"></span></p>
-          <p><strong>Date:</strong> <span id="verify-date"></span></p>
-          <p><strong>Payment Method:</strong> <span id="verify-method"></span></p>
-          <p id="verify-reference-label"><strong>Reference Number:</strong> <span id="verify-reference"></span></p>
-          <div id="proof-of-payment" class="border border-gray-300 rounded-md p-4 text-center">
-            <p class="text-sm text-gray-600">[Image Placeholder - Picture of Receipt]</p>
-          </div>
-        </div>
-        <div class="form-row mt-4">
-          <div>
-            <label for="verify-notes">Notes</label>
-            <textarea id="verify-notes" rows="3"></textarea>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" onclick="closePaymentVerificationModal()" class="cancel-btn">Close</button>
-          <div id="action-buttons" class="flex space-x-2">
-            <button type="button" onclick="verifyPayment()" class="save-btn">Verify</button>
-            <button type="button" onclick="rejectPayment()" class="reject-btn">Reject</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script>
-    // Payment Verification Modal
-    window.openPaymentVerificationModal = function(hoaId, name, method, paymentFor, amount, date, reference) {
-      document.getElementById('verify-name').textContent = name;
-      document.getElementById('verify-payment-for').textContent = paymentFor;
-      document.getElementById('verify-amount').textContent = amount;
-      document.getElementById('verify-date').textContent = date;
-      document.getElementById('verify-method').textContent = method;
-      document.getElementById('verify-reference').textContent = reference;
-      
-      const referenceLabel = document.getElementById('verify-reference-label');
-      const proofOfPayment = document.getElementById('proof-of-payment');
-      
-      if (name === 'Sofia Garcia' && method === 'Cash') {
-        referenceLabel.innerHTML = `<strong>Payment Receipt Name:</strong> <span id="verify-reference">${reference}</span>`;
-        proofOfPayment.style.display = 'none';
-        document.getElementById('verify-notes').value = '';
-      } else {
-        referenceLabel.innerHTML = `<strong>Reference Number:</strong> <span id="verify-reference">${reference}</span>`;
-        proofOfPayment.style.display = 'block';
-        document.getElementById('verify-notes').value = '';
-      }
-      
-      document.getElementById('paymentVerificationModal').classList.remove('hidden');
-      document.body.classList.add('overflow-hidden');
-    };
-    window.closePaymentVerificationModal = function() {
-      document.getElementById('paymentVerificationModal').classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
-    };
-    window.verifyPayment = function() {
-      const hoaId = document.querySelector(`tr[data-user-id="${document.querySelector('[data-user-id]').dataset.userId}"]`).dataset.userId;
-      const row = document.querySelector(`tr[data-user-id="${hoaId}"]`);
-      if (row) {
-        row.remove();
-      }
-      alert('Payment verified successfully! Moved to Payment History.');
-      closePaymentVerificationModal();
-      filterPayments();
-    };
-    window.rejectPayment = function() {
-      const hoaId = document.querySelector(`tr[data-user-id="${document.querySelector('[data-user-id]').dataset.userId}"]`).dataset.userId;
-      const row = document.querySelector(`tr[data-user-id="${hoaId}"]`);
-      if (row) {
-        row.remove();
-      }
-      alert('Payment rejected and removed from verification.');
-      closePaymentVerificationModal();
-      filterPayments();
-    };
-    // Search Functionality
-    const searchInput = document.getElementById('search-payment');
-    const tableBody = document.getElementById('payment-table-body');
-    const rows = Array.from(tableBody.getElementsByTagName('tr'));
-    function filterPayments() {
-      const searchTerm = searchInput.value.toLowerCase();
-      rows.forEach(row => {
-        const name = row.cells[0].textContent.toLowerCase();
-        const matchesSearch = name.includes(searchTerm);
-        row.style.display = matchesSearch ? '' : 'none';
-      });
-    }
-    searchInput.addEventListener('input', filterPayments);
-  </script>
+  
 </body>
 </html>
