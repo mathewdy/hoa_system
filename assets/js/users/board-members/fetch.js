@@ -3,6 +3,7 @@ const state = {
   error: '',
   success: '',
   users: [],
+  search: '',
   pagination: { totalPages: 1, currentPage: 1, limit: 10 },
 
   set(newState) {
@@ -13,9 +14,16 @@ const state = {
 
 $(document).ready(function() {
   fetchUsers(1);
-  $(document).on('click', '.page-btn', function() {
+  $(document).on('click', '.page-btn', function(e) {
+    e.preventDefault();
     const page = $(this).data('page');
     fetchUsers(page);
+  });
+
+  $('#simple-search').on('input', function() {
+    const query = $(this).val();
+    state.set({ search: query, pagination: { ...state.pagination, currentPage: 1 } });
+    fetchUsers(1);
   });
 });
 
@@ -23,9 +31,14 @@ function fetchUsers(page = 1) {
   state.set({ loading: true, error: '', success: '' });
 
   $.ajax({
-    url: `/hoa_system/core/users/users.php?page=${page}&limit=${state.pagination.limit}`,
+    url: `/hoa_system/core/users/board-members/users.php`,
     type: 'GET',
     dataType: 'json',
+    data: { 
+      page, 
+      limit: state.pagination.limit,
+      search: state.search
+    },
     success: function(response) {
       if (response.success) {
         state.set({
@@ -47,16 +60,6 @@ function fetchUsers(page = 1) {
 function render() {
   const { loading, users, pagination, error } = state;
   const $tableBody = $('#usersTable tbody');
-  const $pagination = $('#pagination');
-  const $status = $('#status');
-
-  if (loading) {
-    $status.html('<div class="alert alert-info">Loading users...</div>');
-  } else if (error) {
-    $status.html(`<div class="alert alert-danger">${error}</div>`);
-  } else {
-    $status.html('');
-  }
 
   $tableBody.empty();
 
@@ -65,9 +68,6 @@ function render() {
     for (let i = 0; i < 5; i++) {
       $tableBody.append(`
         <tr class="animate-pulse">
-          <td class="px-6 py-4">
-            <div class="h-4 bg-gray-200 rounded-full w-full"></div>
-          </td>
           <td class="px-6 py-4">
             <div class="h-4 bg-gray-200 rounded-full w-full"></div>
           </td>
@@ -91,8 +91,8 @@ function render() {
   if (users.length === 0) {
     $tableBody.append(`
       <tr>
-        <td colspan="5" class="text-center">
-          No users found.
+        <td colspan="5" class="text-center px-6 py-4 text-gray-900 whitespace-nowrap">
+            No users found.
         </td>
       </tr>
     `);
@@ -101,11 +101,13 @@ function render() {
       const color = user.status === 'Active' ? 'green' : 'red';
       $tableBody.append(`
         <tr class="bg-white border-b border-gray-200 hover:bg-gray-100">
-          <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-            ${user.fullName}
+          <td class="flex flex-col px-6 py-4">
+            <span class="font-medium text-gray-900 whitespace-nowrap">
+              ${user.fullName}
+            </span>
+            ${user.email_address}
           </td>
           <td class="px-6 py-4 text-gray-900">${user.role_name}</td>
-          <td class="px-6 py-4 text-gray-900">${user.email_address}</td>
           <td class="px-6 py-4 text-gray-900">
             <span class="bg-${color}-100 text-${color}-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
               ${user.status}

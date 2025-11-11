@@ -14,7 +14,7 @@ $(document).ready(function(){
                 if(item.submenu){
                     html += `
                         <li>
-                          <button type="button" class="flex items-center w-full py-2 px-3 font-normal rounded-lg transition duration-75 hover:bg-teal-900" hover:text-black-700 data-collapse-toggle="submenu-${index}">
+                          <button type="button" class="flex items-center w-full py-2 px-3 font-normal rounded-lg transition duration-75 hover:bg-teal-600 hover:text-gray-50" data-collapse-toggle="submenu-${index}">
                             <i class="${item.icon} mr-3"></i>
                             <span class="flex-1 text-left">${item.label}</span>
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path></svg>
@@ -25,7 +25,7 @@ $(document).ready(function(){
                     item.submenu.forEach(function(sub){
                         html += `
                         <li class="px-4">
-                          <a href="${sub.url || '#'}" class="flex items-center w-full py-2 px-3 text-sm font-normal rounded-lg hover:bg-teal-900" hover:text-black-700">
+                          <a href="${sub.url || '#'}" class="flex items-center w-full py-1 px-3 text-sm font-normal rounded-lg hover:text-gray-400">
                             ${sub.label}
                           </a>
                         </li>`;
@@ -35,7 +35,7 @@ $(document).ready(function(){
                 } else {
                     html += `
                     <li>
-                      <a href="${item.url || '#'}" class="flex items-center w-full py-2 px-3 font-normal rounded-lg hover:bg-teal-900" hover:text-text-900">
+                      <a href="${item.url || '#'}" class="flex items-center w-full py-2 px-3 font-normal rounded-lg hover:bg-teal-600 hover:text-gray-50">
                         <i class="${item.icon} mr-3"></i>
                         <span>${item.label}</span>
                       </a>

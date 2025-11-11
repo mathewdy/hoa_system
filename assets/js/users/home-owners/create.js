@@ -15,7 +15,7 @@ function handleCreate(formData) {
   renderState();
 
   $.ajax({
-    url: '/hoa_system/core/users/create.php', 
+    url: '/hoa_system/core/users/home-owners/create.php', 
     type: 'POST',
     data: formData,
     processData: false,
@@ -27,7 +27,7 @@ function handleCreate(formData) {
         showToast({ type: 'success', message: response.message, position: 'bottom-right' });
         $('#createForm')[0].reset();
         setTimeout(() => {
-          window.location.reload()
+          window.location.href = "accounts.php"
         }, 1500);
       } else {
         state.set({ loading: false, error: response.message });

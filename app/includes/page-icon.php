@@ -3,6 +3,6 @@
 
   echo '
     <title>HOA Connect</title>
-    <link rel="shortcut icon" href="'. BASE_PATH .'/assets/img/mh2logo.png" type="image/x-icon">  
+    <link rel="shortcut icon" href="'. BASE_PATH .'/assets/img/logo.png" type="image/x-icon">  
   ';
 ?>

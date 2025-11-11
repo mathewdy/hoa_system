@@ -123,8 +123,8 @@
   </style>
 </head>
 <body class="bg-gray-50">
-  <div class="min-h-screen flex">
-    <aside id="sidebar" class="w-64 h-screen bg-teal-700 text-white border-r border-gray-200 p-4">
+  <div class="h-full flex overflow-hidden">
+    <aside id="sidebar" class="w-64 h-100 bg-teal-700 text-white border-r border-gray-200 p-4">
       <div class="px-3 mb-8">
         <h1 class="text-2xl font-bold">HOAConnect</h1>
         <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
@@ -133,7 +133,7 @@
         <!-- Sidebar menu will be loaded here via AJAX -->
       </div>
     </aside>
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col h-fit overflow-hidden">
       <header class="flex flex-row justify-between items-center p-4 sm:px-6 lg:px-8 gap-2 bg-white shadow-md">
         <span>
           <a href="javascript:void(0 )" id="sidebarToggle" class="flex items-center text-lg font-black text-teal-600 hover:text-teal-800">
@@ -198,7 +198,7 @@
           </div>
         </div>
       </header>
-      <main class="flex-1 p-6">
+      <main class="flex-1 overflow-auto p-6">
       <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <!-- Total Users -->
@@ -395,7 +395,7 @@
       </main>
     </div>
   </div>
-  
+
   <!-- Payment History Modal -->
   <div id="paymentHistoryModal"
     class="hidden fixed inset-0 z-50 justify-center items-center w-full h-full overflow-y-auto overflow-x-hidden">
