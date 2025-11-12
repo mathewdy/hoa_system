@@ -20,15 +20,15 @@
       <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
     </div>
     <nav class="flex-1">
-      <a href="tres-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="tres-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-tachometer-alt mr-3"></i>
         <span>Dashboard</span>
       </a>
-      <a href="tres-paymenthistory.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="tres-paymenthistory.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-receipt mr-3"></i>
         <span>Payment History</span>
       </a>
-      <a href="tres-remittance.html" class="flex items-center px-6 py-3 bg-teal-700">
+      <a href="tres-remittance.php" class="flex items-center px-6 py-3 bg-teal-700">
         <i class="fas fa-money-check mr-3"></i>
         <span>Remittance</span>
       </a>
@@ -44,48 +44,48 @@
         <div x-show="open" x-cloak class="bg-teal-800 text-sm">
           <!-- Tricycle Navigation -->
           <div class="relative">
-            <button @click="window.location.href='tres-tricycle.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+            <button @click="window.location.href='tres-tricycle.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
               <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
               <span class="flex-1 text-left">Tricycle</span>
             </button>
           </div>
           <!-- Court Navigation -->
           <div class="relative">
-            <button @click="window.location.href='tres-court.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+            <button @click="window.location.href='tres-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
               <i class="fas fa-basketball-ball mr-2" title="Court"></i>
               <span class="flex-1 text-left">Court</span>
             </button>
           </div>
           <!-- Stall Navigation -->
           <div class="relative">
-            <button @click="window.location.href='tres-stall.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+            <button @click="window.location.href='tres-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
               <i class="fas fa-store mr-2" title="Stall"></i>
               <span class="flex-1 text-left">Stall</span>
             </button>
           </div>
         </div>
       </div>
-      <a href="tres-project.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="tres-project.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-gavel mr-3"></i>
         <span>Resolution</span>
       </a>
-      <a href="tres-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="tres-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-book mr-3"></i>
         <span>Ledger</span>
       </a>
-      <a href="tres-acknowledgement.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="tres-acknowledgement.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-file-invoice mr-3"></i>
         <span>Receipt</span>
       </a>
-      <a href="tres-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="tres-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-newspaper mr-3"></i>
         <span>News Feed</span>
       </a>
-      <a href="tres-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="tres-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-calendar-alt mr-3"></i>
         <span>Calendar</span>
       </a>
-      <a href="tres-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="tres-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-user-circle mr-3"></i>
         <span>Profile</span>
       </a>
