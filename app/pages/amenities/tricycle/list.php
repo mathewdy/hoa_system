@@ -1,200 +1,70 @@
+<?php
+  include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/config.php');
+  include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/connection/connection.php');
+  include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/session.php');
+  $id = $_SESSION['user_id'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tricycle Parking Management - HOAConnect</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <style>
-    [x-cloak] { display: none !important; }
-    .modal-backdrop { backdrop-filter: blur(2px); }
-    
-    /* Excel-like table styles */
-    .excel-table {
-      border-collapse: collapse;
-      width: 100%;
-      font-size: 12px;
-    }
-    
-    .excel-table th,
-    .excel-table td {
-      border: 1px solid #d1d5db;
-      padding: 8px;
-      text-align: left;
-    }
-    
-    .excel-table th {
-      background-color: #f3f4f6;
-      font-weight: bold;
-    }
-    
-    .excel-table tr:nth-child(even) {
-      background-color: #f9fafb;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/page-icon.php'); ?>
+  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/styles.php'); ?>
 </head>
-<body class="bg-gray-50">
-  <div class="min-h-screen flex">
-    <!-- Sidebar -->
-<div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
-  <div class="px-6 mb-8">
-    <h1 class="text-2xl font-bold">HOAConnect</h1>
-    <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
-  </div>
-  <nav class="flex-1">
-    <a href="president-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-tachometer-alt mr-3"></i>
-      <span>Dashboard</span>
-    </a>
-    <a href="president-accounts.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-user-gear mr-3"></i>
-      <span>Admin Management</span>
-    </a>
-    <a href="registered-homeowners.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-home mr-3"></i>
-      <span>Homeowners</span>
-    </a>
-    <a href="president-feetype.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-money-check mr-3"></i>
-      <span>Fee Type</span>
-    </a>
-    <a href="president-projectproposal.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-gavel mr-3"></i>
-      <span>Resolution</span>
-    </a>
-    <a href="president-liquidation.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-file-invoice-dollar mr-3"></i>
-      <span>Liquidation of Expenses</span>
-    </a>
-    <a href="president-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-book mr-3"></i>
-      <span>Ledger</span>
-    </a>
-    <a href="president-remittance.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-money-check mr-3"></i>
-      <span>Remittance</span>
-    </a>
-    <a href="president-payment-history.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-receipt mr-3"></i>
-      <span>Payment History</span>
-    </a>
-<!-- Amenities Dropdown -->
-<div x-data="{ open: true }">
-    <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
-      <i class="fas fa-swimming-pool mr-3"></i>
-      <span class="flex-1 text-left">Amenities</span>
-      <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </button>
-    <div x-show="open" x-cloak class="bg-teal-800 text-sm">
-      <!-- Tricycle Navigation -->
-      <div class="relative">
-        <button @click="window.location.href='president-tricycle.php'" class="flex items-center w-full px-10 py-2 bg-teal-700 focus:outline-none">
-          <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
-          <span class="flex-1 text-left">Tricycle</span>
-        </button>
-      </div>
-  
-      <!-- Court Navigation -->
-      <div class="relative">
-        <button @click="window.location.href='president-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-          <i class="fas fa-basketball-ball mr-2" title="Court"></i>
-          <span class="flex-1 text-left">Court</span>
-        </button>
-      </div>
-  
-      <!-- Stall Navigation -->
-      <div class="relative">
-        <button @click="window.location.href='president-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-          <i class="fas fa-store mr-2" title="Stall"></i>
-          <span class="flex-1 text-left">Stall</span>
-        </button>
-      </div>
-    </div>
-  </div>
-  <a href="president-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-    <i class="fas fa-newspaper mr-3"></i>
-    <span>News Feed</span>
-  </a>
-  <a href="president-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-    <i class="fas fa-calendar-alt mr-3"></i>
-    <span>Calendar</span>
-  </a>
-  <a href="president-logs.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-    <i class="fas fa-history mr-3"></i>
-    <span>Activity Logs</span>
-  </a>
-  <a href="president-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-    <i class="fas fa-user-circle mr-3"></i>
-    <span>Profile</span>
-  </a>
-</nav>
-<div class="px-6 py-4 mt-auto">
-  <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center justify-center">
-    <i class="fas fa-sign-out-alt mr-2"></i> Logout
-  </button>
-</div>
-</div>
-<!--End of sidebar-->
-      
-             
 
-    <!-- Main Content -->
-    <div class="flex-1 overflow-x-hidden overflow-y-auto">
-      <!-- Header -->
-      <header class="bg-white shadow-md">
-        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-gray-900">Tricycle Parking Management</h1>
-            <div class="flex items-center space-x-2">
-              <button class="bg-teal-100 p-2 rounded-full text-teal-600 hover:bg-teal-200">
-                <i class="fas fa-bell"></i>
-              </button>
-            </div>
-          </div>
-    </header>
-
-      <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+<body>
+  <div class="h-screen flex bg-gray-50">
+    <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/sidebar.php'); ?>
+    <div class="flex flex-col flex-1">
+      <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/header.php'); ?>
+      <main class="py-6 px-4 sm:px-6 lg:px-8">
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center">
-              <div class="p-3 rounded-full bg-blue-100 text-blue-600">
-                <i class="fas fa-users text-xl"></i>
+        <div class="flex justify-between">
+          <div class="flex flex-row max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm gap-2 w-full">
+            <button type="button" class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-4 py-3 text-center inline-flex items-center">
+            <i class="ri-team-fill text-2xl"></i>
+            <span class="sr-only">Icon description</span>
+            </button>
+            <div class="flex flex-col items-start">
+              <div class="text-2xl font-bold">
+                3
               </div>
-              <div class="ml-4">
-                <p class="text-2xl font-bold" id="totalTodas">0</p>
-                <p class="text-sm text-gray-500">Total TODAs</p>
-              </div>
-            </div>
-          </div>
-          <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center">
-              <div class="p-3 rounded-full bg-green-100 text-green-600">
-                <i class="fas fa-bicycle text-xl"></i>
-              </div>
-              <div class="ml-4">
-                <p class="text-2xl font-bold" id="totalTricycles">0</p>
-                <p class="text-sm text-gray-500">Total Tricycles</p>
+              <div class="text-sm text-gray-400">
+                Total TODA
               </div>
             </div>
           </div>
-          <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center">
-              <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
-                <i class="fas fa-money-bill-wave text-xl"></i>
+          <div class="flex flex-row max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm gap-4 w-full">
+            <button type="button" class="text-green-700 border border-green-700 hover:bg-green-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm px-4 py-3 text-center inline-flex items-center">
+            <i class="ri-motorbike-fill text-2xl"></i>
+            <span class="sr-only">Icon description</span>
+            </button>
+            <div class="flex flex-col items-start">
+              <div class="text-2xl font-bold">
+                35
               </div>
-              <div class="ml-4">
-                <p class="text-2xl font-bold" id="monthlyRevenue">₱0</p>
-                <p class="text-sm text-gray-500">Monthly Revenue</p>
+              <div class="text-sm text-gray-400">
+                Total Tricycles
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-row max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm gap-4 w-full">
+            <button type="button" class="text-orange-400 border border-orange-400 hover:bg-orange-400 hover:text-white focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-full text-sm px-4 py-3 text-center inline-flex items-center">
+              <i class="ri-wallet-fill text-2xl"></i>
+              <span class="sr-only">Icon description</span>
+            </button>
+            <div class="flex flex-col items-start">
+              <div class="text-2xl font-bold">
+                ₱3,000
+              </div>
+              <div class="text-sm text-gray-400">
+                Total Revenue
               </div>
             </div>
           </div>
         </div>
-
-        <br>
 
         <!-- Action Buttons and Search Bar -->
         <div class="mb-6 flex justify-end items-center">
@@ -759,5 +629,8 @@
       initializeSampleData();
     });
   </script>
-</body>
+  
+  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/scripts.php'); ?>
+  <?php echo '<script src="'. BASE_PATH .'/assets/js/users/board-members/fetch.js"></script>'; ?>
+  </body>
 </html>
