@@ -1,3 +1,14 @@
+<?php
+
+include('../../connection/connection.php'); 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+session_start();
+$user_id = $_SESSION['user_id'];
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -269,76 +280,26 @@
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
-                    <tr data-user-id="USER001">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Maria Santos</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">maria.santos@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER001', 'Maria Santos', 'maria.santos@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER002">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Juan Cruz</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">juan.cruz@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER002', 'Juan Cruz', 'juan.cruz@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER003">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Ana Reyes</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">ana.reyes@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER003', 'Ana Reyes', 'ana.reyes@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER004">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Pedro Lim</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">pedro.lim@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER004', 'Pedro Lim', 'pedro.lim@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER005">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Sofia Garcia</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">sofia.garcia@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER005', 'Sofia Garcia', 'sofia.garcia@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
+                     <?php
+
+                    $sql_users = "SELECT users.user_id, users.first_name, users.middle_name , users.last_name , users.email_address FROM users WHERE users.role_id = '6' ORDER BY users.last_name ASC";
+                    $run_users = mysqli_query($conn, $sql_users);
+
+                    while ($row = mysqli_fetch_assoc($run_users)) {
+                      $user_id = $row['user_id'];
+                      $full_name = trim($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name']);
+                      $email = $row['email_address'];
+                      ?>
+                      <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?php echo $full_name; ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?php echo $email; ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <a href="view-payment.php?user_id=<?php echo $user_id; ?>" class="text-teal-600 hover:text-teal-900">View</a>
+                        </td>
+                      </tr>
+                      <?php
+                    }
+                    ?>
                   </tbody>
                 </table>
               </div>

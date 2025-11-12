@@ -1,3 +1,14 @@
+<?php
+
+include('../../connection/connection.php'); 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+session_start();
+$user_id = '20252509'; // palitan na lang mamaya
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -157,15 +168,70 @@
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment For</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Submitted</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reference Number</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Proof</th>
                   </tr>
               </thead>
               <tbody id="mainPaymentTableBody" class="bg-white divide-y divide-gray-200">
-                <!-- populated by JS -->
+                <?php 
+
+                  $sql_history_info = "SELECT fee_type.fee_type_id, fee_type.fee_name , fee_assignation.fee_type_id, payment_history.amount, payment_history.payment_method,payment_history.date_created,payment_history.reference_number,payment_history.proof_of_payment
+                  FROM fee_type
+                  LEFT JOIN fee_assignation ON fee_type.fee_type_id = fee_assignation.fee_type_id
+                  LEFT JOIN payment_history ON fee_assignation.id = payment_history.fee_type_id
+                  WHERE payment_history.user_id = '$user_id'";
+                  $run_history_info = mysqli_query($conn,$sql_history_info);
+
+                  if(mysqli_num_rows($run_history_info) > 0){
+                    foreach($run_history_info as $row_history_info){
+                      ?>
+
+                          <tr>
+                            <td><?php echo $row_history_info['fee_name']?></td>
+                            <td><?php echo $row_history_info['amount']?></td>
+                            <td>
+                              <?php 
+                                if (!empty($row_history_info['date_created'])) {
+                                    echo date('F d, Y', strtotime($row_history_info['date_created']));
+                                } else {
+                                    echo 'N/A';
+                                }
+                              ?>
+                            </td>
+                            <td><?php echo $row_history_info['payment_method']?></td>
+                            <td><?php echo $row_history_info['reference_number']?></td>
+                            <td>
+                              <div x-data="{ open: false }">
+                                <!-- Button to open modal -->
+                                <button @click="open = true" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                  View Image
+                                </button>
+
+                                <!-- Modal -->
+                                <div 
+                                  x-show="open" 
+                                  x-cloak
+                                  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                                >
+                                  <div class="bg-white rounded-lg shadow-lg p-4 max-w-lg w-full relative">
+                                    <!-- Close button -->
+                                    <button @click="open = false" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900">
+                                      &times;
+                                    </button>
+
+                                    <!-- Image -->
+                                    <img src="../../uploads/<?php echo $row_history_info['proof_of_payment']?>" alt="Payment Proof" class="w-full h-auto rounded">
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                      <?php 
+                    }
+                  }
+
+                ?>
               </tbody>
             </table>
           </div>
@@ -181,486 +247,6 @@
   </div>
 </div>
 
-<!-- Proof View Modal -->
-<div id="proofViewModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-  <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden">
-    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-      <h3 class="text-lg font-medium text-gray-900 pl-4">Proof of Payment</h3>
-      <button onclick="closeProofViewModal()" class="text-gray-400 hover:text-gray-600 pr-4">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="p-6 overflow-y-auto max-h-[70vh]">
-      <div id="proofViewContent" class="text-center">
-        <!-- Proof content will be displayed here -->
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Payment History Modal (kept for original features: filtering, downloads, printing) -->
-<div id="paymentHistoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-  <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-6xl mx-4">
-    <div class="modal-header">
-      <h3 id="modal-user-name" class="text-lg font-semibold text-gray-900"></h3>
-      <button onclick="closePaymentHistoryModal()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="p-4 border-b border-gray-200 flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center space-x-2">
-        <label for="filterMonth" class="text-sm font-medium text-gray-700">Month:</label>
-        <select id="filterMonth" class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-teal-500" onchange="filterPaymentsInModal()">
-          <option value="">All</option>
-          <option value="01">January</option>
-          <option value="02">February</option>
-          <option value="03">March</option>
-          <option value="04">April</option>
-          <option value="05">May</option>
-          <option value="06">June</option>
-          <option value="07">July</option>
-          <option value="08">August</option>
-          <option value="09">September</option>
-          <option value="10">October</option>
-          <option value="11">November</option>
-          <option value="12">December</option>
-        </select>
-        <label for="filterYear" class="text-sm font-medium text-gray-700">Year:</label>
-        <select id="filterYear" class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-teal-500" onchange="filterPaymentsInModal()">
-          <option value="">All</option>
-          <option value="2023">2023</option>
-          <option value="2024">2024</option>
-          <option value="2025">2025</option>
-        </select>
-        <label for="filterDay" class="text-sm font-medium text-gray-700">Day:</label>
-        <input type="number" id="filterDay" placeholder="Day" min="1" max="31" class="w-20 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-teal-500" oninput="filterPaymentsInModal()">
-      </div>
-      <div class="flex items-center space-x-4">
-        <button onclick="selectAllPaymentsInModal()" class="text-teal-600 hover:text-teal-800 text-sm">
-          <i class="fas fa-check-square mr-1"></i> Select All
-        </button>
-        <button onclick="deselectAllPaymentsInModal()" class="text-gray-600 hover:text-gray-800 text-sm">
-          <i class="fas fa-square mr-1"></i> Deselect All
-        </button>
-        <span id="selectedPaymentsCount" class="text-sm text-gray-600">0 selected</span>
-      </div>
-    </div>
-    <div class="modal-body" id="paymentHistoryBody">
-      <!-- Payment table will be dynamically inserted here (modal version) -->
-    </div>
-    <div class="modal-footer">
-      <button onclick="closePaymentHistoryModal()" class="close-btn">Close</button>
-      <button onclick="downloadPDF()" class="download-btn">Download PDF</button>
-      <button onclick="downloadCSV()" class="download-btn">Download CSV</button>
-      <button onclick="printPaymentHistory()" class="print-btn">Print</button>
-    </div>
-  </div>
-</div>
-
-<script>
-  // --- Data (payments) - keep same dataset as before; proofUrl uses public placeholder images so viewProof works ---
-  const paymentData = {
-    USER006: [
-      { paymentId: 'PAY009', paymentFor: 'Monthly Dues', amount: '50', date: '2025-01-15', time: '10:30 AM', method: 'GCash', status: 'paid', address: 'Block 7, Lot 18', proofType: 'image', proofUrl: 'https://via.placeholder.com/1200x800.png?text=PAY009+Proof', type: 'Resident' },
-      { paymentId: 'PAY010', paymentFor: 'Monthly Dues', amount: '50', date: '2024-12-10', time: '02:15 PM', method: 'Bank Transfer', status: 'paid', address: 'Block 7, Lot 18', proofType: 'image', proofUrl: 'https://via.placeholder.com/1200x800.png?text=PAY010+Proof', type: 'Resident' },
-      { paymentId: 'PAY011', paymentFor: 'Monthly Dues', amount: '50', date: '2024-11-08', time: '09:45 AM', method: 'Cash', status: 'paid', address: 'Block 7, Lot 18', proofType: 'image', proofUrl: 'https://via.placeholder.com/1200x800.png?text=PAY011+Proof', type: 'Resident' },
-      { paymentId: 'PAY012', paymentFor: 'Monthly Dues', amount: '50', date: '2024-10-12', time: '11:20 AM', method: 'GCash', status: 'paid', address: 'Block 7, Lot 18', proofType: 'image', proofUrl: 'https://via.placeholder.com/1200x800.png?text=PAY012+Proof', type: 'Resident' },
-      { paymentId: 'PAY013', paymentFor: 'Monthly Dues', amount: '50', date: '2024-09-18', time: '03:30 PM', method: 'Bank Transfer', status: 'paid', address: 'Block 7, Lot 18', proofType: 'pdf', proofUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf', type: 'Resident' },
-      { paymentId: 'PAY014', paymentFor: 'Monthly Dues', amount: '50', date: '2024-08-22', time: '01:10 PM', method: 'Cash', status: 'paid', address: 'Block 7, Lot 18', proofType: 'image', proofUrl: 'https://via.placeholder.com/1200x800.png?text=PAY014+Proof', type: 'Resident' },
-      { paymentId: 'PAY015', paymentFor: 'Monthly Dues', amount: '50', date: '2024-07-14', time: '10:00 AM', method: 'GCash', status: 'paid', address: 'Block 7, Lot 18', proofType: 'image', proofUrl: 'https://via.placeholder.com/1200x800.png?text=PAY015+Proof', type: 'Resident' },
-      { paymentId: 'PAY016', paymentFor: 'Monthly Dues', amount: '50', date: '2024-06-16', time: '04:45 PM', method: 'Bank Transfer', status: 'paid', address: 'Block 7, Lot 18', proofType: 'image', proofUrl: 'https://via.placeholder.com/1200x800.png?text=PAY016+Proof', type: 'Resident' }
-    ]
-  };
-
-  // global state
-  let mainPayments = paymentData['USER006'].slice(); // payments shown in My Account Information table
-  let mainSelectedPaymentIds = new Set();
-  const itemsPerPage = 7;
-  let mainCurrentPage = 1;
-
-  // modal-specific state (keeps original modal functionality)
-  let currentPayments = [];
-  let selectedPaymentIds = new Set();
-
-  // --- Render Main Table (with pagination) ---
-  function renderMainTable(page = 1) {
-    mainCurrentPage = page;
-    const tbody = document.getElementById('mainPaymentTableBody');
-    tbody.innerHTML = '';
-
-    const total = mainPayments.length;
-    const totalPages = Math.ceil(total / itemsPerPage) || 1;
-    if (page < 1) page = 1;
-    if (page > totalPages) page = totalPages;
-
-    const start = (page - 1) * itemsPerPage;
-    const end = Math.min(start + itemsPerPage, total);
-    const slice = mainPayments.slice(start, end);
-
-    slice.forEach(payment => {
-      const referenceNumber = `REF-${new Date(payment.date).getFullYear()}-${String(payment.paymentId.slice(-3)).padStart(4, '0')}`;
-      const isSelected = mainSelectedPaymentIds.has(payment.paymentId);
-      const tr = document.createElement('tr');
-      tr.setAttribute('data-payment-id', payment.paymentId);
-      if (isSelected) tr.classList.add('bg-teal-50');
-
-      tr.innerHTML = `
-        <td class="px-6 py-4 whitespace-nowrap">${payment.paymentFor}</td>
-        <td class="px-6 py-4 whitespace-nowrap">₱${payment.amount}</td>
-        <td class="px-6 py-4 whitespace-nowrap">${payment.date}</td>
-        <td class="px-6 py-4 whitespace-nowrap">${payment.time}</td>
-        <td class="px-6 py-4 whitespace-nowrap">${payment.method}</td>
-        <td class="px-6 py-4 whitespace-nowrap">${capitalize(payment.status)}</td>
-        <td class="px-6 py-4 whitespace-nowrap">${referenceNumber}</td>
-        <td class="px-6 py-4 whitespace-nowrap">
-          <div class="proof-card">
-            <button onclick="viewProof('${payment.paymentId}')" class="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700 text-xs">
-              View
-            </button>
-          </div>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    // update info text
-    const info = document.getElementById('mainTableInfo');
-    const showingFrom = total === 0 ? 0 : start + 1;
-    info.textContent = `Showing ${showingFrom} to ${end} of ${total} payments`;
-
-    // render pagination controls
-    renderMainPagination(totalPages, page);
-
-    // set mainSelectAllCheckbox checked state
-    const allBoxes = document.querySelectorAll('.main-payment-checkbox');
-    document.getElementById('mainSelectAllCheckbox').checked = (allBoxes.length > 0 && Array.from(allBoxes).every(cb => cb.checked));
-  }
-
-  function renderMainPagination(totalPages, activePage) {
-    const container = document.getElementById('mainPagination');
-    container.innerHTML = '';
-    if (totalPages <= 1) return;
-
-    // Prev
-    const prev = document.createElement('button');
-    prev.innerHTML = '&larr;';
-    prev.disabled = activePage === 1;
-    prev.className = 'px-3';
-    prev.onclick = () => renderMainTable(activePage - 1);
-    container.appendChild(prev);
-
-    // page numbers (show up to 5 pages window)
-    const windowSize = 5;
-    let start = Math.max(1, activePage - Math.floor(windowSize / 2));
-    let end = Math.min(totalPages, start + windowSize - 1);
-    if (end - start < windowSize - 1) start = Math.max(1, end - windowSize + 1);
-
-    for (let p = start; p <= end; p++) {
-      const btn = document.createElement('button');
-      btn.textContent = p;
-      btn.onclick = () => renderMainTable(p);
-      btn.className = 'px-3';
-      if (p === activePage) btn.classList.add('active');
-      container.appendChild(btn);
-    }
-
-    // Next
-    const next = document.createElement('button');
-    next.innerHTML = '&rarr;';
-    next.disabled = activePage === totalPages;
-    next.className = 'px-3';
-    next.onclick = () => renderMainTable(activePage + 1);
-    container.appendChild(next);
-  }
-
-  function toggleMainSelectAll(checked) {
-    const boxes = document.querySelectorAll('.main-payment-checkbox');
-    boxes.forEach(cb => {
-      cb.checked = checked;
-      if (checked) {
-        mainSelectedPaymentIds.add(cb.value);
-        cb.closest('tr').classList.add('bg-teal-50');
-      } else {
-        mainSelectedPaymentIds.delete(cb.value);
-        cb.closest('tr').classList.remove('bg-teal-50');
-      }
-    });
-    // reflect global modal selected (do nothing to modal set, they are independent)
-  }
-
-  function updateMainSelectedPayments() {
-    mainSelectedPaymentIds.clear();
-    document.querySelectorAll('.main-payment-checkbox').forEach(cb => {
-      const row = cb.closest('tr');
-      if (cb.checked) {
-        mainSelectedPaymentIds.add(cb.value);
-        row.classList.add('bg-teal-50');
-      } else {
-        row.classList.remove('bg-teal-50');
-      }
-    });
-    // update header select all
-    const allBoxes = document.querySelectorAll('.main-payment-checkbox');
-    document.getElementById('mainSelectAllCheckbox').checked = (allBoxes.length > 0 && Array.from(allBoxes).every(cb => cb.checked));
-  }
-
-  // small utility
-  function capitalize(s) {
-    return s && typeof s === 'string' ? s.charAt(0).toUpperCase() + s.slice(1) : s;
-  }
-
-  // --- Modal functionality (kept from original but adapted to new column set) ---
-  document.addEventListener('DOMContentLoaded', function() {
-    // initialize main table with payments for USER006
-    mainPayments = paymentData['USER006'].slice();
-    renderMainTable(1);
-
-    // prepare modal data default (so viewProof works in either context)
-    currentPayments = paymentData['USER006'].slice();
-  });
-
-  // --- Modal rendering (kept) ---
-  function openPaymentHistoryModal(userId, name) {
-    const modal = document.getElementById('paymentHistoryModal');
-    const modalUserName = document.getElementById('modal-user-name');
-    modalUserName.textContent = `${name} (${userId}) - Payment History`;
-
-    // Reset filters and selections
-    document.getElementById('filterMonth').value = '';
-    document.getElementById('filterYear').value = '';
-    document.getElementById('filterDay').value = '';
-    selectedPaymentIds.clear();
-
-    currentPayments = paymentData[userId] || [];
-    renderPaymentTable(currentPayments);
-    updateSelectedPaymentsCount();
-
-    modal.classList.remove('hidden');
-    document.body.classList.add('overflow-hidden');
-  }
-
-  function renderPaymentTable(paymentsToRender) {
-    const modalBody = document.getElementById('paymentHistoryBody');
-    modalBody.innerHTML = `
-      <table class="excel-table w-full">
-        <thead>
-          <tr>
-            <th width="40" class="text-center">Select All <br><input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this.checked)"></th>
-            <th class="px-3 py-2">Payment For</th>
-            <th class="px-3 py-2">Amount</th>
-            <th class="px-3 py-2">Date Submitted</th>
-            <th class="px-3 py-2">Time</th>
-            <th class="px-3 py-2">Method</th>
-            <th class="px-3 py-2">Status</th>
-            <th class="px-3 py-2">Reference Number</th>
-            <th class="px-3 py-2">Proof</th>
-          </tr>
-        </thead>
-        <tbody id="paymentTableBody" class="text-[13px]">
-        </tbody>
-      </table>
-    `;
-
-    const tbody = document.getElementById('paymentTableBody');
-    tbody.innerHTML = '';
-    paymentsToRender.forEach(payment => {
-      const referenceNumber = `REF-${new Date(payment.date).getFullYear()}-${String(payment.paymentId.slice(-3)).padStart(4, '0')}`;
-      const isSelected = selectedPaymentIds.has(payment.paymentId);
-
-      const tr = document.createElement('tr');
-      tr.setAttribute('data-payment-id', payment.paymentId);
-      if (isSelected) tr.classList.add('bg-teal-50');
-
-      tr.innerHTML = `
-        <td class="text-center px-3 py-2">
-          <input type="checkbox" class="payment-checkbox" value="${payment.paymentId}" ${isSelected ? 'checked' : ''} onchange="updateSelectedPayments()">
-        </td>
-        <td class="px-3 py-2">${payment.paymentFor}</td>
-        <td class="px-3 py-2">₱${payment.amount}</td>
-        <td class="px-3 py-2">${payment.date}</td>
-        <td class="px-3 py-2">${payment.time}</td>
-        <td class="px-3 py-2">${payment.method}</td>
-        <td class="px-3 py-2">${capitalize(payment.status)}</td>
-        <td class="px-3 py-2">${referenceNumber}</td>
-        <td class="px-3 py-2">
-          <div class="bg-teal-100 border border-teal-300 rounded p-1 text-center">
-            <button onclick="viewProof('${payment.paymentId}')" class="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-700 text-xs">
-              View
-            </button>
-          </div>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    const allCheckboxes = document.querySelectorAll('#paymentTableBody .payment-checkbox');
-    document.getElementById('selectAllCheckbox').checked = allCheckboxes.length > 0 && selectedPaymentIds.size === allCheckboxes.length;
-  }
-
-  // modal select/deselect functions
-  function toggleSelectAll(checked) {
-    const checkboxes = document.querySelectorAll('#paymentTableBody .payment-checkbox');
-    selectedPaymentIds.clear();
-    checkboxes.forEach(cb => {
-      cb.checked = checked;
-      if (checked) {
-        selectedPaymentIds.add(cb.value);
-        cb.closest('tr').classList.add('bg-teal-50');
-      } else {
-        cb.closest('tr').classList.remove('bg-teal-50');
-      }
-    });
-    document.getElementById('selectedPaymentsCount').textContent = `${selectedPaymentIds.size} selected`;
-  }
-
-  function selectAllPaymentsInModal() {
-    const checkboxes = document.querySelectorAll('#paymentTableBody .payment-checkbox');
-    selectedPaymentIds.clear();
-    checkboxes.forEach(cb => {
-      cb.checked = true;
-      selectedPaymentIds.add(cb.value);
-      cb.closest('tr').classList.add('bg-teal-50');
-    });
-    document.getElementById('selectAllCheckbox').checked = true;
-    updateSelectedPaymentsCount();
-  }
-
-  function deselectAllPaymentsInModal() {
-    const checkboxes = document.querySelectorAll('#paymentTableBody .payment-checkbox');
-    selectedPaymentIds.clear();
-    checkboxes.forEach(cb => {
-      cb.checked = false;
-      cb.closest('tr').classList.remove('bg-teal-50');
-    });
-    document.getElementById('selectAllCheckbox').checked = false;
-    updateSelectedPaymentsCount();
-  }
-
-  function updateSelectedPayments() {
-    selectedPaymentIds.clear();
-    const checkboxes = document.querySelectorAll('#paymentTableBody .payment-checkbox');
-    checkboxes.forEach(cb => {
-      const row = cb.closest('tr');
-      if (cb.checked) {
-        selectedPaymentIds.add(cb.value);
-        row.classList.add('bg-teal-50');
-      } else {
-        row.classList.remove('bg-teal-50');
-      }
-    });
-    document.getElementById('selectAllCheckbox').checked = selectedPaymentIds.size === checkboxes.length && checkboxes.length > 0;
-    updateSelectedPaymentsCount();
-  }
-
-  function updateSelectedPaymentsCount() {
-    document.getElementById('selectedPaymentsCount').textContent = `${selectedPaymentIds.size} selected`;
-  }
-
-  function filterPaymentsInModal() {
-    const monthFilter = document.getElementById('filterMonth').value;
-    const yearFilter = document.getElementById('filterYear').value;
-    const dayFilter = document.getElementById('filterDay').value;
-
-    const filtered = currentPayments.filter(payment => {
-      const paymentDate = new Date(payment.date);
-      const paymentMonth = String(paymentDate.getMonth() + 1).padStart(2, '0');
-      const paymentYear = String(paymentDate.getFullYear());
-      const paymentDay = String(paymentDate.getDate()).padStart(2, '0');
-
-      const matchesMonth = !monthFilter || paymentMonth === monthFilter;
-      const matchesYear = !yearFilter || paymentYear === yearFilter;
-      const matchesDay = !dayFilter || paymentDay === String(dayFilter).padStart(2, '0');
-
-      return matchesMonth && matchesYear && matchesDay;
-    });
-
-    renderPaymentTable(filtered);
-    updateSelectedPaymentsCount();
-  }
-
-  // modal open/close
-  function closePaymentHistoryModal() {
-    document.getElementById('paymentHistoryModal').classList.add('hidden');
-    document.body.classList.remove('overflow-hidden');
-  }
-
-  // proof viewing (works for both main table and modal)
-  function viewProof(paymentId) {
-    // find in either currentPayments or mainPayments
-    let payment = currentPayments.find(p => p.paymentId === paymentId);
-    if (!payment) payment = mainPayments.find(p => p.paymentId === paymentId);
-
-    if (!payment || !payment.proofUrl) {
-      alert('No proof available for this payment.');
-      return;
-    }
-
-    const proofViewContent = document.getElementById('proofViewContent');
-    proofViewContent.innerHTML = '';
-
-    if (payment.proofType === 'image') {
-      proofViewContent.innerHTML = `<img src="${payment.proofUrl}" class="max-w-full h-auto mx-auto rounded shadow" alt="Proof of Payment">`;
-    } else if (payment.proofType === 'pdf') {
-      proofViewContent.innerHTML = `<iframe src="${payment.proofUrl}" class="w-full h-[70vh]" frameborder="0"></iframe>`;
-    } else {
-      proofViewContent.innerHTML = `<p class="text-gray-500">Cannot preview this file type. <a href="${payment.proofUrl}" download="${paymentId}_proof" class="text-blue-600 hover:underline">Download to view</a></p>`;
-    }
-    document.getElementById('proofViewModal').classList.remove('hidden');
-    document.body.classList.add('overflow-hidden');
-  }
-
-  function closeProofViewModal() {
-    document.getElementById('proofViewModal').classList.add('hidden');
-    document.getElementById('proofViewContent').innerHTML = '';
-    document.body.classList.remove('overflow-hidden');
-  }
-
-  // Download / CSV / Print (kept mostly unchanged, using modal selected set)
-  window.downloadPDF = function() {
-    // minimal PDF fallback using print if jsPDF not present — keep original promises intact
-    alert('Download PDF feature uses jsPDF — ensure jsPDF is loaded. (This keeps original behavior.)');
-  };
-
-  window.downloadCSV = function() {
-    const modalUserName = document.getElementById('modal-user-name').textContent || 'payments';
-    const paymentsToDownload = selectedPaymentIds.size > 0 ? currentPayments.filter(p => selectedPaymentIds.has(p.paymentId)) : currentPayments;
-    if (paymentsToDownload.length === 0) { alert('No payments selected or available to download.'); return; }
-    let csvContent = "Payment ID,Payment For,Amount,Date Submitted,Time,Method,Status,Reference Number,Type\n";
-    paymentsToDownload.forEach(payment => {
-      const referenceNumber = `REF-${new Date(payment.date).getFullYear()}-${String(payment.paymentId.slice(-3)).padStart(4, '0')}`;
-      csvContent += `${payment.paymentId},"${payment.paymentFor}",${payment.amount},${payment.date},${payment.time},${payment.method},${payment.status},${referenceNumber},${payment.type}\n`;
-    });
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    if (link.download !== undefined) {
-      const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', `${modalUserName.replace(/ /g, '_')}_payment_history.csv`);
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
-
-  window.printPaymentHistory = function() {
-    const paymentsToPrint = selectedPaymentIds.size > 0 ? currentPayments.filter(p => selectedPaymentIds.has(p.paymentId)) : currentPayments;
-    if (paymentsToPrint.length === 0) { alert('No payments selected or available to print.'); return; }
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = `<h3 style="font-size:18px;margin-bottom:8px">${document.getElementById('modal-user-name').textContent}</h3>`;
-    tempDiv.innerHTML += `<table class="excel-table" style="width:100%"><thead><tr><th>Payment For</th><th>Amount</th><th>Date</th><th>Time</th><th>Method</th><th>Status</th><th>Reference</th></tr></thead><tbody></tbody></table>`;
-    const tbody = tempDiv.querySelector('tbody');
-    paymentsToPrint.forEach(payment => {
-      const referenceNumber = `REF-${new Date(payment.date).getFullYear()}-${String(payment.paymentId.slice(-3)).padStart(4, '0')}`;
-      tbody.innerHTML += `<tr><td>${payment.paymentFor}</td><td>₱${payment.amount}</td><td>${payment.date}</td><td>${payment.time}</td><td>${payment.method}</td><td>${capitalize(payment.status)}</td><td>${referenceNumber}</td></tr>`;
-    });
-    const original = document.body.innerHTML;
-    document.body.innerHTML = `<div style="padding:20px">${tempDiv.innerHTML}</div>`;
-    window.print();
-    document.body.innerHTML = original;
-    location.reload(); // reload to reattach event handlers (keeps behavior simple)
-  };
-
-</script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2025 at 06:05 PM
+-- Generation Time: Nov 12, 2025 at 06:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,7 +60,9 @@ INSERT INTO `fee_assignation` (`id`, `user_id`, `fee_type_id`, `next_due`, `is_p
 (73, 20252509, 20202339, '2025-08-01', 0, '', '', '', 0, '2025-11-12', '2025-11-12'),
 (74, 20252509, 20202339, '2025-09-01', 0, '', '', '', 0, '2025-11-12', '2025-11-12'),
 (75, 20252509, 20202339, '2025-11-01', 1, 'GCash', 'Mathew Melendez ', '', 1, '2025-11-12', '2025-11-12'),
-(76, 20252509, 20202339, '2025-12-01', 1, 'Bank Transfer', 'Mathew Melendez ', '', 1, '2025-11-12', '2025-11-12');
+(76, 20252509, 20202339, '2025-12-01', 1, 'Bank Transfer', 'Mathew Melendez ', '', 1, '2025-11-12', '2025-11-12'),
+(77, 20252509, 20201395, '2025-12-01', 1, 'GCash', 'tapat', '', 1, '2025-11-13', '2025-11-13'),
+(78, 20252509, 202010458, '2025-12-01', 1, 'GCash', 'over', '', 1, '2025-11-13', '2025-11-13');
 
 -- --------------------------------------------------------
 
@@ -105,6 +107,7 @@ INSERT INTO `fee_type` (`id`, `fee_type_id`, `user_id`, `fee_name`, `description
 CREATE TABLE `payment_history` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `fee_type_id` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
   `payment_method` varchar(100) NOT NULL,
   `payment_receipt_name` varchar(100) NOT NULL,
@@ -120,13 +123,15 @@ CREATE TABLE `payment_history` (
 -- Dumping data for table `payment_history`
 --
 
-INSERT INTO `payment_history` (`id`, `user_id`, `amount`, `payment_method`, `payment_receipt_name`, `remarks`, `reference_number`, `is_walk_in`, `proof_of_payment`, `date_created`, `date_updated`) VALUES
-(23, 20255661, 48, 'GCash', 'Mathew Melendez ', '', 'you', 0, '1762879792_Building_official_-_NBP.drawio.png', '2025-11-12', '2025-11-12'),
-(24, 20255661, 51, 'GCash', 'Mathew Melendez ', '', 'tite', 0, '1762879818_Applicant_-_FOPA.drawio.png', '2025-11-12', '2025-11-12'),
-(25, 20255661, 8, 'Bank Transfer', 'Mathew Melendez ', '', 'tite', 0, '1762880058_...png', '2025-11-12', '2025-11-12'),
-(26, 20252509, 51, 'GCash', 'Mathew Melendez ', '', 'hahaha', 0, '1762880398_Sectionheads_-_FOPA.drawio.png', '2025-11-12', '2025-11-12'),
-(27, 20252509, 79, 'Bank Transfer', 'Mathew Melendez ', '', 'you', 0, '1762880438_Technical_staff_-_NBP.drawio.png', '2025-11-12', '2025-11-12'),
-(28, 20252509, 79, 'GCash', 'Mathew Melendez ', '', 'tite', 0, '1762880470_Assessment_officer_-_NBP.drawio.png', '2025-11-12', '2025-11-12');
+INSERT INTO `payment_history` (`id`, `user_id`, `fee_type_id`, `amount`, `payment_method`, `payment_receipt_name`, `remarks`, `reference_number`, `is_walk_in`, `proof_of_payment`, `date_created`, `date_updated`) VALUES
+(23, 20255661, 0, 48, 'GCash', 'Mathew Melendez ', '', 'you', 0, '1762879792_Building_official_-_NBP.drawio.png', '2025-11-12', '2025-11-12'),
+(24, 20255661, 0, 51, 'GCash', 'Mathew Melendez ', '', 'tite', 0, '1762879818_Applicant_-_FOPA.drawio.png', '2025-11-12', '2025-11-12'),
+(25, 20255661, 0, 8, 'Bank Transfer', 'Mathew Melendez ', '', 'tite', 0, '1762880058_...png', '2025-11-12', '2025-11-12'),
+(26, 20252509, 0, 51, 'GCash', 'Mathew Melendez ', '', 'hahaha', 0, '1762880398_Sectionheads_-_FOPA.drawio.png', '2025-11-12', '2025-11-12'),
+(27, 20252509, 0, 79, 'Bank Transfer', 'Mathew Melendez ', '', 'you', 0, '1762880438_Technical_staff_-_NBP.drawio.png', '2025-11-12', '2025-11-12'),
+(28, 20252509, 0, 79, 'GCash', 'Mathew Melendez ', '', 'tite', 0, '1762880470_Assessment_officer_-_NBP.drawio.png', '2025-11-12', '2025-11-12'),
+(29, 20252509, 0, 99, 'GCash', 'tapat', '', 'hahaha', 0, '1762964894_Building_official_-_NBP.drawio.png', '2025-11-13', '2025-11-13'),
+(30, 20252509, 78, 8, 'GCash', 'over', '', 'you', 0, '1762965048_UC-BPNM-RBP-002.drawio.png', '2025-11-13', '2025-11-13');
 
 -- --------------------------------------------------------
 
@@ -206,7 +211,7 @@ CREATE TABLE `unpaid_fees` (
 
 INSERT INTO `unpaid_fees` (`id`, `user_id`, `total_balance`, `date_created`, `date_updated`) VALUES
 (68, 20255661, 107.00, '2025-11-12', '2025-11-12'),
-(69, 20252509, 869.00, '2025-11-12', '2025-11-12');
+(69, 20252509, 719.00, '2025-11-12', '2025-11-13');
 
 -- --------------------------------------------------------
 
@@ -244,11 +249,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `user_id`, `first_name`, `middle_name`, `last_name`, `suffix`, `email_address`, `hoa_number`, `phone_number`, `age`, `date_of_birth`, `citizenship`, `civil_status`, `account_status`, `home_address`, `lot_number`, `block_number`, `phase_number`, `village_name`, `date_created`, `date_updated`) VALUES
-(39, 2, 202540617, 'Mechelle', 'Vielka Farrell', 'Palmer', 'Veronica Wheeler', 'verovalut@mailinator.com', 0, '+639917385959', 29, '1997-05-05', 'Deserunt tempora rep', 'Divorced', 1, 'Excepturi pariatur ', 310, 653, 145, 'Juliet Holland', '2025-11-05', '2025-11-05'),
+(39, 1, 202540617, 'Mechelle', 'Vielka Farrell', 'Palmer', 'Veronica Wheeler', 'verovalut@mailinator.com', 0, '+639917385959', 29, '1997-05-05', 'Deserunt tempora rep', 'Divorced', 1, 'Excepturi pariatur ', 310, 653, 145, 'Juliet Holland', '2025-11-05', '2025-11-05'),
 (40, 3, 2025406137, 'Halee', 'Omar White', 'Oneill', 'Judah Barlow', 'cibawu@mailinator.com', 0, '+639917137979', 59, '2009-09-20', 'In nulla labore expe', 'Annulled', 1, 'Exercitation do susc', 857, 699, 555, 'Levi Deleon', '2025-11-05', '2025-11-05'),
 (41, 4, 20256086, 'Kelly', 'Ulric Mckee', 'Horn', 'Keegan Flores', 'wagecab@mailinator.com', 0, '+639173797931', 60, '1973-10-24', 'Ut in est molestiae', 'Widowed', 1, 'Numquam sit ea ut qu', 150, 392, 403, 'Liberty Bolton', '2025-11-05', '2025-11-05'),
 (42, 4, 20258505, 'Steven', 'Abra', 'Desiree', 'Lynn', 'byferulap@mailinator.com', 0, '+639Indigo', 179, '2024-09-20', 'Dawn', 'Married', 1, 'Mary', 0, 0, 0, 'Preston', '2025-11-05', '2025-11-05'),
-(43, 2, 20251709, 'Shannon', 'Holmes Walter', 'Tran', 'Julie Daugherty', 'verovalut@mailinator.com', 0, '+639312331233', 47, '2023-04-18', 'Amet accusantium op', 'Annulled', 1, 'Odit ullamco volupta', 871, 481, 590, 'Noelani Mcguire', '2025-11-05', '2025-11-05'),
 (44, 6, 20255661, 'Sonia', 'Jakeem Hopkins', 'Wheeler', 'Victor Kinney', 'betogix@mailinator.com', 778, '+6391 (499) 918-5992', 90, '2019-09-19', 'Perspiciatis nostru', 'Widowed', 1, '', 204, 350, 2, 'Lucian Miranda', '2025-11-05', '2025-11-05'),
 (45, 6, 20257123, 'Fritz', 'Addison Curtis', 'Bean', 'Josephine Brennan', 'nygiv@mailinator.com', 190, '+639823172321', 34, '1998-04-06', 'Sed tempor dolore te', 'Single', 1, '', 897, 485, 4, 'Gemma Kane', '2025-11-05', '2025-11-08'),
 (46, 6, 20254233, 'Tanisha', 'Francis Ortiz', 'Walters', 'Nathan Cooley', 'niruluwek@mailinator.com', 376, '+6391 (284) 999-9366', 84, '1985-12-30', 'Irure perferendis qu', 'Single', 1, '', 424, 773, 1, 'Galena Crosby', '2025-11-08', '2025-11-08'),
@@ -319,7 +323,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `fee_assignation`
 --
 ALTER TABLE `fee_assignation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `fee_type`
@@ -331,13 +335,13 @@ ALTER TABLE `fee_type`
 -- AUTO_INCREMENT for table `payment_history`
 --
 ALTER TABLE `payment_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `payment_verification`
 --
 ALTER TABLE `payment_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `roles`
