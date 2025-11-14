@@ -1,3 +1,14 @@
+<?php
+
+include('../../connection/connection.php'); 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+session_start();
+$user_id = $_SESSION['user_id'];
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -137,15 +148,15 @@
         <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
       </div>
       <nav class="flex-1">
-        <a href="tres-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="tres-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-tachometer-alt mr-3"></i>
           <span>Dashboard</span>
         </a>
-        <a href="tres-paymenthistory.html" class="flex items-center px-6 py-3 bg-teal-700">
+        <a href="tres-paymenthistory.php" class="flex items-center px-6 py-3 bg-teal-700">
           <i class="fas fa-receipt mr-3"></i>
           <span>Payment History</span>
         </a>
-        <a href="tres-remittance.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="tres-remittance.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-money-check mr-3"></i>
           <span>Remittance</span>
         </a>
@@ -162,7 +173,7 @@
   <div x-show="open" x-cloak class="bg-teal-800 text-sm">
     <!-- Tricycle Navigation -->
     <div class="relative">
-      <button @click="window.location.href='tres-tricycle.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+      <button @click="window.location.href='tres-tricycle.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
         <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
         <span class="flex-1 text-left">Tricycle</span>
       </button>
@@ -170,7 +181,7 @@
 
     <!-- Court Navigation -->
     <div class="relative">
-      <button @click="window.location.href='tres-court.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+      <button @click="window.location.href='tres-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
         <i class="fas fa-basketball-ball mr-2" title="Court"></i>
         <span class="flex-1 text-left">Court</span>
       </button>
@@ -178,7 +189,7 @@
 
     <!-- Stall Navigation -->
     <div class="relative">
-      <button @click="window.location.href='tres-stall.html'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
+      <button @click="window.location.href='tres-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
         <i class="fas fa-store mr-2" title="Stall"></i>
         <span class="flex-1 text-left">Stall</span>
       </button>
@@ -186,27 +197,27 @@
   </div>
 </div>
 
-        <a href="tres-project.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="tres-project.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-gavel mr-3"></i>
     <span>Resolution</span>
         </a>
-        <a href="tres-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="tres-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-book mr-3"></i>
           <span>Ledger</span>
         </a>
-        <a href="tres-acknowledgement.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="tres-acknowledgement.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-file-invoice mr-3"></i>
           <span>Receipt</span>
         </a>
-        <a href="tres-project.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="tres-project.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-newspaper mr-3"></i>
           <span>News Feed</span>
         </a>
-        <a href="tres-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="tres-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-calendar-alt mr-3"></i>
           <span>Calendar</span>
         </a>
-        <a href="tres-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="tres-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-user-circle mr-3"></i>
           <span>Profile</span>
         </a>
@@ -269,76 +280,26 @@
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
-                    <tr data-user-id="USER001">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Maria Santos</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">maria.santos@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER001', 'Maria Santos', 'maria.santos@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER002">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Juan Cruz</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">juan.cruz@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER002', 'Juan Cruz', 'juan.cruz@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER003">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Ana Reyes</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">ana.reyes@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER003', 'Ana Reyes', 'ana.reyes@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER004">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Pedro Lim</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">pedro.lim@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER004', 'Pedro Lim', 'pedro.lim@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr data-user-id="USER005">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Sofia Garcia</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">sofia.garcia@example.com</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="openPaymentHistoryModal('USER005', 'Sofia Garcia', 'sofia.garcia@example.com')"
-                          class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-                          View
-                        </button>
-                      </td>
-                    </tr>
+                     <?php
+
+                    $sql_users = "SELECT users.user_id, users.first_name, users.middle_name , users.last_name , users.email_address FROM users WHERE users.role_id = '6' ORDER BY users.last_name ASC";
+                    $run_users = mysqli_query($conn, $sql_users);
+
+                    while ($row = mysqli_fetch_assoc($run_users)) {
+                      $user_id = $row['user_id'];
+                      $full_name = trim($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name']);
+                      $email = $row['email_address'];
+                      ?>
+                      <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?php echo $full_name; ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?php echo $email; ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <a href="view-payment.php?user_id=<?php echo $user_id; ?>" class="text-teal-600 hover:text-teal-900">View</a>
+                        </td>
+                      </tr>
+                      <?php
+                    }
+                    ?>
                   </tbody>
                 </table>
               </div>

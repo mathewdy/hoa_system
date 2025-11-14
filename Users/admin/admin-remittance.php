@@ -1,3 +1,10 @@
+<?php
+include('../../connection/connection.php'); 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -155,41 +162,129 @@
               <p class="text-sm font-medium text-teal-700">Total Collected (₱)</p>
               <p id="totalCollected" class="text-2xl font-bold text-black-900">0</p>
             </div>
-            <button id="remitButton" onclick="openRemitModal()" 
-              class="bg-teal-600 hover:bg-teal-700 text-white py-2 px-5 rounded-lg text-sm font-medium shadow-md">
-              Remit
-            </button>
+           
           </div>
         </div>
 
         <div class="bg-white shadow rounded-lg overflow-hidden">
           <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fee Name</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (₱)</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                </tr>
-              </thead>
-              <tbody id="paymentHistoryTableBody" class="bg-white divide-y divide-gray-200">
-                <!-- Payment history entries will be rendered dynamically -->
-              </tbody>
-            </table>
-          </div>
-          <!-- Pagination -->
-          <div class="border-t border-gray-200 bg-gray-50 px-6 py-3 flex justify-center items-center space-x-4">
-            <button id="prevPageButton" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white opacity-50 cursor-not-allowed" onclick="prevPage()" disabled>
-              Previous
-            </button>
-            <span id="pageInfo" class="text-sm text-gray-700 font-medium"></span>
-            <button id="nextPageButton" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" onclick="nextPage()">
-              Next
-            </button>
+            <form id="remitSelectorForm" method="POST" onsubmit="return false;">
+              <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
+                <thead class="bg-teal-100">
+                  <tr>
+                    <th class="px-4 py-2 text-left">Select</th>
+                    <th class="px-4 py-2 text-left">Name</th>
+                    <th class="px-4 py-2 text-left">Fee Name</th>
+                    <th class="px-4 py-2 text-left">Amount (₱)</th>
+                    <th class="px-4 py-2 text-left">Date</th>
+                  </tr>
+                </thead>
+
+                <tbody id="paymentHistoryTableBody" class="divide-y divide-gray-200">
+                  <?php 
+                  $sql_view_remittance = "
+                    SELECT 
+                      payment_history.id,
+                      users.first_name, 
+                      users.last_name, 
+                      payment_history.fee_name, 
+                      payment_history.amount, 
+                      payment_history.date_created 
+                    FROM users 
+                    INNER JOIN payment_history 
+                      ON users.user_id = payment_history.user_id 
+                    WHERE users.role_id = '6' AND payment_history.is_submitted = '0'
+                    ORDER BY users.first_name, users.last_name;
+                  ";
+
+                  $run_view_remittance = mysqli_query($conn, $sql_view_remittance);
+
+                  if(mysqli_num_rows($run_view_remittance) > 0){
+                      foreach($run_view_remittance as $row_remittance) {
+                        $ph_id = (int)$row_remittance['id'];
+                        $fullname = htmlspecialchars($row_remittance['first_name'] . " " . $row_remittance['last_name']);
+                        $fee_name = htmlspecialchars($row_remittance['fee_name']);
+                        $amount_val = number_format($row_remittance['amount'], 2);
+                        $raw_amount = htmlspecialchars($row_remittance['amount']);
+                        $date_val = !empty($row_remittance['date_created']) ? date('F d, Y', strtotime($row_remittance['date_created'])) : 'N/A';
+                  ?>
+                      <tr>
+                        <td class="px-4 py-2 text-center">
+                          <input 
+                            type="checkbox" 
+                            class="amountCheckbox" 
+                            name="selected_payments[]" 
+                            value="<?php echo $ph_id; ?>" 
+                            data-amount="<?php echo $raw_amount; ?>"
+                            data-fee="<?php echo $fee_name; ?>"
+                            data-name="<?php echo $fullname; ?>">
+                        </td>
+                        <td class="px-4 py-2"><?php echo $fullname; ?></td>
+                        <td class="px-4 py-2"><?php echo $fee_name; ?></td>
+                        <td class="px-4 py-2">₱<?php echo $amount_val; ?></td>
+                        <td class="px-4 py-2"><?php echo $date_val; ?></td>
+                      </tr>
+                  <?php 
+                      }
+                  } else {
+                    echo '<tr><td colspan="5" class="text-center py-4 text-gray-500">No payment records found.</td></tr>';
+                  }
+                  ?>
+                </tbody>
+              </table>
+
+              <!-- Hidden field (kept for compatibility if needed) -->
+              <input type="hidden" id="totalAmountInput" name="amount" value="">
+
+              <!-- Trigger modal instead of immediate submit -->
+              <div style="margin-top: 15px;">
+                <button type="button" id="openRemitModalBtn" 
+                  style="background-color: #16a34a; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
+                  Submit
+                </button>
+              </div>
+            </form>
+
+        <!-- REMIT MODAL (final form posts to handler) -->
+        <div id="remitModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999;">
+          <div style="width:420px; margin:6% auto; background:#fff; padding:18px; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,0.25); position:relative;">
+            <button type="button" onclick="closeRemitModal()" style="position:absolute; right:12px; top:8px; background:transparent; border:none; font-size:22px; cursor:pointer;">&times;</button>
+            <h3 style="margin-top:4px; margin-bottom:12px;">Submit Remittance</h3>
+
+            <form id="remitForm" action="../../Query/submit-remittance.php" method="POST">
+              <label style="display:block; margin-bottom:6px;">Particular</label>
+              <textarea name="particular" id="modalParticular" rows="3" required style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;"></textarea>
+
+              <label style="display:block; margin-top:8px; margin-bottom:6px;">Amount</label>
+              <input type="number" step="0.01" name="amount" id="modalAmount" readonly required style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; background:#f8fafc;">
+
+              <label style="display:block; margin-top:8px; margin-bottom:6px;">Date</label>
+              <input type="date" name="date" id="modalDate" value="<?php echo date('Y-m-d'); ?>" required style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;">
+
+              <label style="display:block; margin-top:8px; margin-bottom:6px;">Transaction Type</label>
+              <select name="transaction_type" id="modalTransactionType" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;">
+                <option value="">Select</option>
+                <option value="Credit">Credit</option>
+                <option value="Debit">Debit</option>
+              </select>
+
+              <label style="display:block; margin-top:8px; margin-bottom:6px;">Secretary Name</label>
+              <input type="text" name="secretary_name" id="modalSecretaryName" value="" required style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;">
+
+              <!-- Container for hidden selected payment ids -->
+              <div id="selectedPaymentsContainer"></div>
+
+              <div style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+                <button type="button" onclick="closeRemitModal()" style="padding:8px 12px; border-radius:6px; border:1px solid #ccc; background:#fff; cursor:pointer;">Cancel</button>
+                <button type="submit" name="submit_remittance" style="padding:8px 14px; border-radius:6px; border:none; background:#16a34a; color:#fff; cursor:pointer;">Submit Remittance</button>
+              </div>
+            </form>
           </div>
         </div>
-      </div>
+
+
+
+          
 
       <!-- Remittance Table Section -->
       <div id="remittance-table-section" class="mb-8">
@@ -202,12 +297,50 @@
                 <tr>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Particular</th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (₱)</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody id="remittanceTableBody" class="bg-white divide-y divide-gray-200">
                 <!-- Remittance entries will be rendered dynamically -->
+                  
+                <?php 
+
+                  $sql_remittance_table = "SELECT * FROM remittance";
+                  $run_remittance_table = mysqli_query($conn,$sql_remittance_table);
+
+                  if(mysqli_num_rows($run_remittance_table) > 0){
+                    foreach($run_remittance_table as $row_remittance_table){
+                      ?>
+
+
+                        <tr>
+                          <td><?php echo $row_remittance_table['particular']?></td>
+                          <td><?php echo $row_remittance_table['amount']?></td>
+                          <td>
+                            <?php 
+                              if($row_remittance_table['is_approved'] == 0){
+                                echo "Pending";
+                              }else{
+                                echo "Approved";
+                              }
+                            ?>
+                          </td>
+                          <td>
+
+                            <a href="view-table-remittance.php?id=<?php echo $row_remittance_table['id']?>">View</a>
+                          
+                          </td>
+                        </tr>
+
+                      <?php 
+                    }
+                  }
+
+
+
+                ?>
+
               </tbody>
             </table>
           </div>
@@ -217,357 +350,74 @@
   </div>
 </div>
 
-<!-- Remit Modal -->
-<div id="remitModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-  <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
-    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
-      <h3 class="text-lg font-medium text-gray-900">Remit Payment</h3>
-      <button onclick="closeRemitModal()" class="text-gray-400 hover:text-gray-500">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="p-6">
-      <form id="remitForm" class="space-y-6">
-        <div>
-          <label for="remitParticular" class="block text-sm font-medium text-gray-700">Particular</label>
-          <input type="text" id="remitParticular" name="remitParticular" value="Today's HOA Collected Fee"
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm" />
-        </div>
-        <div>
-          <label for="remitAmount" class="block text-sm font-medium text-gray-700">Amount (₱)</label>
-          <input type="text" id="remitAmount" name="remitAmount"
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm" />
-        </div>
-        <div>
-          <label for="remitDate" class="block text-sm font-medium text-gray-700">Date</label>
-          <input type="date" id="remitDate" name="remitDate" value="2025-09-16"
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm" />
-        </div>
-        <div>
-          <label for="remitTransactionType" class="block text-sm font-medium text-gray-700">Transaction Type</label>
-          <input type="text" id="remitTransactionType" name="remitTransactionType" value="Credit" readonly
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm" />
-        </div>
-        <div>
-          <label for="remitSecretary" class="block text-sm font-medium text-gray-700">Secretary Name</label>
-          <input type="text" id="remitSecretary" name="remitSecretary" value="Kendall Jenner"
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm" />
-        </div>
-        <div class="flex justify-end space-x-3">
-          <button type="button" onclick="closeRemitModal()"
-            class="py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-            Cancel
-          </button>
-          <button type="submit" id="confirmRemitButton"
-            class="py-2 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-teal-600 hover:bg-teal-700">
-            Confirm Remit
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- Edit/View Modal -->
-<div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-  <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
-    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
-      <h3 id="modalTitle" class="text-lg font-medium text-gray-900"></h3>
-      <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-500">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="p-6">
-      <form id="editForm" class="space-y-6">
-        <input type="hidden" id="editIndex" />
-        <div>
-          <label for="editParticular" class="block text-sm font-medium text-gray-700">Particular</label>
-          <input type="text" id="editParticular" name="editParticular"
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm" />
-        </div>
-        <div>
-          <label for="editAmount" class="block text-sm font-medium text-gray-700">Amount (₱)</label>
-          <input type="text" id="editAmount" name="editAmount"
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm" />
-        </div>
-        <div>
-          <label for="editDate" class="block text-sm font-medium text-gray-700">Date</label>
-          <input type="date" id="editDate" name="editDate"
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm" />
-        </div>
-        <div>
-          <label for="editTransactionType" class="block text-sm font-medium text-gray-700">Transaction Type</label>
-          <input type="text" id="editTransactionType" name="editTransactionType" value="Credit" readonly
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm" />
-        </div>
-        <div>
-          <label for="editSecretary" class="block text-sm font-medium text-gray-700">Secretary Name</label>
-          <input type="text" id="editSecretary" name="editSecretary"
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm" />
-        </div>
-        <div>
-          <label for="editStatus" class="block text-sm font-medium text-gray-700">Status</label>
-          <input type="text" id="editStatus" name="editStatus" readonly
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm" />
-        </div>
-        <div class="flex justify-end space-x-3">
-          <button type="button" onclick="closeEditModal()"
-            class="py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-            Cancel
-          </button>
-          <button type="submit" id="saveEditButton"
-            class="py-2 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-teal-600 hover:bg-teal-700">
-            Save
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
 
 <script>
-  // Simulated data for payment history (individual payments)
-  let paymentHistory = [
-    { name: "Maria Santos", feeName: "Monthly Dues Fee - January", amount: 50, date: "2025-01-02" },
-    { name: "TODA Dilaw", feeName: "Monthly Rent - August", amount: 1500, date: "2025-08-13" },
-    { name: "Juan Dela Cruz", feeName: "Monthly Dues Fee - September", amount: 75, date: "2025-09-01" },
-    { name: "Ana Gomez", feeName: "Amenities Fee", amount: 200, date: "2025-09-02" },
-    { name: "Pedro Reyes", feeName: "Monthly Dues Fee - September", amount: 50, date: "2025-09-03" },
-    { name: "Lina Cruz", feeName: "Monthly Rent - September", amount: 1200, date: "2025-09-04" },
-    { name: "Ramon Santos", feeName: "Amenities Fee", amount: 300, date: "2025-09-05" },
-    { name: "Maria Santos", feeName: "Monthly Dues Fee - October", amount: 60, date: "2025-09-06" }
-  ];
+  const checkboxes = document.querySelectorAll('.amountCheckbox');
+  const totalCollectedElement = document.getElementById('totalCollected');
+  const totalAmountInput = document.getElementById('totalAmountInput');
 
-  let currentPage = 1;
-  const paymentsPerPage = 7;
+  function updateTotal() {
+    let total = 0;
+    checkboxes.forEach(cb => {
+      if (cb.checked) total += parseFloat(cb.dataset.amount);
+    });
+    totalCollectedElement.innerText = "₱" + total.toLocaleString('en-PH', { minimumFractionDigits: 2 });
+    totalAmountInput.value = total; // update hidden input for backend
+  }
 
-  // Simulated data for remittance table
-  let remittanceEntries = [
-    { particular: "Today's HOA Collected Fee", amount: 15000, date: "2025-09-16", secretary: "Kendall Jenner", status: "Pending" },
-    { particular: "Previous HOA Collected Fee", amount: 12000, date: "2025-09-15", secretary: "Kendall Jenner", status: "Remitted" }
-  ];
+  checkboxes.forEach(cb => cb.addEventListener('change', updateTotal));
+</script>
 
-  document.addEventListener('DOMContentLoaded', function() {
-    renderPaymentHistory();
-    updateTotalCollected();
-    renderRemittanceTable();
+<!-- JS: open modal, fill fields, build hidden inputs -->
+<script>
+  document.getElementById('openRemitModalBtn').addEventListener('click', function() {
+    // find checked checkboxes
+    const checked = document.querySelectorAll('.amountCheckbox:checked');
+    if (checked.length === 0) {
+      alert('Please select at least one payment to remit.');
+      return;
+    }
 
-    // Remit form submit
-    const remitForm = document.getElementById('remitForm');
-    remitForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const rawAmount = document.getElementById('remitAmount').value || "0";
-      const amount = parseFloat(String(rawAmount).replace(/[^\d.-]/g, '')) || 0;
-      remittanceEntries.push({
-        particular: document.getElementById('remitParticular').value,
-        amount: amount,
-        date: document.getElementById('remitDate').value || new Date().toISOString().slice(0,10),
-        secretary: document.getElementById('remitSecretary').value,
-        status: "Pending"
-      });
-      alert('Remittance submitted successfully! Awaiting treasurer verification.');
-      closeRemitModal();
-      renderRemittanceTable();
+    // build particular (list of selected items)
+    let particulars = [];
+    let total = 0;
+    const selectedContainer = document.getElementById('selectedPaymentsContainer');
+    selectedContainer.innerHTML = ''; // reset
+
+    checked.forEach(ch => {
+      const fee = ch.dataset.fee || '';
+      const name = ch.dataset.name || '';
+      const id = ch.value;
+      const amount = parseFloat(ch.dataset.amount) || 0;
+      particulars.push(name + ' — ' + fee + ' (₱' + amount.toFixed(2) + ')');
+      total += amount;
+
+      // create hidden input for each selected payment id (so remitForm will submit them)
+      const hidden = document.createElement('input');
+      hidden.type = 'hidden';
+      hidden.name = 'selected_payments[]';
+      hidden.value = id;
+      selectedContainer.appendChild(hidden);
     });
 
-    // Edit form submit
-    const editForm = document.getElementById('editForm');
-    editForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const idxRaw = document.getElementById('editIndex').value;
-      if (idxRaw === "") return;
-      const idx = parseInt(idxRaw, 10);
-      if (isNaN(idx) || !remittanceEntries[idx]) return;
+    // set amount both in modal and the legacy hidden input
+    document.getElementById('modalAmount').value = total.toFixed(2);
+    const totalHiddenLegacy = document.getElementById('totalAmountInput');
+    if (totalHiddenLegacy) totalHiddenLegacy.value = total.toFixed(2);
 
-      const rawAmount = document.getElementById('editAmount').value || "0";
-      const amount = parseFloat(String(rawAmount).replace(/[^\d.-]/g, '')) || 0;
-
-      remittanceEntries[idx].particular = document.getElementById('editParticular').value;
-      remittanceEntries[idx].amount = amount;
-      remittanceEntries[idx].date = document.getElementById('editDate').value || remittanceEntries[idx].date;
-      remittanceEntries[idx].secretary = document.getElementById('editSecretary').value;
-      // status field is readonly in the modal; if you want to allow changing it, remove readonly in markup
-      alert('Remittance updated successfully!');
-      closeEditModal();
-      renderRemittanceTable();
-    });
+    // open modal
+    document.getElementById('remitModal').style.display = 'block';
   });
 
-  function renderPaymentHistory() {
-    const tbody = document.getElementById('paymentHistoryTableBody');
-    const prevPageButton = document.getElementById('prevPageButton');
-    const nextPageButton = document.getElementById('nextPageButton');
-    const pageInfo = document.getElementById('pageInfo');
-    tbody.innerHTML = '';
-
-    const totalPages = Math.max(1, Math.ceil(paymentHistory.length / paymentsPerPage));
-    if (currentPage > totalPages) currentPage = totalPages;
-
-    const startIndex = (currentPage - 1) * paymentsPerPage;
-    const paginatedPayments = paymentHistory.slice(startIndex, startIndex + paymentsPerPage);
-
-    paginatedPayments.forEach(entry => {
-      tbody.innerHTML += `
-        <tr>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">${entry.name}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${entry.feeName}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₱${Number(entry.amount).toLocaleString()}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${entry.date}</td>
-        </tr>
-      `;
-    });
-
-    // update pagination buttons
-    prevPageButton.disabled = currentPage === 1;
-    prevPageButton.classList.toggle('opacity-50', currentPage === 1);
-    prevPageButton.classList.toggle('cursor-not-allowed', currentPage === 1);
-
-    nextPageButton.disabled = currentPage === totalPages || paymentHistory.length === 0;
-    nextPageButton.classList.toggle('opacity-50', nextPageButton.disabled);
-    nextPageButton.classList.toggle('cursor-not-allowed', nextPageButton.disabled);
-
-    pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-  }
-
-  function updateTotalCollected() {
-    const startIndex = (currentPage - 1) * paymentsPerPage;
-    const paginatedPayments = paymentHistory.slice(startIndex, startIndex + paymentsPerPage);
-    const total = paginatedPayments.reduce((sum, entry) => sum + Number(entry.amount || 0), 0);
-    document.getElementById('totalCollected').textContent = `₱${total.toLocaleString()}`;
-    document.getElementById('remitAmount').value = `₱${total.toLocaleString()}`;
-  }
-
-  function renderRemittanceTable() {
-    const tbody = document.getElementById('remittanceTableBody');
-    tbody.innerHTML = '';
-
-    remittanceEntries.forEach((entry, i) => {
-      const isRemitted = entry.status === "Remitted";
-      const buttonText = isRemitted ? "View" : "Edit";
-      const buttonAction = isRemitted ? `viewRemittance(${i})` : `editRemittance(${i})`;
-      tbody.innerHTML += `
-        <tr>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">${escapeHtml(entry.particular)}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">₱${Number(entry.amount).toLocaleString()}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-            <button onclick="${buttonAction}" class="bg-teal-600 hover:bg-teal-700 text-white py-1 px-3 rounded-md text-sm inline-flex items-center justify-center w-20">
-              ${buttonText}
-            </button>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${entry.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
-              ${escapeHtml(entry.status)}
-            </span>
-          </td>
-        </tr>
-      `;
-    });
-  }
-
-  function prevPage() {
-    if (currentPage > 1) {
-      currentPage--;
-      renderPaymentHistory();
-      updateTotalCollected();
-    }
-  }
-
-  function nextPage() {
-    const totalPages = Math.ceil(paymentHistory.length / paymentsPerPage);
-    if (currentPage < totalPages) {
-      currentPage++;
-      renderPaymentHistory();
-      updateTotalCollected();
-    }
-  }
-
-  function openRemitModal() {
-    document.getElementById('remitModal').classList.remove('hidden');
-    document.body.classList.add('overflow-hidden');
-  }
-
   function closeRemitModal() {
-    document.getElementById('remitModal').classList.add('hidden');
-    document.body.classList.remove('overflow-hidden');
+    document.getElementById('remitModal').style.display = 'none';
   }
 
-  function editRemittance(index) {
-    const entry = remittanceEntries[index];
-    if (!entry) return;
-    document.getElementById('modalTitle').textContent = "Edit Remittance";
-    document.getElementById('editIndex').value = index;
-    document.getElementById('editParticular').value = entry.particular;
-    document.getElementById('editAmount').value = `₱${Number(entry.amount).toLocaleString()}`;
-    document.getElementById('editDate').value = entry.date || "";
-    document.getElementById('editTransactionType').value = "Credit";
-    document.getElementById('editSecretary').value = entry.secretary || "";
-    document.getElementById('editStatus').value = entry.status || "Pending";
-
-    // make fields editable
-    document.getElementById('editParticular').readOnly = false;
-    document.getElementById('editAmount').readOnly = false;
-    document.getElementById('editDate').readOnly = false;
-    document.getElementById('editSecretary').readOnly = false;
-    // status stays readonly in this modal
-    document.getElementById('editStatus').readOnly = true;
-
-    // show save button
-    document.getElementById('saveEditButton').style.display = '';
-
-    document.getElementById('editModal').classList.remove('hidden');
-    document.body.classList.add('overflow-hidden');
-  }
-
-  function viewRemittance(index) {
-    const entry = remittanceEntries[index];
-    if (!entry) return;
-    document.getElementById('modalTitle').textContent = "View Remittance";
-    document.getElementById('editIndex').value = index;
-    document.getElementById('editParticular').value = entry.particular;
-    document.getElementById('editAmount').value = `₱${Number(entry.amount).toLocaleString()}`;
-    document.getElementById('editDate').value = entry.date || "";
-    document.getElementById('editTransactionType').value = "Credit";
-    document.getElementById('editSecretary').value = entry.secretary || "";
-    document.getElementById('editStatus').value = entry.status || "";
-
-    // make fields readonly
-    document.getElementById('editParticular').readOnly = true;
-    document.getElementById('editAmount').readOnly = true;
-    document.getElementById('editDate').readOnly = true;
-    document.getElementById('editSecretary').readOnly = true;
-    document.getElementById('editStatus').readOnly = true;
-
-    // hide save button when viewing
-    document.getElementById('saveEditButton').style.display = 'none';
-
-    document.getElementById('editModal').classList.remove('hidden');
-    document.body.classList.add('overflow-hidden');
-  }
-
-  function closeEditModal() {
-    document.getElementById('editModal').classList.add('hidden');
-    document.body.classList.remove('overflow-hidden');
-    // reset readonly states and clear editIndex so next open is fresh
-    document.getElementById('editParticular').readOnly = false;
-    document.getElementById('editAmount').readOnly = false;
-    document.getElementById('editDate').readOnly = false;
-    document.getElementById('editSecretary').readOnly = false;
-    document.getElementById('editStatus').readOnly = true;
-    document.getElementById('editIndex').value = "";
-    // ensure save button visible next time by default
-    document.getElementById('saveEditButton').style.display = '';
-  }
-
-  // small helper to escape HTML when injecting user content
-  function escapeHtml(str) {
-    if (str === null || str === undefined) return "";
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
+  // close on clicking outside
+  window.addEventListener('click', function(e) {
+    const modal = document.getElementById('remitModal');
+    if (e.target === modal) closeRemitModal();
+  });
 </script>
 </body>
 </html>

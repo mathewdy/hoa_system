@@ -319,69 +319,47 @@ $user_id = $_SESSION['user_id'];
 
                     $run_homeowners = mysqli_query($conn, $query_homeowners);
 
-                    if (mysqli_num_rows($run_homeowners) > 0) {
-                        foreach ($run_homeowners as $row_homeowners) {
-                            $approved = $row_homeowners['is_approved'];
-                            $paid = $row_homeowners['is_paid'];
+                    foreach ($run_homeowners as $row_homeowners) {
+                        $approved = (int)$row_homeowners['is_approved'];
+                        $fee_assignation_id = $row_homeowners['fee_assignation_id'];
 
-                            // 🧠 Logical Status Mapping
-                            if ($paid == 0 && $approved == 0) {
-                                $status_label = "<span class='px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold'>Unpaid</span>";
-                                $is_unpaid = true;
-                            } elseif ($approved == 2) {
-                                $status_label = "<span class='px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-xs font-semibold'>Pending</span>";
-                                $is_unpaid = false;
-                            } elseif ($approved == 1) {
-                                $status_label = "<span class='px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold'>Approved</span>";
-                                $is_unpaid = false;
-                            } elseif ($approved == 0 && $paid == 1) {
-                                $status_label = "<span class='px-3 py-1 rounded-full bg-red-100 text-red-800 text-xs font-semibold'>Rejected</span>";
-                                $is_unpaid = false;
-                            } else {
-                                $status_label = "<span class='px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold'>No Payment Yet</span>";
-                                $is_unpaid = true;
-                            }
-                    ?>
-                        <tr class="hover:bg-gray-50 transition duration-150">
-                            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-800">
-                                <?php echo htmlspecialchars($row_homeowners['first_name'] . " " . $row_homeowners['last_name']); ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                <?php echo htmlspecialchars($row_homeowners['fee_name'] ?? 'N/A'); ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                ₱<?php echo number_format($row_homeowners['amount'] ?? 0, 2); ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <?php echo $status_label; ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <?php if (!empty($row_homeowners['fee_assignation_id'])): ?>
-                                    <?php if ($is_unpaid): ?>
-                                        <button class="inline-flex items-center px-3 py-1.5 bg-gray-300 text-gray-500 rounded-md text-sm font-medium cursor-not-allowed" disabled>
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
-                                            View
-                                        </button>
-                                    <?php else: ?>
-                                        <!-- <a href="view-online-payment.php?id=<?php echo $row_homeowners['fee_assignation_id']; ?>&user_id=<?php echo $row_homeowners['user_id']; ?>" 
-                                            class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition">
-                                            View
-                                        </a> -->
-                                    <?php endif; ?>
-                                <?php else: ?>
-                                    <span class="text-gray-400 text-sm">N/A</span>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php
+                        // Status logic
+                        if ($approved === 2) {
+                            $status_label = "<span class='px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-xs font-semibold'>Pending</span>";
+                            $show_button = true; // Only pending shows button
+                        } elseif ($approved === 1) {
+                            $status_label = "<span class='px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-semibold'>Approved</span>";
+                            $show_button = false;
+                        } else { // $approved === 0 → Unpaid
+                            $status_label = "<span class='px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold'>Unpaid</span>";
+                            $show_button = false;
                         }
-                    } else {
-                        echo '<tr><td colspan="5" class="text-center py-4 text-gray-500">No payment records found.</td></tr>';
-                    }
                     ?>
+                          <tr class="hover:bg-gray-50 transition duration-150">
+                          <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-800">
+                              <?= htmlspecialchars($row_homeowners['first_name'] . " " . $row_homeowners['last_name']); ?>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-gray-700">
+                              <?= htmlspecialchars($row_homeowners['fee_name'] ?? 'N/A'); ?>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-gray-700">
+                              ₱<?= number_format($row_homeowners['amount'] ?? 0, 2); ?>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                              <?= $status_label; ?>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap text-center">
+                              <?php if (!empty($fee_assignation_id) && $show_button): ?>
+                                  <a href="view-online-payment.php?id=<?= $fee_assignation_id; ?>&user_id=<?= $row_homeowners['user_id']; ?>" 
+                                    class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition">
+                                    View
+                                  </a>
+                              <?php else: ?>
+                                  <span class="text-gray-400 text-sm">N/A</span>
+                              <?php endif; ?>
+                          </td>
+                      </tr>
+                      <?php } ?>
                     </tbody>
                 </table>
               </div>
