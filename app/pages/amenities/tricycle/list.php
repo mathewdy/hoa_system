@@ -19,10 +19,10 @@
     <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/sidebar.php'); ?>
     <div class="flex flex-col flex-1">
       <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/header.php'); ?>
-      <main class="py-6 px-4 sm:px-6 lg:px-8">
+      <main class="flex-1 p-6 overflow-y-auto">
         <!-- Stats Cards -->
-        <div class="flex justify-between">
-          <div class="flex flex-row max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm gap-2 w-full">
+        <div class="flex justify-between gap-4 mb-4">
+          <div class="flex flex-row p-6 bg-white border border-gray-200 rounded-lg shadow-sm gap-4 w-full">
             <button type="button" class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-4 py-3 text-center inline-flex items-center">
             <i class="ri-team-fill text-2xl"></i>
             <span class="sr-only">Icon description</span>
@@ -36,7 +36,7 @@
               </div>
             </div>
           </div>
-          <div class="flex flex-row max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm gap-4 w-full">
+          <div class="flex flex-row p-6 bg-white border border-gray-200 rounded-lg shadow-sm gap-4 w-full">
             <button type="button" class="text-green-700 border border-green-700 hover:bg-green-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm px-4 py-3 text-center inline-flex items-center">
             <i class="ri-motorbike-fill text-2xl"></i>
             <span class="sr-only">Icon description</span>
@@ -50,7 +50,7 @@
               </div>
             </div>
           </div>
-          <div class="flex flex-row max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm gap-4 w-full">
+          <div class="flex flex-row p-6 bg-white border border-gray-200 rounded-lg shadow-sm gap-4 w-full">
             <button type="button" class="text-orange-400 border border-orange-400 hover:bg-orange-400 hover:text-white focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-full text-sm px-4 py-3 text-center inline-flex items-center">
               <i class="ri-wallet-fill text-2xl"></i>
               <span class="sr-only">Icon description</span>
@@ -66,570 +66,71 @@
           </div>
         </div>
 
-        <!-- Action Buttons and Search Bar -->
-        <div class="mb-6 flex justify-end items-center">
-          <div class="flex space-x-4 items-center">
-            <div class="relative">
-              <select id="statusFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" onchange="searchTodas()">
-                <option value="">All Statuses</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
+        <div class="flex flex-row align-middle mb-4 gap-2">
+          <form class="flex flex-1 items-center">   
+            <label for="simple-search" class="sr-only">Search</label>
+            <div class="relative w-full">
+              <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <i class="ri-search-line text-gray-400"></i>
+              </div>
+              <input type="text" id="simple-search" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-teal-600 focus:border-teal-600 block w-full ps-10 p-2" placeholder="Search User..." required />
             </div>
-            <div class="relative">
-              <input type="text" id="searchInput" placeholder="Search TODAs..." class="w-64 px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" onkeyup="searchTodas()">
-              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-            </div>
-          </div>
+          </form>
+          <form class="w-[10rem]">
+            <select id="status" class="block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium rounded-lg text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body">
+              <option selected>All</option>
+              <option value="1">Active</option>
+              <option value="0">Inactive</option>
+            </select>
+          </form>
+          <button id="dropdownBottomButton" data-dropdown-toggle="dropdownBottom" data-dropdown-placement="bottom" class="md:mb-0 text-white bg-teal-600 hover:bg-teal-800 focus:ring-1 focus:outline-none focus:ring-teal-600 font-medium rounded-lg text-sm px-5 py-1.5 text-center flex items-center" type="button">
+            <i class="ri-add-circle-line me-2 text-lg"></i>
+            New TODA
+          </button>
         </div>
 
-        <!-- TODA Table -->
-        <div class="bg-white shadow rounded-lg overflow-hidden">
-          <div class="px-6 py-4 border-b border-gray-200">
-            <h2 class="text-lg font-medium text-gray-900">TODA Management</h2>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TODA Name</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Representative</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monthly Fee</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paid Fees</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unpaid Fees</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="todaTableBody" class="bg-white divide-y divide-gray-200">
-                <!-- Table rows will be populated by JavaScript -->
-              </tbody>
-            </table>
-          </div>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg border border-gray-200">
+          <table id="usersTable" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                  Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Role
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Status
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Intentionally left blank -->
+            </tbody>
+          </table>
+          <nav id="paginationNav"
+            class="flex items-center flex-column flex-wrap md:flex-row justify-between p-4"
+            aria-label="Table navigation">
+            
+            <span id="pageInfo"
+              class="text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">
+              Showing <span id="rangeStart" class="font-semibold text-gray-900">1</span> -
+              <span id="rangeEnd" class="font-semibold text-gray-900">10</span>
+              of <span id="totalRecords" class="font-semibold text-gray-900">0</span>
+            </span>
+            
+            <ul id="paginationList"
+              class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+            </ul>
+          </nav>
         </div>
       </main>
     </div>
   </div>
 
-  <!-- View TODA Details Modal -->
-  <div id="viewTodaDetailsModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 max-h-[90vh] overflow-hidden">
-      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-        <h3 id="viewTodaDetailsTitle" class="text-lg font-medium text-gray-900">TODA Details</h3>
-        <button onclick="closeViewTodaDetailsModal()" class="text-gray-400 hover:text-gray-500">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div id="viewTodaDetailsContent" class="p-6 space-y-4 overflow-y-auto max-h-[70vh]">
-        <!-- TODA details will be populated here -->
-      </div>
-      <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
-        <button type="button" onclick="closeViewTodaDetailsModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Paid Fees Modal -->
-  <div id="paidFeesModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop flex items-center justify-center z-50 hidden">
-    <!-- Changed max-w-md to max-w-4xl to make modal wider and remove need for horizontal scrollbar -->
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h3 id="paidFeesTitle" class="text-lg font-medium text-gray-900">Paid Fees</h3>
-      </div>
-      <div class="p-6 overflow-y-auto max-h-[70vh]">
-        <div id="paidFeesContent">
-          <!-- Paid fees will be populated here -->
-        </div>
-      </div>
-      <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
-        <button onclick="closePaidFeesModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Unpaid Fees Modal -->
-  <div id="unpaidFeesModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop flex items-center justify-center z-50 hidden">
-    <!-- Changed max-w-md to max-w-2xl to make modal wider for better table display -->
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h3 id="unpaidFeesTitle" class="text-lg font-medium text-gray-900">Unpaid Fees</h3>
-      </div>
-      <div class="p-6 overflow-y-auto max-h-[70vh]">
-        <div id="unpaidFeesContent">
-          <!-- Unpaid fees will be populated here -->
-        </div>
-      </div>
-      <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
-        <button onclick="closeUnpaidFeesModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Record Payment Modal -->
-  <div id="recordPaymentModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h3 class="text-lg font-medium text-gray-900">Record Payment</h3>
-      </div>
-      <form id="recordPaymentForm" class="p-6 space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">TODA Name</label>
-          <input type="text" id="paymentTodaName" class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100" readonly>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Period</label>
-          <input type="text" id="paymentPeriod" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" required>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Amount (₱)</label>
-          <input type="number" id="paymentAmount" min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" required>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Payment Date</label>
-          <input type="date" id="paymentDate" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" required>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
-          <select id="paymentMethod" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" required>
-            <option value="">Select Method</option>
-            <option value="Cash">Cash</option>
-            <option value="GCash">GCash</option>
-            <option value="Bank Transfer">Bank Transfer</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Remarks (Optional)</label>
-          <textarea id="paymentRemarks" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Proof of Payment</label>
-          <input type="file" id="paymentProof" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
-        </div>
-        <div class="flex justify-end space-x-3 pt-4">
-          <button type="button" onclick="closeRecordPaymentModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Cancel</button>
-          <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700">Record Payment</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Contract Image Modal -->
-  <div id="contractImageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-xl max-w-4xl max-h-[90vh] overflow-hidden">
-      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-        <h3 class="text-lg font-medium text-gray-900">Scanned Contract</h3>
-        <button onclick="closeContractImageModal()" class="text-gray-400 hover:text-gray-500">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="p-6">
-        <img id="contractImageView" src="/placeholder.svg" alt="Contract" class="max-w-full max-h-[70vh] object-contain rounded cursor-pointer" onclick="viewContractImage('${toda.scannedContract}')">
-      </div>
-      <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
-        <button onclick="closeContractImageModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Proof Image Modal -->
-  <div id="proofImageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-xl max-w-4xl max-h-[90vh] overflow-hidden">
-      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-        <h3 class="text-lg font-medium text-gray-900">Proof of Payment</h3>
-        <button onclick="closeProofImageModal()" class="text-gray-400 hover:text-gray-500">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="p-6">
-        <img id="proofImageView" src="/placeholder.svg" alt="Proof of Payment" class="max-w-full max-h-[70vh] object-contain rounded cursor-pointer" onclick="viewProofImage('${payment.proofOfPayment}')">
-      </div>
-      <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
-        <button onclick="closeProofImageModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Global variables
-    let todas = [];
-    let payments = [];
-    let currentTodaId = null;
-    let selectedUnpaidFees = []; // Still needed for recordPaymentForSelected, but not directly used in viewUnpaidFees anymore
-
-    // Initialize with sample data
-    function initializeSampleData() {
-      todas = [
-        {
-          id: 1,
-          name: 'Dilaw TODA',
-          tricycleCount: 15,
-          monthlyRent: 500,
-          status: 'Active',
-          representative: 'Juan Dela Cruz',
-          contactNumber: '09123456789',
-          notes: 'Main TODA group in the area',
-          startDate: '2024-01-01',
-          endDate: '2024-12-31',
-          scannedContract: '/placeholder.svg?height=400&width=600'
-        },
-        {
-          id: 2,
-          name: 'Violet TODA',
-          tricycleCount: 12,
-          monthlyRent: 450,
-          status: 'Active',
-          representative: 'Maria Santos',
-          contactNumber: '09987654321',
-          notes: 'Secondary group',
-          startDate: '2024-02-01',
-          endDate: '2024-12-31',
-          scannedContract: '/placeholder.svg?height=400&width=600'
-        },
-        {
-          id: 3,
-          name: 'Green TODA',
-          tricycleCount: 8,
-          monthlyRent: 400,
-          status: 'Inactive',
-          representative: 'Pedro Reyes',
-          contactNumber: '09555123456',
-          notes: 'Currently suspended',
-          startDate: '2023-06-01',
-          endDate: '2023-12-31',
-          scannedContract: '/placeholder.svg?height=400&width=600'
-        }
-      ];
-
-      payments = [
-        { id: 1, todaId: 1, period: 'January 2024', amount: 500, date: '2024-01-15', method: 'Cash', remarks: 'On time payment', proofOfPayment: '/placeholder.svg?height=300&width=400' },
-        { id: 2, todaId: 1, period: 'February 2024', amount: 500, date: '2024-02-10', method: 'GCash', remarks: 'Early payment', proofOfPayment: '/placeholder.svg?height=300&width=400' },
-        { id: 3, todaId: 2, period: 'January 2024', amount: 450, date: '2024-01-20', method: 'Cash', remarks: 'Regular payment', proofOfPayment: '/placeholder.svg?height=300&width=400' },
-        { id: 4, todaId: 1, period: 'March 2024', amount: 500, date: '2024-03-12', method: 'Bank Transfer', remarks: 'Regular payment', proofOfPayment: '/placeholder.svg?height=300&width=400' }
-      ];
-
-      renderTodaTable();
-      updateStats();
-    }
-
-    // Search functionality
-    function searchTodas() {
-      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-      const statusFilter = document.getElementById('statusFilter').value;
-      
-      const filteredTodas = todas.filter(toda => {
-        const matchesSearch = toda.name.toLowerCase().includes(searchTerm) ||
-                         toda.representative.toLowerCase().includes(searchTerm);
-        const matchesStatus = !statusFilter || toda.status === statusFilter;
-        return matchesSearch && matchesStatus;
-      });
-      
-      renderTodaTable(filteredTodas);
-    }
-
-    // Render TODA table
-    function renderTodaTable(dataToRender = todas) {
-      const tbody = document.getElementById('todaTableBody');
-      tbody.innerHTML = '';
-
-      dataToRender.forEach(toda => {
-        const paidCount = payments.filter(p => p.todaId === toda.id).length;
-        const unpaidCount = Math.max(0, 3 - paidCount); // Assuming 3 months for demo
-        
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm font-medium text-gray-900">${toda.name}</div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${toda.representative}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₱${toda.monthlyRent.toLocaleString()}</td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${toda.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-              ${toda.status}
-            </span>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-            <button onclick="viewPaidFees(${toda.id})" class="bg-teal-600 hover:bg-teal-700 text-white px-3 py-1 rounded text-xs w-16">
-              View
-            </button>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-            <button onclick="viewUnpaidFees(${toda.id})" class="bg-teal-600 hover:bg-teal-700 text-white px-3 py-1 rounded text-xs w-16">
-              View
-            </button>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-            <button onclick="viewTodaDetails(${toda.id})" class="bg-teal-600 hover:bg-teal-700 text-white px-3 py-1 rounded text-xs w-16">
-              View
-            </button>
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
-    }
-
-    // Update statistics
-    function updateStats() {
-      document.getElementById('totalTodas').textContent = todas.length;
-      document.getElementById('totalTricycles').textContent = todas.reduce((sum, toda) => sum + toda.tricycleCount, 0);
-      document.getElementById('monthlyRevenue').textContent = '₱' + todas.reduce((sum, toda) => sum + toda.monthlyRent, 0).toLocaleString();
-    }
-
-    // View TODA Details Modal functions
-    function viewTodaDetails(id) {
-      const toda = todas.find(t => t.id === id);
-      if (toda) {
-        document.getElementById('viewTodaDetailsTitle').textContent = `TODA Details - ${toda.name}`;
-        const contentDiv = document.getElementById('viewTodaDetailsContent');
-        contentDiv.innerHTML = `
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">TODA Name</label>
-            <p class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">${toda.name}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Number of Tricycles</label>
-            <p class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">${toda.tricycleCount}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Rent (₱)</label>
-            <p class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">₱${toda.monthlyRent.toLocaleString()}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-            <p class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">${toda.status}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-            <p class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">${new Date(toda.startDate).toLocaleDateString()}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-            <p class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">${new Date(toda.endDate).toLocaleDateString()}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Representative Name</label>
-            <p class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">${toda.representative}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
-            <p class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">${toda.contactNumber}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
-            <p class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">${toda.notes || 'N/A'}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Scanned Contract</label>
-            <div class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">
-              <img src="${toda.scannedContract}" alt="Scanned Contract" class="w-full h-48 object-cover rounded cursor-pointer" onclick="viewContractImage('${toda.scannedContract}')">
-            </div>
-          </div>
-        `;
-        document.getElementById('viewTodaDetailsModal').classList.remove('hidden');
-      }
-    }
-
-    function closeViewTodaDetailsModal() {
-      document.getElementById('viewTodaDetailsModal').classList.add('hidden');
-    }
-
-    // Paid Fees Modal
-    function viewPaidFees(todaId) {
-      currentTodaId = todaId;
-      const toda = todas.find(t => t.id === todaId);
-      const paidPayments = payments.filter(p => p.todaId === todaId);
-      
-      document.getElementById('paidFeesTitle').textContent = `Paid Fees - ${toda.name}`;
-      
-      let content = '';
-      if (paidPayments.length === 0) {
-        content = '<p class="text-gray-500">No paid fees found.</p>';
-      } else {
-        content = `
-          <div class="overflow-x-auto">
-            <table class="excel-table">
-              <thead>
-                <tr>
-                  <th>Period</th>
-                  <th>Amount</th>
-                  <th>Payment Date</th>
-                  <th>Method</th>
-                  <th>Proof of Payment</th>
-                  <th>Remarks</th>
-                </tr>
-              </thead>
-              <tbody>
-        `;
-        
-        paidPayments.forEach(payment => {
-          content += `
-            <tr>
-              <td>${payment.period}</td>
-              <td>₱${payment.amount.toLocaleString()}</td>
-              <td>${new Date(payment.date).toLocaleDateString()}</td>
-              <td>${payment.method}</td>
-              <td>
-                ${payment.proofOfPayment ? 
-                  `<img src="${payment.proofOfPayment}" alt="Proof" class="w-12 h-8 object-cover rounded cursor-pointer" onclick="viewProofImage('${payment.proofOfPayment}')">` : 
-                  '<span class="text-gray-400">No proof</span>'
-                }
-              </td>
-              <td>${payment.remarks || '-'}</td>
-            </tr>
-          `;
-        });
-        
-        content += '</tbody></table></div>';
-      }
-      
-      document.getElementById('paidFeesContent').innerHTML = content;
-      document.getElementById('paidFeesModal').classList.remove('hidden');
-    }
-
-    function closePaidFeesModal() {
-      document.getElementById('paidFeesModal').classList.add('hidden');
-    }
-
-    // Unpaid Fees Modal
-    function viewUnpaidFees(todaId) {
-      currentTodaId = todaId;
-      const toda = todas.find(t => t.id === todaId);
-      const paidPeriods = payments.filter(p => p.todaId === todaId).map(p => p.period);
-      
-      document.getElementById('unpaidFeesTitle').textContent = `Unpaid Fees - ${toda.name}`;
-      
-      const allPeriods = ['January 2024', 'February 2024', 'March 2024', 'April 2024', 'May 2024'];
-      const unpaidPeriods = allPeriods.filter(period => !paidPeriods.includes(period));
-      
-      let content = '';
-      if (unpaidPeriods.length === 0) {
-        content = '<p class="text-green-600">All fees are paid up to date!</p>';
-      } else {
-        content = `
-          <table class="excel-table">
-            <thead>
-              <tr>
-                <th>Period</th>
-                <th>Amount Due</th>
-                <th>Due Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-        `;
-        
-        unpaidPeriods.forEach((period, index) => {
-          content += `
-            <tr>
-              <td>${period}</td>
-              <td>₱${toda.monthlyRent.toLocaleString()}</td>
-              <td>${new Date().toLocaleDateString()}</td>
-              <td><span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">Unpaid</span></td>
-            </tr>
-          `;
-        });
-        
-        content += '</tbody></table>';
-      }
-      
-      document.getElementById('unpaidFeesContent').innerHTML = content;
-      document.getElementById('unpaidFeesModal').classList.remove('hidden');
-    }
-
-    function closeUnpaidFeesModal() {
-      document.getElementById('unpaidFeesModal').classList.add('hidden');
-    }
-
-    // Record Payment Modal (still functional for manual payment recording if needed elsewhere)
-    function recordPaymentForSelected() {
-      // This function is kept for completeness, but its trigger button is removed from the UI.
-      // If you need to re-enable payment recording, you'd need to add a button for it.
-      if (selectedUnpaidFees.length === 0) {
-        alert('Please select at least one unpaid fee to pay.');
-        return;
-      }
-      
-      const toda = todas.find(t => t.id === currentTodaId);
-      const totalAmount = selectedUnpaidFees.length * toda.monthlyRent;
-      
-      document.getElementById('paymentTodaName').value = toda.name;
-      document.getElementById('paymentPeriod').value = selectedUnpaidFees.join(', ');
-      document.getElementById('paymentAmount').value = totalAmount;
-      document.getElementById('paymentDate').value = new Date().toISOString().split('T')[0];
-      document.getElementById('paymentMethod').value = '';
-      document.getElementById('paymentRemarks').value = `Payment for: ${selectedUnpaidFees.join(', ')}`;
-      
-      document.getElementById('recordPaymentModal').classList.remove('hidden');
-    }
-
-    function closeRecordPaymentModal() {
-      document.getElementById('recordPaymentModal').classList.add('hidden');
-    }
-
-    // Record Payment Form Submission
-    document.getElementById('recordPaymentForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const periods = document.getElementById('paymentPeriod').value.split(', ');
-      const totalAmount = parseFloat(document.getElementById('paymentAmount').value);
-      const date = document.getElementById('paymentDate').value;
-      const method = document.getElementById('paymentMethod').value;
-      const remarks = document.getElementById('paymentRemarks').value;
-      const amountPerPeriod = totalAmount / periods.length;
-      const proofOfPaymentFile = document.getElementById('paymentProof').files[0];
-      let proofOfPaymentUrl = '/placeholder.svg?height=300&width=400'; // Default placeholder
-      
-      if (proofOfPaymentFile) {
-        proofOfPaymentUrl = URL.createObjectURL(proofOfPaymentFile);
-      }
-      
-      // Create separate payment records for each period
-      periods.forEach(period => {
-        const newPaymentId = Math.max(...payments.map(p => p.id), 0) + Math.random();
-        payments.push({
-          id: newPaymentId,
-          todaId: currentTodaId,
-          period: period.trim(),
-          amount: amountPerPeriod,
-          date: date,
-          method: method,
-          remarks: remarks,
-          proofOfPayment: proofOfPaymentUrl
-        });
-      });
-      
-      renderTodaTable();
-      updateStats();
-      closeRecordPaymentModal();
-      closeUnpaidFeesModal();
-      
-      alert(`Payment recorded successfully for ${periods.length} period(s)!`);
-    });
-
-    // Functions for viewing contract and proof images
-    function viewContractImage(imageSrc) {
-      document.getElementById('contractImageView').src = imageSrc;
-      document.getElementById('contractImageModal').classList.remove('hidden');
-    }
-
-    function closeContractImageModal() {
-      document.getElementById('contractImageModal').classList.add('hidden');
-    }
-
-    function viewProofImage(imageSrc) {
-      document.getElementById('proofImageView').src = imageSrc;
-      document.getElementById('proofImageModal').classList.remove('hidden');
-    }
-
-    function closeProofImageModal() {
-      document.getElementById('proofImageModal').classList.add('hidden');
-    }
-
-    // Initialize the application
-    document.addEventListener('DOMContentLoaded', function() {
-      initializeSampleData();
-    });
-  </script>
-  
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/scripts.php'); ?>
   <?php echo '<script src="'. BASE_PATH .'/assets/js/users/board-members/fetch.js"></script>'; ?>
   </body>

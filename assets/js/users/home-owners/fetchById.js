@@ -4,7 +4,7 @@ const state = {
   loading: false,
   error: '',
   success: '',
-  users: [],
+  data: [],
 
   set(newState) {
     Object.assign(this, newState);
@@ -18,7 +18,7 @@ $(document).ready(function() {
   fetchUser(userId)
   $('#submitBtn').prop('disabled', true)
   $('#confirmSaveBtn').on('submit', function (e) {
-    e.preventDefault(); // stop immediate form submit
+    e.preventDefault();
     const confirmModal = document.getElementById('confirmModal');
     const modal = new Modal(confirmModal);
     modal.show();
@@ -41,13 +41,13 @@ function fetchUser(id) {
       if (response.success) {
         state.set({
           loading: false,
-          user: response.data,
+          data: response.data,
           success: 'User loaded successfully.'
         });
       } else {
         state.set({
           loading: false,
-          error: response.message || 'Failed to load user.',
+          data: response.message || 'Failed to load user.',
           user: {}
         });
       }

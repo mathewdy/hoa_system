@@ -17,8 +17,8 @@ $(document).ready(function() {
   const userId = params.get('user_id');
   fetchUser(userId)
   $('#submitBtn').prop('disabled', true)
-  $('#confirmSaveBtn').on('submit', function (e) {
-    e.preventDefault(); // stop immediate form submit
+  $('#submitBtn').on('submit', function (e) {
+    e.preventDefault();
     const confirmModal = document.getElementById('confirmModal');
     const modal = new Modal(confirmModal);
     modal.show();

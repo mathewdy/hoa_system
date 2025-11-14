@@ -29,30 +29,30 @@ if (isset($_POST['create_account'])) {
       exit;
   }
   $sql = "UPDATE users SET
-              first_name = ?,
-              middle_name = ?,
-              last_name = ?,
-              suffix = ?,
-              role_id = ?,
-              email_address = ?,
-              age = ?,
-              phone_number = ?,
-              date_of_birth = ?,
-              citizenship = ?,
-              civil_status = ?,
-              home_address = ?,
-              lot_number = ?,
-              block_number = ?,
-              phase_number = ?,
-              village_name = ?
-          WHERE user_id = ?";
+    first_name = ?,
+    middle_name = ?,
+    last_name = ?,
+    suffix = ?,
+    role_id = ?,
+    email_address = ?,
+    age = ?,
+    phone_number = ?,
+    date_of_birth = ?,
+    citizenship = ?,
+    civil_status = ?,
+    home_address = ?,
+    lot_number = ?,
+    block_number = ?,
+    phase_number = ?,
+    village_name = ?
+  WHERE user_id = ?";
 
   $stmt = mysqli_prepare($conn, $sql);
 
   if ($stmt) {
       mysqli_stmt_bind_param(
           $stmt,
-          "sssi sissssssssssi", 
+          "sssisissssssssssi", 
           $first_name,
           $middle_name,
           $last_name,

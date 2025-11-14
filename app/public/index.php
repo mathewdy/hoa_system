@@ -1,6 +1,7 @@
 <?php 
   include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/config.php');
   include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/session.php');
+  include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/session-validate.php');
 ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">

@@ -32,11 +32,11 @@
         </div>
       </div>
       <ul class="py-2 text-sm text-gray-700">
-        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100"><i class="ri-history-line me-2"></i>Activity Logs</a></li>
-        <li><a href="<?= BASE_PATH ?>/app/profile.php" class="block px-4 py-2 hover:bg-gray-100"><i class="ri-account-circle-fill me-2"></i>Profile</a></li>
+        <li><a href="<?= BASE_PATH ?>app/pages/activity-log.php" class="block px-4 py-2 hover:bg-gray-100"><i class="ri-history-line me-2"></i>Activity Logs</a></li>
+        <li><a href="<?= BASE_PATH ?>app/pages/profile.php" class="block px-4 py-2 hover:bg-gray-100"><i class="ri-account-circle-fill me-2"></i>Profile</a></li>
       </ul>
       <div class="py-2">
-        <a href="<?= BASE_PATH ?>/core/auth/logout.php" class="block px-4 py-2 text-sm hover:bg-gray-100"><i class="ri-logout-box-line me-2"></i>Sign out</a>
+        <a href="<?= BASE_PATH ?>core/auth/logout.php" class="block px-4 py-2 text-sm hover:bg-gray-100"><i class="ri-logout-box-line me-2"></i>Sign out</a>
       </div>
     </div>
   </div>

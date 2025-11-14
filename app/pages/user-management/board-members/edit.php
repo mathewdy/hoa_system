@@ -3,13 +3,7 @@
   include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/connection/connection.php');
   include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/session.php');
   $id = $_SESSION['user_id'];
-  $account_id = $_GET['user_id'];
-
-  if(empty($account_id)){
-    header("Location: accounts.php");
-  }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,88 +11,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/page-icon.php'); ?>
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/styles.php'); ?>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 </head>
-
-<body class="">
-  <div class="h-full flex overflow-hidden">
-    <aside id="sidebar" class="w-64 h-100 bg-teal-700 text-white border-r border-gray-200 p-4">
-      <div class="px-3 mb-8">
-        <h1 class="text-2xl font-bold">HOAConnect</h1>
-        <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
-      </div>
-      <div id="sidebarList">
-        <!-- Sidebar menu will be loaded here via AJAX -->
-      </div>
-    </aside>
-    <div class="flex-1 flex flex-col h-fit overflow-hidden">
-      <header class="flex flex-row justify-between items-center p-4 sm:px-6 lg:px-8 gap-2 bg-white shadow-md">
-        <span>
-          <a href="javascript:void(0 )" id="sidebarToggle" class="flex items-center text-lg font-black text-teal-600 hover:text-teal-800">
-            <i class="ri-menu-2-fill"></i>
-          </a>
-        </span>
-        <div class="flex flex-row items-center gap-2">
-          <a href="#" id="dropdownAvatarNameButton" class="flex items-center text-md font-medium text-teal-600 hover:text-teal-800 p-2">
-            <i class="ri-notification-3-fill"></i>
-          </a>
-          <a 
-            href="#" 
-            id="dropdownAvatarNameButton" 
-            data-dropdown-toggle="dropdownAvatarName" 
-            data-dropdown-placement="bottom"
-            data-dropdown-offset-distance="10"
-            class="text-md font-medium text-gray-600 hover:text-black-800"
-          >
-            <span class="flex items-center">
-              <!-- <i class="ri-account-circle-fill text-2xl me-2"></i> -->
-              <img class="w-8 h-8 rounded-sm ring-2 ring-gray-300 p-2 me-2" src="<?= BASE_PATH. '/assets/img/user-alt-64.png'?>" alt="Default avatar">
-              <span class="flex flex-col gap-0 leading-none">
-                <span>
-                  <p class="text-sm m-0 p-0 leading-none">
-                    Bonnie Green
-                  </p>
-                </span>
-                <span>
-                  <span class="text-blue-800 text-xs font-medium me-2 rounded-lg">Admin</span>
-                </span>
-              </span>
-            </span>  
-          </a>
-          <div id="dropdownAvatarName" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 w-[20rem]">
-              <div class="flex flex-row items-center px-4 py-3 ">
-                <img class="w-10 h-10 rounded-sm ring-2 ring-gray-300 p-2 me-2" src="<?= BASE_PATH. '/assets/img/user-alt-64.png'?>" alt="Default avatar">
-                <div class="text-sm text-gray-900">
-                  <div class="font-medium ">Sample User</div>
-                  <div class="truncate">Sample@mailinator.com</div>
-                </div>
-              </div>
-              <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
-                <li>
-                  <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                    <i class="ri-history-line me-2"></i>
-                    Activity Logs
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                    <i class="ri-account-circle-fill me-2"></i>
-                    Profile
-                  </a>
-                </li>
-              </ul>
-              <div class="py-2">
-                <a href="<?= BASE_PATH . '/core/auth/logout.php'?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                  <i class="ri-logout-box-line me-2"></i>
-                  Sign out
-                </a>
-              </div>
-          </div>
-        </div>
-      </header>
-      <main class="flex-1 p-6">
+<body>
+  <div class="h-screen flex">
+    <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/sidebar.php'); ?>
+    <div class="flex flex-col flex-1">
+      <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/header.php'); ?>
+      <main class="flex-1 overflow-y-auto p-6">
         <div class="mt-1">
           <h3 class="text-2xl font-medium text-gray-900 mb-4">Edit Account</h3>
-          <form id="createForm" method="POST" enctype="multipart/form-data" class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-sm">
+          <form id="createForm" method="POST" enctype="multipart/form-data" class="bg-white rounded-lg shadow-sm">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label for="sec-first-name" class="block mb-2 text-sm font-medium text-gray-900">First Name</label>
@@ -207,7 +133,7 @@
               </div>
             </div>
 
-            <div class="flex justify-end items-center mt-8 gap-2 border-t border-gray-200 pt-4">
+            <div class="flex justify-end items-center gap-2 pt-4">
               <button type="reset"
                 class="py-2.5 px-5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 hover:text-teal-700 focus:ring-4 focus:ring-gray-100">
                 Cancel
@@ -262,12 +188,7 @@
   </div>
 
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/scripts.php'); ?>
-  <?php 
-    echo '
-      <script src="'. BASE_PATH .'/assets/js/sidebar.js"></script>
-      <script type="module" src="'. BASE_PATH .'/assets/js/users/fetchById.js"></script>
-    '; 
-  ?>
+  <?php echo '<script type="module" src="'. BASE_PATH .'/assets/js/users/fetchById.js"></script>'; ?>
   </body>
 </html>
 

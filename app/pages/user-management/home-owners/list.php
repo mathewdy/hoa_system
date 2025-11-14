@@ -83,7 +83,7 @@
   </div>
 
   <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/scripts.php'); ?>
-  <?php echo '<script src="'. BASE_PATH .'/assets/js/users/board-members/fetch.js"></script>'; ?>
+  <?php echo '<script src="'. BASE_PATH .'/assets/js/users/home-owners/fetch.js"></script>'; ?>
   </body>
 </html>
 

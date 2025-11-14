@@ -33,7 +33,7 @@
               </div>
             </form>
             <div class="flex">
-              <button id="dropdownBottomButton" data-dropdown-toggle="dropdownBottom" data-dropdown-placement="bottom" class="md:mb-0 text-white bg-teal-600 hover:bg-teal-800 focus:ring-1 focus:outline-none focus:ring-teal-600 font-medium rounded-lg text-sm px-5 py-1.5 text-center items-center" type="button">
+              <button id="dropdownBottomButton" data-dropdown-toggle="dropdownBottom" data-dropdown-placement="bottom" class="md:mb-0 text-white bg-teal-600 hover:bg-teal-800 focus:ring-1 focus:outline-none focus:ring-teal-600 font-medium rounded-lg text-sm px-5 py-1.5 text-center flex items-center" type="button">
                 <i class="ri-add-circle-line me-2 text-lg"></i>
                 New Account
                 <i class="ri-arrow-down-s-line ms-2 text-lg"></i>
@@ -103,23 +103,23 @@
               <tbody>
                 <!-- Intentionally left blank -->
               </tbody>
-          </table>
-          <nav id="paginationNav"
-            class="flex items-center flex-column flex-wrap md:flex-row justify-between p-4"
-            aria-label="Table navigation">
-            
-            <span id="pageInfo"
-              class="text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-              Showing <span id="rangeStart" class="font-semibold text-gray-900">1</span> -
-              <span id="rangeEnd" class="font-semibold text-gray-900">10</span>
-              of <span id="totalRecords" class="font-semibold text-gray-900">0</span>
-            </span>
-            
-            <ul id="paginationList"
-              class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-            </ul>
-          </nav>
-        </div>
+            </table>
+            <nav id="paginationNav"
+              class="flex items-center flex-column flex-wrap md:flex-row justify-between p-4"
+              aria-label="Table navigation">
+              
+              <span id="pageInfo"
+                class="text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">
+                Showing <span id="rangeStart" class="font-semibold text-gray-900">1</span> -
+                <span id="rangeEnd" class="font-semibold text-gray-900">10</span>
+                of <span id="totalRecords" class="font-semibold text-gray-900">0</span>
+              </span>
+              
+              <ul id="paginationList"
+                class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+              </ul>
+            </nav>
+          </div>
       </main>
 
     </div>
