@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2025 at 06:00 PM
+-- Generation Time: Nov 14, 2025 at 12:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,23 +46,11 @@ CREATE TABLE `fee_assignation` (
 --
 
 INSERT INTO `fee_assignation` (`id`, `user_id`, `fee_type_id`, `next_due`, `is_paid`, `payment_method`, `payment_receipt_name`, `remarks`, `is_approved`, `date_created`, `date_updated`) VALUES
-(62, 20255661, 20207488, '2025-12-01', 1, 'GCash', 'Mathew Melendez ', '', 1, '2025-11-12', '2025-11-12'),
-(63, 20255661, 202010458, '2025-12-01', 1, 'Bank Transfer', 'Mathew Melendez ', '', 1, '2025-11-12', '2025-11-12'),
-(64, 20255661, 20204767, '2016-04-06', 1, 'GCash', 'Mathew Melendez ', '', 1, '2025-11-12', '2025-11-12'),
-(65, 20252509, 20207488, '2025-12-01', 1, 'GCash', 'Mathew Melendez ', '', 1, '2025-11-12', '2025-11-12'),
-(66, 20252509, 20202339, '2025-01-01', 0, '', '', '', 0, '2025-11-12', '2025-11-12'),
-(67, 20252509, 20202339, '2025-02-01', 0, '', '', '', 0, '2025-11-12', '2025-11-12'),
-(68, 20252509, 20202339, '2025-03-01', 0, '', '', '', 0, '2025-11-12', '2025-11-12'),
-(69, 20252509, 20202339, '2025-04-01', 0, '', '', '', 0, '2025-11-12', '2025-11-12'),
-(70, 20252509, 20202339, '2025-05-01', 0, '', '', '', 0, '2025-11-12', '2025-11-12'),
-(71, 20252509, 20202339, '2025-06-01', 0, '', '', '', 0, '2025-11-12', '2025-11-12'),
-(72, 20252509, 20202339, '2025-07-01', 0, '', '', '', 0, '2025-11-12', '2025-11-12'),
-(73, 20252509, 20202339, '2025-08-01', 0, '', '', '', 0, '2025-11-12', '2025-11-12'),
-(74, 20252509, 20202339, '2025-09-01', 0, '', '', '', 0, '2025-11-12', '2025-11-12'),
-(75, 20252509, 20202339, '2025-11-01', 1, 'GCash', 'Mathew Melendez ', '', 1, '2025-11-12', '2025-11-12'),
-(76, 20252509, 20202339, '2025-12-01', 1, 'Bank Transfer', 'Mathew Melendez ', '', 1, '2025-11-12', '2025-11-12'),
-(77, 20252509, 20201395, '2025-12-01', 1, 'GCash', 'tapat', '', 1, '2025-11-13', '2025-11-13'),
-(78, 20252509, 202010458, '2025-12-01', 1, 'GCash', 'over', '', 1, '2025-11-13', '2025-11-13');
+(79, 20255661, 20207488, '2025-11-01', 0, '', '', '', 0, '2025-11-13', '2025-11-13'),
+(80, 20255661, 20201395, '2025-11-01', 0, '', '', '', 0, '2025-11-13', '2025-11-13'),
+(81, 20252509, 20207488, '2025-12-01', 1, 'GCash', 'over', '', 1, '2025-11-13', '2025-11-14'),
+(82, 20252509, 20201395, '2025-12-01', 1, 'GCash', 'Mathew Melendez tiute', '', 1, '2025-11-13', '2025-11-13'),
+(83, 20252509, 202010458, '2025-12-01', 1, 'Bank Transfer', 'tapat', '', 1, '2025-11-14', '2025-11-14');
 
 -- --------------------------------------------------------
 
@@ -108,6 +96,7 @@ CREATE TABLE `payment_history` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `fee_type_id` int(11) NOT NULL,
+  `fee_name` varchar(100) NOT NULL,
   `amount` int(11) NOT NULL,
   `payment_method` varchar(100) NOT NULL,
   `payment_receipt_name` varchar(100) NOT NULL,
@@ -115,6 +104,7 @@ CREATE TABLE `payment_history` (
   `reference_number` varchar(100) NOT NULL,
   `is_walk_in` int(11) NOT NULL,
   `proof_of_payment` varchar(255) DEFAULT NULL,
+  `is_submitted` int(11) NOT NULL DEFAULT 0,
   `date_created` date NOT NULL,
   `date_updated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -123,15 +113,10 @@ CREATE TABLE `payment_history` (
 -- Dumping data for table `payment_history`
 --
 
-INSERT INTO `payment_history` (`id`, `user_id`, `fee_type_id`, `amount`, `payment_method`, `payment_receipt_name`, `remarks`, `reference_number`, `is_walk_in`, `proof_of_payment`, `date_created`, `date_updated`) VALUES
-(23, 20255661, 0, 48, 'GCash', 'Mathew Melendez ', '', 'you', 0, '1762879792_Building_official_-_NBP.drawio.png', '2025-11-12', '2025-11-12'),
-(24, 20255661, 0, 51, 'GCash', 'Mathew Melendez ', '', 'tite', 0, '1762879818_Applicant_-_FOPA.drawio.png', '2025-11-12', '2025-11-12'),
-(25, 20255661, 0, 8, 'Bank Transfer', 'Mathew Melendez ', '', 'tite', 0, '1762880058_...png', '2025-11-12', '2025-11-12'),
-(26, 20252509, 0, 51, 'GCash', 'Mathew Melendez ', '', 'hahaha', 0, '1762880398_Sectionheads_-_FOPA.drawio.png', '2025-11-12', '2025-11-12'),
-(27, 20252509, 0, 79, 'Bank Transfer', 'Mathew Melendez ', '', 'you', 0, '1762880438_Technical_staff_-_NBP.drawio.png', '2025-11-12', '2025-11-12'),
-(28, 20252509, 0, 79, 'GCash', 'Mathew Melendez ', '', 'tite', 0, '1762880470_Assessment_officer_-_NBP.drawio.png', '2025-11-12', '2025-11-12'),
-(29, 20252509, 0, 99, 'GCash', 'tapat', '', 'hahaha', 0, '1762964894_Building_official_-_NBP.drawio.png', '2025-11-13', '2025-11-13'),
-(30, 20252509, 78, 8, 'GCash', 'over', '', 'you', 0, '1762965048_UC-BPNM-RBP-002.drawio.png', '2025-11-13', '2025-11-13');
+INSERT INTO `payment_history` (`id`, `user_id`, `fee_type_id`, `fee_name`, `amount`, `payment_method`, `payment_receipt_name`, `remarks`, `reference_number`, `is_walk_in`, `proof_of_payment`, `is_submitted`, `date_created`, `date_updated`) VALUES
+(32, 20252509, 82, 'Internet', 99, 'GCash', 'Mathew Melendez tiute', '', 'tite', 0, '1763049317_Section_head_2_-_fopa.drawio.png', 1, '2025-11-13', '2025-11-14'),
+(33, 20252509, 81, 'Cat food', 51, 'GCash', 'over', '', 'you', 0, '1763049705_Gemini_Generated_Image_ld2mhcld2mhcld2m.png', 1, '2025-11-14', '2025-11-14'),
+(34, 20252509, 83, 'Dog food', 8, 'Bank Transfer', 'tapat', '', 'you', 0, '1763052817_BPNM-OBO-FOPA-001_v2.drawio.png', 1, '2025-11-13', '2025-11-14');
 
 -- --------------------------------------------------------
 
@@ -158,15 +143,34 @@ CREATE TABLE `payment_verification` (
 --
 
 INSERT INTO `payment_verification` (`id`, `user_id`, `fee_assignation_id`, `amount`, `payment_method`, `remarks`, `reference_number`, `proof_of_payment`, `status`, `date_created`, `date_updated`) VALUES
-(48, 20252509, 66, 0, '', '', '', '', 0, '2025-11-12', '2025-11-12'),
-(49, 20252509, 67, 0, '', '', '', '', 0, '2025-11-12', '2025-11-12'),
-(50, 20252509, 68, 0, '', '', '', '', 0, '2025-11-12', '2025-11-12'),
-(51, 20252509, 69, 0, '', '', '', '', 0, '2025-11-12', '2025-11-12'),
-(52, 20252509, 70, 0, '', '', '', '', 0, '2025-11-12', '2025-11-12'),
-(53, 20252509, 71, 0, '', '', '', '', 0, '2025-11-12', '2025-11-12'),
-(54, 20252509, 72, 0, '', '', '', '', 0, '2025-11-12', '2025-11-12'),
-(55, 20252509, 73, 0, '', '', '', '', 0, '2025-11-12', '2025-11-12'),
-(56, 20252509, 74, 0, '', '', '', '', 0, '2025-11-12', '2025-11-12');
+(61, 20255661, 79, 0, '', '', '', '', 0, '2025-11-13', '2025-11-13'),
+(62, 20255661, 80, 0, '', '', '', '', 0, '2025-11-13', '2025-11-13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `remittance`
+--
+
+CREATE TABLE `remittance` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `particular` varchar(100) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `transaction_type` varchar(100) NOT NULL,
+  `secretary_name` varchar(110) NOT NULL,
+  `is_approved` int(11) NOT NULL,
+  `date_created` date NOT NULL,
+  `date_updated` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `remittance`
+--
+
+INSERT INTO `remittance` (`id`, `user_id`, `particular`, `amount`, `date`, `transaction_type`, `secretary_name`, `is_approved`, `date_created`, `date_updated`) VALUES
+(7, NULL, 'Remittance Collection', 158, '2025-11-14', 'Credit', 'haha', 1, '2025-11-14', '2025-11-14');
 
 -- --------------------------------------------------------
 
@@ -210,8 +214,8 @@ CREATE TABLE `unpaid_fees` (
 --
 
 INSERT INTO `unpaid_fees` (`id`, `user_id`, `total_balance`, `date_created`, `date_updated`) VALUES
-(68, 20255661, 107.00, '2025-11-12', '2025-11-12'),
-(69, 20252509, 719.00, '2025-11-12', '2025-11-13');
+(70, 20255661, 150.00, '2025-11-13', '2025-11-13'),
+(71, 20252509, 8.00, '2025-11-13', '2025-11-14');
 
 -- --------------------------------------------------------
 
@@ -283,7 +287,8 @@ ALTER TABLE `fee_type`
 --
 ALTER TABLE `payment_history`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `fee_type_id` (`fee_type_id`);
 
 --
 -- Indexes for table `payment_verification`
@@ -292,6 +297,13 @@ ALTER TABLE `payment_verification`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `fee_assignation_id` (`fee_assignation_id`);
+
+--
+-- Indexes for table `remittance`
+--
+ALTER TABLE `remittance`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `roles`
@@ -323,7 +335,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `fee_assignation`
 --
 ALTER TABLE `fee_assignation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `fee_type`
@@ -335,13 +347,19 @@ ALTER TABLE `fee_type`
 -- AUTO_INCREMENT for table `payment_history`
 --
 ALTER TABLE `payment_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `payment_verification`
 --
 ALTER TABLE `payment_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+
+--
+-- AUTO_INCREMENT for table `remittance`
+--
+ALTER TABLE `remittance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -353,7 +371,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `unpaid_fees`
 --
 ALTER TABLE `unpaid_fees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `users`

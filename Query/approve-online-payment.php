@@ -5,6 +5,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
 if(isset($_POST['approve'])){
     $fee_assignation_id = $_POST['fee_assignation_id'];
     $user_id = $_POST['user_id'];
@@ -15,14 +16,17 @@ if(isset($_POST['approve'])){
     $reference_number = $_POST['reference_number'];
     $is_walk_in = 0;
     $proof_of_payment = $_POST['proof_of_payment'];
+    $fee_name = $_POST['fee_name'];
+    //$payment_history_id = 20 . str_pad(rand(0, 999999), 5, '0', STR_PAD_LEFT);
+
     
 
 
     // ✅ Insert to payment_history
     $sql_insert_history = "INSERT INTO payment_history (
-        user_id,fee_type_id, amount, payment_method, payment_receipt_name, remarks, reference_number, is_walk_in, proof_of_payment, date_created, date_updated
+        user_id,fee_type_id,fee_name, amount, payment_method, payment_receipt_name, remarks, reference_number, is_walk_in, proof_of_payment, date_created, date_updated
     ) VALUES (
-        '$user_id','$fee_assignation_id', '$amount', '$payment_method', '$payment_receipt_name', '$remarks', '$reference_number', '$is_walk_in', '$proof_of_payment', NOW(), NOW()
+        '$user_id','$fee_assignation_id', '$fee_name','$amount', '$payment_method', '$payment_receipt_name', '$remarks', '$reference_number', '$is_walk_in', '$proof_of_payment', NOW(), NOW()
     )";
 
     $run_insert_history = mysqli_query($conn, $sql_insert_history);
