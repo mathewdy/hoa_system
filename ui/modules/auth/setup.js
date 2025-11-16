@@ -1,4 +1,4 @@
-import { showToast } from '/hoa_system/assets/js/utils/toast.js';
+import { showToast } from '/hoa_system/ui/utils/toast.js';
 
 $(document).ready(function() {
   $('#setup-password-form').on('submit', function(e) {
@@ -8,9 +8,9 @@ $(document).ready(function() {
       const confirmPassword = $('#confirmPassword').val()
 
       if (password !== confirmPassword) {
-          $('#error-text').text("Passwords do not match!")
-          $('#error-message').removeClass('hidden')
-          return
+        $('#error-text').text("Passwords do not match!")
+        $('#error-message').removeClass('hidden')
+        return
       }
 
       const formData = $(this).serialize()
@@ -28,7 +28,7 @@ $(document).ready(function() {
               if (res.success) {
                   showToast({ type: 'success', message: res.message, position: 'bottom-right' })
                   setTimeout(() => {
-                      window.location.href = '/hoa_system/app/pages/dashboard.php'
+                      window.location.href = '/hoa_system/pages/dashboard/index.php'
                   }, 1200);
               } else {
                   $('#error-text').text(res.message || 'Failed to update password.')

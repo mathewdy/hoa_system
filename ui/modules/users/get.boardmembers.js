@@ -34,8 +34,8 @@ $(document).ready(() => {
 
     u => {
       const id = u.user_id || '';
-      return `<a href="edit.php?id=${escape(id)}" 
-        class="text-indigo-600 hover:underline font-medium">Edit</a>`
+      return `<a href="view.php?id=${escape(id)}" 
+        class="text-indigo-600 hover:underline font-medium">View</a>`
     }
   ];
 

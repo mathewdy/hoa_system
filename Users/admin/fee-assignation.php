@@ -370,7 +370,19 @@ error_reporting(E_ALL);
                 </thead>
                 <tbody id="homeownersTableBody" class="bg-white divide-y divide-gray-200">
                   <?php
-                  $query_homeowners = "SELECT * FROM users WHERE role_id ='6'";
+                  $query_homeowners = "SELECT 
+                      u.id, 
+                      u.user_id,
+                      u.email_address,
+                      u.role_id,
+                      u.status,
+                      i.first_name,
+                      i.middle_name,
+                      i.last_name
+                    FROM users u
+                    LEFT JOIN user_info i 
+                    On u.user_id = i.user_id
+                    WHERE role_id ='6'";
                   $run_homeowners = mysqli_query($conn,$query_homeowners);
 
                   if(mysqli_num_rows($run_homeowners) > 0){
@@ -389,7 +401,7 @@ error_reporting(E_ALL);
                         <td class="px-6 py-4 whitespace-nowrap">
                           <?php
 
-                          if($row_homeowners['account_status'] == 1){
+                          if($row_homeowners['status'] == 1){
                             echo "<span class='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800'>Active</span>";
                           } else {
                             echo "<span class='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800'>Inactive</span>";

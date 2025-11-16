@@ -27,6 +27,7 @@ require_once $root . 'config.php';
   </div>
   <?php include $root . 'app/includes/scripts.php'; ?>
   <?= '<script src="'. BASE_URL .'/ui/core/state.js"></script>'; ?>
+  <?= '<script src="'. BASE_URL .'/ui/core/form.state.js"></script>'; ?>
   <?= '<script src="'. BASE_URL .'/ui/utils/sidebar.js"></script>'; ?>
   <?= '<script src="'. BASE_URL .'/ui/modules/profile/get.js"></script>'; ?>
   <?= $pageScripts ?? '' ?>

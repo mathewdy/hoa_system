@@ -2,63 +2,142 @@ class FormState {
   constructor(config) {
     this.c = {
       formId: '',
-      apiUrl: '',
+      apiUrl: '',          // URL for loading data
+      saveUrl: '',         // URL for saving data
       idParam: 'id',
-      onLoading: () => {}, 
-      onLoaded: () => {},   
+      onLoading: () => {},
+      onLoaded: () => {},
+      onSaving: () => {},
+      onSaved: () => {},
+      onError: () => {},
       ...config
-    };
-    this.state = { data: {}, loading: false };
-    this.init();
+    }
+    this.state = { data: {}, loading: false, saving: false }
+    this.init()
   }
 
   init() {
-    this.loadRecord();
+    this.loadRecord()
+  }
+
+  toggleEditable(e) {
+    e.preventDefault()
+
+    const isReadonly = !$('form').data('editable')
+    if (isReadonly) {
+      $('form').find('input, select, textarea').prop('readonly', false).prop('disabled', false)
+      $(`#${this.c.formId} button[type="submit"]`).removeClass('hidden')
+      $(e.target).text('Cancel').prepend('<i class="ri-close-large-line"></i>')
+    } else {
+      $('form').find('input, select, textarea').prop('readonly', true).prop('disabled', true)
+      $(`#${this.c.formId} button[type="submit"]`).addClass('hidden')
+      $(e.target).html('<i class="ri-edit-box-line"></i> Edit')
+    }
+
+    $('form').data('editable', isReadonly)
   }
 
   getId() {
-    const p = new URLSearchParams(window.location.search);
-    return p.get(this.c.idParam) || null;
+    const p = new URLSearchParams(window.location.search)
+    return p.get(this.c.idParam) || null
   }
 
-  async loadRecord() {
-    const id = this.getId();
-    if (!id) return;
+async loadRecord() {
+  const id = this.getId();
+  if (!id) return;
 
-    this.state.loading = true;
-    this.c.onLoading?.();
+  this.state.loading = true;
+  this.c.onLoading?.();
 
-    try {
-      const res = await $.getJSON(this.c.apiUrl, { [this.c.idParam]: id });
-      if (res.success) {
-        this.state.data = res.data || {};
-        this.populateForm();
-      } else {
-        console.error(res.error || 'Failed to fetch record');
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      this.state.loading = false;
-      this.c.onLoaded?.();
-    }
-  }
+  const url = this.c.apiUrl;  // Get the API URL
 
-  populateForm() {
-    const $form = $(`#${this.c.formId}`);
-    if (!$form.length) return;
-
-    Object.entries(this.state.data).forEach(([key, value]) => {
-      const $el = $form.find(`[name="${key}"]`);
-      if ($el.length) {
-        if ($el.is(':checkbox')) {
-          $el.prop('checked', !!value);
-        } else if ($el.is('select')) {
-          $el.val(value).trigger('change');
+  try {
+    const res = await $.ajax({
+      url: url,
+      type: 'GET',
+      data: { [this.c.idParam]: id },
+      dataType: 'json', // Expecting JSON response
+      success: (response) => {
+        if (response.success) {
+          this.state.data = response.data || {}
+          this.populateForm();
         } else {
-          $el.val(value ?? '');
+          console.error(response.error || 'Failed to fetch record');
         }
+      },
+      error: (xhr, status, error) => {
+        console.error("Error fetching data:", error); 
       }
     });
+  } catch (err) {
+    console.error("AJAX request failed:", err); 
+  } finally {
+    this.state.loading = false;
+    this.c.onLoaded?.();
+  }
+}
+
+  populateForm() {
+    const $form = $(`#${this.c.formId}`)
+    if (!$form.length) return
+
+    Object.entries(this.state.data).forEach(([key, value]) => {
+      const $el = $form.find(`[name="${key}"]`)
+      if ($el.length) {
+        if ($el.is(':checkbox')) {
+          $el.prop('checked', !!value)
+        } else if ($el.is('select')) {
+          $el.val(value).trigger('change')
+        } else if ($el.is('input[type="date"]')) {
+          const dateValue = value ? new Date(value) : null
+          if (dateValue && !isNaN(dateValue)) {
+            const formattedDate = dateValue.toISOString().split('T')[0]
+            $el.val(formattedDate)
+          } else {
+            $el.val('')
+          }
+        } else {
+          $el.val(value ?? '')
+        }
+      }
+    })
+  }
+
+  getFormData() {
+    const $form = $(`#${this.c.formId}`)
+    const formData = {} // Use an object for form data
+
+    $form.serializeArray().forEach(field => {
+      formData[field.name] = field.value
+    })
+
+    return formData
+  }
+
+  async save() {
+    this.c.onSaving?.()
+
+    const formData = this.getFormData()  // Get form data from serialized form fields
+
+    try {
+      const res = await $.ajax({
+        url: this.c.saveUrl,
+        type: 'POST',
+        data: formData,  // Send the form data as an object (not FormData)
+        dataType: 'json',  // Expect JSON response
+        success: (response) => {
+          if (response.success) {
+            this.c.onSaved?.(response)
+          } else {
+            this.c.onError?.(response.error || 'Unknown error')
+          }
+        },
+        error: (xhr, status, error) => {
+          this.c.onError?.(error || 'Error occurred during saving')
+        }
+      })
+    } catch (err) {
+      this.c.onError?.(err || 'Error occurred during saving')
+    }
   }
 }

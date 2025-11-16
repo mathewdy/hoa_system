@@ -27,7 +27,7 @@ ob_start();
       </div>
     </form>
 
-    <a href="<?= 'create.php' ?>" 
+    <a href="create.php" 
       class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">
       Add User
     </a>

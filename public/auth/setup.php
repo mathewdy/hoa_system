@@ -1,38 +1,15 @@
-<?php 
-  include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/config.php');
-  include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/session.php');
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/page-icon.php'); ?>
-  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/styles.php'); ?>
+<?php
+$root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 
-</head>
-<body class="min-h-screen md:bg-gray-50 flex flex-col">
-  <div class="flex justify-center">
-    <div 
-      id="toast-container" 
-      class="flex flex-col justify-center fixed mt-5 space-y-2 z-50">
-    </div>
-  </div>
-  <div class="flex-1 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="flex justify-center">
-        <span class="text-7xl text-teal-600">
-          <i class="ri-community-line"></i>
-        </span>
-      </div>
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">HOAConnect</h2>
-      <p class="mt-2 text-center text-sm text-gray-600">Set up your Mabuhay Homes 2000 account</p>
-    </div>
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <div id="error-message" class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative hidden" role="alert">
-          <span class="block sm:inline" id="error-text"></span>
-        </div>
+require_once $root . 'config.php';
+require_once $root . 'app/includes/session.php';
+
+$pageTitle = 'Let\'s get started';
+$pageSubTitle = 'Set up your Mabuhay Homes 2000 account';
+
+ob_start();
+
+?>
         <form id="setup-password-form" method="POST" class="space-y-6">
           <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
 
@@ -92,32 +69,12 @@
           </div>
       </form>
 
+<?php
+$content = ob_get_clean();
 
-      <div class="mt-6">
-          <div class="relative">
-              <div class="absolute inset-0 flex items-center">
-                  <div class="w-full border-t border-gray-300"></div>
-              </div>
-              <div class="relative flex justify-center text-sm">
-                  <span class="px-2 bg-white text-gray-500">Need help?</span>
-              </div>
-          </div>
+$pageScripts = '
+  <script type="module" src="'. BASE_URL .'ui/modules/auth/setup.js"></script>"></script>
+';
 
-          <div class="mt-6 text-center text-sm font-bold text-gray-500">
-              <p>Visit the HOA office for assistance.</p>
-          </div>
-      </div>
-    </div>
-  </div>
-</div>
-  <footer class="bg-white py-4 border-t border-gray-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p class="text-center text-sm text-gray-500">
-              &copy; <script>document.write(new Date().getFullYear())</script> HOAConnect. All rights reserved. 
-          </p>
-      </div>
-  </footer>
-  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/scripts.php'); ?>
-  <?php echo '<script type="module" src="'. BASE_PATH .'/assets/js/auth/login/setup.js"></script>'; ?>
-  </body>
-</html>
+require_once BASE_PATH . '/public/auth/layout.php';
+?>

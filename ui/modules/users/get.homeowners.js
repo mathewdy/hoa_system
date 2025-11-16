@@ -5,15 +5,16 @@ $(document).ready(() => {
     u => {
       const name = u.fullName || '';
       const email = u.email_address || '';
-      return `<div class="flex items-center">
-                <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 font-bold text-sm">
-                  ${escape(name.charAt(0))}
-                </div>
-                <div class="ml-3">
-                  <div class="font-medium text-gray-900">${escape(name)}</div>
-                  <div class="text-sm text-gray-500">${escape(email)}</div>
-                </div>
-              </div>`;
+      return `
+      <div class="flex items-center">
+        <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 font-bold text-sm">
+          ${escape(name.charAt(0))}
+        </div>
+        <div class="ml-3">
+          <div class="font-medium text-gray-900">${escape(name)}</div>
+          <div class="text-sm text-gray-500">${escape(email)}</div>
+        </div>
+      </div>`;
     },
 
     u => {
@@ -25,8 +26,8 @@ $(document).ready(() => {
 
     u => {
       const id = u.user_id || '';
-      return `<a href="${a === '6' ? 'edit-homeowner.php' : 'edit.php'}?id=${escape(id)}" 
-      class="text-indigo-600 hover:underline font-medium">Edit</a>`
+      return `<a href="view.php?id=${escape(id)}" 
+        class="text-indigo-600 hover:underline font-medium">View</a>`
     }
   ];
 
