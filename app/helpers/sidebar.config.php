@@ -1,0 +1,115 @@
+<?php
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/config.php');
+
+$sidebarItems = [
+
+  'President' => [
+    ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
+    ['label' => 'User Management', 'icon' => 'ri-admin-line', 'submenu' => [
+      ['label' => 'Board Members', 'icon' => 'ri-admin-line', 'url' => BASE_URL . 'pages/user-management/board-members/list.php'],
+      ['label' => 'Homeowners', 'icon' => 'ri-user-line', 'url' => BASE_URL . 'pages/user-management/homeowners/list.php'],
+    ]],
+    ['label' => 'Fee Type', 'icon' => 'ri-file-list-line', 'url' => BASE_URL . 'pages/fees/types/list.php'],
+    ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
+    ['label' => 'Liquidation of Expenses', 'icon' => 'ri-money-dollar-box-line', 'url' => BASE_URL . 'pages/liquidation-of-expenses/list.php'],
+    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
+    ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/list.php'],
+    ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment/history/list.php'],
+    ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
+      ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_URL . 'pages/amenities/tricycle/list.php'],
+      ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_URL . 'pages/amenities/court/list.php'],
+      ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_URL . 'pages/amenities/stall/list.php'],
+    ]],
+    ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
+    ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar.php']
+  ],
+
+  'Admin' => [
+    ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
+    ['label' => 'User Management', 'icon' => 'ri-user-settings-line', 'url' => BASE_URL . 'pages/user-management/homeowners/list.php'],
+    ['label' => 'Payment', 'icon' => 'ri-wallet-line', 'submenu' => [
+        ['label' => 'Fee Type', 'icon' => 'ri-file-list-line', 'url' => BASE_URL . 'pages/fees/types/list.php'],
+        ['label' => 'Fee Assignation', 'icon' => 'ri-file-add-line', 'url' => BASE_URL . 'pages/fees/assignations/list.php'],
+        ['label' => 'Payment Verification', 'icon' => 'ri-checkbox-line', 'url' => BASE_URL . 'pages/payment/verification/list.php'],
+        ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/list.php'],
+        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment/history/list.php'],
+    ]],
+    ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
+        ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_URL . 'pages/amenities/tricycle/list.php'],
+        ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_URL . 'pages/amenities/court/list.php'],
+        ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_URL . 'pages/amenities/stall/list.php'],
+    ]],
+    ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
+    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
+    ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
+    ['label' => 'Receipt', 'icon' => 'ri-file-copy-line', 'url' => BASE_URL . 'pages/receipt/list.php'],
+    ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar.php'],
+  ],
+  'Admin' => [
+    ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
+    ['label' => 'User Management', 'icon' => 'ri-user-settings-line', 'url' => BASE_URL . 'pages/user-management/users.php?a=6'],
+    ['label' => 'Payment', 'icon' => 'ri-wallet-line', 'submenu' => [
+        ['label' => 'Fee Type', 'icon' => 'ri-file-list-line', 'url' => BASE_URL . 'pages/fees/types/list.php'],
+        ['label' => 'Fee Assignation', 'icon' => 'ri-file-add-line', 'url' => BASE_URL . 'pages/fees/assignations/list.php'],
+        ['label' => 'Payment Verification', 'icon' => 'ri-checkbox-line', 'url' => BASE_URL . 'pages/payment/verification/list.php'],
+        ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/list.php'],
+        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment/history/list.php'],
+    ]],
+    ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
+        ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_URL . 'pages/amenities/tricycle/list.php'],
+        ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_URL . 'pages/amenities/court/list.php'],
+        ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_URL . 'pages/amenities/stall/list.php'],
+    ]],
+    ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
+    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
+    ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
+    ['label' => 'Receipt', 'icon' => 'ri-file-copy-line', 'url' => BASE_URL . 'pages/receipt/list.php'],
+    ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar.php'],
+  ],
+
+  'Secretary' => [
+    ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
+    ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
+    ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
+    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
+    ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar.php'],
+  ],
+
+  'Treasurer' => [
+    ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
+    ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment/history/list.php'],
+    ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/list.php'],
+    ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
+        ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_URL . 'pages/amenities/tricycle/list.php'],
+        ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_URL . 'pages/amenities/court/list.php'],
+        ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_URL . 'pages/amenities/stall/list.php'],
+    ]],
+    ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
+    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
+    ['label' => 'Receipt', 'icon' => 'ri-file-copy-line', 'url' => BASE_URL . 'pages/receipt/list.php'],
+    ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
+    ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar.php'],
+  ],
+
+  'Auditor' => [
+    ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
+    ['label' => 'Liquidation of Expenses', 'icon' => 'ri-money-dollar-box-line', 'url' => BASE_URL . 'pages/liquidation.php'],
+    ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
+    ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
+    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger.php'],
+    ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar.php'],
+  ],
+
+  'Home Owner' => [
+    ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
+    ['label' => 'Payments', 'icon' => 'ri-wallet-line', 'submenu' => [
+        ['label' => 'View Payments', 'icon' => 'ri-eye-line', 'url' => BASE_URL . 'pages/view_payments.php'],
+        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment_history.php'],
+    ]],
+    ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution.php'],
+    ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
+    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
+    ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar.php'],
+  ],
+
+];
