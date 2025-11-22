@@ -5,10 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 if (isset($_POST['create_account'])) {
-    // Generate unique user ID
     $user_id = "2025" . rand(1, 10) . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3);
-
-    // Collect POST data
     $first_name = $_POST['first_name'];
     $middle_name = $_POST['middle_name'];
     $last_name = $_POST['last_name'];
@@ -25,20 +22,20 @@ if (isset($_POST['create_account'])) {
     $block_number = $_POST['block_number'];
     $phase_number = $_POST['phase_number'];
     $village_name = $_POST['village_name'];
-    $hoa_number = NULL; // Assuming nullable
+    $hoa_number = NULL;
+    $password = 'MabuhayHomes@2025';
+    $hashed = password_hash($password, PASSWORD_DEFAULT);
 
-    // Prepare SQL statement
     $sql_create_account = "INSERT INTO users (
         role_id, user_id, first_name, middle_name, last_name, suffix,
-        email_address, hoa_number, phone_number, age, date_of_birth, citizenship,
+        email_address, `password`, hoa_number, phone_number, age, date_of_birth, citizenship,
         civil_status, account_status, home_address, lot_number, block_number,
-        phase_number, village_name, date_created, date_updated
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?, NOW(), NOW())";
+        phase_number, village_name, is_first_time, date_created, date_updated
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?, 1, NOW(), NOW())";
 
     $stmt = mysqli_prepare($conn, $sql_create_account);
 
     if ($stmt) {
-        // Bind parameters
         mysqli_stmt_bind_param(
             $stmt,
             "issssssssissssssss",
@@ -49,6 +46,7 @@ if (isset($_POST['create_account'])) {
             $last_name,
             $name_suffix,
             $email,
+            $hashed,
             $hoa_number,
             $phone,
             $age,

@@ -29,56 +29,56 @@ if (isset($_POST['create_account'])) {
       exit;
   }
   $sql = "UPDATE users SET
-              first_name = ?,
-              middle_name = ?,
-              last_name = ?,
-              suffix = ?,
-              role_id = ?,
-              email_address = ?,
-              age = ?,
-              phone_number = ?,
-              date_of_birth = ?,
-              citizenship = ?,
-              civil_status = ?,
-              home_address = ?,
-              lot_number = ?,
-              block_number = ?,
-              phase_number = ?,
-              village_name = ?
-          WHERE user_id = ?";
+    first_name = ?,
+    middle_name = ?,
+    last_name = ?,
+    suffix = ?,
+    role_id = ?,
+    email_address = ?,
+    age = ?,
+    phone_number = ?,
+    date_of_birth = ?,
+    citizenship = ?,
+    civil_status = ?,
+    home_address = ?,
+    lot_number = ?,
+    block_number = ?,
+    phase_number = ?,
+    village_name = ?
+    WHERE user_id = ?";
 
   $stmt = mysqli_prepare($conn, $sql);
 
   if ($stmt) {
-      mysqli_stmt_bind_param(
-          $stmt,
-          "sssi sissssssssssi", 
-          $first_name,
-          $middle_name,
-          $last_name,
-          $suffix,
-          $role_id,
-          $email,
-          $age,
-          $phone,
-          $dob,
-          $citizenship,
-          $civil_status,
-          $home_address,
-          $lot_number,
-          $block_number,
-          $phase_number,
-          $village_name,
-          $user_id
-      );
+    mysqli_stmt_bind_param(
+      $stmt,
+      "sssisissssssssssi", 
+      $first_name,
+      $middle_name,
+      $last_name,
+      $suffix,
+      $role_id,
+      $email,
+      $age,
+      $phone,
+      $dob,
+      $citizenship,
+      $civil_status,
+      $home_address,
+      $lot_number,
+      $block_number,
+      $phase_number,
+      $village_name,
+      $user_id
+    );
 
-      if (mysqli_stmt_execute($stmt)) {
-          $_SESSION['success'] = "User updated successfully.";
-      } else {
-          $_SESSION['error'] = "Error updating user: " . mysqli_stmt_error($stmt);
-      }
+    if (mysqli_stmt_execute($stmt)) {
+        $_SESSION['success'] = "User updated successfully.";
+    } else {
+        $_SESSION['error'] = "Error updating user: " . mysqli_stmt_error($stmt);
+    }
 
-      mysqli_stmt_close($stmt);
+    mysqli_stmt_close($stmt);
   } else {
       $_SESSION['error'] = "Failed to prepare the statement: " . mysqli_error($conn);
   }
