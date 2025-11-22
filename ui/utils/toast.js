@@ -1,3 +1,4 @@
+// ui/utils/toast.js
 export function showToast({ 
   message = '', 
   type = 'success', 
@@ -8,45 +9,50 @@ export function showToast({
   if (existingToast) existingToast.remove();
 
   const toast = document.createElement('div');
-  toast.className = `toast-notification fixed z-50 text-white px-4 py-3 rounded shadow-lg 
-    transition-opacity duration-300 
+  toast.className = `toast-notification fixed z-50 text-white px-6 py-4 rounded-lg shadow-2xl 
+    transition-all duration-500 ease-out flex items-center gap-3 font-medium
     ${type === 'success' ? 'bg-green-600' : 
       type === 'error' ? 'bg-red-600' : 
-      type === 'warning' ? 'bg-yellow-500' : 'bg-blue-600'}
+      type === 'warning' ? 'bg-yellow-500 text-gray-900' : 'bg-teal-600'}
     ${getPositionClass(position)}`;
 
   toast.innerHTML = `
-    <div class="flex items-center gap-2">
-      <i class="ri-${getIcon(type)} text-lg"></i>
-      <span>${message}</span>
-    </div>
+    <i class="ri-${getIcon(type)} text-2xl"></i>
+    <span>${message}</span>
   `;
 
   document.body.appendChild(toast);
 
-  setTimeout(() => (toast.style.opacity = '1'), 50);
+  // Enter animation
+  requestAnimationFrame(() => {
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateY(0)';
+  });
 
+  // Exit animation
   setTimeout(() => {
     toast.style.opacity = '0';
-    setTimeout(() => toast.remove(), 300);
+    toast.style.transform = 'translateY(-20px)';
+    setTimeout(() => toast.remove(), 500);
   }, duration);
 }
 
 function getPositionClass(position) {
-  switch (position) {
-    case 'top-left': return 'top-5 left-5';
-    case 'top-right': return 'top-5 right-5';
-    case 'bottom-left': return 'bottom-5 left-5';
-    case 'bottom-right': return 'bottom-5 right-5';
-    default: return 'top-5 right-5';
-  }
+  const pos = {
+    'top-left': 'top-5 left-5',
+    'top-right': 'top-5 right-5',
+    'bottom-left': 'bottom-5 left-5',
+    'bottom-right': 'bottom-5 right-5',
+    'center': 'left-1/2 -translate-x-1/2'
+  };
+  return pos[position] || pos['top-right'];
 }
 
 function getIcon(type) {
-  switch (type) {
-    case 'success': return 'checkbox-circle-fill';
-    case 'error': return 'error-warning-fill';
-    case 'warning': return 'alert-fill';
-    default: return 'information-fill';
-  }
+  return {
+    success: 'checkbox-circle-fill',
+    error: 'error-warning-fill',
+    warning: 'alert-fill',
+    info: 'information-fill'
+  }[type] || 'information-fill';
 }

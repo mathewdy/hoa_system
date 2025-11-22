@@ -2,8 +2,8 @@ class FormState {
   constructor(config) {
     this.c = {
       formId: '',
-      apiUrl: '',          // URL for loading data
-      saveUrl: '',         // URL for saving data
+      apiUrl: '',
+      saveUrl: '',
       idParam: 'id',
       onLoading: () => {},
       onLoaded: () => {},
@@ -43,37 +43,37 @@ class FormState {
   }
 
 async loadRecord() {
-  const id = this.getId();
-  if (!id) return;
+  const id = this.getId()
+  if (!id) return
 
-  this.state.loading = true;
-  this.c.onLoading?.();
+  this.state.loading = true
+  this.c.onLoading?.()
 
-  const url = this.c.apiUrl;  // Get the API URL
+  const url = this.c.apiUrl
 
   try {
     const res = await $.ajax({
       url: url,
       type: 'GET',
       data: { [this.c.idParam]: id },
-      dataType: 'json', // Expecting JSON response
+      dataType: 'json',
       success: (response) => {
         if (response.success) {
           this.state.data = response.data || {}
-          this.populateForm();
+          this.populateForm()
         } else {
-          console.error(response.error || 'Failed to fetch record');
+          console.error(response.error || 'Failed to fetch record')
         }
       },
       error: (xhr, status, error) => {
-        console.error("Error fetching data:", error); 
+        console.error("Error fetching data:", error) 
       }
-    });
+    })
   } catch (err) {
-    console.error("AJAX request failed:", err); 
+    console.error("AJAX request failed:", err) 
   } finally {
-    this.state.loading = false;
-    this.c.onLoaded?.();
+    this.state.loading = false
+    this.c.onLoaded?.()
   }
 }
 
@@ -105,7 +105,7 @@ async loadRecord() {
 
   getFormData() {
     const $form = $(`#${this.c.formId}`)
-    const formData = {} // Use an object for form data
+    const formData = {}
 
     $form.serializeArray().forEach(field => {
       formData[field.name] = field.value
@@ -117,14 +117,14 @@ async loadRecord() {
   async save() {
     this.c.onSaving?.()
 
-    const formData = this.getFormData()  // Get form data from serialized form fields
+    const formData = this.getFormData()
 
     try {
       const res = await $.ajax({
         url: this.c.saveUrl,
         type: 'POST',
-        data: formData,  // Send the form data as an object (not FormData)
-        dataType: 'json',  // Expect JSON response
+        data: formData, 
+        dataType: 'json',
         success: (response) => {
           if (response.success) {
             this.c.onSaved?.(response)

@@ -1,20 +1,15 @@
-// ui/modules/users/fetchById.boardmember.js
-// FINAL VERSION — NOV 17, 2025 — FULLY WORKING: LOADING, RENDER, EDIT, SAVE (3 FORMS)
+import { $State } from '../../core/state.js'
+import { showToast } from '../../utils/toast.js'
 
-import { $State } from '../../core/state.js';
-import { showToast } from '../../utils/toast.js';
+const API_URL = '/hoa_system/app/api/users/getById.users.php'
+const BASE_URL = '/hoa_system/'
 
-const API_URL = '/hoa_system/app/api/users/getById.users.php';
-const BASE_URL = '/hoa_system/'; // Make sure this matches your config
-
-// DEDICATED STATE FOR THIS PROFILE PAGE
 const profileState = $State({
   user: null,
   loading: true,
   editMode: { personal: false, home: false, account: false }
 });
 
-// React to any state change
 $(document).on('change:user.profileState change:loading.profileState change:editMode.profileState', () => {
   render();
 });
@@ -37,7 +32,6 @@ $(document).ready(function () {
     .always(() => profileState.val('loading', false));
 });
 
-// MAIN RENDER — REACTIVE
 function render() {
   const user = profileState.val('user');
   const loading = profileState.val('loading');
@@ -46,14 +40,11 @@ function render() {
   if (loading) return showLoading();
   if (!user) return;
 
-  // Header
   $('#heading').text(user.fullName || '—');
   $('#subheading').text(`${user.role}` + ' • ' + `${user.email || user.email_address || ''}`);
 
-  // Hidden ID
   $('input[name="user_id"]').val(user.user_id);
 
-  // Personal Info
   $('[name="first_name"]').val(user.first_name || '');
   $('[name="middle_name"]').val(user.middle_name || '');
   $('[name="last_name"]').val(user.last_name || '');
@@ -63,7 +54,6 @@ function render() {
   $('[name="citizenship"]').val(user.citizenship || '');
   $('[name="civil_status"]').val(user.civil_status || 'Single');
 
-  // Home Details
   $('[name="hoa_number"]').val(user.hoa_number || '');
   $('[name="home_address"]').val(user.home_address || '');
   $('[name="lot_number"], [name="lot"]').val(user.lot_number || user.lot || '');
@@ -71,11 +61,9 @@ function render() {
   $('[name="phase_number"], [name="phase"]').val(user.phase_number || user.phase || '');
   $('[name="village_name"], [name="village"]').val(user.village_name || user.village || '');
 
-  // Account Settings
   $('[name="email_address"], [name="email"]').val(user.email_address || user.email || '');
   $('[name="role"]').val(getRoleName(user.role_id || user.role));
 
-  // Toggle edit modes
   toggleSectionEdit('#personalInfo', edit.personal);
   toggleSectionEdit('#homeDetailsForm', edit.home);
   toggleSectionEdit('#accountSettingsForm', edit.account);
@@ -92,7 +80,6 @@ function toggleSectionEdit(sectionSelector, enabled) {
       .toggleClass('bg-white border border-gray-300', enabled);
 });
 
-  // THIS IS THE KEY FIX
   $section.find('.action-buttons').toggleClass('hidden', !enabled);
   $section.find('.edit-button').toggleClass('hidden', enabled);
 }
@@ -101,7 +88,6 @@ function getRoleName(role) {
   return map[role] || 'Member';
 }
 
-// EDIT BUTTON
 $(document).on('click', '.edit-button', function () {
   const formId = $(this).closest('form').attr('id');
   const key = formId === 'personalInfo' ? 'personal' :
@@ -117,11 +103,9 @@ $(document).on('click', '.cancel-btn', function () {
   const key = formId === 'personalInfo' ? 'personal' :
               formId === 'homeDetailsForm' ? 'home' : 'account';
 
-  // Turn off edit mode via state (this triggers render → reverts values)
   const current = profileState.val('editMode');
   profileState.val('editMode', { ...current, [key]: false });
 
-  // Optional: show toast
   showToast({ 
     message: 'Changes discarded', 
     type: 'info',
@@ -129,7 +113,6 @@ $(document).on('click', '.cancel-btn', function () {
   });
 });
 
-// SAVE — 3 FORMS, 3 ENDPOINTS
 $(document).on('submit', 'form.profile-section', function (e) {
   e.preventDefault();
   const $form = $(this);
@@ -164,7 +147,6 @@ $(document).on('submit', 'form.profile-section', function (e) {
     });
 });
 
-// LOADING OVERLAY — NEVER DESTROYS DOM
 function showLoading() {
   if ($('#profile-loading').length === 0) {
     $('body').append(`

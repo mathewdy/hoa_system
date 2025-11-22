@@ -1,13 +1,13 @@
 <?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/PHPMailer/src/PHPMailer.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/PHPMailer/src/SMTP.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/PHPMailer/src/Exception.php');
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 function sendEmail($message, $title, $creds) {
-  include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/PHPMailer/src/PHPMailer.php');
-  include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/PHPMailer/src/SMTP.php');
-  include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/PHPMailer/src/Exception.php');
-
   $mail = new PHPMailer(true);
 
   try {

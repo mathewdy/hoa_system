@@ -1,8 +1,6 @@
 <?php
-// setup.php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/config.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/connection/connection.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/session.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php');
 
 header('Content-Type: application/json');
 

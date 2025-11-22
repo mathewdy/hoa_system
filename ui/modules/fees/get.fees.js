@@ -9,7 +9,7 @@ if (!$('[data-module="boardmembers"]').length) {
 }
 
 const BASE_URL = '/hoa_system/';
-const API_URL = `${BASE_URL}app/api/users/get.boardmembers.php`;
+const API_URL = `${BASE_URL}app/api/fees/get.fees.php`;
 
 const $state = $State({
   search: '',
@@ -28,30 +28,58 @@ const fetcher = new DataFetcher($state, API_URL);
 const columns = [
   row => `
     <div class="flex items-center">
-      <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 font-bold text-sm">
-        ${row.fullName?.charAt(0) || '?'}
-      </div>
-      <div class="ml-3">
+      <div>
         <div class="font-medium text-gray-900">${row.fullName || '—'}</div>
-        <div class="text-sm text-gray-500">${row.email_address || '—'}</div>
       </div>
     </div>`,
-
+  row => `
+    <div class="flex items-center">
+      <div class>
+        <div class="font-medium text-gray-900">${row.fee_name || '—'}</div>
+      </div>
+    </div>`,
+  row => `
+    <div class="flex items-center">
+      <div class>
+        <div class="font-medium text-gray-900">${row.fee_type || '—'}</div>
+      </div>
+    </div>`,
   row => {
-    const roleMap = { 1: 'Admin', 2: 'Secretary', 3: 'President', 4: 'Treasurer', 5: 'Member' };
-    const roleName = row.role_name || roleMap[row.role_id] || 'Unknown';
-    return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-      ${roleName}
-    </span>`;
+    const amount = new Intl.NumberFormat('en-PH', {
+      style: 'currency',
+      currency: 'PHP',
+      minimumFractionDigits: 2
+    }).format(row.amount);
+
+    return `<span class="font-medium text-green-600">${amount}</span>`;
   },
-
-  row => row.status === 'Active'
-    ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>'
-    : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>',
-
   row => { 
-    const color = row.status == 'Active' ? 'red' : 'green'
-    const title = row.status == 'Active' ? 'Deactivate' : 'Activate'
+    const statusColors = {
+      Pending:  "bg-yellow-100 text-yellow-800",
+      Approved: "bg-green-100 text-green-800",
+      Paid: "bg-green-100 text-green-800",
+      Rejected: "bg-red-100 text-red-800",
+      Cancelled:"bg-gray-100 text-gray-800"
+    };
+
+    const colorClass = statusColors[row.status] || "bg-gray-100 text-gray-800";
+
+    return `
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClass}">
+            ${row.status}
+        </span>
+    `;
+  },
+  row => {
+    const formatted = new Date(row.date_created).toLocaleDateString('en-PH', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
+    return `<span class="font-medium">${formatted}</span>`;
+  },
+  row => { 
     return `
     <div class="flex items-center gap-2">
       <a 
@@ -59,13 +87,6 @@ const columns = [
         class="text-teal-600 hover:text-teal-800" 
         title="View">
         <i class="ri-eye-fill text-xl"></i>
-      </a>
-      <a 
-        id="actionBtn"
-        href="javascript:void(0)" 
-        class="text-teal-600 hover:text-teal-800" 
-        title="${title}">
-        <i class="ri-shut-down-line text-xl text-${color}-500 hover:text-${color}-300"></i>
       </a>
     </div>`
   }

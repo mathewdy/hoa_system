@@ -70,8 +70,9 @@ require_once $root . 'config.php';
           </p>
       </div>
   </footer>
+
   <?php include $root . 'app/includes/scripts.php'; ?>
-  <?= '<script src="'. BASE_URL .'/ui/core/state.js"></script>'; ?>
+  <?= '<script type="module" src="'. BASE_URL .'ui/core/state.js"></script>'; ?>
   <?= $pageScripts ?? '' ?>
 </body>
 </html>

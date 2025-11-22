@@ -56,7 +56,7 @@
           </a>
         </li>
         <li>
-          <a href="<?= BASE_URL ?>app/pages/profile.php" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
+          <a href="<?= BASE_URL . 'pages/profile/my-profile.php?id=' . $_SESSION['user_id'] ?>" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
             <i class="ri-account-circle-fill text-gray-600"></i> Profile
           </a>
         </li>

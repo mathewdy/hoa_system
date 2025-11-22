@@ -9,7 +9,7 @@ $pageSubTitle = 'Enter your email to receive reset instructions';
 ob_start();
 
 ?>
-  <form id="login-form" class="login-form space-y-6">
+  <form id="forgot-password-form" class="space-y-6">
     <div>
         <label for="username" class="block text-sm font-medium text-gray-700">Email Address</label>
         <div class="mt-1">
@@ -39,7 +39,7 @@ ob_start();
 $content = ob_get_clean();
 
 $pageScripts = '
-  <script type="module" src="'. BASE_URL .'ui/modules/auth/authenticate.js"></script>"></script>
+  <script type="module" src="'. BASE_URL .'ui/modules/auth/validateUser.js"></script>"></script>
 ';
 
 require_once BASE_PATH . '/public/auth/layout.php';

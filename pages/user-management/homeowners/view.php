@@ -54,19 +54,25 @@ ob_start();
  <div id="default-tab-content">
   <!-- PERSONAL INFO TAB -->
   <div class="hidden rounded-lg" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-    <form id="personalInfo" method="POST" class="profile-section rounded-lg shadow-sm mb-6 w-full">
+    <form id="personalInfo" class="profile-section rounded-lg shadow-sm mb-6 w-full">
       <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
         <div>
           <h3 class="text-lg font-semibold text-gray-900">Basic Information</h3>
           <p class="text-sm text-gray-500">Your name and role information</p>
         </div>
-        <div>
-          <a href="javascript:void(0)" id="editButtonPersonal" class="edit-button text-teal-600 hover:text-teal-700 px-4 py-2 rounded-md hover:bg-teal-50 transition-colors">
-            <i class="fas fa-edit mr-1"></i> Edit
-          </a>
-          <button type="submit" class="hidden save-btn text-white bg-teal-700 hover:bg-teal-600 px-4 py-2 rounded-md">Save</button>
-          <input type="hidden" name="update" value="1">
-          <input type="hidden" name="section" value="personal">
+        <div class="flex items-center gap-3">
+          <button type="button" class="edit-button text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+              <i class="ri-edit-box-line mr-1"></i> Edit
+            </button>
+          <div class="hidden action-buttons">
+            <button type="submit" class="save-btn text-white bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md transition-colors">
+              <i class="ri-save-line mr-1"></i> Save
+            </button>
+            <input type="hidden" name="section" value="personal">
+            <button type="button" class="cancel-btn text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+              <i class="ri-close-line mr-1"></i> Cancel
+            </button>
+          </div>
         </div>
       </div>
       <div id="basic-info-display" class="p-6 space-y-4">
@@ -118,20 +124,26 @@ ob_start();
 
   <!-- HOME DETAILS TAB -->
   <div class="hidden rounded-lg" id="homeDetails" role="tabpanel" aria-labelledby="home-details-tab">
-    <form id="homeDetailsForm" method="POST" class="profile-section rounded-lg shadow-sm mb-6 w-full">
+    <form id="homeDetailsForm" class="profile-section rounded-lg shadow-sm mb-6 w-full">
+      <input type="hidden" name="user_id">
       <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
         <div>
           <h3 class="text-lg font-semibold text-gray-900">Home Details</h3>
           <p class="text-sm text-gray-500">Your property and address information</p>
         </div>
-        <div>
-          <a href="javascript:void(0)" id="editButtonHome" class="edit-button text-teal-600 hover:text-teal-700 px-4 py-2 rounded-md hover:bg-teal-50 transition-colors">
-            <i class="fas fa-edit mr-1"></i> Edit
-          </a>
-          <button type="submit" class="hidden save-btn text-white bg-teal-700 hover:bg-teal-600 px-4 py-2 rounded-md">Save</button>
-          <input type="hidden" name="user_id">
-          <input type="hidden" name="update" value="1">
-          <input type="hidden" name="section" value="home">
+        <div class="flex items-center gap-3">
+          <button type="button" class="edit-button text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+              <i class="ri-edit-box-line mr-1"></i> Edit
+            </button>
+          <div class="hidden action-buttons">
+            <button type="submit" class="save-btn text-white bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md transition-colors">
+              <i class="ri-save-line mr-1"></i> Save
+            </button>
+            <input type="hidden" name="section" value="home">
+            <button type="button" class="cancel-btn text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+              <i class="ri-close-line mr-1"></i> Cancel
+            </button>
+          </div>
         </div>
       </div>
       <div class="p-6 space-y-6">
@@ -167,30 +179,32 @@ ob_start();
 
   <!-- ACCOUNT SETTINGS TAB -->
   <div class="hidden rounded-lg" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-    <form id="accountSettingsForm" method="POST" class="profile-section rounded-lg shadow-sm mb-6 w-full">
+    <form id="accountSettingsForm" class="profile-section rounded-lg shadow-sm mb-6 w-full">
+      <input type="hidden" name="user_id">
       <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
         <div>
           <h3 class="text-lg font-semibold text-gray-900">Account Settings</h3>
-          <p class="text-sm text-gray-500">Email, role, and password</p>
+          <p class="text-sm text-gray-500">Email and password</p>
         </div>
-        <div>
-          <a href="javascript:void(0)" id="editButtonAccount" class="edit-button text-teal-600 hover:text-teal-700 px-4 py-2 rounded-md hover:bg-teal-50 transition-colors">
-            <i class="fas fa-edit mr-1"></i> Edit
-          </a>
-          <button type="submit" class="hidden save-btn text-white bg-teal-700 hover:bg-teal-600 px-4 py-2 rounded-md">Save</button>
-          <input type="hidden" name="user_id">
-          <input type="hidden" name="update" value="1">
-          <input type="hidden" name="section" value="account">
+        <div class="flex items-center gap-3">
+          <button type="button" class="edit-button text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+              <i class="ri-edit-box-line mr-1"></i> Edit
+            </button>
+          <div class="hidden action-buttons">
+            <button type="submit" class="save-btn text-white bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md transition-colors">
+              <i class="ri-save-line mr-1"></i> Save
+            </button>
+            <input type="hidden" name="section" value="account">
+            <button type="button" class="cancel-btn text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+              <i class="ri-close-line mr-1"></i> Cancel
+            </button>
+          </div>
         </div>
       </div>
       <div class="p-6 space-y-6">
         <div>
           <label class="block text-sm font-medium text-gray-500">Email Address</label>
           <input type="email" name="email_address" class="mt-1 block w-full rounded-lg border-gray-300 bg-gray-50 px-3 py-2.5" readonly>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-500">Role</label>
-          <input type="text" name="role" class="mt-1 block w-full rounded-lg border-gray-300 bg-gray-50 px-3 py-2.5" readonly>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-500">New Password (leave blank to keep current)</label>
@@ -205,7 +219,7 @@ ob_start();
 $content = ob_get_clean();
 
 $pageScripts = '
-  <script type="module" src="' . BASE_URL . 'ui/modules/users/fetchById.boardmember.js"></script>
+  <script type="module" src="' . BASE_URL . 'ui/modules/profile/fetch.profile.js"></script>
 ';
 
 require_once BASE_PATH . '/pages/layout.php';

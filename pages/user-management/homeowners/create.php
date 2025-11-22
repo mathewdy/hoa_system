@@ -1,238 +1,100 @@
 <?php
-  include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/config.php');
-  include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/connection/connection.php');
-  include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/session.php');
-  $id = $_SESSION['user_id'];
-  $role = $_GET['role'];
+$root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
+require_once $root . 'config.php';
+require_once $root . 'app/includes/session.php';
 
-  if(empty($role)){
-    header("Location: accounts.php");
-  }
+$pageTitle = 'Add New Homeowner';
+ob_start();
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/page-icon.php'); ?>
-  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/styles.php'); ?>
-</head>
-
-<body class="">
-  <div class="h-full flex overflow-hidden">
-    <aside id="sidebar" class="w-64 h-100 bg-teal-700 text-white border-r border-gray-200 p-4">
-      <div class="px-3 mb-8">
-        <h1 class="text-2xl font-bold">HOAConnect</h1>
-        <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
-      </div>
-      <div id="sidebarList">
-        <!-- Sidebar menu will be loaded here via AJAX -->
-      </div>
-    </aside>
-    <div class="flex-1 flex flex-col h-fit overflow-hidden">
-      <header class="flex flex-row justify-between items-center p-4 sm:px-6 lg:px-8 gap-2 bg-white shadow-md">
-        <span>
-          <a href="javascript:void(0 )" id="sidebarToggle" class="flex items-center text-lg font-black text-teal-600 hover:text-teal-800">
-            <i class="ri-menu-2-fill"></i>
-          </a>
-        </span>
-        <div class="flex flex-row items-center gap-2">
-          <a href="#" id="dropdownAvatarNameButton" class="flex items-center text-md font-medium text-teal-600 hover:text-teal-800 p-2">
-            <i class="ri-notification-3-fill"></i>
-          </a>
-          <a 
-            href="#" 
-            id="dropdownAvatarNameButton" 
-            data-dropdown-toggle="dropdownAvatarName" 
-            data-dropdown-placement="bottom"
-            data-dropdown-offset-distance="10"
-            class="text-md font-medium text-gray-600 hover:text-black-800"
-          >
-            <span class="flex items-center">
-              <!-- <i class="ri-account-circle-fill text-2xl me-2"></i> -->
-              <img class="w-8 h-8 rounded-sm ring-2 ring-gray-300 p-2 me-2" src="<?= BASE_PATH. '/assets/img/user-alt-64.png'?>" alt="Default avatar">
-              <span class="flex flex-col gap-0 leading-none">
-                <span>
-                  <p class="text-sm m-0 p-0 leading-none">
-                    Bonnie Green
-                  </p>
-                </span>
-                <span>
-                  <span class="text-blue-800 text-xs font-medium me-2 rounded-lg">Admin</span>
-                </span>
-              </span>
-            </span>  
-          </a>
-          <div id="dropdownAvatarName" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 w-[20rem]">
-              <div class="flex flex-row items-center px-4 py-3 ">
-                <img class="w-10 h-10 rounded-sm ring-2 ring-gray-300 p-2 me-2" src="<?= BASE_PATH. '/assets/img/user-alt-64.png'?>" alt="Default avatar">
-                <div class="text-sm text-gray-900">
-                  <div class="font-medium ">Sample User</div>
-                  <div class="truncate">Sample@mailinator.com</div>
-                </div>
-              </div>
-              <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
-                <li>
-                  <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                    <i class="ri-history-line me-2"></i>
-                    Activity Logs
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                    <i class="ri-account-circle-fill me-2"></i>
-                    Profile
-                  </a>
-                </li>
-              </ul>
-              <div class="py-2">
-                <a href="<?= BASE_PATH . '/core/auth/logout.php'?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                  <i class="ri-logout-box-line me-2"></i>
-                  Sign out
-                </a>
-              </div>
-          </div>
+<div class="">
+    <div class="rounded-lg shadow-sm">
+        <div class="mb-5 border-b-2 border-gray-300 pb-4">
+            <h3 class="text-2xl font-medium text-gray-900 leading-none">Create Account</h3>
+            <p class="text-gray-600">Create a new member account for your subdivision</p>
         </div>
-      </header>
-      <main class="flex-1 p-6">
-        <div class="mt-1">
-          <h3 class="text-2xl font-medium text-gray-900 mb-4">Create Account</h3>
-          <form id="createForm" method="POST" enctype="multipart/form-data" class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-sm">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <label for="sec-first-name" class="block mb-2 text-sm font-medium text-gray-900">First Name</label>
-                <input type="text" id="sec-first-name" name="first_name" placeholder="Enter first name"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
-              </div>
 
-              <div>
-                <label for="sec-middle-name" class="block mb-2 text-sm font-medium text-gray-900">Middle Name</label>
-                <input type="text" id="sec-middle-name" name="middle_name" placeholder="Enter middle name"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" />
-              </div>
-
-              <div>
-                <label for="sec-last-name" class="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
-                <input type="text" id="sec-last-name" name="last_name" placeholder="Enter last name"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
-              </div>
-
-              <div>
-                <label for="sec-name-suffix" class="block mb-2 text-sm font-medium text-gray-900">Name Suffix</label>
-                <input type="text" id="sec-name-suffix" name="name_suffix" placeholder="e.g., Jr., Sr."
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" />
-              </div>
-
-              <input type="hidden" name="role" id="sec-role" value="<?= $role; ?>" readonly
-                class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
-
-              <div>
-                <label for="sec-email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                <input type="email" id="sec-email" name="email" placeholder="Enter email address"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
-              </div>
-
-              <div>
-                <label for="sec-age" class="block mb-2 text-sm font-medium text-gray-900">Age</label>
-                <input type="number" id="sec-age" name="age" placeholder="Enter age" min="18"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
-              </div>
-
-              <div>
-                <label for="sec-phone" class="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
-                <div class="flex">
-                  <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md">
-                    +63
-                  </span>
-                  <input type="tel" id="sec-phone" name="phone" placeholder="123456789" pattern="[0-9]{10}" maxlength="10"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                    class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
+        <form id="createHomeownerForm" class="space-y-4">
+            <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">Personal Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+                    <div class="grid grid-cols-2 items-center">
+                      <input type="hidden" name="role" value="6">
+                      <input type="hidden" name="password" value="MabuhayHomes@123">
+                      <label class="block text-sm font-medium text-gray-700">First Name <span class="text-red-500">*</span></label>
+                      <input type="text" name="first_name" required class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
+                      <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                      <input type="text" name="middle_name" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
+                      <label class="block text-sm font-medium text-gray-700">Last Name <span class="text-red-500">*</span></label>
+                      <input type="text" name="last_name" required class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
+                      <label class="block text-sm font-medium text-gray-700">Suffix</label>
+                      <input type="text" name="suffix" placeholder="Jr, Sr, III" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
+                        <input type="email" name="email_address" required class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
+                      <label class="block text-sm font-medium text-gray-700"> Phone Number <span class="text-red-500">*</span></label>
+                      <input type="tel" name="phone" required pattern="09[0-9]{9}" placeholder="09123456789" class="mt-1 block w-full rounded-lg border border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
+                      <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
+                      <input type="date" name="birthdate" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
                 </div>
-              </div>
-
-              <div>
-                <label for="sec-dob" class="block mb-2 text-sm font-medium text-gray-900">Date of Birth</label>
-                <input type="date" id="sec-dob" name="date_of_birth"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
-              </div>
-
-              <div>
-                <label for="sec-citizenship" class="block mb-2 text-sm font-medium text-gray-900">Citizenship</label>
-                <input type="text" id="sec-citizenship" name="citizenship" placeholder="Enter citizenship"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
-              </div>
-
-              <div>
-                <label for="sec-relationship-status" class="block mb-2 text-sm font-medium text-gray-900">Civil Status</label>
-                <select id="sec-relationship-status" name="civil_status"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required>
-                  <option value="" disabled selected>Select status</option>
-                  <option value="Single">Single</option>
-                  <option value="Married">Married</option>
-                  <option value="Divorced">Divorced</option>
-                  <option value="Widowed">Widowed</option>
-                  <option value="Annulled">Annulled</option>
-                </select>
-              </div>
-
-              <div class="sm:col-span-2">
-                <label for="sec-home-address" class="block mb-2 text-sm font-medium text-gray-900">Home Address</label>
-                <input type="text" id="sec-home-address" name="home_address" placeholder="Enter home address"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
-              </div>
-
-              <div>
-                <label for="sec-lot-number" class="block mb-2 text-sm font-medium text-gray-900">Lot #</label>
-                <input type="text" id="sec-lot-number" name="lot_number" placeholder="Enter lot number"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
-              </div>
-
-              <div>
-                <label for="sec-block-number" class="block mb-2 text-sm font-medium text-gray-900">Block #</label>
-                <input type="text" id="sec-block-number" name="block_number" placeholder="Enter block number"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
-              </div>
-
-              <div>
-                <label for="sec-phase-number" class="block mb-2 text-sm font-medium text-gray-900">Phase #</label>
-                <input type="text" id="sec-phase-number" name="phase_number" placeholder="Enter phase number"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
-              </div>
-
-              <div>
-                <label for="sec-village-name" class="block mb-2 text-sm font-medium text-gray-900">Village Name</label>
-                <input type="text" id="sec-village-name" name="village_name" placeholder="Enter village name"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5" required />
-              </div>
             </div>
 
-            <div class="flex justify-end items-center mt-8 gap-2 border-t border-gray-200 pt-4">
-              <a 
-                href="<?= BASE_PATH .'app/pages/user-management/board-members/list.php'?>"
-                class="py-2.5 px-5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 hover:text-teal-700 focus:ring-4 focus:ring-gray-100"
-              >
-                Cancel
-              </a>
-              <button id="submitBtn" type="submit"
-                class="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                Save
-              </button>
+            <!-- HOME DETAILS -->
+            <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">Home Address</h2>
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+                    <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700">HOA Number <span class="text-red-500">*</span></label>
+                        <input type="text" name="hoa_number" required class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700">Home Address <span class="text-red-500">*</span></label>
+                        <input type="text" name="home_address" required class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
+                      <label class="block text-sm font-medium text-gray-700">Lot <span class="text-red-500">*</span></label>
+                      <input type="text" name="lot" required class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
+                      <label class="block text-sm font-medium text-gray-700">Block <span class="text-red-500">*</span></label>
+                      <input type="text" name="block" required class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
+                      <label class="block text-sm font-medium text-gray-700">Phase <span class="text-red-500">*</span></label>
+                      <input type="text" name="phase" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
+                      <label class="block text-sm font-medium text-gray-700">Village / Subdivision <span class="text-red-500">*</span></label>
+                      <input type="text" name="village" value="Mabuhay Village" readonly class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+                </div>
             </div>
-          </form>
-        </div>
-      </main>
+            <div class="flex justify-end gap-4 pt-4">
+                <a href="list.php" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Cancel</a>
+                <button type="submit" id="createBtn" class="px-8 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition font-medium">
+                    Create
+                </button>
+            </div>
+        </form>
     </div>
-  </div>
+</div>
 
-  <?php include_once ($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/scripts.php'); ?>
-  <?php 
-    echo '
-      <script src="'. BASE_PATH .'/assets/js/sidebar.js"></script>
-      <script src="'. BASE_PATH .'/assets/js/users/board-members/fetch.js"></script>
-      <script type="module" src="'. BASE_PATH .'/assets/js/users/board-members/create.js"></script>
-    '; 
-  ?>
-  </body>
-</html>
-
+<?php
+$content = ob_get_clean();
+$pageScripts = '
+<script type="module" src="' . BASE_URL . 'ui/modules/users/post.users.js"></script>
+';
+require_once BASE_PATH . '/pages/layout.php';
+?>

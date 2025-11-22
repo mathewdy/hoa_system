@@ -29,27 +29,7 @@ $sidebarItems = [
     ['label' => 'User Management', 'icon' => 'ri-user-settings-line', 'url' => BASE_URL . 'pages/user-management/homeowners/list.php'],
     ['label' => 'Payment', 'icon' => 'ri-wallet-line', 'submenu' => [
         ['label' => 'Fee Type', 'icon' => 'ri-file-list-line', 'url' => BASE_URL . 'pages/fees/types/list.php'],
-        ['label' => 'Fee Assignation', 'icon' => 'ri-file-add-line', 'url' => BASE_URL . 'pages/fees/assignations/list.php'],
-        ['label' => 'Payment Verification', 'icon' => 'ri-checkbox-line', 'url' => BASE_URL . 'pages/payment/verification/list.php'],
-        ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/list.php'],
-        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment/history/list.php'],
-    ]],
-    ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
-        ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_URL . 'pages/amenities/tricycle/list.php'],
-        ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_URL . 'pages/amenities/court/list.php'],
-        ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_URL . 'pages/amenities/stall/list.php'],
-    ]],
-    ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
-    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
-    ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
-    ['label' => 'Receipt', 'icon' => 'ri-file-copy-line', 'url' => BASE_URL . 'pages/receipt/list.php'],
-    ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar.php'],
-  ],
-  'Admin' => [
-    ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
-    ['label' => 'User Management', 'icon' => 'ri-user-settings-line', 'url' => BASE_URL . 'pages/user-management/users.php?a=6'],
-    ['label' => 'Payment', 'icon' => 'ri-wallet-line', 'submenu' => [
-        ['label' => 'Fee Type', 'icon' => 'ri-file-list-line', 'url' => BASE_URL . 'pages/fees/types/list.php'],
+        ['label' => 'Fees', 'icon' => 'ri-bank-card-fill', 'url' => BASE_URL . 'pages/fees/list.php'],
         ['label' => 'Fee Assignation', 'icon' => 'ri-file-add-line', 'url' => BASE_URL . 'pages/fees/assignations/list.php'],
         ['label' => 'Payment Verification', 'icon' => 'ri-checkbox-line', 'url' => BASE_URL . 'pages/payment/verification/list.php'],
         ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/list.php'],
