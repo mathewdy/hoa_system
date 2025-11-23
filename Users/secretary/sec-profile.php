@@ -81,38 +81,34 @@
 </head>
 <body class="bg-gray-50">
   <div class="min-h-screen flex">
-     <!-- Sidebar -->
+    <!-- Sidebar -->
     <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
       <div class="px-6 mb-8">
         <h1 class="text-2xl font-bold">HOAConnect</h1>
         <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
       </div>
       <nav class="flex-1">
-        <a href="aud-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-700 transition-colors">
+        <a href="sec-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-700 transition-colors">
           <i class="fas fa-tachometer-alt mr-3"></i>
           <span>Dashboard</span>
         </a>
-        <a href="aud-liquidation.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-file-invoice-dollar mr-3"></i>
-          <span>Liquidation of Expenses</span>
-        </a>
-        <a href="aud-projectproposal.html" class="flex items-center px-6 py-3 hover:bg-teal-700 transition-colors">
+        <a href="sec-projectproposal.php" class="flex items-center px-6 py-3 hover:bg-teal-700 transition-colors">
           <i class="fas fa-gavel mr-3"></i>
           <span>Resolution</span>
         </a>
-        <a href="aud-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-700 transition-colors">
+        <a href="sec-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-700 transition-colors">
           <i class="fas fa-newspaper mr-3"></i>
           <span>News Feed</span>
         </a>
-        <a href="aud-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="sec-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-book mr-3"></i>
           <span>Ledger</span>
         </a>
-        <a href="aud-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-700 transition-colors">
+        <a href="sec-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-700 transition-colors">
           <i class="fas fa-calendar-alt mr-3"></i>
           <span>Calendar</span>
         </a>
-        <a href="aud-profile.html" class="flex items-center px-6 py-3 bg-teal-700">
+        <a href="sec-profile.php" class="flex items-center px-6 py-3 bg-teal-700">
           <i class="fas fa-user-circle mr-3"></i>
           <span>Profile</span>
         </a>
@@ -155,7 +151,7 @@
             </div>
             <div>
               <h2 class="text-2xl font-bold text-gray-900">Marj Celine Aberia San Jose</h2>
-              <p class="text-gray-600">Audit • Mabuhay Homes 2000</p>
+              <p class="text-gray-600">Secretary • Mabuhay Homes 2000</p>
             </div>
           </div>
         </div>
@@ -188,7 +184,7 @@
                 <div class="flex justify-between items-center">
                   <div>
                     <p class="text-sm font-medium text-gray-500">Role</p>
-                    <p class="text-gray-900">Audit</p>
+                    <p class="text-gray-900">Secretary</p>
                   </div>
                   <i class="fas fa-user-tie text-gray-400"></i>
                 </div>

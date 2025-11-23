@@ -20,31 +20,31 @@
         <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
       </div>
       <nav class="flex-1">
-        <a href="aud-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="aud-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-tachometer-alt mr-3"></i>
           <span>Dashboard</span>
         </a>
-        <a href="aud-liquidation.html" class="flex items-center px-6 py-3 bg-teal-700">
+        <a href="aud-liquidation.php" class="flex items-center px-6 py-3 bg-teal-700">
           <i class="fas fa-file-invoice-dollar mr-3"></i>
           <span>Liquidation of Expenses</span>
         </a>
-        <a href="aud-projectproposal.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="aud-projectproposal.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-gavel mr-3"></i>
           <span>Resolution</span>
         </a>
-        <a href="aud-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="aud-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-newspaper mr-3"></i>
           <span>News Feed</span>
         </a>
-        <a href="aud-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="aud-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-book mr-3"></i>
           <span>Ledger</span>
         </a>
-        <a href="aud-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="aud-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-calendar-alt mr-3"></i>
           <span>Calendar</span>
         </a>
-        <a href="aud-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="aud-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-user-circle mr-3"></i>
           <span>Profile</span>
         </a>

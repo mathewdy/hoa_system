@@ -15,49 +15,44 @@
 </head>
 <body class="bg-gray-50">
 <div class="min-h-screen flex">
- <!-- Sidebar -->
- <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
-  <div class="px-6 mb-8">
-    <h1 class="text-2xl font-bold">HOAConnect</h1>
-    <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
+  <!-- Sidebar -->
+  <div class="bg-teal-800 text-white w-64 py-6 flex flex-col">
+    <div class="px-6 mb-8">
+      <h1 class="text-2xl font-bold">HOAConnect</h1>
+      <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
+    </div>
+    <nav class="flex-1">
+      <a href="sec-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <i class="fas fa-tachometer-alt mr-3"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="sec-projectproposal.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <i class="fas fa-gavel mr-3"></i>
+  <span>Resolution</span>
+      </a>
+      <a href="sec-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <i class="fas fa-newspaper mr-3"></i>
+        <span>News Feed</span>
+      </a>
+      <a href="sec-ledger.php" class="flex items-center px-6 py-3 bg-teal-700">
+        <i class="fas fa-book mr-3"></i>
+        <span>Ledger</span>
+      </a>
+      <a href="sec-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <i class="fas fa-calendar-alt mr-3"></i>
+        <span>Calendar</span>
+      </a>
+      <a href="sec-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <i class="fas fa-user-circle mr-3"></i>
+        <span>Profile</span>
+      </a>
+    </nav>
+    <div class="px-6 py-4 mt-auto">
+      <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center justify-center">
+        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+      </button>
+    </div>
   </div>
-  <nav class="flex-1">
-    <a href="aud-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-tachometer-alt mr-3"></i>
-      <span>Dashboard</span>
-    </a>
-    <a href="aud-liquidation.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-file-invoice-dollar mr-3"></i>
-      <span>Liquidation of Expenses</span>
-    </a>
-    <a href="aud-projectproposal.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-gavel mr-3"></i>
-      <span>Resolution</span>
-    </a>
-    <a href="aud-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-newspaper mr-3"></i>
-      <span>News Feed</span>
-    </a>
-    <a href="aud-ledger.html" class="flex items-center px-6 py-3 bg-teal-700">
-      <i class="fas fa-book mr-3"></i>
-      <span>Ledger</span>
-    </a>
-    <a href="aud-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-calendar-alt mr-3"></i>
-      <span>Calendar</span>
-    </a>
-    <a href="aud-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-user-circle mr-3"></i>
-      <span>Profile</span>
-    </a>
-  </nav>
-  <div class="px-6 py-4 mt-auto">
-    <button class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center justify-center">
-      <i class="fas fa-sign-out-alt mr-2"></i> Logout
-    </button>
-  </div>
-</div>
-  <!--End of sidebar-->
 
   <!-- Main Content -->
   <div class="flex-1 overflow-x-hidden overflow-y-auto">
@@ -76,7 +71,7 @@
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm font-medium text-gray-600">Total Collected Fees</p>
-          <p class="text-xl font-semibold text-gray-900">₱209,400</p>
+          <p class="text-xl font-semibold text-gray-900">₱179,400</p>
         </div>
         <div class="bg-teal-100 p-2 rounded-full text-teal-600">
           <i class="fas fa-money-bill-wave text-lg"></i>
@@ -100,7 +95,6 @@
                   <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                   <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Debit (₱)</th>
                   <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Credit (₱)</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Balance After (₱)</th>
                 </tr>
               </thead>
               <tbody id="ledgerTableBody" class="bg-white divide-y divide-gray-200">
@@ -185,20 +179,13 @@
     const endIndex = startIndex + entriesPerPage;
     const paginatedEntries = sortedEntries.slice(startIndex, endIndex);
 
-    let totalCollectedFees = 179400; // Initial total collected fees
-    sortedEntries.forEach((entry, index) => {
-      totalCollectedFees += entry.credit - entry.debit;
-      entry.balanceAfter = totalCollectedFees;
-    });
-
     paginatedEntries.forEach(entry => {
       tbody.innerHTML += `
         <tr>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">${entry.description}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${entry.date}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-">${entry.date}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold ${entry.debit > 0 ? 'bg-red-200' : ''}">${entry.debit > 0 ? `₱${entry.debit.toLocaleString()}` : ''}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold ${entry.credit > 0 ? 'bg-blue-200' : ''}">${entry.credit > 0 ? `₱${entry.credit.toLocaleString()}` : ''}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">${entry.balanceAfter !== undefined ? `₱${entry.balanceAfter.toLocaleString()}` : ''}</td>
         </tr>
       `;
     });
