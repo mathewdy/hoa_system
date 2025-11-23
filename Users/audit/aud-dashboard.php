@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HOAConnect - Secretary Dashboard</title>
+  <title>HOAConnect - Audit Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -18,27 +18,31 @@
         <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
       </div>
       <nav class="flex-1">
-        <a href="sec-dashboard.html" class="flex items-center px-6 py-3 bg-teal-700">
+        <a href="aud-dashboard.php" class="flex items-center px-6 py-3 bg-teal-700">
           <i class="fas fa-tachometer-alt mr-3"></i>
           <span>Dashboard</span>
         </a>
-        <a href="sec-projectproposal.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-gavel mr-3"></i>
-    <span>Resolution</span>
+        <a href="aud-liquidation.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-file-invoice-dollar mr-3"></i>
+          <span>Liquidation of Expenses</span>
         </a>
-        <a href="sec-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="aud-projectproposal.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-gavel mr-3"></i>
+          <span>Resolution</span>
+        </a>
+        <a href="aud-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-newspaper mr-3"></i>
           <span>News Feed</span>
         </a>
-        <a href="sec-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="aud-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-book mr-3"></i>
           <span>Ledger</span>
         </a>
-        <a href="sec-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="aud-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-calendar-alt mr-3"></i>
           <span>Calendar</span>
         </a>
-        <a href="sec-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="aud-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-user-circle mr-3"></i>
           <span>Profile</span>
         </a>
@@ -54,7 +58,7 @@
     <div class="flex-1 overflow-x-hidden overflow-y-auto">
       <header class="bg-white shadow-md">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-gray-900">Secretary's Dashboard</h1>
+            <h1 class="text-2xl font-bold text-gray-900">Auditor's Dashboard</h1>
             <div class="flex items-center space-x-2">
               <button class="bg-teal-100 p-2 rounded-full text-teal-600 hover:bg-teal-200">
                 <i class="fas fa-bell"></i>

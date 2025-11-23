@@ -22,27 +22,27 @@
       <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
     </div>
     <nav class="flex-1">
-      <a href="sec-dashboard.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+      <a href="sec-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
         <i class="fas fa-tachometer-alt mr-3"></i>
         <span>Dashboard</span>
       </a>
-      <a href="sec-projectproposal.html" class="flex items-center px-6 py-3 bg-teal-700">
+      <a href="sec-projectproposal.php" class="flex items-center px-6 py-3 bg-teal-700">
         <i class="fas fa-gavel mr-3"></i>
         <span>Resolution</span>
       </a>
-      <a href="sec-newsfeed.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+      <a href="sec-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
         <i class="fas fa-newspaper mr-3"></i>
         <span>News Feed</span>
       </a>
-      <a href="sec-ledger.html" class="flex items-center px-6 py-3 hover:bg-teal-600">
+      <a href="sec-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
         <i class="fas fa-book mr-3"></i>
         <span>Ledger</span>
       </a>
-      <a href="sec-calendar.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+      <a href="sec-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
         <i class="fas fa-calendar-alt mr-3"></i>
         <span>Calendar</span>
       </a>
-      <a href="sec-profile.html" class="flex items-center px-6 py-3 hover:bg-teal-700">
+      <a href="sec-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
         <i class="fas fa-user-circle mr-3"></i>
         <span>Profile</span>
       </a>

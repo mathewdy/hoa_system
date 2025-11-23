@@ -3,7 +3,6 @@ include('../../connection/connection.php');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-$user_id = $_SESSION['user_id'];
 
 $sql = "SELECT * FROM news_feed ORDER BY date_created DESC";
 $result = mysqli_query($conn, $sql);
@@ -33,108 +32,27 @@ $result = mysqli_query($conn, $sql);
         <p class="text-sm text-teal-200">Mabuhay Homes 2000</p>
       </div>
       <nav class="flex-1">
-        <a href="admin-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="sec-dashboard.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
           <i class="fas fa-tachometer-alt mr-3"></i>
           <span>Dashboard</span>
         </a>
-        <a href="admin-accounts.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-users mr-3"></i>
-          <span>User Management</span>
+        <a href="sec-projectproposal.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-gavel mr-3"></i>
+    <span>Resolution</span>
         </a>
-    
-        <!-- Payment Management Dropdown -->
-        <div x-data="{ open: false }">
-          <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
-            <i class="fas fa-credit-card mr-3"></i>
-            <span class="flex-1 text-left">Payment Management</span>
-            <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <div x-show="open" x-cloak class="bg-teal-800 text-sm">
-            <a href="fee-types.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
-              <i class="fas fa-tag mr-2" title="Fee Type"></i>
-              Fee Type
-            </a>
-            <a href="fee-assignation.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
-              <i class="fas fa-clipboard-list mr-2" title="Fee Assignation"></i>
-              Fee Assignation
-            </a>
-            <a href="payment-verification.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
-              <i class="fas fa-check-circle mr-2" title="Payment Verification"></i>
-              Payment Verification
-            </a>
-            <a href="admin-remittance.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
-              <i class="fas fa-money-check mr-3"></i>
-              Remittance
-            </a>
-            <a href="payment-history.php" class="flex items-center px-10 py-2 hover:bg-teal-600">
-              <i class="fas fa-history mr-2" title="Payment History"></i>
-              Payment History
-            </a>
-          </div>
-        </div>
-
-        <!-- Amenities Dropdown -->
-<div x-data="{ open: false }">
-  <button @click="open = !open" :aria-expanded="open" class="flex items-center w-full px-6 py-3 hover:bg-teal-600 focus:outline-none">
-    <i class="fas fa-swimming-pool mr-3"></i>
-    <span class="flex-1 text-left">Amenities</span>
-    <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-    </svg>
-  </button>
-  <div x-show="open" x-cloak class="bg-teal-800 text-sm">
-    <!-- Tricycle Navigation -->
-    <div class="relative">
-      <button @click="window.location.href='admin-tricycle.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-        <i class="fas fa-bicycle mr-2" title="Tricycle"></i>
-        <span class="flex-1 text-left">Tricycle</span>
-      </button>
-    </div>
-
-    <!-- Court Navigation -->
-    <div class="relative">
-      <button @click="window.location.href='admin-court.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-        <i class="fas fa-basketball-ball mr-2" title="Court"></i>
-        <span class="flex-1 text-left">Court</span>
-      </button>
-    </div>
-
-        <!-- Stall Navigation -->
-        <div class="relative">
-          <button @click="window.location.href='admin-stall.php'" class="flex items-center w-full px-10 py-2 hover:bg-teal-600 focus:outline-none">
-            <i class="fas fa-store mr-2" title="Stall"></i>
-            <span class="flex-1 text-left">Stall</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <a href="admin-hoaprojects.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-gavel mr-3"></i>
-            <span>Resolution</span>
-    </a>
-
-    <a href="admin-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-      <i class="fas fa-book mr-3"></i>
-      <span>Ledger</span>
-    </a>
-
-        <a href="admin-newsfeed.php" class="flex items-center px-6 py-3 bg-teal-700">
+        <a href="sec-newsfeed.php" class="flex items-center px-6 py-3 bg-teal-700">
           <i class="fas fa-newspaper mr-3"></i>
           <span>News Feed</span>
         </a>
-
-        <a href="admin-messages.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
-          <i class="fas fa-comments mr-3"></i>
-          <span>Messages</span>
+        <a href="sec-ledger.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-book mr-3"></i>
+          <span>Ledger</span>
         </a>
-        <a href="admin-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="sec-calendar.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
           <i class="fas fa-calendar-alt mr-3"></i>
           <span>Calendar</span>
         </a>
-        <a href="admin-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+        <a href="sec-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-700">
           <i class="fas fa-user-circle mr-3"></i>
           <span>Profile</span>
         </a>
@@ -157,77 +75,81 @@ $result = mysqli_query($conn, $sql);
               </button>
             </div>
           </div>
-            <button onclick="openModal()" 
+          <button onclick="openModal()" 
           class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
           Create Post
       </button>
-      </header>
+    </header>
 
 <body class="bg-gray-50">
 
   <div class="space-y-6">
       <?php while($row = mysqli_fetch_assoc($result)): ?>
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="bg-white rounded-lg shadow overflow-hidden">
             <div class="p-4 border-b flex items-center justify-between">
             </div>
             <div class="p-4">
-                  <h3 class="text-lg font-semibold mb-2"><?= htmlspecialchars($row['post_title']) ?></h3>
-                  <p class="text-gray-700 mb-4"><?= nl2br(htmlspecialchars($row['description'])) ?></p>
-                  <div class="grid grid-cols-2 gap-2 mb-4">
+                <h3 class="text-lg font-semibold mb-2"><?= htmlspecialchars($row['post_title']) ?></h3>
+                <p class="text-gray-700 mb-4"><?= nl2br(htmlspecialchars($row['description'])) ?></p>
+
+                <!-- Images -->
+                <div class="grid grid-cols-2 gap-2 mb-4">
                     <?php 
                         $images = !empty($row['post_images']) ? explode(",", $row['post_images']) : [];
                         foreach($images as $img):
                             if(!empty($img)):
                     ?>
                         <img src="../../uploads/images/<?= htmlspecialchars($img) ?>" 
-                            alt="<?= htmlspecialchars($row['post_title']) ?>" 
-                            class="rounded-lg w-full h-48 object-cover">
+                              alt="<?= htmlspecialchars($row['post_title']) ?>" 
+                              class="rounded-lg w-full h-48 object-cover">
                     <?php 
                             endif;
                         endforeach;
                     ?>
-                  </div>
 
-                  <!-- Edit/Delete buttons -->
-                  <?php //if($user_id['user_id'] === $row['created_by']): ?>
-                          <div class="flex space-x-2">
-                              <a href="admin-edit-newsfeed.php?id=<?= $row['id'] ?>" 
-                                class="text-teal-600 hover:text-teal-700 text-sm font-medium flex items-center">
-                                  <i class="fas fa-edit mr-1"></i> Edit
-                              </a>
-                              <a href="../../Query/admin-delete-newsfeed.php?id=<?= $row['id'] ?>" 
-                                onclick="return confirm('Are you sure you want to delete this post?');"
-                                class="text-red-600 hover:text-red-700 text-sm font-medium flex items-center">
-                                  <i class="fas fa-trash mr-1"></i> Delete
-                              </a>
-                          </div>
+                    <!-- Edit/Delete buttons -->
+                    <?php //if($user_id['user_id'] === $row['created_by']): ?>
+                            <div class="flex space-x-2">
+                                <a href="sec-edit-newsfeed.php?id=<?= $row['id'] ?>" 
+                                  class="text-teal-600 hover:text-teal-700 text-sm font-medium flex items-center">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </a>
+                                <a href="../../Query/sec-delete-newsfeed.php?id=<?= $row['id'] ?>" 
+                                  onclick="return confirm('Are you sure you want to delete this post?');"
+                                  class="text-red-600 hover:text-red-700 text-sm font-medium flex items-center">
+                                    <i class="fas fa-trash mr-1"></i> Delete
+                                </a>
+                            </div>
                     <?php //endif; ?>
                 </div>
 
                 <?php if(!empty($row['project_file'])): ?>
                     <a href="../../uploads/files/<?= htmlspecialchars($row['project_file']) ?>" target="_blank" 
-                      class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700">
+                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700">
                         <i class="fas fa-file-pdf mr-2"></i> View Project Details (PDF)
                     </a>
                 <?php endif; ?>
-              </div>
-          </div>
+            </div>
+      </div>
       <?php endwhile; ?>
-    </div>
   </div>
+</div>
+
 </body>
 
-          
-
-
-    
-    
+    </div>
+  </div>
 
   <!-- Modal Background -->
 <div id="createPostModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-white w-full max-w-2xl rounded-xl shadow-lg p-6">
 
-       
+        <!-- Modal Header -->
+        <div class="flex justify-between items-center border-b pb-3">
+            <h2 class="text-xl font-semibold">Create News Feed Post</h2>
+            <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+        </div>
+
         <!-- FORM -->
         <form action="../../Query/create-news-feed.php" method="POST" enctype="multipart/form-data" class="mt-4">
 
@@ -323,9 +245,5 @@ document.getElementById('project_details').addEventListener('change', function(e
     }
 });
 </script>
-
-
-  
-  
 </body>
 </html>
