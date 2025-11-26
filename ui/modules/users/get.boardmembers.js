@@ -2,12 +2,6 @@ import { $State } from '../../core/state.js';
 import { DataFetcher } from '../../core/data-fetch.js';
 import { TableView } from '../../core/table-view.js';
 
-if (!$('[data-module="boardmembers"]').length) {
-  console.log('[BoardMembers] Not active on this page');
-} else {
-  console.log('[BoardMembers] LOADED');
-}
-
 const BASE_URL = '/hoa_system/';
 const API_URL = `${BASE_URL}app/api/users/get.boardmembers.php`;
 
@@ -63,8 +57,8 @@ const columns = [
       <a 
         id="actionBtn"
         href="javascript:void(0)" 
-        class="text-teal-600 hover:text-teal-800" 
-        title="${title}">
+        class="text-teal-600 hover:text-teal-800 actionBtn" 
+        title="${title}" data-action="${row.status}" data-id="${row.user_id}">
         <i class="ri-shut-down-line text-xl text-${color}-500 hover:text-${color}-300"></i>
       </a>
     </div>`

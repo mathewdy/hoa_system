@@ -17,13 +17,15 @@ require_once $root . 'config.php';
   <?php include $root . 'app/includes/page-icon.php'; ?>
   <?php include $root . 'app/includes/styles.php'; ?>
 </head>
-<body class="h-screen flex bg-gray-50 text-gray-900 font-sans">
-  <?php include $root . 'app/includes/sidebar.php'; ?>
-  <div class="flex flex-col flex-1">
-    <?php include $root . 'app/includes/header.php'; ?>
-    <main class="flex-1 p-6 overflow-y-auto bg-white">
-      <?= $content ?? '' ?>
-    </main>
+<body class="bg-gray-50 text-gray-900 font-sans">
+  <div class="h-screen flex">
+    <?php include $root . 'app/includes/sidebar.php'; ?>
+    <div class="flex flex-col flex-1">
+      <?php include $root . 'app/includes/header.php'; ?>
+      <main class="flex-1 p-6 overflow-y-auto bg-white">
+        <?= $content ?? '' ?>
+      </main>
+    </div>
   </div>
     <?php include $root . 'app/includes/scripts.php'; ?>
     <?= '<script type="module" src="'. BASE_URL .'ui/core/state.js"></script>'; ?>

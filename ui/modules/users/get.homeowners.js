@@ -41,12 +41,26 @@ const columns = [
     ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>'
     : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>',
 
-  row => `
-    <div class="flex items-center">
-      <a href="view.php?id=${row.user_id}" class="text-teal-600 hover:text-teal-800" title="View">
+  row => { 
+    const color = row.status == 'Active' ? 'red' : 'green'
+    const title = row.status == 'Active' ? 'Deactivate' : 'Activate'
+    return `
+    <div class="flex items-center gap-2">
+      <a 
+        href="view.php?id=${row.user_id}" 
+        class="text-teal-600 hover:text-teal-800" 
+        title="View">
         <i class="ri-eye-fill text-xl"></i>
       </a>
+      <a 
+        id="actionBtn"
+        href="javascript:void(0)" 
+        class="text-teal-600 hover:text-teal-800 actionBtn" 
+        title="${title}" data-action="${row.status}" data-id="${row.user_id}">
+        <i class="ri-shut-down-line text-xl text-${color}-500 hover:text-${color}-300"></i>
+      </a>
     </div>`
+  }
 ];
 
 new TableView($state, fetcher, {

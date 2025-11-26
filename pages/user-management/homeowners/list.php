@@ -45,7 +45,6 @@ ob_start();
     </nav>
   </div>
 
-  <!-- MODULE TRIGGER -->
   <div data-module="homeowners"></div>
 </div>
 
@@ -54,6 +53,7 @@ $content = ob_get_clean();
 
 $pageScripts = '
   <script type="module" src="/hoa_system/ui/modules/users/get.homeowners.js"></script>
+  <script type="module" src="/hoa_system/ui/modules/users/put.toggle-status.js"></script>
 ';
 
 require_once BASE_PATH . '/pages/layout.php';

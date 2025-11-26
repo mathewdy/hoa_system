@@ -9,7 +9,7 @@ if (!$('[data-module="boardmembers"]').length) {
 }
 
 const BASE_URL = '/hoa_system/';
-const API_URL = `${BASE_URL}app/api/fees/get.fees.php`;
+const API_URL = `${BASE_URL}app/api/fees/get.allHomeowners.php`;
 
 const $state = $State({
   search: '',
@@ -29,66 +29,90 @@ const columns = [
   row => `
     <div class="flex items-center">
       <div>
-        <div class="font-medium text-gray-900">${row.fullName || '—'}</div>
-      </div>
-    </div>`,
-  row => `
-    <div class="flex items-center">
-      <div class>
-        <div class="font-medium text-gray-900">${row.fee_name || '—'}</div>
-      </div>
-    </div>`,
-  row => `
-    <div class="flex items-center">
-      <div class>
-        <div class="font-medium text-gray-900">${row.fee_type || '—'}</div>
+        <div class="font-medium text-gray-900">${row.name || '—'}</div>
       </div>
     </div>`,
   row => {
-    const amount = new Intl.NumberFormat('en-PH', {
+    const total = row.fees
+      .reduce((sum, fee) => sum + parseFloat(fee.amount || 0), 0);
+
+    const formatted = new Intl.NumberFormat('en-PH', {
       style: 'currency',
       currency: 'PHP',
       minimumFractionDigits: 2
-    }).format(row.amount);
+    }).format(total);
 
-    return `<span class="font-medium text-green-600">${amount}</span>`;
-  },
-  row => { 
-    const statusColors = {
-      Pending:  "bg-yellow-100 text-yellow-800",
-      Approved: "bg-green-100 text-green-800",
-      Paid: "bg-green-100 text-green-800",
-      Rejected: "bg-red-100 text-red-800",
-      Cancelled:"bg-gray-100 text-gray-800"
-    };
-
-    const colorClass = statusColors[row.status] || "bg-gray-100 text-gray-800";
-
-    return `
-        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClass}">
-            ${row.status}
-        </span>
-    `;
+    return `<span class="font-medium text-green-600 text-lg">${formatted}</span>`;
   },
   row => {
-    const formatted = new Date(row.date_created).toLocaleDateString('en-PH', {
+    if (row.fees.length === 0) {
+      return '<span class="text-gray-500 text-xs">No fees recorded</span>';
+    }
+
+    const overdue = row.fees.filter(f => f.status === 'Overdue').length;
+    const pending = row.fees.filter(f => f.status === 'Pending').length;
+    const paid = row.fees.filter(f => f.status === 'Paid').length;
+
+    if (overdue > 0) {
+      return '<span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">Overdue</span>';
+    } else if (pending > 0) {
+      return '<span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending</span>';
+    } else if (paid > 0) {
+      return '<span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">Paid</span>';
+    } else {
+      return '<span class="text-gray-500 text-xs">—</span>';
+    }
+  },
+  row => {
+    if (row.fees.length === 0) return '<span class="text-gray-400">—</span>';
+
+    const latest = row.fees
+      .reduce((latest, fee) => {
+        const current = new Date(fee.date_created);
+        return (!latest || current > latest) ? current : latest;
+      }, null);
+
+    return new Date(latest).toLocaleDateString('en-PH', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'
     });
-
-    return `<span class="font-medium">${formatted}</span>`;
   },
-  row => { 
-    return `
-    <div class="flex items-center gap-2">
-      <a 
-        href="view.php?id=${row.user_id}" 
-        class="text-teal-600 hover:text-teal-800" 
-        title="View">
-        <i class="ri-eye-fill text-xl"></i>
-      </a>
-    </div>`
+  row => {
+  const dropdownId = `dropdown-${row.user_id}`;
+  const buttonId = `dropdownButton-${row.user_id}`;
+
+  return `
+      <button 
+        id="${buttonId}"
+        data-dropdown-toggle="${dropdownId}"
+        data-dropdown-delay="300"
+        class="inline-flex items-center justify-center text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2.5"
+        type="button"
+      >
+        Actions 
+      </button>
+
+      <div 
+      id="${dropdownId}"
+      class="hidden absolute right-0 z-50 bg-white rounded-lg shadow-lg w-44 border border-gray-200"
+    >
+        <ul class="py-2 text-sm text-gray-700">
+          <li>
+            <a href="view.php?id=${row.user_id}" 
+              class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+              View Details
+            </a>
+          </li>
+          <li>
+            <a href="payment.php?id=${row.user_id}" 
+              class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+              Payment
+            </a>
+          </li>
+        </ul>
+      </div>
+  `
   }
 ];
 
