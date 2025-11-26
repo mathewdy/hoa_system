@@ -24,7 +24,7 @@ ob_start();
     </form>
     <!-- <a href="<?= BASE_URL . 'pages/user-management/homeowners/create.php';?>" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add New Fee</a> -->
   </div>
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg border">
+  <div class="relative shadow-md sm:rounded-lg border">
     <table id="dataTable" class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>
@@ -47,7 +47,6 @@ ob_start();
   </div>
   <div data-module="homeowners"></div>
 </div>
-
 <?php
 $content = ob_get_clean();
 

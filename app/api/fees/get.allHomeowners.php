@@ -16,7 +16,6 @@ if ($search !== '') {
     $types = 'ss';
 }
 
-// Count total homeowners (not fees)
 $totalSql = "SELECT COUNT(DISTINCT u.user_id) AS total 
     FROM users u 
     LEFT JOIN user_info i ON u.user_id = i.user_id 
@@ -65,35 +64,35 @@ $result = mysqli_stmt_get_result($stmt);
 $homeowners = [];
 
 while ($row = mysqli_fetch_assoc($result)) {
-    $userId = $row['user_id'];
+  $userId = $row['user_id'];
 
-    if (!isset($homeowners[$userId])) {
-        $homeowners[$userId] = [
-            'user_id'      => $userId,
-            'name'         => $row['full_name'],
-            'email'        => $row['email_address'],
-            'status'       => $row['user_status'] == 1 ? 'Active' : 'Inactive',
-            'fees'         => []
-        ];
-    }
-    if ($row['due_id'] !== null) {
-        $homeowners[$userId]['fees'][] = [
-            'due_id'        => $row['due_id'],
-            'fee_name'      => $row['fee_name'],
-            'fee_type_id'   => $row['fee_type_id'],
-            'amount'        => (float)$row['amount'],
-            'status'        => match ((int)$row['fee_status']) {
-                0 => 'Pending',
-                1 => 'Paid',
-                2 => 'Overdue',
-                3 => 'Waived',
-                4 => 'Cancelled',
-                default => 'Unknown',
-            },
-            'next_due_date' => $row['next_due_date'],
-            'date_created'  => $row['date_created']
-        ];
-    }
+  if (!isset($homeowners[$userId])) {
+    $homeowners[$userId] = [
+      'user_id'      => $userId,
+      'name'         => $row['full_name'],
+      'email'        => $row['email_address'],
+      'status'       => $row['user_status'] == 1 ? 'Active' : 'Inactive',
+      'fees'         => []
+    ];
+  }
+  if ($row['due_id'] !== null) {
+    $homeowners[$userId]['fees'][] = [
+      'due_id'        => $row['due_id'],
+      'fee_name'      => $row['fee_name'],
+      'fee_type_id'   => $row['fee_type_id'],
+      'amount'        => (float)$row['amount'],
+      'status'        => match ((int)$row['fee_status']) {
+          0 => 'Pending',
+          1 => 'Paid',
+          2 => 'Overdue',
+          3 => 'Waived',
+          4 => 'Cancelled',
+          default => 'Unknown',
+      },
+      'next_due_date' => $row['next_due_date'],
+      'date_created'  => $row['date_created']
+    ];
+  }
 }
 
 $homeowners = array_values($homeowners);

@@ -32,7 +32,7 @@ ob_start();
           <th class="px-6 py-3">Amount Due</th>
           <th class="px-6 py-3">Status</th>
           <th class="px-6 py-3">Date</th>
-          <th class="px-6 py-3">Action</th>
+          <!-- <th class="px-6 py-3">Action</th> -->
         </tr>
       </thead>
       <tbody></tbody>

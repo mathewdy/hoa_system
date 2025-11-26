@@ -50,7 +50,6 @@ ob_start();
                 </div>
             </div>
 
-            <!-- RENTAL DETAILS -->
             <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm">
 
                 <h2 class="text-xl font-semibold text-gray-900 mb-6">Rental Details</h2>
@@ -118,7 +117,7 @@ ob_start();
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                             <option value="Active">Active</option>
-                            <option value="Completed">Completed</option>
+                            <option value="Inactive">Inactive</option>
                         </select>
                     </div>
 

@@ -20,7 +20,6 @@ ob_start();
                 <h3 class="text-lg font-semibold mb-2"><?= htmlspecialchars($row['post_title']) ?></h3>
                 <p class="text-gray-700 mb-4"><?= nl2br(htmlspecialchars($row['description'])) ?></p>
 
-                <!-- Images -->
                 <div class="grid grid-cols-2 gap-2 mb-4">
                     <?php 
                         $images = !empty($row['post_images']) ? explode(",", $row['post_images']) : [];

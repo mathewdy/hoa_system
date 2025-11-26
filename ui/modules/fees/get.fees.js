@@ -78,16 +78,41 @@ const columns = [
       year: 'numeric'
     });
   },
-  row => { 
-    return `
-    <div class="flex items-center gap-2">
-      <a 
-        href="view.php?id=${row.user_id}" 
-        class="text-teal-600 hover:text-teal-800" 
-        title="View">
-        <i class="ri-eye-fill text-xl"></i>
-      </a>
-    </div>`
+  row => {
+  const dropdownId = `dropdown-${row.user_id}`;
+  const buttonId = `dropdownButton-${row.user_id}`;
+
+  return `
+      <button 
+        id="${buttonId}"
+        data-dropdown-toggle="${dropdownId}"
+        data-dropdown-delay="300"
+        class="inline-flex items-center justify-center text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2.5"
+        type="button"
+      >
+        Actions 
+      </button>
+
+      <div 
+      id="${dropdownId}"
+      class="hidden absolute right-0 z-50 bg-white rounded-lg shadow-lg w-44 border border-gray-200"
+    >
+        <ul class="py-2 text-sm text-gray-700">
+          <li>
+            <a href="view.php?id=${row.user_id}" 
+              class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+              View Details
+            </a>
+          </li>
+          <li>
+            <a href="payment.php?id=${row.user_id}" 
+              class="block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+              Payment
+            </a>
+          </li>
+        </ul>
+      </div>
+  `
   }
 ];
 

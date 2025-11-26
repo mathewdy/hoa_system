@@ -16,7 +16,7 @@ $sidebarItems = [
     ['label' => 'Finance & Payments', 'icon' => 'ri-money-dollar-circle-line', 'submenu' => [
       ['label' => 'Monthly Dues',           'icon' => 'ri-file-list-line',      'url' => BASE_URL . 'pages/monthly-dues/list.php'],
       ['label' => 'Fees Management',        'icon' => 'ri-bank-card-fill',      'url' => BASE_URL . 'pages/fees/list.php'],
-      ['label' => 'Fee Assignation',        'icon' => 'ri-file-add-line',       'url' => BASE_URL . 'pages/fees/assignations/list.php'],
+      // ['label' => 'Fee Assignation',        'icon' => 'ri-file-add-line',       'url' => BASE_URL . 'pages/fees/assignations/list.php'],
       ['label' => 'Payment Verification',   'icon' => 'ri-checkbox-line',       'url' => BASE_URL . 'pages/payment/verification/list.php'],
       ['label' => 'Remittance',             'icon' => 'ri-wallet-line',         'url' => BASE_URL . 'pages/remittance/index.php'],
       ['label' => 'Payment History',        'icon' => 'ri-history-line',        'url' => BASE_URL . 'pages/payment-history/list.php'],
@@ -58,8 +58,8 @@ $sidebarItems = [
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
     ['label' => 'Liquidation of Expenses', 'icon' => 'ri-money-dollar-box-line', 'url' => BASE_URL . 'pages/liquidation-of-expenses/list.php'],
     ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
-    ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/list.php'],
-    ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment/history/list.php'],
+    ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/index.php'],
+    ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment-history/list.php'],
     ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
       ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_URL . 'pages/amenities/tricycle/list.php'],
       ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_URL . 'pages/amenities/court/list.php'],
@@ -75,10 +75,10 @@ $sidebarItems = [
     ['label' => 'Payment', 'icon' => 'ri-wallet-line', 'submenu' => [
         ['label' => 'Monthly Dues', 'icon' => 'ri-file-list-line', 'url' => BASE_URL . 'pages/monthly-dues/list.php'],
         ['label' => 'Fees', 'icon' => 'ri-bank-card-fill', 'url' => BASE_URL . 'pages/fees/list.php'],
-        ['label' => 'Fee Assignation', 'icon' => 'ri-file-add-line', 'url' => BASE_URL . 'pages/fees/assignations/list.php'],
-        ['label' => 'Payment Verification', 'icon' => 'ri-checkbox-line', 'url' => BASE_URL . 'pages/payment/verification/list.php'],
+        // ['label' => 'Fee Assignation', 'icon' => 'ri-file-add-line', 'url' => BASE_URL . 'pages/fees/assignations/list.php'],
+        ['label' => 'Payment Verification', 'icon' => 'ri-checkbox-line', 'url' => BASE_URL . 'pages/payment-verification/list.php'],
         ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/index.php'],
-        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment/history/list.php'],
+        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment-history/list.php'],
     ]],
     ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
         ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_URL . 'pages/amenities/tricycle/list.php'],
@@ -102,8 +102,8 @@ $sidebarItems = [
 
   'Treasurer' => [
     ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
-    ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment/history/list.php'],
-    ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/list.php'],
+    ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment-history/list.php'],
+    ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/index.php'],
     ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
         ['label' => 'Tricycle', 'icon' => 'ri-bus-line', 'url' => BASE_URL . 'pages/amenities/tricycle/list.php'],
         ['label' => 'Court', 'icon' => 'ri-football-line', 'url' => BASE_URL . 'pages/amenities/court/list.php'],
@@ -129,7 +129,7 @@ $sidebarItems = [
     ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
     ['label' => 'Payments', 'icon' => 'ri-wallet-line', 'submenu' => [
         ['label' => 'View Payments', 'icon' => 'ri-eye-line', 'url' => BASE_URL . 'pages/view_payments.php'],
-        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment_history.php'],
+        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment-history/list.php'],
     ]],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],

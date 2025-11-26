@@ -76,17 +76,17 @@ const columns = [
       year: 'numeric'
     });
   },
-  row => { 
-    return `
-    <div class="flex items-center gap-2">
-      <a 
-        href="view.php?id=${row.user_id}" 
-        class="text-teal-600 hover:text-teal-800" 
-        title="View">
-        <i class="ri-eye-fill text-xl"></i>
-      </a>
-    </div>`
-  }
+  // row => { 
+  //   return `
+  //   <div class="flex items-center gap-2">
+  //     <a 
+  //       href="view.php?id=${row.user_id}" 
+  //       class="text-teal-600 hover:text-teal-800" 
+  //       title="View">
+  //       <i class="ri-eye-fill text-xl"></i>
+  //     </a>
+  //   </div>`
+  // }
 ];
 
 new TableView($state, fetcher, {
