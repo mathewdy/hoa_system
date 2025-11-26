@@ -2,14 +2,8 @@ import { $State } from '../../core/state.js';
 import { DataFetcher } from '../../core/data-fetch.js';
 import { TableView } from '../../core/table-view.js';
 
-if (!$('[data-module="homeowners"]').length) {
-  console.log('[Homeowners] Not active on this page');
-} else {
-  console.log('[Homeowners] LOADED');
-}
-
 const BASE_URL = '/hoa_system/';
-const API_URL = `${BASE_URL}app/api/users/get.homeowners.php`;
+const API_URL = `${BASE_URL}app/api/monthly-dues/get.monthly-dues.php`;
 
 const $state = $State({
   search: '',
@@ -28,14 +22,22 @@ const fetcher = new DataFetcher($state, API_URL);
 const columns = [
   row => `
     <div class="flex items-center">
-      <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 font-bold text-sm">
-        ${row.fullName?.charAt(0) || '?'}
-      </div>
-      <div class="ml-3">
-        <div class="font-medium text-gray-900">${row.fullName || '—'}</div>
-        <div class="text-sm text-gray-500">${row.email_address || '—'}</div>
-      </div>
+      <div class="font-medium text-gray-900">${row.id || '—'}</div>
     </div>`,
+  row => `
+    <div class="flex items-center">
+      <div class="font-medium text-gray-900">${row.due_name || '—'}</div>
+    </div>`,
+
+  row => {
+    const amount = new Intl.NumberFormat('en-PH', {
+      style: 'currency',
+      currency: 'PHP',
+      minimumFractionDigits: 2
+    }).format(row.amount);
+
+    return `<span class="font-medium text-green-600">${amount}</span>`;
+  },
 
   row => row.status === 'Active'
     ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>'
@@ -45,21 +47,13 @@ const columns = [
     const color = row.status == 'Active' ? 'red' : 'green'
     const title = row.status == 'Active' ? 'Deactivate' : 'Activate'
     return `
-    <div class="flex items-center gap-2">
-      <a 
-        href="view.php?id=${row.user_id}" 
-        class="text-teal-600 hover:text-teal-800" 
-        title="View">
-        <i class="ri-eye-fill text-xl"></i>
-      </a>
       <a 
         id="actionBtn"
         href="javascript:void(0)" 
         class="text-teal-600 hover:text-teal-800 actionBtn" 
-        title="${title}" data-action="${row.status}" data-id="${row.user_id}">
+        title="${title}" data-action="${row.status}" data-id="${row.id}">
         <i class="ri-shut-down-line text-xl text-${color}-500 hover:text-${color}-300"></i>
-      </a>
-    </div>`
+      </a>`
   }
 ];
 
@@ -70,14 +64,13 @@ new TableView($state, fetcher, {
   columns
 });
 
-// Toast (optional, for errors)
 function toast(msg, type = 'info') {
   const colors = { success: 'bg-green-600', error: 'bg-red-600', info: 'bg-blue-600' };
   const icons = { success: 'ri-check-line', error: 'ri-close-line', info: 'ri-information-line' };
 
   const $toast = $(`
     <div role="alert" aria-live="assertive"
-         class="fixed bottom-4 right-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-xl z-50 flex items-center gap-2 animate-fade-in">
+        class="fixed bottom-4 right-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-xl z-50 flex items-center gap-2 animate-fade-in">
       <i class="${icons[type]} text-lg"></i>
       <span>${msg}</span>
     </div>

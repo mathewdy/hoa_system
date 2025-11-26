@@ -21,7 +21,6 @@ export class TableView {
   this.fetcher.fetch()
 
   $(document).on('change:data.state change:loading.state', () => {
-    console.log('%c[TableView] Rendering...', 'color: cyan');
     view.render()
   })
 }
@@ -51,12 +50,10 @@ export class TableView {
 
     $(document).off('input' + ns).off('click' + ns)
 
-    // SEARCH DEBOUNCE
     $(document).on('input' + ns, searchInput, () => {
       clearTimeout(this.debounceTimer)
       this.debounceTimer = setTimeout(() => {
         const val = $(searchInput).val().trim()
-        console.log('%c[SEARCH] Applying →', 'color: cyan', val)
         this.$s.search(val)
         this.updateUrl()
         this.fetcher.fetch()
@@ -67,7 +64,6 @@ export class TableView {
       e.preventDefault()
       const page = +$(e.currentTarget).data('page')
       if (page >= 1 && page <= this.$s.val('pagination').totalPages) {
-        console.log('%c[PAGE] →', 'color: orange', page)
         this.$s.page(page)
         this.updateUrl()
         this.fetcher.fetch()
@@ -76,7 +72,6 @@ export class TableView {
   }
 
   render() {
-    console.log('%c[RENDER] Data length:', 'color: lime', this.$s.val('data').length)
     const data = this.$s.val('data')
     const loading = this.$s.val('loading')
     const $tbody = $(`#${this.c.tableId} tbody`).empty()
@@ -109,28 +104,20 @@ export class TableView {
             return `
               <td class="px-6 py-4">
                 <div class="flex items-center space-x-3">
-                  <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-                  <div class="space-y-2">
-                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32 animate-pulse"></div>
-                    <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-40 animate-pulse"></div>
-                  </div>
+                    <div class="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
                 </div>
               </td>`
           }
-          // Role / Status
           if (i === 1 || i === 2) {
-            return `<td class="px-6 py-4"><div class="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-20 animate-pulse"></div></td>`;
+            return `<td class="px-6 py-4"><div class="h-6 bg-gray-200 rounded-full w-20 animate-pulse"></div></td>`;
           }
-          // Actions
           if (i === cols - 1) {
-            return `<td class="px-6 py-4"><div class="h-9 bg-gray-200 dark:bg-gray-700 rounded-lg w-20 animate-pulse"></div></td>`;
+            return `<td class="px-6 py-4"><div class="h-9 bg-gray-200 rounded-lg w-20 animate-pulse"></div></td>`;
           }
-          // Default cell
-          return `<td class="px-6 py-4"><div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24 animate-pulse"></div></td>`;
+          return `<td class="px-6 py-4"><div class="h-4 bg-gray-200 rounded w-24 animate-pulse"></div></td>`;
         }).join('')}
       </tr>`
 
-    // Repeat for full page
     $tbody.append(Array(rows).fill(skeletonRow).join(''))
   }
 

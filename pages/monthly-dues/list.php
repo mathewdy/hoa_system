@@ -3,7 +3,7 @@ $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
 require_once $root . 'app/includes/session.php';
 
-$pageTitle = 'Board Members';
+$pageTitle = 'Monthly Dues';
 ob_start();
 ?>
 
@@ -28,8 +28,9 @@ ob_start();
     <table id="dataTable" class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>
+          <th class="px-6 py-3">Id</th>
           <th class="px-6 py-3">Name</th>
-          <th class="px-6 py-3">Role</th>
+          <th class="px-6 py-3">Amount</th>
           <th class="px-6 py-3">Status</th>
           <th class="px-6 py-3">Action</th>
         </tr>
@@ -47,15 +48,15 @@ ob_start();
   </div>
 
   <!-- MODULE TRIGGER -->
-  <div data-module="boardmembers"></div>
+  <div data-module="monthlydues"></div>
 </div>
 
 <?php
 $content = ob_get_clean();
 
 $pageScripts = '
-  <script type="module" src="/hoa_system/ui/modules/users/get.boardmembers.js"></script>
-  <script type="module" src="/hoa_system/ui/modules/users/put.toggle-status.js"></script>
+  <script type="module" src="/hoa_system/ui/modules/monthly-dues/get.monthly-dues.js"></script>
+  <script type="module" src="/hoa_system/ui/modules/monthly-dues/put.toggle-status.js"></script>
 ';
 
 require_once BASE_PATH . '/pages/layout.php';

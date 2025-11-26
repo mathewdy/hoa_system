@@ -61,5 +61,5 @@ $pageScripts = '
   <script type="module" src="/hoa_system/ui/modules/amenities/court/get.court.js"></script>
 ';
 
-require_once BASE_PATH . './pages/layout.php';
+require_once BASE_PATH . '/pages/layout.php';
 ?>

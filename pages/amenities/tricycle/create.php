@@ -138,5 +138,5 @@ $pageScripts = '
   <script type="module" src="/hoa_system/ui/modules/amenities/tricycle/post.tricycle.js"></script>
 ';
 
-require_once BASE_PATH . './pages/layout.php';
+require_once BASE_PATH . '/pages/layout.php';
 ?>

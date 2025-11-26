@@ -116,12 +116,9 @@ $(document).on('click', '.cancel-btn', function () {
   const formId = $form.attr('id');
   const key = formId === 'personalInfo' ? 'personal' :
               formId === 'homeDetailsForm' ? 'home' : 'account';
-
-  // Turn off edit mode via state (this triggers render → reverts values)
   const current = profileState.val('editMode');
   profileState.val('editMode', { ...current, [key]: false });
 
-  // Optional: show toast
   showToast({ 
     message: 'Changes discarded', 
     type: 'info',
@@ -129,7 +126,6 @@ $(document).on('click', '.cancel-btn', function () {
   });
 });
 
-// SAVE — 3 FORMS, 3 ENDPOINTS
 $(document).on('submit', 'form.profile-section', function (e) {
   e.preventDefault();
   const $form = $(this);
@@ -153,7 +149,6 @@ $(document).on('submit', 'form.profile-section', function (e) {
         if (res.data) profileState.val('user', { ...profileState.val('user'), ...res.data });
       } else {
         showToast({ message: 'Saving Failed.', type: 'error' })
-
       }
     })
     .fail(() => {
@@ -164,7 +159,6 @@ $(document).on('submit', 'form.profile-section', function (e) {
     });
 });
 
-// LOADING OVERLAY — NEVER DESTROYS DOM
 function showLoading() {
   if ($('#profile-loading').length === 0) {
     $('body').append(`

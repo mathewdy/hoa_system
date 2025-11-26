@@ -1,43 +1,48 @@
-import { $State } from '../../../../ui/core/state.js';
-import { DataFetcher } from '../../../../ui/core/data-fetch.js';
-import { TableView } from '../../../../ui/core/table-view.js';
-
-if (!$('[data-module="stallrentals"]').length) {
-  console.log('[StallRentals] Not active on this page');
-} else {
-  console.log('[StallRentals] LOADED');
-}
+import { $State } from '../../core/state.js';
+import { DataFetcher } from '../../core/data-fetch.js';
+import { TableView } from '../../core/table-view.js';
 
 const BASE_URL = '/hoa_system/';
-const API_URL = `${BASE_URL}app/api/amenities/stall/get.renter.php`;
+const userId = new URLSearchParams(window.location.search).get('id');
+const API_URL = `${BASE_URL}app/api/fees/getById.fees.php?id=${userId}`;
 
 const $state = $State({
   search: '',
-  pagination: { currentPage: 1, limit: 10, totalPages: 0, totalRecords: 0 },
+  pagination: {
+    currentPage: 1,
+    limit: 10,
+    totalPages: 0,
+    totalRecords: 0
+  },
   data: [],
-  loading: false
+  loading: false,
+  onDataLoaded: (data) => {
+    if (data && data[0]) {
+      const h = data[0]
+      $('.name').text(h.full_name)
+      $('.homeowner-email').text(h.email)
+      $('.homeowner-status').text(h.status).removeClass().addClass(
+        `homeowner-status inline-flex px-3 py-1 rounded-full text-xs font-medium ${
+          h.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+        }`
+      )
+    }
+  },
+
+  onLoading: (loading) => {
+    $('.name').text(loading ? 'Loading homeowner...' : $('.name').text() || 'Homeowner')
+  }
 });
 
 const fetcher = new DataFetcher($state, API_URL);
 
 const columns = [
-  row => `<div class="font-medium text-gray-900">${row.renter || '—'}</div>`,
-  row => `<div class="text-gray-500">${row.contact_no || '—'}</div>`,
-  row => `<div class="text-gray-500">Stall ${row.stall_id || '—'}</div>`,
-  row => {
-    const start = new Date(row.date_start).toLocaleDateString('en-PH', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-    const end = new Date(row.date_end).toLocaleDateString('en-PH', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-
-    return `<span class="text-gray-500">${start} - ${end}</span>`;
-  },
+  row => `
+    <div class="flex items-center">
+      <div>
+        <div class="font-medium text-gray-900">${row.due_name || '—'}</div>
+      </div>
+    </div>`,
   row => {
     const amount = new Intl.NumberFormat('en-PH', {
       style: 'currency',
@@ -62,14 +67,26 @@ const columns = [
         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClass}">
             ${row.status}
         </span>
-    `
+    `;
   },
-  row => ` 
+  row => {
+    return new Date(row.date_created).toLocaleDateString('en-PH', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  },
+  row => { 
+    return `
     <div class="flex items-center gap-2">
-      <a href="view.php?id=${row.id}" class="text-teal-600 hover:text-teal-800" title="View">
+      <a 
+        href="view.php?id=${row.user_id}" 
+        class="text-teal-600 hover:text-teal-800" 
+        title="View">
         <i class="ri-eye-fill text-xl"></i>
       </a>
     </div>`
+  }
 ];
 
 new TableView($state, fetcher, {

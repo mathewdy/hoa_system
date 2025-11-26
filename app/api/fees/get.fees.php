@@ -12,7 +12,7 @@ $types = '';
 
 if ($search !== '') {
     $where = " WHERE (CONCAT(u.first_name, ' ', COALESCE(u.middle_name,''), ' ', u.last_name) LIKE ? 
-                     OR f.fee_name LIKE ?)";
+        OR f.fee_name LIKE ?)";
     $params[] = "%$search%";
     $params[] = "%$search%";
     $types = 'ss';
@@ -89,9 +89,6 @@ while ($row = mysqli_fetch_assoc($result)) {
   $row['fee_type'] = match((int)$row['fee_type_id']) {
     1 => 'Monthly Fee',
     2 => 'One Time Fee',
-    3 => 'Amenity | Tricycle',
-    4 => 'Amenity | Court',
-    5 => 'Amenity | Stall',
   };
 
   $fees[] = $row;

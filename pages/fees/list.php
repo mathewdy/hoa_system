@@ -3,7 +3,7 @@ $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
 require_once $root . 'app/includes/session.php';
 
-$pageTitle = 'Fees';
+$pageTitle = 'Homeowner Fees';
 ob_start();
 ?>
 
@@ -22,16 +22,14 @@ ob_start();
           placeholder="Search <?= strtolower($pageTitle) ?>..." />
       </div>
     </form>
-    <a href="<?= BASE_URL . 'pages/user-management/homeowners/create.php';?>" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add New Fee</a>
+    <!-- <a href="<?= BASE_URL . 'pages/user-management/homeowners/create.php';?>" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add New Fee</a> -->
   </div>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg border">
     <table id="dataTable" class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>
           <th class="px-6 py-3">Name</th>
-          <th class="px-6 py-3">Fee Name</th>
-          <th class="px-6 py-3">Type</th>
-          <th class="px-6 py-3">Amount</th>
+          <th class="px-6 py-3">Amount Due</th>
           <th class="px-6 py-3">Status</th>
           <th class="px-6 py-3">Date</th>
           <th class="px-6 py-3">Action</th>

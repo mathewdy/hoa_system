@@ -33,8 +33,7 @@ ob_start();
           <th class="px-6 py-3">Renter</th>
           <th class="px-6 py-3">Contact No.</th>
           <th class="px-6 py-3">Stall No.</th>
-          <th class="px-6 py-3">Start Date</th>
-          <th class="px-6 py-3">End Date</th>
+          <th class="px-6 py-3">Start & End</th>
           <th class="px-6 py-3">Amount</th>
           <th class="px-6 py-3">Status</th>
           <th class="px-6 py-3">Action</th>
@@ -63,5 +62,5 @@ $pageScripts = '
   <script type="module" src="/hoa_system/ui/modules/amenities/stall/get.stall.js"></script>
 ';
 
-require_once BASE_PATH . './pages/layout.php';
+require_once BASE_PATH . '/pages/layout.php';
 ?>
