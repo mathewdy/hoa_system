@@ -154,18 +154,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $sql = "INSERT INTO payment_verification 
-            (created_by, payment_method, reference_number, is_walk_in, attachment, is_approve, is_submitted, date_created) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            (created_by, payment_method, reference_number, is_walk_in, attachment, amount_paid, is_approve, is_submitted, date_created) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param(
         $stmt,
-        "isssisss",
+        "issisiiis",
         $created_by,
         $payment_method,
         $reference_number,
         $is_walk_in,
         $attachment,
+        $amount,
         $is_approve,
         $is_submitted,
         $date_created

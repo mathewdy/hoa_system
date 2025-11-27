@@ -105,14 +105,14 @@ ob_start();
                       foreach($run_view_remittance as $row_remittance) {
                         $ph_id = (int)$row_remittance['id'];
                         $fee_name = htmlspecialchars($row_remittance['toda_name']);
-                        $amount_val = number_format($row_remittance['amount'], 2);
-                        $raw_amount = htmlspecialchars($row_remittance['amount']);
+                        // $amount_val = number_format($row_remittance['amount'], 2);
+                        // $raw_amount = htmlspecialchars($row_remittance['amount']);
                         $date_val = !empty($row_remittance['date_created']) ? date('F d, Y', strtotime($row_remittance['date_created'])) : 'N/A';
                   ?>
                       <tr>
                         
                         <td class="px-4 py-2"><?php echo $fee_name; ?></td>
-                        <td class="px-4 py-2">₱<?php echo $amount_val; ?></td>
+                        <!-- <td class="px-4 py-2">₱<?php echo $amount_val; ?></td> -->
                         <td class="px-4 py-2"><?php echo $date_val; ?></td>
                       </tr>
                   <?php 

@@ -16,7 +16,9 @@ ob_start();
               <p class="text-sm font-medium text-teal-700">Total Collected (₱)</p>
               <p id="totalCollected" class="text-2xl font-bold text-black-900">0</p>
             </div>
-           
+            <a href="" class="bg-teal-700 text-white px-4 py-2 rounded-lg">
+              Remit
+            </a>
           </div>
         </div>
 
@@ -35,7 +37,7 @@ ob_start();
                 <tbody id="paymentHistoryTableBody" class="divide-y divide-gray-200">
                   <?php 
                   $sql_view_remittance = "
-                    SELECT * FROM payment_history WHERE is_submitted = 0
+                    SELECT * FROM payment_verification WHERE is_submitted = 0
                   ";
 
                   $run_view_remittance = mysqli_query($conn, $sql_view_remittance);
@@ -43,15 +45,15 @@ ob_start();
                   if(mysqli_num_rows($run_view_remittance) > 0){
                       foreach($run_view_remittance as $row_remittance) {
                         $ph_id = (int)$row_remittance['id'];
-                        $fee_name = htmlspecialchars($row_remittance['particulars']);
-                        $amount_val = number_format($row_remittance['amount'], 2);
-                        $raw_amount = htmlspecialchars($row_remittance['amount']);
+                        $fee_name = 'Monthly Fees';
+                        $amount_val = number_format($row_remittance['amount_paid'], 2);
+                        $raw_amount = htmlspecialchars($row_remittance['amount_paid']);
                         $date_val = !empty($row_remittance['date_created']) ? date('F d, Y', strtotime($row_remittance['date_created'])) : 'N/A';
                   ?>
                       <tr>
                         
                         <td class="px-4 py-2"><?php echo $fee_name; ?></td>
-                        <td class="px-4 py-2">₱<?php echo $amount_val; ?></td>
+                        <td class="px-4 py-2">₱<?php echo $raw_amount; ?></td>
                         <td class="px-4 py-2"><?php echo $date_val; ?></td>
                       </tr>
                   <?php 
