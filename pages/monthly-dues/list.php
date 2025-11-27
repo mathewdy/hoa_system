@@ -22,7 +22,7 @@ ob_start();
           placeholder="Search <?= strtolower($pageTitle) ?>..." />
       </div>
     </form>
-    <a href="create.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add Member</a>
+    <a href="create.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add Monthly Due</a>
   </div>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg border">
     <table id="dataTable" class="w-full text-sm text-left text-gray-500">
@@ -47,7 +47,6 @@ ob_start();
     </nav>
   </div>
 
-  <!-- MODULE TRIGGER -->
   <div data-module="monthlydues"></div>
 </div>
 
