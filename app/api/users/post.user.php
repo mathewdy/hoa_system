@@ -65,8 +65,8 @@ try {
     $conn->begin_transaction();
 
     $stmt1 = $conn->prepare("
-        INSERT INTO users (user_id, email_address, password, role_id, date_created)
-        VALUES (?, ?, ?, ?, NOW())
+        INSERT INTO users (user_id, email_address, password, status, role_id, date_created)
+        VALUES (?, ?, ?, 1, ?, NOW())
     ");
     $stmt1->bind_param("sssi", $user_id, $email, $hashed, $role_id);
     $stmt1->execute();
@@ -91,6 +91,25 @@ try {
     $stmt3->close();
 
     assignMonthlyFeesToUser($conn, $user_id);
+    $title = 'Account Created';
+    $message = "Dear User,<br><br>
+        Welcome aboard! Your account has been successfully created. We are excited to have you with us!.
+        <br><br>
+        Your initial password is $password
+        <br><br>
+        HOAConnect Team";
+
+    $mailSent = sendEmail($message, $title, $email);
+
+    if (!$mailSent) {
+        $conn->rollback();
+        echo json_encode([
+            'success' => false,
+            'message' => 'Failed to send email.'
+        ]);
+        exit;
+    }
+
 
     $conn->commit();
 

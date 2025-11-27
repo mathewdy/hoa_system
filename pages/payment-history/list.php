@@ -52,7 +52,7 @@ ob_start();
                 <tbody id="paymentHistoryTableBody" class="divide-y divide-gray-200">
                   <?php 
                   $sql_view_remittance = "
-                    SELECT * FROM payment_verification WHERE is_submitted = 0 AND is_approve IN (1, 2)
+                    SELECT * FROM payment_verification WHERE is_submitted = 1 AND is_approve IN (1, 2)
                   ";
 
                   $run_view_remittance = mysqli_query($conn, $sql_view_remittance);
