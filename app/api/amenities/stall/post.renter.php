@@ -34,7 +34,7 @@ $stall_id     = intval($_POST['stall_id']);
 $date_start   = $_POST['date_start'];
 $date_end     = $_POST['date_end'];
 $amount       = floatval($_POST['amount']);
-$status       = trim($_POST['status']);
+$status       = 1;
 
 try {
 

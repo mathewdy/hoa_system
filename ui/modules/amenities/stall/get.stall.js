@@ -47,23 +47,9 @@ const columns = [
 
     return `<span class="font-medium text-green-600">${amount}</span>`;
   },
-  row => { 
-    const statusColors = {
-      Pending:  "bg-yellow-100 text-yellow-800",
-      Approved: "bg-green-100 text-green-800",
-      Paid: "bg-green-100 text-green-800",
-      Rejected: "bg-red-100 text-red-800",
-      Cancelled:"bg-gray-100 text-gray-800"
-    };
-
-    const colorClass = statusColors[row.status] || "bg-gray-100 text-gray-800";
-
-    return `
-        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClass}">
-            ${row.status}
-        </span>
-    `
-  },
+  row => row.status === 1
+    ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>'
+    : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>',
   row => ` 
     <div class="flex items-center gap-2">
       <a href="view.php?id=${row.id}" class="text-teal-600 hover:text-teal-800" title="View">

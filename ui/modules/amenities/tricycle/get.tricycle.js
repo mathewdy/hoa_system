@@ -23,7 +23,7 @@ const fetcher = new DataFetcher($state, API_URL);
 const columns = [
   row => `<div class="font-medium text-gray-900">${row.toda_name || '—'}</div>`,
   row => `<div class="text-gray-500">${row.no_of_tricycles || '—'}</div>`,
-  row => row.status === 'Active'
+  row => row.status === 1
     ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>'
     : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>',
   row => `<div class="text-gray-500">${row.date_start || '—'}</div>`,

@@ -55,13 +55,6 @@ $result = mysqli_stmt_get_result($stmt);
 
 $rentals = [];
 while ($row = mysqli_fetch_assoc($result)) {
-    $row['status'] = match((int)$row['status']) {
-      0 => 'Pending', 
-      1 => 'Paid', 
-      2 => 'Overdue', 
-      3 => 'Waived', 
-      4 => 'Cancelled'
-    };
     $rentals[] = $row;
 }
 
