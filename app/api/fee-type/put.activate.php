@@ -4,14 +4,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
 
 header('Content-Type: application/json');
 
-$action = 0;
+$action = 1;
 $id = $_GET['id'] ?? null;
 if (!$id || !is_numeric($id)) {
     echo json_encode(['success' => false, 'message' => 'Invalid ID']);
     exit;
 }
 
-$sql = "UPDATE monthly_dues SET `status` = ? WHERE id = ?";
+$sql = "UPDATE fee_type SET `status` = ? WHERE id = ?";
 $params = [$action, $id];
 $types = "ii";
 
@@ -26,13 +26,13 @@ $stmt->bind_param($types, ...$params);
 if ($stmt->execute()) {
     echo json_encode([
         'success' => true,
-        'message' => 'Monthly due updated successfully!',
+        'message' => 'Fee type activated successfully!',
         'data' => ['action' => $action]
     ]);
 } else {
     echo json_encode([
         'success' => false,
-        'message' => 'Failed to update account'
+        'message' => 'Failed to update fee type'
     ]);
 }
 

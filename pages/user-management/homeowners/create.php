@@ -77,7 +77,7 @@ ob_start();
                     </div>
                     <div class="grid grid-cols-2 items-center">
                       <label class="block text-sm font-medium text-gray-700">Village / Subdivision <span class="text-red-500">*</span></label>
-                      <input type="text" name="village" value="Mabuhay Village" readonly class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                      <input type="text" name="village" value="Mabuhay Village 2000" readonly class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                     </div>
                 </div>
             </div>

@@ -139,7 +139,7 @@ ob_start();
   </a>
 
   <!-- Total Events -->
-  <a href="president-calendar.html" class="block">
+  <a href="<?= $root ?>" class="block">
     <div class="bg-white rounded-lg shadow p-6 cursor-pointer">
       <div class="flex items-center justify-between">
         <div>

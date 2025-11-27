@@ -12,7 +12,7 @@ $('#createDueForm').on('submit', function (e) {
 
     createState.loading(true);
 
-    $.post('/hoa_system/app/api/monthly-dues/post.monthly-dues.php', $form.serialize())
+    $.post('/hoa_system/app/api/fee-type/post.fee-type.php', $form.serialize())
         .done(res => {
             if (res.success) {
                 showToast({ message: 'Due created successfully!', type: 'success' });

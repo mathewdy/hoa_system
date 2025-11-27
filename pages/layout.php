@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
-
+$role = $_SESSION['role'];
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h-full">
@@ -32,6 +32,7 @@ require_once $root . 'config.php';
 
     <?= '<script src="'. BASE_URL .'/ui/utils/sidebar.js"></script>'; ?>
     <?= '<script src="'. BASE_URL .'/ui/modules/profile/get.js"></script>'; ?>
+    <?= '<script>localStorage.setItem("role", "' . $role . '");</script>'; ?>
     <?= $pageScripts ?? '' ?>
   </body>
 </html>

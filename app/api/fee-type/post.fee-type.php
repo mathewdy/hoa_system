@@ -10,7 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $required = [
     'due_name',
+    'description',
     'amount',
+    'start_date',
+    'created_by',
 ];
 
 foreach ($required as $field) {
@@ -24,22 +27,28 @@ foreach ($required as $field) {
 }
 
 $due_name     = trim($_POST['due_name']);
+$description  = trim($_POST['description']);
 $amount       = floatval($_POST['amount']);
-$status       = 1;  
+$start        = trim($_POST['start_date']);
+$created_by   = trim($_POST['created_by']);
+$status       = 0;  
 
 try {
 
     $stmt = $conn->prepare("
-        INSERT INTO monthly_dues 
-        (due_name, amount, status, date_created)
-        VALUES (?, ?, ?, NOW())
+        INSERT INTO fee_type 
+        (fee_name, description, amount, status, effectivity_date, created_by, date_created)
+        VALUES (?, ?, ?, ?, ?, ?, NOW())
     ");
 
     $stmt->bind_param(
-        "sdi", 
+        "ssdisi", 
         $due_name,
+        $description,
         $amount,
         $status,
+        $start,
+        $created_by
     );
 
     $stmt->execute();

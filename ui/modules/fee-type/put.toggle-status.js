@@ -4,7 +4,7 @@ $(document).on('click', '.actionBtn', async function (e) {
   let action = $(this).data('action')
   let actionPath = action == 'Active' ? 'deactivate' : 'activate'
   let id = $(this).data('id')
-  const endpoint = `/hoa_system/app/api/monthly-dues/put.${actionPath}.php?id=${id}`
+  const endpoint = `/hoa_system/app/api/fee-type/put.${actionPath}.php?id=${id}`
   $.post(endpoint)
     .done(res => {
       if (res.success) {

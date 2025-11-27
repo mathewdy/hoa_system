@@ -2,7 +2,12 @@
 $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
 require_once $root . 'app/includes/session.php';
-
+$role = $_SESSION['role'];
+if (!in_array($role, [1, 3], true)) {
+    $url = "../../dashboard/index.php";
+    echo "<script>window.location.href='{$url}';</script>";
+    exit();
+}
 $pageTitle = 'Board Members';
 ob_start();
 ?>

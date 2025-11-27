@@ -1,29 +1,29 @@
 <?php 
 function assignMonthlyFeesToUser($conn, $user_id) {
-  $next_due_date = date('Y-m-d', strtotime('first day of next month'));
-  $query = "SELECT id, due_name, amount 
-  FROM monthly_dues WHERE `status` = 1";
+  $due_date = date('Y-m-d', strtotime('first day of next month'));
+  $query = "SELECT id, fee_name, amount 
+  FROM fee_type WHERE `status` = 1";
   
   $result = $conn->query($query);
 
   if ($result->num_rows === 0) {
     return true;
   }
-
+  $status = 0;
   $stmt = $conn->prepare("
-    INSERT INTO fees
-    (user_id, due_id, fee_type_id, fee_name, amount, status, next_due_date, date_created)
-    VALUES (?, ?, 1, ?, ?, 0, ?, NOW())
+    INSERT INTO fee_assignments
+    (user_id, fee_type_id, amount, status, due_date, date_created)
+    VALUES (?, ?, ?, ?, ?, NOW())
   ");
   
   while ($fee = $result->fetch_assoc()) {
     $stmt->bind_param(
-      "sisds",
+      "sidis",
       $user_id,
       $fee['id'],
-      $fee['due_name'],
       $fee['amount'],
-      $next_due_date
+      $status,
+      $due_date
     );
     $stmt->execute();
   }

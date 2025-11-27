@@ -29,6 +29,7 @@ ob_start();
             </div>
           </div>
           <div>
+            <a href="create.php">Create</a>
             <label for="statusFilter" class="sr-only">Filter by Status</label>
             <select id="statusFilter"
               class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
