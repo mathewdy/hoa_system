@@ -48,6 +48,9 @@ const columns = [
       <a href="view.php?id=${row.id}" class="text-teal-600 hover:text-teal-800" title="View">
         <i class="ri-eye-fill text-xl"></i>
       </a>
+      <a href="edit.php?id=${row.id}" class="text-teal-600 hover:text-teal-800" title="View">
+        <i class="ri-edit-box-fill text-xl"></i>
+      </a>
     </div>`
 ];
 
