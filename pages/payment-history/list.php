@@ -88,7 +88,7 @@ ob_start();
                 <thead class="bg-teal-100">
                   <tr>
                     <th class="px-4 py-2 text-left">Fee Name</th>
-                    <th class="px-4 py-2 text-left">Amount (₱)</th>
+                    <!-- <th class="px-4 py-2 text-left">Amount (₱)</th> -->
                     <th class="px-4 py-2 text-left">Date</th>
                   </tr>
                 </thead>

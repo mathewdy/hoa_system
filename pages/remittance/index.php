@@ -3,6 +3,19 @@ $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
 // require_once $root . 'app/includes/session.php';
 include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php');
+
+$sql_total_collected = "
+    SELECT SUM(amount_paid) AS total_collected
+    FROM payment_verification
+    WHERE is_submitted = 0 AND is_approve = 1
+";
+
+$result_total = mysqli_query($conn, $sql_total_collected);
+$total_collected = 0;
+
+if ($row_total = mysqli_fetch_assoc($result_total)) {
+    $total_collected = $row_total['total_collected'] ?? 0;
+}
 $pageTitle = 'Homeowners';
 ob_start();
 ?>
@@ -14,9 +27,9 @@ ob_start();
           <div class="flex items-center space-x-6 bg-teal-50 border border-teal-200 rounded-xl px-6 py-3 shadow-sm">
             <div>
               <p class="text-sm font-medium text-teal-700">Total Collected (₱)</p>
-              <p id="totalCollected" class="text-2xl font-bold text-black-900">0</p>
+              <p id="totalCollected" class="text-2xl font-bold text-black-900">₱<?= $total_collected ?></p>
             </div>
-            <a href="" class="bg-teal-700 text-white px-4 py-2 rounded-lg">
+            <a href="remit.php?action=remit" class="bg-teal-700 text-white px-4 py-2 rounded-lg">
               Remit
             </a>
           </div>
@@ -24,17 +37,7 @@ ob_start();
 
         <div class="shadow rounded-lg overflow-hidden">
           <div class="overflow-x-auto">
-            <form id="remitSelectorForm" method="POST" onsubmit="return false;">
-              <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
-                <thead class="bg-teal-100">
-                  <tr>
-                    <th class="px-4 py-2 text-left">Fee Name</th>
-                    <th class="px-4 py-2 text-left">Amount (₱)</th>
-                    <th class="px-4 py-2 text-left">Date</th>
-                  </tr>
-                </thead>
-
-                <tbody id="paymentHistoryTableBody" class="divide-y divide-gray-200">
+            <!-- <form id="remitSelectorForm" method="POST" onsubmit="return false;">
                   <?php 
                   $sql_view_remittance = "
                     SELECT * FROM payment_verification WHERE is_submitted = 0
@@ -68,16 +71,17 @@ ob_start();
               <input type="hidden" id="totalAmountInput" name="amount" value="">
 
               
-            </form>
+            </form> -->
 
         
 
           
 
-      <div id="remittance-table-section" class="mt-10">
-        <h2 class="text-xl font-semibold text-gray-900 mb-6">Remittance Table</h2>
+      <div id="remittance-table-section">
 
         <div class="bg-white shadow rounded-lg overflow-hidden">
+        <h2 class="text-xl font-semibold text-gray-900 mb-6 p-4">Remittance Table</h2>
+
           <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
