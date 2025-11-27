@@ -31,7 +31,7 @@ ob_start();
           <th class="px-6 py-3">Name</th>
           <th class="px-6 py-3">Amount Due</th>
           <th class="px-6 py-3">Status</th>
-          <th class="px-6 py-3">Date</th>
+          <th class="px-6 py-3">Due Date</th>
           <th class="px-6 py-3">Action</th>
         </tr>
       </thead>
@@ -47,11 +47,13 @@ ob_start();
   </div>
   <div data-module="homeowners"></div>
 </div>
+
 <?php
 $content = ob_get_clean();
 
 $pageScripts = '
   <script type="module" src="/hoa_system/ui/modules/fees/get.fees.js"></script>
+  <script type="module" src="/hoa_system/ui/modules/fees/toggle-modal.js"></script>
 ';
 
 require_once BASE_PATH . '/pages/layout.php';

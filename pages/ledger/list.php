@@ -41,11 +41,9 @@ ob_start();
             </tr>
           </thead>
           <tbody id="ledgerTableBody" class="bg-white divide-y divide-gray-200">
-            <!-- Ledger entries will be rendered dynamically -->
           </tbody>
         </table>
       </div>
-      <!-- Pagination -->
       <div class="border-t border-gray-200 bg-gray-50 px-6 py-3 flex justify-center items-center space-x-4">
         <button id="prevPageButton" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 opacity-50 cursor-not-allowed" onclick="prevPage()" disabled>
           Previous
@@ -60,7 +58,6 @@ ob_start();
 </div>
 
 <script>
-  // Simulated data for ledger entries
   let ledgerEntries = [
     {
       date: "2025-01-20",

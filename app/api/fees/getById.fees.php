@@ -25,9 +25,9 @@ if ($search !== '') {
 }
 
 $totalSql = "SELECT COUNT(*) AS total 
-             FROM fees f 
-             LEFT JOIN user_info i ON f.user_id = i.user_id 
-             $whereClause";
+    FROM fees f 
+    LEFT JOIN user_info i ON f.user_id = i.user_id 
+    $whereClause";
 
 $totalStmt = mysqli_prepare($conn, $totalSql);
 mysqli_stmt_bind_param($totalStmt, $types, ...$params);
@@ -36,28 +36,30 @@ $totalResult = mysqli_stmt_get_result($totalStmt);
 $total = mysqli_fetch_assoc($totalResult)['total'];
 $totalPages = ceil($total / $limit);
 
-$sql = "SELECT 
-            f.id,
-            f.user_id,
-            f.fee_name,
-            f.status,
-            f.amount,
-            f.next_due_date,
-            f.date_created,
-            m.due_name,
-            m.amount AS monthly_amount,
-            CONCAT(
-                TRIM(CONCAT(i.first_name, ' ', COALESCE(i.middle_name, ''), ' ', i.last_name))
-            ) AS full_name,
-            i.email_address
-        FROM fees f 
-        LEFT JOIN monthly_dues m ON f.due_id = m.id
-        LEFT JOIN user_info i ON f.user_id = i.user_id
-        $whereClause
-        ORDER BY 
-            FIELD(f.status, 2, 0, 3, 4, 1), 
-            f.next_due_date DESC
-        LIMIT ? OFFSET ?";
+$sql = "
+  SELECT 
+    f.id,
+    f.user_id,
+    f.fee_name,
+    f.status,
+    f.amount,
+    f.next_due_date,
+    f.date_created,
+    m.due_name,
+    m.amount AS monthly_amount,
+    CONCAT(
+        TRIM(CONCAT(i.first_name, ' ', COALESCE(i.middle_name, ''), ' ', i.last_name))
+    ) AS full_name,
+    u.email_address
+  FROM fees f 
+  LEFT JOIN monthly_dues m ON f.due_id = m.id
+  LEFT JOIN user_info i ON f.user_id = i.user_id
+  LEFT JOIN users u ON i.user_id = u.user_id
+  $whereClause
+  ORDER BY 
+      FIELD(f.status, 2, 0, 3, 4, 1), 
+      f.next_due_date DESC
+  LIMIT ? OFFSET ?";
 
 $params[] = $limit;
 $params[] = $offset;
