@@ -49,7 +49,7 @@ try {
 
     $sql = "INSERT INTO toda_fees 
             (toda_id, amount_paid, status, due_date, date_created) 
-            VALUES (?, ?, 'paid', ?, NOW())";
+            VALUES (?, ?, 1, ?, NOW())";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ids", $toda_id, $amount_paid, $due_date);

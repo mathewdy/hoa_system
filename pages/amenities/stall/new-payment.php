@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$required = ['id', 'amount_paid'];
+$required = ['id', 'amount'];
 foreach ($required as $field) {
     if (!isset($_POST[$field]) || trim($_POST[$field]) === '') {
         echo json_encode([
@@ -19,7 +19,7 @@ foreach ($required as $field) {
 }
 
 $stall_renter_id = (int)$_POST['id'];
-$amount_paid     = (float)$_POST['amount_paid'];
+$amount_paid     = (float)$_POST['amount'];
 $remarks         = trim($_POST['remarks'] ?? '');
 
 if ($stall_renter_id <= 0) {
@@ -77,7 +77,7 @@ if (isset($_FILES['attachment']) && $_FILES['attachment']['error'] !== UPLOAD_ER
 }
 
 try {
-    $check = $conn->prepare("SELECT id FROM stall_renters WHERE id = ?");
+    $check = $conn->prepare("SELECT id FROM stall_renter WHERE id = ?");
     $check->bind_param("i", $stall_renter_id);
     $check->execute();
     $check->store_result();
@@ -90,7 +90,7 @@ try {
 
     $sql = "INSERT INTO stall_renter_fees 
             (stall_renter_id, amount_paid, attachment, status, remarks, date_created) 
-            VALUES (?, ?, ?, 'paid', ?, NOW())";
+            VALUES (?, ?, ?, 1, ?, NOW())";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("idss", $stall_renter_id, $amount_paid, $attachmentPath, $remarks);

@@ -4,85 +4,194 @@ require_once $root . 'config.php';
 require_once $root . 'app/includes/session.php';
 
 $pageTitle = 'Add New Stall Rental';
-
-$booking_id = intval($_GET['id']);
-$stmt = $conn->prepare("SELECT * FROM stall_renters WHERE id = ?");
-$stmt->bind_param("i", $booking_id);
-$stmt->execute();
-$result = $stmt->get_result();
-if ($result->num_rows === 0) die("Stall renter not found.");
-$booking = $result->fetch_assoc();
-$pageTitle = 'Pay Stall Rental';
 ob_start();
 ?>
 
 <div class="">
     <div class="rounded-lg shadow-sm">
+
         <div class="mb-5 border-b-2 border-gray-300 pb-4">
-            <h3 class="text-2xl font-medium text-gray-900 leading-none">Pay Stall Rental Fee</h3>
-            <p class="text-gray-600">Record monthly rental payment</p>
+            <h3 class="text-2xl font-medium text-gray-900 leading-none">Create Stall Rental</h3>
+            <p class="text-gray-600">Record a new stall rental</p>
         </div>
 
-        <form id="stallPaymentForm" method="POST" class="space-y-4" enctype="multipart/form-data">
-            
-            <input type="hidden" name="id" value="<?= $booking['id'] ?>">
+        <form id="createStallRentalForm" class="space-y-4" enctype="multipart/form-data">
 
             <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm">
-                <h2 class="text-xl font-semibold text-gray-900 mb-6">Payment Details</h2>
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">Renter Information</h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
 
                     <div class="grid grid-cols-2 items-center">
-                        <label class="block text-sm font-medium text-gray-700">Renter Name</label>
-                        <input type="text" value="<?= htmlspecialchars($booking['renter_name']) ?>" 
-                               class="mt-1 block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2" readonly>
-                    </div>
-
-                    <div class="grid grid-cols-2 items-center">
-                        <label class="block text-sm font-medium text-gray-700">Amount Paid <span class="text-red-500">*</span></label>
-                        <input type="number" name="amount_paid" step="0.01" min="0" required
-                               class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
-                    </div>
-
-                    <div class="grid grid-cols-2 items-center">
-                        <label class="block text-sm font-medium text-gray-700">Remarks (Optional)</label>
-                        <textarea name="remarks" rows="3" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2"></textarea>
+                        <label class="block text-sm font-medium text-gray-700">
+                            Renter Name <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            name="renter_name" 
+                            required
+                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
+                                   focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                     </div>
 
                     <div class="grid grid-cols-2 items-center">
                         <label class="block text-sm font-medium text-gray-700">
-                            Attachment (Proof of Payment)
-                            <span class="text-xs block text-gray-500">JPG, PNG, PDF • Max 5MB</span>
+                            Contact Number <span class="text-red-500">*</span>
                         </label>
-                        <input type="file" name="attachment" accept=".jpg,.jpeg,.png,.pdf"
-                               class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm text-sm">
+                        <input 
+                            type="tel" 
+                            name="contact_no" 
+                            required 
+                            pattern="09[0-9]{9}"
+                            placeholder="09123456789"
+                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
+                                   focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm">
+
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">Rental Details</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+
+                    <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Stall Number <span class="text-red-500">*</span>
+                        </label>
+                        <select 
+                            name="stall_id" 
+                            id="stallSelect"
+                            required
+                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
+                                   focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                            <option value="">Loading stalls...</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Rental Amount <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="number" 
+                            name="amount" 
+                            required 
+                            min="0"
+                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
+                                   focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+
+                    <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Rental Duration (months)
+                        </label>
+                        <select 
+                            name="rental_duration" 
+                            id="rentalDuration"
+                            required
+                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                            <option value="">--Select--</option>
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Start Date <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="date" 
+                            name="start_date" 
+                            required
+                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
+                                   focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+
+                    <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700">
+                            End Date
+                        </label>
+                        <input 
+                            type="date" 
+                            name="end_date"
+                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
+                                   focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                    </div>
+
+                    <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Contract
+                        </label>
+                        <div class="flex items-center justify-center w-full">
+                            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 bg-neutral-secondary-medium border border-dashed border-default-strong rounded-base cursor-pointer hover:bg-neutral-tertiary-medium">
+                                <div class="flex flex-col items-center justify-center text-body pt-5 pb-6">
+                                    <svg class="w-8 h-8 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2"/></svg>
+                                    <p class="mb-2 text-sm"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                    <p class="text-xs">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                </div>
+                                <input id="dropzone-file" type="file" name="contract" class="hidden" />
+                            </label>
+                        </div> 
+                    </div>
+
+                    <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Status <span class="text-red-500">*</span>
+                        </label>
+                        <select 
+                            name="status" 
+                            required
+                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
+                                   focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Remarks
+                        </label>
+                        <input 
+                            type="text" 
+                            name="remarks"
+                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
+                                   focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                     </div>
 
                 </div>
             </div>
 
             <div class="flex justify-end gap-4 pt-4">
-                <a href="list.php" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Cancel</a>
-                <button type="submit" class="px-8 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition font-medium">
-                    Record Payment
+                <a href="list.php" 
+                   class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
+                    Cancel
+                </a>
+
+                <button 
+                    type="submit" 
+                    id="createBtn" 
+                    class="px-8 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition font-medium">
+                    Create Rental
                 </button>
             </div>
+
         </form>
     </div>
 </div>
 
-<script>
-document.getElementById("stallPaymentForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const res = await fetch("/hoa_system/pages/amenities/stall/new-payment.php", { method: "POST", body: fd });
-    const data = await res.json();
-    alert(data.success ? "Stall payment recorded!" : "Error: " + data.message);
-    if (data.success) location.href = "list.php";
-});
-</script>
-
 <?php
 $content = ob_get_clean();
+
+$pageScripts = '
+  <script type="module" src="/hoa_system/ui/modules/amenities/stall/get.stall-item.js"></script>
+  <script type="module" src="/hoa_system/ui/modules/amenities/stall/post.rental.js"></script>
+';
+
 require_once BASE_PATH . '/pages/layout.php';
 ?>

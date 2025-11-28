@@ -9,7 +9,7 @@ if (!isset($_GET['id'])) {
 
 $booking_id = intval($_GET['id']);
 
-$sql = "SELECT * FROM court WHERE id = ?";
+$sql = "SELECT * FROM stall_renter WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $booking_id);
 $stmt->execute();
@@ -21,15 +21,15 @@ if ($result->num_rows === 0) {
 
 $booking = $result->fetch_assoc();
 
-$pageTitle = 'Court Fee';
+$pageTitle = 'Stall Fee';
 ob_start();
 ?>
 
 <div class="">
     <div class="rounded-lg shadow-sm">
         <div class="mb-5 border-b-2 border-gray-300 pb-4">
-            <h3 class="text-2xl font-medium text-gray-900 leading-none">Pay Court Fee</h3>
-            <p class="text-gray-600">Court Fee payment</p>
+            <h3 class="text-2xl font-medium text-gray-900 leading-none">Pay Stall Fee</h3>
+            <p class="text-gray-600">Stall fee payment</p>
         </div>
 
         <form id="updateRentalForm" method="POST" class="space-y-4">
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData(form);
 
         try {
-            const response = await fetch("/hoa_system/pages/amenities/court/new-payment.php", {
+            const response = await fetch("/hoa_system/pages/amenities/stall/new-payment.php", {
                 method: "POST",
                 body: formData
             });
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (result.success) {
                 alert("Stall rental updated successfully!");
-                window.location.href = "/hoa_system/pages/amenities/court/list.php";
+                window.location.href = "/hoa_system/pages/amenities/stall/list.php";
             } else {
                 alert("Update failed: " + result.message);
             }
