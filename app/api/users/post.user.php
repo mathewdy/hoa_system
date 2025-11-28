@@ -65,8 +65,8 @@ try {
     $conn->begin_transaction();
 
     $stmt1 = $conn->prepare("
-        INSERT INTO users (user_id, email_address, password, status, role_id, date_created)
-        VALUES (?, ?, ?, 1, ?, NOW())
+        INSERT INTO users (user_id, email_address, password, status, role_id, is_first_time, date_created)
+        VALUES (?, ?, ?, 1, ?, 1, NOW())
     ");
     $stmt1->bind_param("sssi", $user_id, $email, $hashed, $role_id);
     $stmt1->execute();
