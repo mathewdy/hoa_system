@@ -8,26 +8,34 @@ $(document).on('change', () => render());
 $('#createStallRentalForm').on('submit', function (e) {
     e.preventDefault();
     const $form = $(this);
+    const formData = new FormData($form[0]);
 
     createState.loading(true);
-
-    $.post('/hoa_system/app/api/amenities/stall/post.renter.php', $form.serialize())
-        .done(res => {
+    
+    $.ajax({
+        url: '/hoa_system/app/api/amenities/stall/post.renter.php',
+        type: 'POST',
+        data: formData,
+        processData: false,  
+        contentType: false,    
+        cache: false,
+        success: function (res) {
             if (res.success) {
-                showToast({ message: 'Record created successfully!', type: 'success' });
+                showToast({ message: 'Stall renter created successfully!', type: 'success' });
                 setTimeout(() => {
                     window.location.href = 'list.php';
                 }, 1500);
             } else {
-                showToast({ message: res.message || 'Failed to save record.', type: 'error' });
+                showToast({ message: res.message || 'Failed to save Stall renter.', type: 'error' });
             }
-        })
-        .fail(() => {
-            showToast({ message: 'Network error.', type: 'error' });
-        })
-        .always(() => {
+        },
+        error: function () {
+            showToast({ message: 'Network error. Please try again.', type: 'error' });
+        },
+        complete: function () {
             createState.loading(false);
-        });
+        }
+    });
 });
 
 function render() {

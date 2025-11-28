@@ -43,8 +43,6 @@ const columns = [
         data-dropdown-toggle="actions_${row.id}"
         type="button"
         class="flex items-center bg-teal-600 text-white py-2 px-4 rounded-md"
-        aria-expanded="false"
-        aria-haspopup="true"
       >
         Actions
       </button>
@@ -59,6 +57,12 @@ const columns = [
               class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
               <i class="ri-eye-line text-xl text-teal-600"></i> 
               View
+            </a>
+            <a 
+              href="payment.php?id=${row.id}"  
+              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
+              <i class="ri-wallet-line text-xl text-teal-600"></i> 
+              Payment
             </a>
           </li>
         </ul>
