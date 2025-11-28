@@ -6,7 +6,7 @@ require_once $root . 'config.php';
 require_once $root . 'app/includes/session.php';
 
 $userRole = $_SESSION['role'] ?? 0;
-$isAdminOrPresident = in_array($userRole, [1, 3]);
+
 $pageTitle = 'Users';
 ob_start();
 
@@ -61,18 +61,24 @@ ob_start();
           <p class="text-sm text-gray-500">Your name and role information</p>
         </div>
         <div class="flex items-center gap-3">
-          <button type="button" class="edit-button text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+          <?php 
+            if($userRole == 3) {
+            ?>
+            <button type="button" class="edit-button text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
               <i class="ri-edit-box-line mr-1"></i> Edit
             </button>
-          <div class="hidden action-buttons">
-            <button type="submit" class="save-btn text-white bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md transition-colors">
-              <i class="ri-save-line mr-1"></i> Save
-            </button>
-            <input type="hidden" name="section" value="personal">
-            <button type="button" class="cancel-btn text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
-              <i class="ri-close-line mr-1"></i> Cancel
-            </button>
-          </div>
+            <div class="hidden action-buttons">
+              <button type="submit" class="save-btn text-white bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md transition-colors">
+                <i class="ri-save-line mr-1"></i> Save
+              </button>
+              <input type="hidden" name="section" value="personal">
+              <button type="button" class="cancel-btn text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+                <i class="ri-close-line mr-1"></i> Cancel
+              </button>
+            </div>
+            <?php
+            }
+          ?>
         </div>
       </div>
       <div id="basic-info-display" class="p-6 space-y-4">
@@ -132,18 +138,24 @@ ob_start();
           <p class="text-sm text-gray-500">Your property and address information</p>
         </div>
         <div class="flex items-center gap-3">
-          <button type="button" class="edit-button text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
-              <i class="ri-edit-box-line mr-1"></i> Edit
-            </button>
-          <div class="hidden action-buttons">
-            <button type="submit" class="save-btn text-white bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md transition-colors">
-              <i class="ri-save-line mr-1"></i> Save
-            </button>
-            <input type="hidden" name="section" value="home">
-            <button type="button" class="cancel-btn text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
-              <i class="ri-close-line mr-1"></i> Cancel
-            </button>
-          </div>
+          <?php 
+            if($userRole == 3) {
+            ?>
+            <button type="button" class="edit-button text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+                <i class="ri-edit-box-line mr-1"></i> Edit
+              </button>
+            <div class="hidden action-buttons">
+              <button type="submit" class="save-btn text-white bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md transition-colors">
+                <i class="ri-save-line mr-1"></i> Save
+              </button>
+              <input type="hidden" name="section" value="home">
+              <button type="button" class="cancel-btn text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+                <i class="ri-close-line mr-1"></i> Cancel
+              </button>
+            </div>
+            <?php
+            }
+            ?>
         </div>
       </div>
       <div class="p-6 space-y-6">
@@ -187,18 +199,24 @@ ob_start();
           <p class="text-sm text-gray-500">Email and password</p>
         </div>
         <div class="flex items-center gap-3">
-          <button type="button" class="edit-button text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
-              <i class="ri-edit-box-line mr-1"></i> Edit
-            </button>
-          <div class="hidden action-buttons">
-            <button type="submit" class="save-btn text-white bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md transition-colors">
-              <i class="ri-save-line mr-1"></i> Save
-            </button>
-            <input type="hidden" name="section" value="account">
-            <button type="button" class="cancel-btn text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
-              <i class="ri-close-line mr-1"></i> Cancel
-            </button>
-          </div>
+          <?php 
+            if($userRole == 3) {
+            ?>
+            <button type="button" class="edit-button text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+                <i class="ri-edit-box-line mr-1"></i> Edit
+              </button>
+            <div class="hidden action-buttons">
+              <button type="submit" class="save-btn text-white bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md transition-colors">
+                <i class="ri-save-line mr-1"></i> Save
+              </button>
+              <input type="hidden" name="section" value="account">
+              <button type="button" class="cancel-btn text-gray-600 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition-colors">
+                <i class="ri-close-line mr-1"></i> Cancel
+              </button>
+            </div>
+          <?php
+            }
+          ?>
         </div>
       </div>
       <div class="p-6 space-y-6">

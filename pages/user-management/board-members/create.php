@@ -97,7 +97,6 @@ ob_start();
                     </div>
                 </div>
             </div>
-
             <div class="flex justify-end gap-4 pt-4">
                 <a href="list.php" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Cancel</a>
                 <button type="submit" id="createBtn" class="px-8 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition font-medium">

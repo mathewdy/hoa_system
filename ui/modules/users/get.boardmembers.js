@@ -38,7 +38,6 @@ const columns = [
       ${roleName}
     </span>`;
   },
-
   row => row.status === 'Active'
     ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>'
     : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>',
@@ -46,8 +45,9 @@ const columns = [
   row => { 
     const color = row.status == 'Active' ? 'red' : 'green'
     const title = row.status == 'Active' ? 'Deactivate' : 'Activate'
-    return `
-    <div class="flex items-center gap-2">
+    const role = localStorage.getItem('role')
+
+    return `<div class="flex items-center gap-2">
       <a 
         href="view.php?id=${row.user_id}" 
         class="text-teal-600 hover:text-teal-800" 

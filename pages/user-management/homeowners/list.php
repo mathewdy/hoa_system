@@ -3,6 +3,8 @@ $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
 require_once $root . 'app/includes/session.php';
 
+$role = $_SESSION['role'];
+
 $pageTitle = 'Homeowners';
 ob_start();
 ?>
@@ -22,7 +24,13 @@ ob_start();
           placeholder="Search <?= strtolower($pageTitle) ?>..." />
       </div>
     </form>
-    <a href="<?= BASE_URL . 'pages/user-management/homeowners/create.php';?>" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add Member</a>
+    <?php 
+      if ($role == 3) {
+        ?>
+        <a href="<?= BASE_URL . 'pages/user-management/homeowners/create.php';?>" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add Member</a>
+        <?php 
+      }
+    ?>
   </div>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg border">
     <table id="dataTable" class="w-full text-sm text-left text-gray-500">
