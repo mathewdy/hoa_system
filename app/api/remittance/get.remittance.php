@@ -36,7 +36,7 @@ mysqli_stmt_execute($totalStmt);
 $totalResult = mysqli_stmt_get_result($totalStmt);
 $total = ($row = mysqli_fetch_assoc($totalResult)) ? (int)$row['total'] : 0;
 
-$sql = "SELECT r.id, r.user_id, r.particular, r.amount, r.date, r.transaction_type, r.secretary_name, r.is_approved, r.date_created
+$sql = "SELECT r.id, r.user_id, r.particular, r.amount, r.date, r.transaction_type, r.is_approved, r.date_created
         FROM remittance r
         $where
         ORDER BY r.id DESC
