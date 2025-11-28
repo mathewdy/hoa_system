@@ -92,6 +92,7 @@ ob_start();
                             <option value="2">Secretary</option>
                             <option value="3">President</option>
                             <option value="1">Admin</option>
+                            <option value="5">Auditor</option>
                         </select>
                     </div>
                 </div>
