@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 include('../../connection/connection.php'); 
 ini_set('display_errors', 1);
@@ -119,112 +118,74 @@ $user_id = $_SESSION['user_id'];
     </div>
   </div>
 
-   <!-- Main Content -->
-  <div class="flex-1 overflow-x-hidden overflow-y-auto">
-    <header class="bg-white shadow-md">
-      <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <h1 class="text-2xl font-bold text-gray-900">Project and Financial Resolution</h1>
-          <div class="flex items-center space-x-2">
-            <button class="bg-teal-100 p-2 rounded-full text-teal-600 hover:bg-teal-200">
-              <i class="fas fa-bell"></i>
-            </button>
-          </div>
-        </div>
-  </header>
+
+  <a href="tres-add-transactions.php">Add Transaction</a>
+<br><br>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Particulars</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    <?php
+        $query_transactions = "SELECT * FROM transactions ORDER BY id DESC";
+        $run_transactions = mysqli_query($conn, $query_transactions);
+
+        if (mysqli_num_rows($run_transactions) > 0) {
+            
+            while ($row = mysqli_fetch_assoc($run_transactions)) {
+
+                $id            = $row['id'];
+                $particulars   = htmlspecialchars($row['particulars']);
+                $status_code   = intval($row['status']);
+
+                // Map status code to text
+                switch ($status_code) {
+                    case 0:
+                        $status_text = "Pending";
+                        break;
+                    case 1:
+                        $status_text = "Approved";
+                        break;
+                    case 2:
+                        $status_text = "Rejected";
+                        break;
+                    default:
+                        $status_text = "Unknown";
+                        break;
+                }
+
+                echo "<tr>";
+                    // Particulars column
+                    echo "<td>{$particulars}</td>";
+
+                    // Status column
+                    echo "<td>{$status_text}</td>";
+
+                    // Action column: link to view transaction
+                    echo "<td><a href='tres-view-transaction.php?id={$id}'>View</a></td>";
+
+                echo "</tr>";
+            }
+
+        } else {
+            echo "<tr><td colspan='3' style='text-align:center;color:red;'>No transactions found.</td></tr>";
+        }
+    ?>
+
+    </tbody>
+</table>
 
 
-  <?php
-
-    $query_resolution = "SELECT * FROM resolution";
-    $run_resolution = mysqli_query($conn,$query_resolution);
-
-    if(mysqli_num_rows($run_resolution) > 0){
-      foreach($run_resolution as $row_resolution){
-        ?>
-
-          
-          <table>
-            <thead>
-              <tr>
-                <th>Particulars</th>
-                <th>Status</th>
-                <th>Project Details</th>
-                <th>Budget Released</th>
-                <th>Financial Summary</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><?php echo $row_resolution['project_resolution_title']?></td>
-                <td>
-                    <?php
-                    $status = $row_resolution['status'];
-
-                    // Map status codes to labels + colors
-                    $status_labels = [
-                        0 => ['label' => 'Pending',  'color' => '#f1c40f'],   // Yellow
-                        1 => ['label' => 'Approved', 'color' => '#2ecc71'],   // Green
-                        2 => ['label' => 'Rejected', 'color' => '#e74c3c'],   // Red
-                        3 => ['label' => 'On Going', 'color' => '#3498db'],   // Blue
-                    ];
-
-                    if (isset($status_labels[$status])) {
-                        echo "<span style='
-                            background: {$status_labels[$status]['color']};
-                            color: #fff;
-                            padding: 5px 10px;
-                            border-radius: 5px;
-                            font-size: 12px;
-                        '>{$status_labels[$status]['label']}</span>";
-                    } else {
-                        echo "<span style='color:#7f8c8d;'>Unknown</span>";
-                    }
-                    ?>
-                </td>
-
-                <td>
-                  <a href="tres-project-details.php?id=<?php echo $row_resolution['id']?>">Project Details</a>
-                </td>
-                <td>
-                    <?php 
-                    // Show "Add Budget Release" only if the resolution is approved
-                    if ($status == 1) {
-                        if (!empty($row_resolution['is_budget_released']) && $row_resolution['is_budget_released'] == 1) {
-                            echo '<a href="tres-budget-release.php?id=' . $row_resolution['id'] . '" class="text-blue-600 hover:underline">Budget Release</a>';
-                        } else {
-                            echo '<a href="tres-add-budget-release.php?id=' . $row_resolution['id'] . '" class="text-green-600 hover:underline">Add Budget Release</a>';
-                        }
-                    } else {
-                        echo '<span class="text-gray-500">Not Approved Yet</span>';
-                    }
-                    ?>
-                </td>
-                <td>
-                    <?php 
-                        if (!empty($row_resolution['has_financial_summary']) && $row_resolution['has_financial_summary'] == 1) {
-                            echo '<a href="tres-financial-summary.php?id=' . $row_resolution['id'] . '">Financial Summary</a>';
-                        }
-                    ?>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-
-        <?php 
-      }
-    }
-
-
-  ?>
-
-  <br>
-  <br>
+</div>
 
 
 
-    
 
-    
 </body>
 </html>

@@ -212,6 +212,16 @@
           <i class="fas fa-history mr-3"></i>
           <span>Activity Logs</span>
         </a>
+        <a href="president-newsfeed.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-newspaper mr-3"></i>
+          <span>News Feed</span>
+        </a>
+
+        <a href="president-transaction.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
+          <i class="fas fa-newspaper mr-3"></i>
+          <span>Transactions</span>
+        </a>
+
         <a href="president-profile.php" class="flex items-center px-6 py-3 hover:bg-teal-600">
           <i class="fas fa-user-circle mr-3"></i>
           <span>Profile</span>

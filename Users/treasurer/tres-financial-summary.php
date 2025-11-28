@@ -97,14 +97,14 @@ th { background-color: #f4f4f4; }
 </ul>
 
 
-<?php
+<!-- <?php
 // Check if a financial summary already exists for this project
-$check_file_sql = "SELECT id FROM financial_summary WHERE project_id = $id LIMIT 1";
-$check_file_result = mysqli_query($conn, $check_file_sql);
-$already_uploaded = mysqli_num_rows($check_file_result) > 0;
-?>
+// $check_file_sql = "SELECT id FROM financial_summary WHERE project_id = $id LIMIT 1";
+// $check_file_result = mysqli_query($conn, $check_file_sql);
+// $already_uploaded = mysqli_num_rows($check_file_result) > 0;
+?> -->
 
-<?php if (!$already_uploaded): ?>
+<!-- <?php if (!$already_uploaded): ?>
 <form action="" method="POST" enctype="multipart/form-data">
     <label for="">Upload Receipt</label>
     <br>
@@ -115,7 +115,78 @@ $already_uploaded = mysqli_num_rows($check_file_result) > 0;
 </form>
 <?php else: ?>
 <p style="color:green;">You have already uploaded the financial summary for this project.</p>
+<?php endif; ?> -->
+
+<h3>Uploaded Financial Documents</h3>
+
+<?php
+$sql_files = "SELECT id, file, date_created FROM financial_summary WHERE project_id = $id";
+$result_files = mysqli_query($conn, $sql_files);
+
+if (mysqli_num_rows($result_files) > 0) {
+    echo "<ul>";
+    while ($row = mysqli_fetch_assoc($result_files)) {
+        echo "<li>
+            File ID: {$row['id']} — Uploaded: {$row['date_created']}
+            — <a href='view-financial-file.php?id={$row['id']}' target='_blank'>View Receipt</a>
+        </li>";
+    }
+    echo "</ul>";
+} else {
+    echo "<p>No financial summary documents uploaded yet.</p>";
+}
+?>
+
+
+<?php
+// CHECK VALIDATION STATUS FOR THIS PROJECT
+$sql_check = "SELECT has_validated 
+              FROM financial_summary 
+              WHERE project_id = $id 
+              LIMIT 1";
+
+$result_check = mysqli_query($conn, $sql_check);
+
+// Default → not verified
+$has_verified = 0;
+
+// If a row exists, get has_validated value
+if ($result_check && mysqli_num_rows($result_check) > 0) {
+    $row_check = mysqli_fetch_assoc($result_check);
+    $has_verified = intval($row_check['has_validated']);
+}
+?>
+
+<!-- SHOW VERIFY BUTTON ONLY IF NOT VERIFIED -->
+<?php if ($has_verified !== 1): ?>
+<form action="" method="POST">
+    <input type="submit" name="verify" value="Verify">
+    <input type="hidden" name="project_id" value="<?php echo $id; ?>">
+</form>
+<?php else: ?>
+<p style="color: green; font-weight: bold;">This financial summary has already been verified.</p>
 <?php endif; ?>
+
+
+<?php
+// WHEN VERIFY BUTTON IS CLICKED
+if (isset($_POST['verify'])) {
+    $project_id = intval($_POST['project_id']);
+
+    // Update validation status
+    $update_sql = "UPDATE financial_summary 
+                   SET has_validated = 1, date_updated = NOW() 
+                   WHERE project_id = $project_id";
+
+    if (mysqli_query($conn, $update_sql)) {
+        echo "<script>alert('Financial Summary Verified Successfully!'); 
+              window.location.href = window.location.href;</script>";
+    } else {
+        echo "<p style='color:red;'>Error updating validation: " . mysqli_error($conn) . "</p>";
+    }
+}
+?>
+
 
 
 
@@ -127,37 +198,40 @@ $already_uploaded = mysqli_num_rows($check_file_result) > 0;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-$upload_dir = __DIR__ . '/../../uploads/financial_summary/';
 
-if(isset($_POST['upload'])){
-    $project_id = intval($_POST['project_id'] ?? 0);
 
-    if($project_id <= 0){
-        die("Invalid project ID.");
-    }
 
-    if(isset($_FILES['upload_receipt']) && $_FILES['upload_receipt']['error'] === 0){
-        $tmp_name = $_FILES['upload_receipt']['tmp_name'];
-        $original_name = $_FILES['upload_receipt']['name'];
-        $safe_name = time() . '_' . preg_replace("/[^a-zA-Z0-9_.-]/", "_", $original_name);
-        $target_file = $upload_dir . $safe_name;
+//$upload_dir = __DIR__ . '/../../uploads/financial_summary/';
 
-        if(!move_uploaded_file($tmp_name, $target_file)){
-            die("Failed to move uploaded file. Check folder permissions.");
-        }
+// if(isset($_POST['upload'])){
+//     $project_id = intval($_POST['project_id'] ?? 0);
 
-        $file_content = addslashes(file_get_contents($target_file));
+//     if($project_id <= 0){
+//         die("Invalid project ID.");
+//     }
 
-        $sql = "INSERT INTO financial_summary (project_id, file, created_by, has_validated, date_created)
-                VALUES ('$project_id', '$file_content', '$user_id',0, NOW())";
+//     if(isset($_FILES['upload_receipt']) && $_FILES['upload_receipt']['error'] === 0){
+//         $tmp_name = $_FILES['upload_receipt']['tmp_name'];
+//         $original_name = $_FILES['upload_receipt']['name'];
+//         $safe_name = time() . '_' . preg_replace("/[^a-zA-Z0-9_.-]/", "_", $original_name);
+//         $target_file = $upload_dir . $safe_name;
 
-        if(mysqli_query($conn, $sql)){
-            echo "<script>window.location.href = '' </script> ";
-        } else {
-            die("Database error: " . mysqli_error($conn));
-        }
-    } else {
-        echo "<p style='color:red;'>No file uploaded or upload error.</p>";
-    }
-}
+//         if(!move_uploaded_file($tmp_name, $target_file)){
+//             die("Failed to move uploaded file. Check folder permissions.");
+//         }
+
+//         $file_content = addslashes(file_get_contents($target_file));
+
+//         $sql = "INSERT INTO financial_summary (project_id, file, created_by, has_validated, date_created)
+//                 VALUES ('$project_id', '$file_content', '$user_id',0, NOW())";
+
+//         if(mysqli_query($conn, $sql)){
+//             echo "<script>window.location.href = '' </script> ";
+//         } else {
+//             die("Database error: " . mysqli_error($conn));
+//         }
+//     } else {
+//         echo "<p style='color:red;'>No file uploaded or upload error.</p>";
+//     }
+// }
 ?>
