@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../../connection/connection.php'); 
+include('../connection/connection.php'); 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -22,7 +22,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $audit_result = mysqli_real_escape_string($conn, $_POST['audit_result'] ?? '');
 
     // Upload directory (must exist and writable)
-    $upload_dir = __DIR__ . '/../../uploads/liquidation_expenses/';
+    $upload_dir = __DIR__ . '/../uploads/liquidation_expenses/';
     if(!is_dir($upload_dir)) die("Upload folder does not exist: $upload_dir");
     if(!is_writable($upload_dir)) die("Upload folder is not writable: $upload_dir");
 
@@ -64,108 +64,4 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Generate Expense Liquidation</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
-input[type=text], input[type=number], input[type=file] { margin-bottom:5px; }
-table { border-collapse: collapse; width: 100%; margin-bottom: 10px;}
-table th, table td { border: 1px solid #ccc; padding:5px; }
-button { padding:5px 10px; margin-top:5px;}
-</style>
-</head>
-<body>
 
-<h1>Generate Expense Liquidation</h1>
-
-<form method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="project_id" value="<?php echo $project['id'] ?>">
-    <label>Project Resolution:</label>
-    <input type="text" value="<?php echo $project['project_resolution_title'] ?>" readonly><br>
-    <label>Released Budget:</label>
-    <input type="text" id="released_budget" value="<?php echo $project['estimated_budget'] ?>" readonly><br>
-
-    <table id="expenses_table">
-        <thead>
-            <tr>
-                <th>Particular</th>
-                <th>Amount</th>
-                <th>Receipt</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><input type="text" name="expense_particular[]"></td>
-                <td><input type="number" step="0.01" class="expense_amount" name="expense_amount[]"></td>
-                <td><input type="file" name="expense_receipt[]"></td>
-                <td><button type="button" class="remove_row">Remove</button></td>
-            </tr>
-        </tbody>
-    </table>
-    <button type="button" id="add_row">Add Expense</button><br><br>
-
-    <label>Total Expenses:</label>
-    <input type="text" id="total_expenses" name="total_expenses" readonly><br>
-    <label>Remaining Budget:</label>
-    <input type="text" id="remaining_budget" name="remaining_budget" readonly><br>
-    <label>Audit Result:</label>
-    <input type="text" id="audit_result" name="audit_result" readonly><br>
-    <label>Remarks:</label>
-    <input type="text" name="remarks"><br><br>
-
-    <input type="submit" value="Submit Liquidation">
-</form>
-
-<script>
-function calculateTotals(){
-    let total = 0;
-    $('.expense_amount').each(function(){
-        let val = parseFloat($(this).val()) || 0;
-        total += val;
-    });
-    $('#total_expenses').val(total.toFixed(2));
-
-    let released = parseFloat($('#released_budget').val()) || 0;
-    let remaining = released - total;
-    $('#remaining_budget').val(remaining.toFixed(2));
-
-    if(total > released){
-        $('#audit_result').val('Overspent');
-    } else if(total < released){
-        $('#audit_result').val('Underspent');
-    } else {
-        $('#audit_result').val('Balanced');
-    }
-}
-
-$(document).ready(function(){
-    $('#add_row').click(function(){
-        let row = `<tr>
-                    <td><input type="text" name="expense_particular[]"></td>
-                    <td><input type="number" step="0.01" class="expense_amount" name="expense_amount[]"></td>
-                    <td><input type="file" name="expense_receipt[]"></td>
-                    <td><button type="button" class="remove_row">Remove</button></td>
-                  </tr>`;
-        $('#expenses_table tbody').append(row);
-    });
-
-    $(document).on('click', '.remove_row', function(){
-        $(this).closest('tr').remove();
-        calculateTotals();
-    });
-
-    $(document).on('input', '.expense_amount', function(){
-        calculateTotals();
-    });
-
-    calculateTotals();
-});
-</script>
-
-</body>
-</html>

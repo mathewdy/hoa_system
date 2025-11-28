@@ -14,7 +14,6 @@ if(isset($_POST['approve_project_resolution'])){
     $run_approve = mysqli_query($conn,$sql_approve);
 
     if($run_approve) {
-        echo "<script>window.location.href='' </script>";
         echo "<script>alert('Approved'); window.location.href='../Users/president/president-projectproposal.php';</script>";
     }else{
         echo "error approved";
