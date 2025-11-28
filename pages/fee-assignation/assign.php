@@ -9,7 +9,6 @@ if (!isset($_GET['id'])) {
 
 $user_id = intval($_GET['id']);
 
-// Get user name
 $stmt = $conn->prepare("SELECT CONCAT(TRIM(CONCAT(first_name, ' ', COALESCE(middle_name,''), ' ', last_name))) AS full_name FROM user_info WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();

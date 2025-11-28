@@ -14,9 +14,7 @@ if (empty($fee_type_ids)) {
     exit;
 }
 
-// CRITICAL FIX: Exact format na Y-m-d, walang extra space/time
 $due_date = date('Y-m-d', strtotime('first day of next month'));
-// Example: Nov 29, 2025 → "2025-12-01" (clean!)
 
 $placeholders = str_repeat('?,', count($fee_type_ids) - 1) . '?';
 $sql = "SELECT id, amount, fee_name FROM fee_type WHERE id IN ($placeholders)";
@@ -32,7 +30,6 @@ while ($fee = $result->fetch_assoc()) {
     $fee_type_id = $fee['id'];
     $amount = $fee['amount'];
 
-    // CHECK IF ALREADY EXISTS (exact date match)
     $check = $conn->prepare("
         SELECT id FROM fee_assignments 
         WHERE user_id = ? 
@@ -49,7 +46,6 @@ while ($fee = $result->fetch_assoc()) {
         continue;
     }
 
-    // INSERT
     $insert = $conn->prepare("
         INSERT INTO fee_assignments 
         (user_id, fee_type_id, amount, due_date, status, date_created) 
@@ -60,17 +56,15 @@ while ($fee = $result->fetch_assoc()) {
     if ($insert->execute()) {
         $inserted++;
     } else {
-        // Optional: log error
         error_log("Insert failed for user $user_id, fee $fee_type_id: " . $insert->error);
     }
 }
 
-// BALIK SA assign.php para makita yung alert
 $redirect = "assign.php?id=$user_id&success=$inserted";
 if ($skipped > 0) {
     $redirect .= "&skipped=$skipped";
 }
-
+echo "<script> alert('Fee/s assigned!') </script>";
 header("Location: $redirect");
 exit;
 ?>
