@@ -2,7 +2,7 @@
 function assignMonthlyFeesToUser($conn, $user_id) {
   $due_date = date('Y-m-d', strtotime('first day of next month'));
   $query = "SELECT id, fee_name, amount 
-  FROM fee_type WHERE `status` = 1";
+  FROM fee_type WHERE `status` = 1 AND is_recurring = 1";
   
   $result = $conn->query($query);
 

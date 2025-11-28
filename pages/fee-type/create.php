@@ -34,6 +34,14 @@ ob_start();
                     </div>
 
                     <div class="grid grid-cols-2 items-center">
+                        <label class="block text-sm font-medium text-gray-700"> Type <span class="text-red-500">*</span></label>
+                        <select name="is_recurring" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2" required>
+                            <option value="">--Select--</option>
+                            <option value="1">Monthly</option>
+                            <option value="2">One Time</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 items-center">
                         <label class="block text-sm font-medium text-gray-700"> Date Start <span class="text-red-500">*</span></label>
                         <input type="date" name="start_date" required class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2" placeholder="0.00" required>
                         <input type="hidden" name="created_by" value="<?= $_SESSION['user_id']; ?>">

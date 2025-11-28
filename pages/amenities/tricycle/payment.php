@@ -40,9 +40,9 @@ ob_start();
                     </div>
 
                     <div class="grid grid-cols-2 items-center">
-                        <label class="block text-sm font-medium text-gray-700">Amount Paid <span class="text-red-500">*</span></label>
-                        <input type="number" name="amount_paid" step="0.01" min="0" required
-                               class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
+                        <label class="block text-sm font-medium text-gray-700">Amount to pay <span class="text-red-500">*</span></label>
+                        <input type="number" name="amount_paid" step="0.01" min="0" value="<?= $toda['fee_amount'] ?>" required readonly
+                        class="mt-1 block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2">
                     </div>
 
                     <div class="grid grid-cols-2 items-center">

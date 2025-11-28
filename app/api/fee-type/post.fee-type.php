@@ -13,6 +13,7 @@ $required = [
     'description',
     'amount',
     'start_date',
+    'is_recurring',
     'created_by',
 ];
 
@@ -30,6 +31,7 @@ $due_name     = trim($_POST['due_name']);
 $description  = trim($_POST['description']);
 $amount       = floatval($_POST['amount']);
 $start        = trim($_POST['start_date']);
+$is_recurring = trim($_POST['is_recurring']);
 $created_by   = trim($_POST['created_by']);
 $status       = 0;  
 
@@ -37,17 +39,18 @@ try {
 
     $stmt = $conn->prepare("
         INSERT INTO fee_type 
-        (fee_name, description, amount, status, effectivity_date, created_by, date_created)
-        VALUES (?, ?, ?, ?, ?, ?, NOW())
+        (fee_name, description, amount, status, effectivity_date, is_recurring, created_by, date_created)
+        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
     ");
 
     $stmt->bind_param(
-        "ssdisi", 
+        "ssdisii", 
         $due_name,
         $description,
         $amount,
         $status,
         $start,
+        $is_recurring,
         $created_by
     );
 
