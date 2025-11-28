@@ -123,6 +123,9 @@ if(isset($_POST['approve'])){
     $sql_update_approve = "UPDATE liquidation_of_expenses SET  status = '$approve' , date_updated = NOW() WHERE project_resolution_id = '$id'";
     $run_update_approve = mysqli_query($conn,$sql_update_approve);
 
+    $sql_update_resolution = "UPDATE resolution SET has_financial_summary = 1 WHERE id  = '$project_resolution_id' ";
+    $run_update_resolution = mysqli_query($conn,$sql_update_resolution);
+
     if($run_update_approve){
         echo "Approved by president";
         echo "<script>window.location.href= 'president-liquidation.php' </script>";
