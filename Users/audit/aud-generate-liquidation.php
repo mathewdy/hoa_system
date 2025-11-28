@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 
 $user_id = $_SESSION['user_id'] ?? '';
 
+// Get project resolution details
 if(isset($_GET['id'])){
     $id = intval($_GET['id']);
     $sql_project = "SELECT id, project_resolution_title, estimated_budget FROM resolution WHERE id='$id'";
@@ -14,55 +15,62 @@ if(isset($_GET['id'])){
     $project = mysqli_fetch_assoc($run_project);
 }
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $project_id = intval($_POST['project_id']);
-    $remarks = mysqli_real_escape_string($conn, $_POST['remarks'] ?? '');
-    $total_expenses = floatval($_POST['total_expenses'] ?? 0);
-    $remaining_budget = floatval($_POST['remaining_budget'] ?? 0);
-    $audit_result = mysqli_real_escape_string($conn, $_POST['audit_result'] ?? '');
+// Handle form submission
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // Upload directory (must exist and writable)
-    $upload_dir = __DIR__ . '/../../uploads/liquidation_expenses/';
-    if(!is_dir($upload_dir)) die("Upload folder does not exist: $upload_dir");
-    if(!is_writable($upload_dir)) die("Upload folder is not writable: $upload_dir");
+    $project_id = intval($_POST['project_id']);
+    $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
+
+    $total_expenses = isset($_POST['total_expenses']) && $_POST['total_expenses'] !== '' ? floatval($_POST['total_expenses']) : 0;
+    $remaining_budget = isset($_POST['remaining_budget']) && $_POST['remaining_budget'] !== '' ? floatval($_POST['remaining_budget']) : 0;
+    $audit_result = isset($_POST['audit_result']) ? mysqli_real_escape_string($conn, $_POST['audit_result']) : '';
+
+    // Upload folder (must exist and be writable)
+    $upload_dir = $_SERVER['DOCUMENT_ROOT'].'/hoa_system/uploads/liquidation_expenses/';
+    if(!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0777, true);
+    }
 
     // Insert into liquidation_of_expenses
     $insert_liq = "INSERT INTO liquidation_of_expenses (project_resolution_id, status, total_expenses, date_created, date_updated) 
-                   VALUES ('$project_id', 0, '$total_expenses', NOW(), NOW())";
-    if(mysqli_query($conn, $insert_liq)){
+                   VALUES ('$project_id', 1, '$total_expenses', NOW(), NOW())";
+
+    if(mysqli_query($conn, $insert_liq)) {
         $liq_id = mysqli_insert_id($conn);
 
-        if(isset($_POST['expense_particular'])){
+        // Loop through each expense row
+        if(isset($_POST['expense_particular']) && count($_POST['expense_particular']) > 0){
             for($i=0; $i<count($_POST['expense_particular']); $i++){
                 $particular = mysqli_real_escape_string($conn, $_POST['expense_particular'][$i]);
                 $amount = floatval($_POST['expense_amount'][$i]);
-
                 $receipt_file = '';
+
+                // Handle receipt upload
                 if(isset($_FILES['expense_receipt']['name'][$i]) && $_FILES['expense_receipt']['error'][$i] === 0){
                     $tmp_name = $_FILES['expense_receipt']['tmp_name'][$i];
                     $filename = time().'_'.preg_replace("/[^a-zA-Z0-9_.-]/", "_", $_FILES['expense_receipt']['name'][$i]);
-                    $target_file = $upload_dir . $filename;
-                    if(!move_uploaded_file($tmp_name, $target_file)){
-                        die("Failed to upload file: $filename. Check folder permissions.");
+                    $target_file = $upload_dir.$filename;
+                    if(move_uploaded_file($tmp_name, $target_file)){
+                        $receipt_file = $filename;
                     }
-                    $receipt_file = $filename;
                 }
 
-                $insert_exp = "INSERT INTO liquidation_expenses_details
-                               (liquidation_id, amount, receipt, total_expenses, remaning_budget, audit_result, remarks, date_created, date_updated)
-                               VALUES
-                               ('$liq_id', '$amount', '$receipt_file', '$total_expenses', '$remaining_budget', '$audit_result', '$remarks', NOW(), NOW())";
+                // Insert into liquidation_expenses_details
+                $insert_exp = "INSERT INTO liquidation_expenses_details 
+                               (liquidation_id, particular, amount, receipt, total_expenses, remaning_budget, audit_result, remarks, date_created, date_updated)
+                               VALUES ('$liq_id', '$particular','$amount', '$receipt_file', '$total_expenses', '$remaining_budget', '$audit_result', '$remarks', NOW(), NOW())";
+
                 mysqli_query($conn, $insert_exp);
             }
         }
 
         echo "<p style='color:green;'>Liquidation saved successfully!</p>";
     } else {
-        die("Database error: ".mysqli_error($conn));
+        echo "<p style='color:red;'>Error: ".mysqli_error($conn)."</p>";
     }
 }
-?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +82,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 <style>
 input[type=text], input[type=number], input[type=file] { margin-bottom:5px; }
 table { border-collapse: collapse; width: 100%; margin-bottom: 10px;}
-table th, table td { border: 1px solid #ccc; padding:5px; }
+table th, table td { border: 1px solid #ccc; padding:5px; text-align:left; }
 button { padding:5px 10px; margin-top:5px;}
 </style>
 </head>
@@ -83,11 +91,11 @@ button { padding:5px 10px; margin-top:5px;}
 <h1>Generate Expense Liquidation</h1>
 
 <form method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="project_id" value="<?php echo $project['id'] ?>">
+    <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>">
     <label>Project Resolution:</label>
-    <input type="text" value="<?php echo $project['project_resolution_title'] ?>" readonly><br>
+    <input type="text" value="<?php echo $project['project_resolution_title']; ?>" readonly><br>
     <label>Released Budget:</label>
-    <input type="text" id="released_budget" value="<?php echo $project['estimated_budget'] ?>" readonly><br>
+    <input type="text" id="released_budget" value="<?php echo $project['estimated_budget']; ?>" readonly><br>
 
     <table id="expenses_table">
         <thead>
@@ -113,8 +121,10 @@ button { padding:5px 10px; margin-top:5px;}
     <input type="text" id="total_expenses" name="total_expenses" readonly><br>
     <label>Remaining Budget:</label>
     <input type="text" id="remaining_budget" name="remaining_budget" readonly><br>
+
     <label>Audit Result:</label>
     <input type="text" id="audit_result" name="audit_result" readonly><br>
+
     <label>Remarks:</label>
     <input type="text" name="remarks"><br><br>
 
