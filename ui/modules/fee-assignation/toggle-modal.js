@@ -16,14 +16,14 @@ const fetcher = new DataFetcher($state, API_URL);
 
 const columns = [
   row => `<div class="font-medium text-gray-900">${row.full_name || '—'}</div>`,
-  row => `<span class="text-gray-700">${row.payment_for || '—'}</span>`,
   row => {
     const amount = new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', minimumFractionDigits: 2 }).format(row.amount_paid);
     return `<div class="text-green-700 font-medium">${amount}</div>` 
   },
+  row => `<span class="text-gray-700">${row.status || '—'}</span>`,
   row => `<span class="text-gray-700">${row.ref_no || '—'}</span>`,
-  row => `<button class="viewDetailsBtn px-2 py-1 bg-teal-600 text-white rounded hover:bg-teal-700" 
-                 data-id="${row.id}">View</button>`
+  row => `<button class="viewDetailsBtn px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700" 
+            data-id="${row.id}">View</button>`
 ];
 
 new TableView($state, fetcher, {
@@ -41,7 +41,6 @@ const detailFields = {
   amount: $('#detailAmount'),
   ref: $('#detailRef'),
   method: $('#detailMethod'),
-  // attachment: $('#detailAttachment')
 };
 
 $(document).on('click', '.viewDetailsBtn', async function() {
@@ -61,7 +60,6 @@ $(document).on('click', '.viewDetailsBtn', async function() {
     $('body').addClass('overflow-hidden');
 
     $('#approveBtn').off('click').on('click', async () => handleAction(id, 'approve'));
-    $('#rejectBtn').off('click').on('click', async () => handleAction(id, 'reject'));
     $('#cancelBtn').off('click').on('click', () => closeModalHandler());
   }
 });

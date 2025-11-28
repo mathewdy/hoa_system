@@ -52,7 +52,7 @@ ob_start();
                 <tbody id="paymentHistoryTableBody" class="divide-y divide-gray-200">
                   <?php 
                   $sql_view_remittance = "
-                    SELECT * FROM payment_verification WHERE is_submitted = 1 AND is_approve IN (1, 2)
+                    SELECT * FROM homeowner_fees WHERE status = 1
                   ";
 
                   $run_view_remittance = mysqli_query($conn, $sql_view_remittance);
@@ -96,7 +96,7 @@ ob_start();
                 <tbody id="paymentHistoryTableBody" class="divide-y divide-gray-200">
                   <?php 
                   $sql_view_remittance = "
-                    SELECT * FROM tricycle WHERE status = 1
+                    SELECT * FROM toda_fees WHERE status = 1
                   ";
 
                   $run_view_remittance = mysqli_query($conn, $sql_view_remittance);
@@ -139,7 +139,7 @@ ob_start();
                 <tbody id="paymentHistoryTableBody" class="divide-y divide-gray-200">
                   <?php 
                   $sql_view_remittance = "
-                    SELECT * FROM stall_rent WHERE status = 1
+                    SELECT * FROM stall_renter_fees WHERE status = 1
                   ";
 
                   $run_view_remittance = mysqli_query($conn, $sql_view_remittance);
@@ -182,7 +182,7 @@ ob_start();
                 <tbody id="paymentHistoryTableBody" class="divide-y divide-gray-200">
                   <?php 
                   $sql_view_remittance = "
-                    SELECT * FROM court WHERE status = 1
+                    SELECT * FROM court_fees WHERE status = 1
                   ";
 
                   $run_view_remittance = mysqli_query($conn, $sql_view_remittance);

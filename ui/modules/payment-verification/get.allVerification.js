@@ -30,23 +30,22 @@ const columns = [
     <div class="flex items-center">
       <div>
         <div class="font-medium text-gray-900">${row.full_name || '—'}</div>
-        <div class="text-gray-500 text-xs">${row.created_by || '—'}</div>
       </div>
     </div>`,
 
-  row => `<span class="text-gray-700">${row.payment_method || '—'}</span>`,
+  row => `<span class="text-gray-700">${row.payment_for || '—'}</span>`,
   
   row => {
     const amount = new Intl.NumberFormat('en-PH', {
       style: 'currency',
       currency: 'PHP',
       minimumFractionDigits: 2
-    }).format(row.total_amount);
+    }).format(row.amount_paid);
 
-    return `<div class="text-gray-900 font-medium">${amount}</div>` 
+    return `<div class="text-green-700 font-medium">${amount}</div>` 
   },
 
-  row => `<span class="text-gray-700">${row.reference_number || '—'}</span>`,
+  row => `<span class="text-gray-700">${row.ref_no || '—'}</span>`,
 
   row => `
     <a href="/hoa_system/pages/payment-verification/verify.php?id=${row.id}&action=approve">

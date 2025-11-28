@@ -22,8 +22,8 @@ ob_start();
           placeholder="Search <?= strtolower($pageTitle) ?>..." />
       </div>
     </form>
-    <!-- <a href="<?= BASE_URL . 'pages/user-management/homeowners/create.php';?>" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add New Fee</a> -->
   </div>
+
   <div class="relative shadow-md sm:rounded-lg border">
     <table id="dataTable" class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
@@ -45,15 +45,42 @@ ob_start();
       <ul id="paginationList" class="inline-flex -space-x-px h-8"></ul>
     </nav>
   </div>
+
+  <!-- MODULE TRIGGER -->
   <div data-module="homeowners"></div>
 </div>
 
+<!-- Modal -->
+<div id="paymentModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center">
+  <div class="bg-white rounded-lg w-96 p-6 relative">
+    <button id="closeModal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-900">
+      <i class="ri-close-line text-2xl"></i>
+    </button>
+
+    <h2 class="text-xl font-medium text-gray-900 mb-4">Payment Details</h2>
+    
+    <div id="paymentDetails" class="space-y-2 text-sm text-gray-700">
+      <p><strong>Name:</strong> <span id="detailName"></span></p>
+      <p><strong>Payment For:</strong> <span id="detailFor"></span></p>
+      <p><strong>Amount Paid:</strong> <span id="detailAmount"></span></p>
+      <p><strong>Ref. No.:</strong> <span id="detailRef"></span></p>
+      <p><strong>Payment Method:</strong> <span id="detailMethod"></span></p>
+      <!-- <p><strong>Attachment:</strong> <a href="#" id="detailAttachment" target="_blank">View</a></p> -->
+    </div>
+
+    <div class="flex justify-end gap-2 mt-6">
+      <button id="cancelBtn" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
+      <button id="rejectBtn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Reject</button>
+      <button id="approveBtn" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">Walk-in Payment</button>
+    </div>
+  </div>
+</div>
 <?php
 $content = ob_get_clean();
 
 $pageScripts = '
-  <script type="module" src="/hoa_system/ui/modules/fee-assignation/get.homeowners.js"></script>
-  <script type="module" src="/hoa_system/ui/modules/fees/toggle-modal.js"></script>
+<script type="module" src="/hoa_system/ui/modules/fee-assignation/get.homeowners.js"></script>
+
 ';
 
 require_once BASE_PATH . '/pages/layout.php';

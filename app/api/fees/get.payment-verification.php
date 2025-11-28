@@ -8,29 +8,27 @@ $page   = max(1, (int)($_GET['page'] ?? 1));
 $search = trim($_GET['search'] ?? '');
 $offset = ($page - 1) * $limit;
 
-$where = " WHERE pv.is_approve = 0 "; // Always filter by is_approve = 0
+$where = " WHERE pv.status = 0 ";
 $params = [];
 $types = '';
 
 if ($search !== '') {
-    // Add search condition with AND (because WHERE already has is_approve = 0)
     $where .= " AND (CONCAT(u.first_name, ' ', COALESCE(u.middle_name,''), ' ', u.last_name) LIKE ? 
-                   OR pv.reference_number LIKE ?)";
+                   OR pv.payment_for LIKE ?)";
     $params[] = "%$search%";
     $params[] = "%$search%";
     $types .= 'ss';
 }
 
-// 1) Get total count of filtered records
-$totalSql = "SELECT COUNT(*) AS total 
-             FROM payment_verification pv
-             LEFT JOIN user_info u ON pv.created_by = u.user_id
-             $where";
-
+$totalSql = "
+    SELECT COUNT(*) AS total
+    FROM payment_verification pv
+    LEFT JOIN user_info u ON pv.user_id = u.user_id
+    $where
+";
 $totalStmt = mysqli_prepare($conn, $totalSql);
 
 if ($types !== '') {
-    // Bind search params if any
     $refs = [];
     foreach ($params as $k => $v) {
         $refs[$k] = &$params[$k];
@@ -44,34 +42,36 @@ $totalRow = mysqli_fetch_assoc($totalResult);
 $total = (int)$totalRow['total'];
 $totalPages = max(1, ceil($total / $limit));
 
-// 2) Select actual data with pagination
 $sql = "
     SELECT 
         pv.id,
-        pv.created_by,
-        pv.payment_method,
-        pv.reference_number,
-        pv.is_walk_in,
-        pv.attachment,
-        pv.date_created,
-        CONCAT(u.first_name, ' ', COALESCE(u.middle_name,''), ' ', u.last_name) AS full_name,
-        COALESCE(SUM(f.amount), 0) AS total_amount
+        pv.user_id,
+        pv.payment_for,
+        pv.amount AS pv_amount,
+        pv.status AS pv_status,
+        pv.date_created AS pv_date_created,
+        hf.id AS hf_id,
+        hf.amount_paid,
+        hf.payment_method,
+        hf.ref_no,
+        hf.attachment,
+        hf.status AS hf_status,
+        hf.remarks,
+        hf.date_created AS hf_date_created,
+        CONCAT(u.first_name, ' ', COALESCE(u.middle_name,''), ' ', u.last_name) AS full_name
     FROM payment_verification pv
-    LEFT JOIN user_info u ON pv.created_by = u.user_id
-    LEFT JOIN fees f ON f.user_id = pv.created_by
+    LEFT JOIN homeowner_fees hf ON hf.user_id = pv.user_id
+    LEFT JOIN user_info u ON u.user_id = pv.user_id
     $where
-    GROUP BY pv.id
     ORDER BY pv.id DESC
-    LIMIT ? OFFSET ?";
+    LIMIT ? OFFSET ?
+";
 
 $stmt = mysqli_prepare($conn, $sql);
 
-// Bind parameters: existing search params + limit and offset
 $bindParams = $params;
 $bindParams[] = $limit;
 $bindParams[] = $offset;
-
-// Types: existing + 'ii' for limit and offset
 $bindTypes = $types . 'ii';
 
 $refs = [];
@@ -80,14 +80,15 @@ foreach ($bindParams as $k => $v) {
 }
 
 call_user_func_array([$stmt, 'bind_param'], array_merge([$bindTypes], $refs));
-
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 $records = [];
 while ($row = mysqli_fetch_assoc($result)) {
-    $row['is_walk_in'] = (bool)$row['is_walk_in'];
-    $row['total_amount'] = (float)$row['total_amount'];
+    $row['pv_status'] = (int)$row['pv_status'];
+    $row['hf_status'] = (int)$row['hf_status'];
+    $row['pv_amount'] = (float)$row['pv_amount'];
+    $row['amount_paid'] = isset($row['amount_paid']) ? (float)$row['amount_paid'] : 0;
     $records[] = $row;
 }
 

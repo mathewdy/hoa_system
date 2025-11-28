@@ -22,23 +22,49 @@ const fetcher = new DataFetcher($state, API_URL);
 
 const columns = [
   row => `<div class="font-medium text-gray-900">${row.toda_name || '—'}</div>`,
-  row => `<div class="text-gray-500">${row.no_of_tricycles || '—'}</div>`,
+  row => `<div class="text-gray-500">${row.representative || '—'}</div>`,
+  row => {
+    const formatted = new Intl.NumberFormat('en-PH', {
+      style: 'currency',
+      currency: 'PHP',
+      minimumFractionDigits: 2
+    }).format(row.fee_amount);
+
+    return `<span class="font-medium text-green-600 text-lg">${formatted}</span>`;
+  },
+
   row => row.status === 1
     ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>'
     : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>',
-  row => `<div class="text-gray-500">${row.date_start || '—'}</div>`,
-  row => `<div class="text-gray-500">${row.date_end || '—'}</div>`,
-  row => `<div class="text-gray-500">${row.representative || '—'}</div>`,
-  row => `<div class="text-gray-500">${row.contact_no || '—'}</div>`,
-  row => `
-    <div class="flex items-center gap-2">
-      <a href="view.php?id=${row.id}" class="text-teal-600 hover:text-teal-800" title="View">
-        <i class="ri-eye-fill text-xl"></i>
-      </a>
-       <a href="edit.php?id=${row.id}" class="text-teal-600 hover:text-teal-800" title="Edit">
-        <i class="ri-edit-box-fill text-xl"></i>
-      </a>
-    </div>`
+  row => { 
+    return `
+      <button 
+      id="dropdownActions_${row.id}"
+        data-dropdown-toggle="actions_${row.id}"
+        type="button"
+        class="flex items-center bg-teal-600 text-white py-2 px-4 rounded-md"
+        aria-expanded="false"
+        aria-haspopup="true"
+      >
+        Actions
+      </button>
+      <div 
+        id="actions_${row.id}" 
+        class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-50"
+      >
+        <ul class="py-1 text-sm text-gray-700">
+          <li>
+            <a 
+              href="view.php?id=${row.id}"  
+              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
+              <i class="ri-eye-line text-xl text-teal-600"></i> 
+              View
+            </a>
+          </li>
+        </ul>
+      </div>
+      `;
+  }
 ];
 
 new TableView($state, fetcher, {
@@ -48,7 +74,6 @@ new TableView($state, fetcher, {
   columns
 });
 
-// Toast helper
 function toast(msg, type = 'info') {
   const colors = { success: 'bg-green-600', error: 'bg-red-600', info: 'bg-blue-600' };
   const icons = { success: 'ri-check-line', error: 'ri-close-line', info: 'ri-information-line' };

@@ -1,31 +1,32 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
-require_once $root . 'app/includes/session.php';
+include_once($root . 'app/core/init.php');
 
-$pageTitle = 'Add New Stall Rental';
-
-$booking_id = intval($_GET['id']);
-$stmt = $conn->prepare("SELECT * FROM stall_renters WHERE id = ?");
-$stmt->bind_param("i", $booking_id);
+if (!isset($_GET['id'])) {
+    die("Invalid request — Missing ID.");
+}
+$toda_id = intval($_GET['id']);
+$stmt = $conn->prepare("SELECT * FROM toda WHERE id = ?");
+$stmt->bind_param("i", $toda_id);
 $stmt->execute();
 $result = $stmt->get_result();
-if ($result->num_rows === 0) die("Stall renter not found.");
-$booking = $result->fetch_assoc();
-$pageTitle = 'Pay Stall Rental';
+if ($result->num_rows === 0) die("TODA not found.");
+$toda = $result->fetch_assoc();
+$pageTitle = 'Pay TODA Fee';
 ob_start();
 ?>
 
 <div class="">
     <div class="rounded-lg shadow-sm">
         <div class="mb-5 border-b-2 border-gray-300 pb-4">
-            <h3 class="text-2xl font-medium text-gray-900 leading-none">Pay Stall Rental Fee</h3>
-            <p class="text-gray-600">Record monthly rental payment</p>
+            <h3 class="text-2xl font-medium text-gray-900 leading-none">Pay TODA Franchise Fee</h3>
+            <p class="text-gray-600">Record TODA fee payment</p>
         </div>
 
-        <form id="stallPaymentForm" method="POST" class="space-y-4" enctype="multipart/form-data">
+        <form id="todaPaymentForm" method="POST" class="space-y-4">
             
-            <input type="hidden" name="id" value="<?= $booking['id'] ?>">
+            <input type="hidden" name="id" value="<?= $toda['id'] ?>">
 
             <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm">
                 <h2 class="text-xl font-semibold text-gray-900 mb-6">Payment Details</h2>
@@ -33,8 +34,8 @@ ob_start();
                 <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
 
                     <div class="grid grid-cols-2 items-center">
-                        <label class="block text-sm font-medium text-gray-700">Renter Name</label>
-                        <input type="text" value="<?= htmlspecialchars($booking['renter_name']) ?>" 
+                        <label class="block text-sm font-medium text-gray-700">TODA Name</label>
+                        <input type="text" value="<?= htmlspecialchars($toda['toda_name']) ?>" 
                                class="mt-1 block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2" readonly>
                     </div>
 
@@ -45,17 +46,9 @@ ob_start();
                     </div>
 
                     <div class="grid grid-cols-2 items-center">
-                        <label class="block text-sm font-medium text-gray-700">Remarks (Optional)</label>
-                        <textarea name="remarks" rows="3" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2"></textarea>
-                    </div>
-
-                    <div class="grid grid-cols-2 items-center">
-                        <label class="block text-sm font-medium text-gray-700">
-                            Attachment (Proof of Payment)
-                            <span class="text-xs block text-gray-500">JPG, PNG, PDF • Max 5MB</span>
-                        </label>
-                        <input type="file" name="attachment" accept=".jpg,.jpeg,.png,.pdf"
-                               class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm text-sm">
+                        <label class="block text-sm font-medium text-gray-700">Due Date <span class="text-red-500">*</span></label>
+                        <input type="date" name="due_date" required
+                               class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                     </div>
 
                 </div>
@@ -72,12 +65,12 @@ ob_start();
 </div>
 
 <script>
-document.getElementById("stallPaymentForm").addEventListener("submit", async (e) => {
+document.getElementById("todaPaymentForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
-    const res = await fetch("/hoa_system/pages/amenities/stall/new-payment.php", { method: "POST", body: fd });
+    const res = await fetch("/hoa_system/pages/amenities/tricycle/new-payment.php", { method: "POST", body: fd });
     const data = await res.json();
-    alert(data.success ? "Stall payment recorded!" : "Error: " + data.message);
+    alert(data.success ? "TODA fee recorded!" : "Error: " + data.message);
     if (data.success) location.href = "list.php";
 });
 </script>

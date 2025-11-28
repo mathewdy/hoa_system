@@ -25,13 +25,31 @@ const columns = [
     return `
     <div class="flex items-center">
       <div>
-        <div class="font-medium text-gray-900">${row.renter || '—'}</div>
+        <div class="font-medium text-gray-900">${row.renter_name || '—'}</div>
         <div class="text-sm text-gray-500">${row.contact_no || '—'}</div>
       </div>
     </div>`
   },
-  row => `<div class="text-gray-500">${row.date_start || '—'}</div>`,
-  row => `<div class="text-gray-500">${row.date_end || '—'}</div>`,
+  row => {
+    return new Date(row.start_date).toLocaleString('en-PH', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  },
+  row => {
+    return new Date(row.end_date).toLocaleString('en-PH', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  },
   row => `<div class="text-gray-500">${row.no_of_participants || '—'}</div>`,
   row => `<div class="text-gray-900 font-medium">${row.purpose || '—'}</div>`,
   row => {
@@ -43,15 +61,39 @@ const columns = [
 
     return `<div class="text-gray-900 font-medium">${amount}</div>` 
   },
-  row => `
-    <div class="flex items-center gap-2">
-      <a href="view.php?id=${row.id}" class="text-teal-600 hover:text-teal-800" title="View">
-        <i class="ri-eye-fill text-xl"></i>
-      </a>
-      <a href="edit.php?id=${row.id}" class="text-teal-600 hover:text-teal-800" title="View">
-        <i class="ri-edit-box-fill text-xl"></i>
-      </a>
-    </div>`
+  row => { 
+    return `
+      <button 
+      id="dropdownActions_${row.id}"
+        data-dropdown-toggle="actions_${row.id}"
+        type="button"
+        class="flex items-center bg-teal-600 text-white py-2 px-4 rounded-md"
+      >
+        Actions
+      </button>
+      <div 
+        id="actions_${row.id}" 
+        class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-50"
+      >
+        <ul class="py-1 text-sm text-gray-700">
+          <li>
+            <a 
+              href="view.php?id=${row.id}"  
+              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
+              <i class="ri-eye-line text-xl text-teal-600"></i> 
+              View
+            </a>
+            <a 
+              href="payment.php?id=${row.id}"  
+              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
+              <i class="ri-wallet-line text-xl text-teal-600"></i> 
+              Payment
+            </a>
+          </li>
+        </ul>
+      </div>
+      `;
+  }
 ];
 
 new TableView($state, fetcher, {

@@ -30,12 +30,9 @@ ob_start();
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>
           <th class="px-6 py-3">TODA Name</th>
-          <th class="px-6 py-3">No. of Tricycles</th>
-          <th class="px-6 py-3">Status</th>
-          <th class="px-6 py-3">Start Date</th>
-          <th class="px-6 py-3">End Date</th>
           <th class="px-6 py-3">Representative</th>
-          <th class="px-6 py-3">Contact No.</th>
+          <th class="px-6 py-3">Monthly Fee</th>
+          <th class="px-6 py-3">Status</th>
           <th class="px-6 py-3">Action</th>
         </tr>
       </thead>

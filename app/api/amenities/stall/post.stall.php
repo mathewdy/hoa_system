@@ -11,23 +11,30 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $required = ['stall_no', 'status'];
 foreach ($required as $field) {
     if (empty(trim($_POST[$field] ?? ''))) {
-        echo json_encode(['success' => false, 'message' => ucfirst(str_replace('_', ' ', $field)) . ' is required']);
+        echo json_encode([
+            'success' => false,
+            'message' => ucfirst(str_replace('_', ' ', $field)) . ' is required'
+        ]);
         exit;
     }
 }
 
 $stall_no = trim($_POST['stall_no']);
-$status   = trim($_POST['status']); 
+$status   = trim($_POST['status']);
+$remarks  = trim($_POST['remarks'] ?? '');
 
 try {
     $conn->begin_transaction();
 
     $stmt = $conn->prepare("
-        INSERT INTO stalls (stall_no, status)
-        VALUES (?, ?)
+        INSERT INTO stalls (stall_no, status, remarks, date_created)
+        VALUES (?, ?, ?, NOW())
     ");
-    $stmt->bind_param("ss", $stall_no, $status);
+
+    $stmt->bind_param("sss", $stall_no, $status, $remarks);
     $stmt->execute();
+
+    $new_id = $stmt->insert_id;
     $stmt->close();
 
     $conn->commit();
@@ -35,10 +42,11 @@ try {
     echo json_encode([
         'success' => true,
         'message' => 'Stall created successfully!',
-        'data' => ['stall_no' => $stall_no]
+        'data' => ['id' => $new_id]
     ]);
 
 } catch (Exception $e) {
+
     $conn->rollback();
 
     echo json_encode([

@@ -16,7 +16,7 @@ if ($search !== '') {
     $types = 'sss';
 }
 
-$totalSql = "SELECT COUNT(*) AS total FROM tricycle WHERE 1=1 $where";
+$totalSql = "SELECT COUNT(*) AS total FROM toda WHERE 1=1 $where";
 $totalStmt = mysqli_prepare($conn, $totalSql);
 if ($types) {
     $refs = []; foreach ($params as $k => $v) $refs[$k] = &$params[$k];
@@ -26,7 +26,7 @@ mysqli_stmt_execute($totalStmt);
 $total = mysqli_fetch_assoc(mysqli_stmt_get_result($totalStmt))['total'];
 $totalPages = ceil($total / $limit);
 
-$sql = "SELECT * FROM tricycle WHERE 1=1 $where ORDER BY id DESC LIMIT ? OFFSET ?";
+$sql = "SELECT * FROM toda WHERE 1=1 $where ORDER BY id DESC LIMIT ? OFFSET ?";
 $stmt = mysqli_prepare($conn, $sql);
 
 $bindParams = array_merge($params, [$limit, $offset]);

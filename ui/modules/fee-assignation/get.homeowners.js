@@ -30,30 +30,53 @@ const columns = [
         <div class="text-sm text-gray-500">${row.email_address || '—'}</div>
       </div>
     </div>`,
+  row => {
+    const formatted = new Intl.NumberFormat('en-PH', {
+      style: 'currency',
+      currency: 'PHP',
+      minimumFractionDigits: 2
+    }).format(row.total_unpaid_amount);
 
-  row => row.status === 'Active'
-    ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>'
-    : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>',
+    return `<span class="font-medium text-green-600 text-lg">${formatted}</span>`;
+  },
 
+  row => row.status == '1'
+    ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Paid</span>'
+    : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Unpaid</span>',
+  row => {
+    return new Date(row.due_date).toLocaleDateString('en-PH', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  },
   row => { 
-    const color = row.status == 'Active' ? 'red' : 'green'
-    const title = row.status == 'Active' ? 'Deactivate' : 'Activate'
     return `
-    <div class="flex items-center gap-2">
-      <a 
-        href="view.php?id=${row.user_id}" 
-        class="text-teal-600 hover:text-teal-800" 
-        title="View">
-        <i class="ri-eye-fill text-xl"></i>
-      </a>
-      <a 
-        id="actionBtn"
-        href="javascript:void(0)" 
-        class="text-teal-600 hover:text-teal-800 actionBtn" 
-        title="${title}" data-action="${row.status}" data-id="${row.user_id}">
-        <i class="ri-shut-down-line text-xl text-${color}-500 hover:text-${color}-300"></i>
-      </a>
-    </div>`
+      <button 
+      id="dropdownActions_${row.id}"
+        data-dropdown-toggle="actions_${row.id}"
+        type="button"
+        class="flex items-center bg-teal-600 text-white py-2 px-4 rounded-md z-100"
+
+      >
+        Actions
+      </button>
+      <div 
+        id="actions_${row.id}" 
+        class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-50"
+      >
+        <ul class="py-1 text-sm text-gray-700">
+          <li>
+            <a 
+              href="view.php?id=${row.user_id}"  
+              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
+              <i class="ri-eye-line text-xl text-teal-600"></i> 
+              View
+            </a>
+          </li>
+        </ul>
+      </div>
+      `;
   }
 ];
 
@@ -82,3 +105,12 @@ function toast(msg, type = 'info') {
 }
 
 $(document).on('fetch:error', (e, msg) => toast(msg || 'Failed to load.', 'error'));
+window.addEventListener('error', (e) => {
+  console.error('JS ERROR:', e.error);
+  toast('JavaScript Error: ' + e.message, 'error');
+});
+
+window.addEventListener('unhandledrejection', (e) => {
+  console.error('Promise Error:', e.reason);
+  toast('System Error: Check console!', 'error');
+});

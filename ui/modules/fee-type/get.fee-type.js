@@ -67,21 +67,23 @@ const columns = [
     if (row.status === 'Active' || row.status === 'Inactive') {
       return `
       <button 
-      id="dropdownActions"
-        data-dropdown-toggle="actions"
+      id="dropdownActions_${row.id}"
+        data-dropdown-toggle="actions_${row.id}"
         type="button"
         class="flex items-center bg-teal-600 text-white py-2 px-4 rounded-md"
+        aria-expanded="false"
+        aria-haspopup="true"
       >
         Actions
       </button>
       <div 
-        id="actions" 
+        id="actions_${row.id}" 
         class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-50"
       >
         <ul class="py-1 text-sm text-gray-700">
           <li>
             <a 
-              id="actionBtn"
+              id="actionBtn_${row.id}"
               href="javascript:void(0)" 
               class="actionBtn flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition" 
               title="${title}"

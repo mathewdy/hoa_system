@@ -3,16 +3,22 @@ import { showToast } from '../../../utils/toast.js';
 
 const createState = $State({ loading: false });
 
-$(document).on('change', () => render());
-
 $('#createTodaForm').on('submit', function (e) {
     e.preventDefault();
     const $form = $(this);
+    const $btn = $('#createBtn');
 
     createState.loading(true);
+    const formData = new FormData($form[0]);
 
-    $.post('/hoa_system/app/api/amenities/tricycle/post.tricycle.php', $form.serialize())
-        .done(res => {
+    $.ajax({
+        url: '/hoa_system/app/api/amenities/tricycle/post.tricycle.php',
+        type: 'POST',
+        data: formData,
+        processData: false,  
+        contentType: false,    
+        cache: false,
+        success: function (res) {
             if (res.success) {
                 showToast({ message: 'TODA created successfully!', type: 'success' });
                 setTimeout(() => {
@@ -21,13 +27,14 @@ $('#createTodaForm').on('submit', function (e) {
             } else {
                 showToast({ message: res.message || 'Failed to save TODA.', type: 'error' });
             }
-        })
-        .fail(() => {
-            showToast({ message: 'Network error.', type: 'error' });
-        })
-        .always(() => {
+        },
+        error: function () {
+            showToast({ message: 'Network error. Please try again.', type: 'error' });
+        },
+        complete: function () {
             createState.loading(false);
-        });
+        }
+    });
 });
 
 function render() {

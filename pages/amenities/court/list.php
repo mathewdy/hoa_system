@@ -25,7 +25,7 @@ ob_start();
     <a href="create.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add Rental</a>
   </div>
 
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg border">
+  <div class="relative shadow-md sm:rounded-lg border">
     <table id="dataTable" class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>

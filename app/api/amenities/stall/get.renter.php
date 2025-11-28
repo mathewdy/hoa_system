@@ -1,6 +1,8 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
 
+header('Content-Type: application/json');
+
 $limit  = (int)($_GET['limit'] ?? 10);
 $page   = max(1, (int)($_GET['page'] ?? 1));
 $search = trim($_GET['search'] ?? '');
@@ -10,44 +12,54 @@ $where = '';
 $params = [];
 $types = '';
 
+// Search by renter name or contact number
 if ($search !== '') {
-    $where = "AND (renter LIKE ? OR contact_no LIKE ?)";
+    $where = "AND (sr.renter_name LIKE ? OR sr.contact_no LIKE ?)";
     $params = ["%$search%", "%$search%"];
     $types = 'ss';
 }
 
-$totalSql = "SELECT COUNT(*) AS total FROM stall_rent WHERE 1=1 $where";
+// Total count
+$totalSql = "SELECT COUNT(*) AS total FROM stall_renter sr WHERE 1=1 $where";
 $totalStmt = mysqli_prepare($conn, $totalSql);
 if ($types) {
-    $refs = []; foreach ($params as $k => $v) $refs[$k] = &$params[$k];
+    $refs = [];
+    foreach ($params as $k => $v) $refs[$k] = &$params[$k];
     call_user_func_array([$totalStmt, 'bind_param'], array_merge([$types], $refs));
 }
 mysqli_stmt_execute($totalStmt);
-$total = mysqli_fetch_assoc(mysqli_stmt_get_result($totalStmt))['total'];
+$totalResult = mysqli_stmt_get_result($totalStmt);
+$total = mysqli_fetch_assoc($totalResult)['total'];
 $totalPages = ceil($total / $limit);
 
-$sql = "SELECT 
-  sr.id, 
-  sr.renter, 
-  sr.contact_no, 
-  sr.stall_id,
-  sr.date_start,
-  sr.date_end,
-  sr.amount,
-  sr.status,
-  si.stall_no,
-  si.status
-  FROM stall_rent sr
-  INNER JOIN stalls si ON sr.stall_id = si.id
-  WHERE 1=1 $where 
-  ORDER BY id DESC 
-  LIMIT ? 
-  OFFSET ?";
+// Fetch records
+$sql = "SELECT
+    sr.id,
+    sr.renter_name,
+    sr.contact_no,
+    sr.stall_id,
+    sr.rental_duration,
+    sr.start_date,
+    sr.end_date,
+    sr.amount,
+    sr.contract,
+    sr.status,
+    sr.remarks,
+    sr.date_created,
+    s.stall_no AS stall_number,
+    s.status AS stall_status
+FROM stall_renter sr
+INNER JOIN stalls s ON sr.stall_id = s.id
+WHERE 1=1 $where
+ORDER BY sr.id DESC
+LIMIT ? OFFSET ?";
+
 $stmt = mysqli_prepare($conn, $sql);
 
 $bindParams = array_merge($params, [$limit, $offset]);
 $bindTypes = $types . 'ii';
-$refs = []; foreach ($bindParams as $k => $v) $refs[$k] = &$bindParams[$k];
+$refs = [];
+foreach ($bindParams as $k => $v) $refs[$k] = &$bindParams[$k];
 call_user_func_array([$stmt, 'bind_param'], array_merge([$bindTypes], $refs));
 
 mysqli_stmt_execute($stmt);
@@ -58,7 +70,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     $rentals[] = $row;
 }
 
-json_success([
+// Return JSON
+echo json_encode([
+    'success' => true,
     'data' => $rentals,
     'pagination' => [
         'totalRecords' => (int)$total,
@@ -67,3 +81,4 @@ json_success([
         'limit' => $limit
     ]
 ]);
+?>
