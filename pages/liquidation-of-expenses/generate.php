@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (data.success) {
                 alert("Liquidation submitted successfully!");
-                window.location.href = "liquidation-list.php";
+                window.location.href = "list.php";
             } else {
                 alert("Error: " + data.message);
             }

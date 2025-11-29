@@ -59,11 +59,6 @@ const columns = [
 
   row => `
     <div class="flex items-center gap-3">
-      <a href="view_resolution.php?id=${row.proj_id}" 
-         class="text-teal-600 hover:text-teal-800 transition" title="View Resolution">
-        <i class="ri-eye-fill text-xl"></i>
-      </a>
-
       ${row.liq_status !== null ? `
         <a href="view.php?id=${row.liq_id}" 
            class="text-purple-600 hover:text-purple-800 transition" title="View Liquidation">
