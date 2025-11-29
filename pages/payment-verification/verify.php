@@ -11,6 +11,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     $mess = $_GET['action'] == 'approve' ? 'Approved' : 'Rejected';
   
     $sql = "UPDATE payment_verification SET is_approve = $val WHERE id = ?";
+    $sql = "UPDATE fee_assignment SET `status` = $val WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $payment_id);
     mysqli_stmt_execute($stmt);
