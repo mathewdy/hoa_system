@@ -31,7 +31,7 @@ $sidebarItems = [
     ['label' => 'Governance', 'icon' => 'ri-government-line', 'submenu' => [
       ['label' => 'Resolution',               'icon' => 'ri-file-paper-2-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
       ['label' => 'Liquidation of Expenses',  'icon' => 'ri-money-dollar-box-line', 'url' => BASE_URL . 'pages/liquidation-of-expenses/list.php'],
-      ['label' => 'General Ledger',           'icon' => 'ri-book-line',        'url' => BASE_URL . 'pages/ledger/list.php'],
+      // ['label' => 'General Ledger',           'icon' => 'ri-book-line',        'url' => BASE_URL . 'pages/ledger/list.php'],
     ]],
 
     ['label' => 'Community', 'icon' => 'ri-team-line', 'submenu' => [
@@ -56,7 +56,7 @@ $sidebarItems = [
     ['label' => 'Fee Type', 'icon' => 'ri-file-list-line', 'url' => BASE_URL . 'pages/fee-type/list.php'],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
     ['label' => 'Liquidation of Expenses', 'icon' => 'ri-money-dollar-box-line', 'url' => BASE_URL . 'pages/liquidation-of-expenses/list.php'],
-    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
+    // ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
     ['label' => 'Remittance', 'icon' => 'ri-wallet-line', 'url' => BASE_URL . 'pages/remittance/index.php'],
     ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment-history/list.php'],
     ['label' => 'Amenities', 'icon' => 'ri-building-line', 'submenu' => [
@@ -84,7 +84,7 @@ $sidebarItems = [
         ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_URL . 'pages/amenities/stall/list.php'],
     ]],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
-    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
+    // ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
     ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar/index.php'],
   ],
@@ -93,7 +93,7 @@ $sidebarItems = [
     ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
-    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
+    // ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
     ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar/index.php'],
   ],
 
@@ -107,7 +107,7 @@ $sidebarItems = [
         ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_URL . 'pages/amenities/stall/list.php'],
     ]],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
-    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
+    // ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
     ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar/index.php'],
   ],
@@ -117,7 +117,7 @@ $sidebarItems = [
     ['label' => 'Liquidation of Expenses', 'icon' => 'ri-money-dollar-box-line', 'url' => BASE_URL . 'pages/liquidation-of-expenses/list.php'],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
-    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger.php'],
+    // ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger.php'],
     ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar/index.php'],
   ],
 
@@ -129,7 +129,7 @@ $sidebarItems = [
     ]],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
-    ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
+    // ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
     ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar/index.php'],
   ],
 ];
