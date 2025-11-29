@@ -17,15 +17,12 @@ $role = $_SESSION['role'];
 
     <?php
 
-    if($role =3 || $role ==3 ){
+    if($role == 3 || $role == 4 ){
         ?>
-
         <button onclick="openModal()" 
         class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
             Create Post
         </button>
-
-
         <?php
     }
 
