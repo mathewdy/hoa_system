@@ -18,9 +18,9 @@ if ($fee_id <= 0 || empty($method)) {
 
 // Validate fee exists and unpaid
 $stmt = $conn->prepare("SELECT fa.amount, ft.fee_name 
-                        FROM fee_assignments fa 
-                        LEFT JOIN fee_type ft ON fa.fee_type_id = ft.id 
-                        WHERE fa.id = ? AND fa.user_id = ? AND fa.status = 0");
+  FROM fee_assignments fa 
+  LEFT JOIN fee_type ft ON fa.fee_type_id = ft.id 
+  WHERE fa.id = ? AND fa.user_id = ? AND fa.status = 0");
 $stmt->bind_param("ii", $fee_id, $_SESSION['user_id']);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -88,7 +88,7 @@ try {
     }
 
     // Optional: Update fee_assignments status to "payment submitted"
-    $conn->query("UPDATE fee_assignments SET status = 1 WHERE id = $fee_id");
+    $conn->query("UPDATE fee_assignments SET status = 2 WHERE id = $fee_id");
 
     $conn->commit();
     echo json_encode(['success' => true, 'message' => 'Payment submitted! Waiting for verification.']);

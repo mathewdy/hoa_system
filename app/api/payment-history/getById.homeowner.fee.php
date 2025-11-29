@@ -47,7 +47,6 @@ $sql = "SELECT
             fa.due_date,
             fa.status,
             fa.date_created,
-            fa.date_paid,
             ft.fee_name,
             ft.description
         FROM fee_assignments fa

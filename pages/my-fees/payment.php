@@ -82,9 +82,7 @@ ob_start();
                                 class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                             <option value="">-- Select Payment Method --</option>
                             <option value="gcash">GCash</option>
-                            <option value="maya">Maya / PayMaya</option>
                             <option value="bank_transfer">Bank Transfer</option>
-                            <option value="cash">Cash (Walk-in)</option>
                         </select>
                     </div>
 
