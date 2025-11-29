@@ -14,7 +14,7 @@ $id = intval($_GET['id']);
 $sql = "SELECT 
             r.*,
             CONCAT(ui.first_name, ' ', COALESCE(ui.middle_name,''), ' ', ui.last_name) AS created_by_name
-        FROM resolutions r
+        FROM resolution r
         LEFT JOIN user_info ui ON r.created_by = ui.user_id
         WHERE r.id = ?";
 

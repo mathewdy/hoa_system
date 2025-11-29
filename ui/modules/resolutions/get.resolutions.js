@@ -72,7 +72,7 @@ const columns = [
 
   row => `
     <div class="flex items-center gap-3">
-      <a href="view_resolution.php?id=${row.id}" 
+      <a href="view.php?id=${row.id}" 
          class="text-teal-600 hover:text-teal-800" title="View Resolution">
         <i class="ri-eye-fill text-xl"></i>
       </a>

@@ -9,7 +9,6 @@ if (!isset($_GET['id'])) {
 
 $fee_id = intval($_GET['id']);
 
-// Fetch fee details + homeowner name
 $sql = "SELECT 
             fa.id,
             fa.amount,
