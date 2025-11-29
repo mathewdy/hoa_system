@@ -2,8 +2,8 @@
 $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
 require_once $root . 'app/includes/session.php';
-$role = $_SESSION['role'];
-$pageTitle = 'Resolutions';
+
+$pageTitle = 'Monthly Fees';
 ob_start();
 ?>
 
@@ -22,50 +22,39 @@ ob_start();
           placeholder="Search <?= strtolower($pageTitle) ?>..." />
       </div>
     </form>
-    <?php 
-    if ($role == 1) {
-      ?>
-      <a href="create.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Create New</a>
-      <?php
-    }
-    ?>
   </div>
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg border">
-    <table id="dataTable" class="w-full text-sm text-left text-gray-500">
+  
+  <div class="relative shadow-md sm:rounded-lg border">
+    <table id="paymentHistoryTable" class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>
-          <th class="px-6 py-3">Particulars</th>
-          <th class="px-6 py-3">Status</th>
+          <th class="px-6 py-3">Payment Method</th>
+          <th class="px-6 py-3">Amount Paid</th>
+          <th class="px-6 py-3">Ref. No.</th>
           <th class="px-6 py-3">Date</th>
-          <th class="px-6 py-3">Budget Release</th>
-          <th class="px-6 py-3">Financial Summary</th>
-          <th class="px-6 py-3">Action</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
 
-    <nav class="flex items-center justify-between p-4 text-sm">
-      <span class="text-gray-500">
-        Showing <span id="rangeStart">1</span>-<span id="rangeEnd">10</span>
-        of <span id="totalRecords">0</span>
-      </span>
-      <ul id="paginationList" class="inline-flex -space-x-px h-8"></ul>
-    </nav>
+      <nav class="flex items-center justify-between p-4 text-sm">
+        <span class="text-gray-500">
+          Showing <span id="rangeStart">1</span>-<span id="rangeEnd">10</span>
+          of <span id="totalRecords">0</span>
+        </span>
+        <ul id="paginationList" class="inline-flex -space-x-px h-8"></ul>
+      </nav>
+    </div>
+    <div data-module="payment-history"></div>
   </div>
-
-  <!-- MODULE TRIGGER -->
-  <div data-module="boardmembers"></div>
 </div>
-
 
 <?php
 $content = ob_get_clean();
 
 $pageScripts = '
-  <script type="module" src="/hoa_system/ui/modules/resolutions/get.resolutions.js"></script>
+  <script type="module" src="/hoa_system/ui/modules/payment-history/getById.homeowner.fee.js"></script>
 ';
 
 require_once BASE_PATH . '/pages/layout.php';
 ?>
-

@@ -3,8 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/config.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
 
 header('Content-Type: application/json');
-
-// Must be POST
+$user_id = $_SESSION['user_id'];
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode([
         'success' => false,
@@ -13,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Validate required fields
 $required = ['project_resolution_title', 'resolution_summary', 'proposed_by'];
 foreach ($required as $field) {
     if (empty($_POST[$field])) {
@@ -25,17 +23,15 @@ foreach ($required as $field) {
     }
 }
 
-// Sanitize / Collect data
 $project_resolution_title   = trim($_POST['project_resolution_title']);
 $resolution_summary         = trim($_POST['resolution_summary']);
 $estimated_budget           = !empty($_POST['estimated_budget']) ? floatval($_POST['estimated_budget']) : null;
 $target_start_date          = !empty($_POST['target_start_date']) ? $_POST['target_start_date'] : null;
 $target_end_date            = !empty($_POST['target_end_date']) ? $_POST['target_end_date'] : null;
-$proposed_by                = trim($_POST['proposed_by']);
+$proposed_by                = $user_id;
 $status                     = !empty($_POST['status']) ? trim($_POST['status']) : 'pending';
 $created_by                 = !empty($_POST['created_by']) ? intval($_POST['created_by']) : null;
 
-// Handle file uploads
 $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/uploads/resolutions/';
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0777, true);
@@ -62,7 +58,6 @@ if (!empty($_FILES['upload_signed_resolution']['name'])) {
 }
 
 try {
-    // Prepare SQL
     $sql = "
         INSERT INTO resolution (
             project_resolution_title, resolution_summary, estimated_budget,
@@ -74,7 +69,7 @@ try {
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param(
-        "ssddssssi",
+        "ssdsssssi",
         $project_resolution_title,
         $resolution_summary,
         $estimated_budget,
@@ -83,7 +78,7 @@ try {
         $proposed_by,
         $project_proposal_document,
         $upload_signed_resolution,
-        $_SESSION['user_id']
+        $user_id
     );
 
     $result = $stmt->execute();

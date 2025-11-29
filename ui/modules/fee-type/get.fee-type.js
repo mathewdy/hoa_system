@@ -65,50 +65,37 @@ const columns = [
 
 
     if (row.status === 'Active' || row.status === 'Inactive') {
+      
       return `
-      <button 
-      id="dropdownActions_${row.id}"
-        data-dropdown-toggle="actions_${row.id}"
-        type="button"
-        class="flex items-center bg-teal-600 text-white py-2 px-4 rounded-md"
-        aria-expanded="false"
-        aria-haspopup="true"
-      >
-        Actions
-      </button>
-      <div 
-        id="actions_${row.id}" 
-        class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-50"
-      >
-        <ul class="py-1 text-sm text-gray-700">
-          <li>
-            <a 
-              id="actionBtn_${row.id}"
-              href="javascript:void(0)" 
-              class="actionBtn flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition" 
-              title="${title}"
-              data-action="${row.status}"
-              data-id="${row.id}">
-              <i class="ri-shut-down-line text-xl text-${color}-500 hover:text-${color}-300"></i>
-              ${title}
-            </a>
-            <a 
-              href="view.php?id=${row.id}" 
-              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
-              <i class="ri-eye-line text-xl text-teal-600"></i> 
-              View
-            </a>
-          </li>
-        </ul>
+      <div class="flex gap-2">
+        <a 
+          href="view.php?id=${row.user_id}"  
+          class="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-800 transition">
+          <i class="ri-eye-fill text-xl text-white"></i> 
+          View
+        </a>
+         <a 
+            id="actionBtn_${row.id}"
+            href="javascript:void(0)" 
+            class="actionBtn flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition" 
+            title="${title}"
+            data-action="${row.status}"
+            data-id="${row.id}">
+            <i class="ri-shut-down-line text-xl text-${color}-500 hover:text-${color}-300"></i>
+            ${title}
+          </a>
       </div>
       `;
     } 
-    return `<a 
-              href="view.php?id=${row.id}" 
-              class="flex items-center gap-2 hover:bg-gray-50 transition">
-              <i class="ri-eye-line text-xl text-teal-600"></i> 
-              View
-            </a> `
+    return `
+      <div class="flex gap-2">
+        <a 
+          href="view.php?id=${row.id}" 
+          class="flex items-center gap-2 px-4 py-2 text-white rounded-lg bg-teal-600 hover:bg-teal-700 transition">
+          <i class="ri-eye-fill text-xl text-white"></i> 
+          View
+        </a> 
+      </div>`
   }
 
 ];

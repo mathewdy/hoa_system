@@ -20,7 +20,6 @@ $sidebarItems = [
       ['label' => 'Payment Verification',   'icon' => 'ri-checkbox-line',       'url' => BASE_URL . 'pages/payment/verification/list.php'],
       ['label' => 'Remittance',             'icon' => 'ri-wallet-line',         'url' => BASE_URL . 'pages/remittance/index.php'],
       ['label' => 'Payment History',        'icon' => 'ri-history-line',        'url' => BASE_URL . 'pages/payment-history/list.php'],
-      ['label' => 'Generate Receipt',       'icon' => 'ri-file-copy-line',      'url' => BASE_URL . 'pages/receipt/generate.php'],
     ]],
 
     ['label' => 'Amenities Management', 'icon' => 'ri-building-2-fill', 'submenu' => [
@@ -87,7 +86,6 @@ $sidebarItems = [
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
     ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
-    ['label' => 'Receipt', 'icon' => 'ri-file-copy-line', 'url' => BASE_URL . 'pages/receipt/generate.php'],
     ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar/index.php'],
   ],
 
@@ -110,7 +108,6 @@ $sidebarItems = [
     ]],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
     ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
-    ['label' => 'Receipt', 'icon' => 'ri-file-copy-line', 'url' => BASE_URL . 'pages/receipt/list.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
     ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar/index.php'],
   ],
@@ -127,8 +124,8 @@ $sidebarItems = [
   'Home Owner' => [
     ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
     ['label' => 'Payments', 'icon' => 'ri-wallet-line', 'submenu' => [
-        ['label' => 'View Payments', 'icon' => 'ri-eye-line', 'url' => BASE_URL . 'pages/view_payments.php'],
-        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/payment-history/list.php'],
+        ['label' => 'View Payments', 'icon' => 'ri-eye-line', 'url' => BASE_URL . 'pages/my-fees/list.php'],
+        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/my-fees/history.php'],
     ]],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
