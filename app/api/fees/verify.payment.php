@@ -31,17 +31,22 @@ try {
         $stmt->execute();
 
         $stmt = $conn->prepare("UPDATE fee_assignments SET status = 1 WHERE user_id = ? AND status = 0");
-        $stmt->bind_param('i', $pv['user_id']);
+        $stmt->bind_param('i', $id);
         $stmt->execute();
 
         $stmt = $conn->prepare("UPDATE homeowner_fees SET status = 1 WHERE user_id = ? AND status = 0");
-        $stmt->bind_param('i', $pv['user_id']);
+        $stmt->bind_param('i', $id);
         $stmt->execute();
 
     } else {
-        $stmt = $conn->prepare("UPDATE payment_verification SET is_approve = 2, date_updated = NOW() WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE payment_verification SET status = 2, date_updated = NOW() WHERE id = ?");
         $stmt->bind_param('i', $id);
         $stmt->execute();
+
+          $stmt = $conn->prepare("UPDATE fee_assignments SET status = 0 WHERE user_id = ? AND status = 0");
+        $stmt->bind_param('i', $pv['user_id']);
+        $stmt->execute();
+
     }
 
     mysqli_commit($conn);

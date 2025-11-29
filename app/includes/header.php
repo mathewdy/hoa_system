@@ -6,10 +6,10 @@
   </span>
 
   <div class="flex flex-row items-center gap-2">
-    <button type="button" class="relative py-2 px-3 text-gray-600 hover:text-teal-600 rounded-full transition">
+    <!-- <button type="button" class="relative py-2 px-3 text-gray-600 hover:text-teal-600 rounded-full transition">
       <i class="ri-notification-3-fill text-md"></i>
       <span class="absolute top-2 right-2 h-2 w-2 bg-red-500 rounded-full"></span>
-    </button>
+    </button> -->
 
     <button 
       id="dropdownAvatarNameButton"

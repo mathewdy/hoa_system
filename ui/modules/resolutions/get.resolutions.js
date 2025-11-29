@@ -91,6 +91,12 @@ const columns = [
           <i class="ri-file-text-line text-xl"></i>
         </a>` : ''
       }
+      ${row.is_budget_released ? `
+        <a href="view-budget.php?id=${row.id}&file=signed" target="_blank"
+           class="text-orange-600 hover:text-orange-800" title="View Proposal">
+          <i class="ri-cash-line text-xl"></i>
+        </a>` : ''
+      }
 
       ${row.upload_signed_resolution == '' ? `
         <a href="view_pdf.php?id=${row.id}&file=signed" target="_blank"
