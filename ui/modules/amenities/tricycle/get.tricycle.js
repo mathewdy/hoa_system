@@ -36,9 +36,11 @@ const columns = [
   row => row.status === 1
     ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>'
     : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>',
-  row => { 
-    return `
-      <div class="flex items-center gap-2">
+ row => { 
+    const role = localStorage.getItem('role');
+    if(role == 3){
+      return `
+       <div class="flex items-center gap-2">
         <a 
           href="view.php?id=${row.id}" 
           class="text-teal-600 hover:text-teal-800" 
@@ -46,11 +48,18 @@ const columns = [
           <i class="ri-eye-fill text-xl"></i>
         </a>
         <a 
-              href="payment.php?id=${row.id}"  
-              class="flex items-center gap-2 px-4 py-2 transition">
-              <i class="ri-wallet-line text-xl text-green-600"></i> 
-            </a>
+          href="payment.php?id=${row.id}"  
+          class="flex items-center gap-2 px-4 py-2 transition">
+          <i class="ri-wallet-line text-xl text-green-600"></i> 
+        </a>
       </div>`;
+    }
+    return `<a 
+          href="view.php?id=${row.id}" 
+          class="text-teal-600 hover:text-teal-800" 
+          title="View">
+          <i class="ri-eye-fill text-xl"></i>
+        </a>`
   }
 ];
 

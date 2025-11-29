@@ -5,6 +5,8 @@ require_once $root . 'config.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
 $today = date('Y-m-d');
 
+$role = $_SESSION['role'];
+
 $total_collected = 0;
 $tables = ['homeowner_fees', 'court_fees', 'stall_renter_fees', 'toda_fees'];
 
@@ -27,10 +29,19 @@ ob_start();
         <p class="text-sm font-medium text-teal-700">Total Collected (₱)</p>
         <p id="totalCollected" class="text-2xl font-bold text-black-900">₱<?= number_format($total_collected, 2) ?></p>
       </div>
-      <button type="button" id="openRemitModal" data-fee="<?= $total_collected; ?>"
+      <?php if($role == '3'){
+
+        ?>
+
+        <button type="button" id="openRemitModal" data-fee="<?= $total_collected; ?>"
         class="bg-teal-700 hover:bg-teal-800 text-white px-6 py-3 rounded-lg font-bold text-lg shadow-lg transition transform hover:scale-105">
         Remit
       </button>
+
+        <?php
+
+      }?>
+      
     </div>
   </div>
   <div class="flex flex-col sm:flex-row items-center mb-4 gap-3">

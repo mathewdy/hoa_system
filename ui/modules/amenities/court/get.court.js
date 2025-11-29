@@ -62,7 +62,9 @@ const columns = [
     return `<div class="text-gray-900 font-medium">${amount}</div>` 
   },
   row => { 
-    return `
+    const role = localStorage.getItem('role');
+    if(role == 3){
+      return `
        <div class="flex items-center gap-2">
         <a 
           href="view.php?id=${row.id}" 
@@ -71,11 +73,18 @@ const columns = [
           <i class="ri-eye-fill text-xl"></i>
         </a>
         <a 
-              href="payment.php?id=${row.id}"  
-              class="flex items-center gap-2 px-4 py-2 transition">
-              <i class="ri-wallet-line text-xl text-green-600"></i> 
-            </a>
+          href="payment.php?id=${row.id}"  
+          class="flex items-center gap-2 px-4 py-2 transition">
+          <i class="ri-wallet-line text-xl text-green-600"></i> 
+        </a>
       </div>`;
+    }
+    return `<a 
+          href="view.php?id=${row.id}" 
+          class="text-teal-600 hover:text-teal-800" 
+          title="View">
+          <i class="ri-eye-fill text-xl"></i>
+        </a>`
   }
 ];
 

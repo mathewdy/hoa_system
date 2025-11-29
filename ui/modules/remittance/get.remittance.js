@@ -20,7 +20,12 @@ const columns = [
   row => row.is_approved
     ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Approved</span>'
     : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending</span>',
-  row => `<button class="viewBtn text-teal-600 hover:underline" data-id="${row.id}">View</button>`
+  row => {
+    const role = localStorage.getItem('role');
+    if(role == 3 || role == 4){
+      return `<button class="viewBtn text-teal-600 hover:underline" data-id="${row.id}">View</button>`
+    }
+  }
 ];
 
 new TableView($state, fetcher, {

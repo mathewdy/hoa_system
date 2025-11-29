@@ -5,6 +5,8 @@ require_once $root . 'app/includes/session.php';
 
 $pageTitle = 'Stall Rentals';
 ob_start();
+
+$role = $_SESSION['role'];
 ?>
 
 <div class="mt-1">
@@ -22,8 +24,19 @@ ob_start();
           placeholder="Search <?= strtolower($pageTitle) ?>..." />
       </div>
     </form>
-    <a href="create-stall.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">New Stall</a>
-    <a href="new-rental.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">New Rental</a>
+
+    <?php
+
+    if($role  == 3){
+      ?>
+        <a href="create-stall.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">New Stall</a>
+        <a href="new-rental.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">New Rental</a>
+
+      <?php
+    }
+
+    ?>
+  
   </div>
 
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg border">
