@@ -58,6 +58,14 @@ const columns = [
 
   row => {
     const released = row.is_budget_released;
+    const role = localStorage.getItem('role')
+
+    if(role == 4){
+      return released
+      ? '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"><i class="ri-check-line mr-1"></i> Released</span>'
+      : `<a href="budget-release.php?id=${row.id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">Add Budget Release</a>`;
+    }
+    
     return released
       ? '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"><i class="ri-check-line mr-1"></i> Released</span>'
       : '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700"><i class="ri-close-line mr-1"></i> Not Yet</span>';
@@ -78,14 +86,14 @@ const columns = [
       </a>
       
       ${row.project_proposal_document ? `
-        <a href="${row.project_proposal_document}" target="_blank"
+        <a href="view_pdf.php?id=${row.id}&file=signed" target="_blank"
            class="text-blue-600 hover:text-blue-800" title="View Proposal">
           <i class="ri-file-text-line text-xl"></i>
         </a>` : ''
       }
 
       ${row.upload_signed_resolution == '' ? `
-        <a href="${row.upload_signed_resolution}" target="_blank"
+        <a href="view_pdf.php?id=${row.id}&file=signed" target="_blank"
           class="text-green-600 hover:text-green-800" title="View Signed Resolution">
           <i class="ri-file-check-fill text-xl"></i>
         </a>` : ''

@@ -1,7 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php');
 
-session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
