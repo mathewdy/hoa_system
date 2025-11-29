@@ -684,7 +684,6 @@ ob_start();
 
           
           <!-- Stats Cards -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 
   <!-- Total Collected Fees Card -->
   <div class="bg-gradient-to-br from-white to-teal-50 rounded-2xl shadow-lg p-6 border border-teal-100 hover:shadow-2xl transition-shadow duration-300">
@@ -710,131 +709,6 @@ ob_start();
     </div>
   </div>
 
-  <!-- Upcoming Events Card -->
-  <div class="bg-gradient-to-br from-white to-teal-50 rounded-2xl shadow-lg p-6 border border-teal-100 hover:shadow-2xl transition-shadow duration-300">
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-lg font-semibold text-gray-800">Upcoming Events</h3>
-      <span class="bg-teal-100 text-teal-800 text-xs font-medium px-3 py-1 rounded-full shadow-sm">
-        Community
-      </span>
-    </div>
-    <div class="space-y-4">
-      <!-- Event 1 -->
-      <div class="flex items-start group hover:bg-teal-50 rounded-lg p-2 transition">
-        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center text-teal-600 shadow-inner group-hover:bg-teal-500 group-hover:text-white transition-colors">
-          <i class="fas fa-calendar-day"></i>
-        </div>
-        <div class="ml-4">
-          <p class="text-sm font-semibold text-gray-800">Community Clean-up Day</p>
-          <p class="text-xs text-gray-500">May 15, 2025 • 8:00 AM</p>
-        </div>
-      </div>
-      <!-- Event 2 -->
-      <div class="flex items-start group hover:bg-teal-50 rounded-lg p-2 transition">
-        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center text-teal-600 shadow-inner group-hover:bg-teal-500 group-hover:text-white transition-colors">
-          <i class="fas fa-glass-cheers"></i>
-        </div>
-        <div class="ml-4">
-          <p class="text-sm font-semibold text-gray-800">Summer Festival</p>
-          <p class="text-xs text-gray-500">May 28, 2025 • 4:00 PM</p>
-        </div>
-      </div>
-      <!-- Event 3 -->
-      <div class="flex items-start group hover:bg-teal-50 rounded-lg p-2 transition">
-        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center text-teal-600 shadow-inner group-hover:bg-teal-500 group-hover:text-white transition-colors">
-          <i class="fas fa-users"></i>
-        </div>
-        <div class="ml-4">
-          <p class="text-sm font-semibold text-gray-800">HOA General Assembly</p>
-          <p class="text-xs text-gray-500">June 10, 2025 • 2:00 PM</p>
-        </div>
-      </div>
-    </div>
-    <div class="mt-6 text-right">
-      <a href="homeowner-calendar.html" class="inline-flex items-center text-teal-600 hover:text-teal-800 text-sm font-medium transition-colors">
-        View all events <i class="fas fa-arrow-right ml-1"></i>
-      </a>
-    </div>
-  </div>
-
-</div>
-
-
-          <!-- Payments Table -->
-          <div class="bg-white rounded-lg shadow mb-8">
-            <div
-              class="px-6 py-4 border-b border-gray-200 flex justify-between items-center"
-            >
-              <h2 class="text-lg font-medium">Payments</h2>
-              <button
-                class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-500"
-              >
-                View all payments
-              </button>
-            </div>
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th
-                      scope="col"
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Fee ID
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Fee Name
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Amount
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Due Date
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Status
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200" id="paymentTableBody">
-                  <!-- Table will be populated by JavaScript -->
-                </tbody>
-              </table>
-            </div>
-            <div
-              class="px-6 py-4 border-t border-gray-200 flex items-center justify-between"
-            >
-              <div class="text-sm text-gray-500">
-                Showing <span id="showingFrom">1</span> to <span id="showingTo">2</span> of <span id="totalEntries">2</span> entries
-              </div>
-              <div class="flex space-x-2">
-                <button id="prevPage" class="px-3 py-1 border rounded text-sm bg-gray-100">Previous</button>
-                <button id="currentPage" class="px-3 py-1 border rounded text-sm bg-teal-600 text-white">1</button>
-                <button id="nextPage" class="px-3 py-1 border rounded text-sm bg-gray-100">Next</button>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
-    </div>
 
     <!-- Pay Now Modal -->
     <div id="payNowModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
