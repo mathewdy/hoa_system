@@ -23,14 +23,8 @@ $role = $_SESSION['role'];
         class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
             Create Post
         </button>
-        <?php
-    }
 
-    ?>
-  
-      <?php while($row = mysqli_fetch_assoc($result)): ?>
-      <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="p-4 border-b flex items-center justify-end">
+        <div class="p-4 border-b flex items-center justify-end">
                  <!-- Edit/Delete buttons -->
                     <?php //if($user_id['user_id'] === $row['created_by']): ?>
                             <div class="flex space-x-2">
@@ -46,6 +40,14 @@ $role = $_SESSION['role'];
                             </div>
                     <?php //endif; ?>
             </div>
+        <?php
+    }
+
+    ?>
+  
+      <?php while($row = mysqli_fetch_assoc($result)): ?>
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+            
             <div class="p-4">
                 <h3 class="text-lg font-semibold mb-2"><?= htmlspecialchars($row['post_title']) ?></h3>
                 <p class="text-gray-700 mb-4"><?= nl2br(htmlspecialchars($row['description'])) ?></p>
