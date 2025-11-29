@@ -11,7 +11,7 @@ $tables = ['homeowner_fees', 'court_fees', 'stall_renter_fees', 'toda_fees'];
 foreach ($tables as $table) {
     $sql = "SELECT COALESCE(SUM(amount_paid), 0) FROM $table WHERE status='1' AND DATE(date_created)='$today'";
     $result = $conn->query($sql);
-    $total_collected += $result->fetch_row()[0]; // ← [0] kasi single value lang
+    $total_collected += $result->fetch_row()[0];
 }
 
 $pageTitle = 'Remittance Table';

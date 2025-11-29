@@ -76,9 +76,9 @@ $result = mysqli_query($conn, $sql);
             </div>
           </div>
           <button onclick="openModal()" 
-          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-          Create Post
-      </button>
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Create Post
+          </button>
     </header>
 
 <body class="bg-gray-50">

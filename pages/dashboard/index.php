@@ -2,12 +2,32 @@
 $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 
 require_once $root . 'config.php';
-require_once $root . 'app/includes/session.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
+
 
 $userRole = $_SESSION['role'] ?? 0;
 $isAdminOrPresident = in_array($userRole, [1, 3]);
 $pageTitle = 'Users';
 $a = $_GET['a'] ?? '0';
+
+$today = date('Y-m-d');
+
+$total_collected = 0;
+$tables = ['homeowner_fees', 'court_fees', 'stall_renter_fees', 'toda_fees'];
+
+foreach ($tables as $table) {
+    $sql = "SELECT COALESCE(SUM(amount_paid), 0) FROM $table WHERE status='1' AND DATE(date_created)='$today'";
+    $result = $conn->query($sql);
+    $total_collected += $result->fetch_row()[0];
+}
+
+$sql = "SELECT COUNT(*) AS users_today 
+        FROM users";
+
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+
+$users = $row['users_today'];
 ob_start();
 
 ?>
@@ -124,12 +144,12 @@ ob_start();
   </style>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
   <!-- Total Users -->
-  <a href="registered-homeowners.html" class="block">
+  <a href="#" class="block">
     <div class="bg-white rounded-lg shadow p-6 cursor-pointer">
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm font-medium text-gray-500">Total Users</p>
-          <p class="text-2xl font-bold text-gray-900">156</p>
+          <p class="text-2xl font-bold text-gray-900"><?= $users ?></p>
         </div>
         <div class="bg-teal-100 p-3 rounded-full text-teal-600">
           <i class="fas fa-users"></i>
@@ -139,7 +159,7 @@ ob_start();
   </a>
 
   <!-- Total Events -->
-  <a href="<?= $root ?>" class="block">
+  <a href="#" class="block">
     <div class="bg-white rounded-lg shadow p-6 cursor-pointer">
       <div class="flex items-center justify-between">
         <div>
@@ -158,7 +178,7 @@ ob_start();
     <div class="flex items-center justify-between">
       <div>
         <p class="text-sm font-medium text-gray-500">Total Collected Fees</p>
-        <p class="text-2xl font-bold text-gray-900">₱179,400</p>
+        <p class="text-2xl font-bold text-gray-900">₱<?= number_format($total_collected, 2) ?></p>
       </div>
       <div class="bg-green-100 p-3 rounded-full text-green-600">
         <i class="fas fa-money-bill-wave"></i>
@@ -167,7 +187,7 @@ ob_start();
   </div>
 
   <!-- Pending Approvals -->
-  <a href="president-projectproposal.html" class="block">
+  <a href="#" class="block">
     <div class="bg-white rounded-lg shadow p-6 cursor-pointer">
       <div class="flex items-center justify-between">
         <div>

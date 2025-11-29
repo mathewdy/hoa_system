@@ -49,7 +49,10 @@ $post_image = implode(",", $all_images); // save as comma-separated list
               VALUES ('$post_title', '$description', '$post_image', '$project_file', NOW() , NOW())";
 
     if (mysqli_query($conn, $query)) {
-        echo "Post Successfully Created!";
+        echo "<script>
+        alert('Posted')
+        window.location.href = '../pages/news/feed.php';
+        </script>";
     } else {
         echo "Error: " . mysqli_error($conn);
     }
