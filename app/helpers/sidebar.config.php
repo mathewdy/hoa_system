@@ -127,7 +127,7 @@ $sidebarItems = [
         ['label' => 'View Payments', 'icon' => 'ri-eye-line', 'url' => BASE_URL . 'pages/my-fees/list.php'],
         ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/my-fees/history.php'],
     ]],
-    ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution.php'],
+    ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
     ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger/list.php'],
     ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar/index.php'],
