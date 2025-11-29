@@ -10,7 +10,7 @@ $pageTitle = 'Users';
 $a = $_GET['a'] ?? '0';
 
 $today = date('Y-m-d');
-
+$month = date('M Y');
 $total_collected = 0;
 $tables = ['homeowner_fees', 'court_fees', 'stall_renter_fees', 'toda_fees'];
 
@@ -955,8 +955,8 @@ ob_start();
         <i class="fas fa-money-bill-wave text-2xl"></i>
       </div>
       <div class="ml-5">
-        <p class="text-4xl font-extrabold text-gray-900">₱125,000</p>
-        <p class="text-sm text-teal-600 mt-1">as of Sept 2025</p>
+        <p class="text-4xl font-extrabold text-gray-900">₱<?= number_format($total_collected, 2) ?></p>
+        <p class="text-sm text-teal-600 mt-1">as of <?= $month ?></p>
       </div>
     </div>
     <div class="mt-6">
