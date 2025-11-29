@@ -88,7 +88,7 @@ try {
     }
 
     // Optional: Update fee_assignments status to "payment submitted"
-    $conn->query("UPDATE fee_assignments SET status = 2 WHERE id = $fee_id");
+    $conn->query("UPDATE fee_assignments SET status = 1 WHERE id = $fee_id");
 
     $conn->commit();
     echo json_encode(['success' => true, 'message' => 'Payment submitted! Waiting for verification.']);
