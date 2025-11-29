@@ -51,11 +51,6 @@
       <!-- Menu Items -->
       <ul class="py-1 text-sm text-gray-700">
         <li>
-          <a href="<?= BASE_URL ?>app/pages/activity-log.php" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
-            <i class="ri-history-line text-gray-600"></i> Activity Logs
-          </a>
-        </li>
-        <li>
           <a href="<?= BASE_URL . 'pages/profile/my-profile.php?id=' . $_SESSION['user_id'] ?>" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
             <i class="ri-account-circle-fill text-gray-600"></i> Profile
           </a>

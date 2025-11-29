@@ -72,20 +72,29 @@ cancelBtn.addEventListener('click', () => modal.classList.add('hidden'));
 approveBtn.addEventListener('click', () => updateStatus(currentId, 1));
 rejectBtn.addEventListener('click', () => updateStatus(currentId, 0));
 
-function updateStatus(id, status){
-  fetch(`${BASE_URL}app/api/remittance/update.status.php`, {
+function updateStatus(id, status) {
+  const action = status === 1 ? "approve" : "reject";
+
+  const formData = new FormData();
+  formData.append("remittance_id", id);
+  formData.append("action", action);
+
+  fetch(`${BASE_URL}app/api/remittance/verify.php`, {
     method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ id, is_approved: status })
+    body: formData
   })
   .then(res => res.json())
   .then(data => {
-    if(data.success){
-      alert('Status updated successfully');
+    if (data.success) {
+      alert(data.message);
       modal.classList.add('hidden');
-      $state.fetch(); // reload table
+      $state.fetch();
     } else {
-      alert('Failed to update status');
+      alert(data.message || 'Failed to update status');
     }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Network error.");
   });
 }

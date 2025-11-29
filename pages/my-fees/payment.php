@@ -41,8 +41,21 @@ ob_start();
             <p class="text-gray-600">Submit payment for your dues</p>
         </div>
 
+          
         <form id="payHoaForm" method="POST" class="space-y-4" enctype="multipart/form-data">
-            
+            <div class="flex gap-2 justify-end">
+            <div class="grid items-center bg-gray-200 p-5 w-100 rounded-lg">
+              <p class="block text-md font-medium text-gray-700">Gcash:</p>
+              <p class="block text-sm font-medium text-gray-700">GCash#: 0927 123 4567</p>
+              <p class="block text-sm font-medium text-gray-700">GCash Name: Mabuhay Homes 2000 HOA</p>
+            </div>
+            <div class="grid items-center bg-gray-200 p-5 w-100 rounded-lg">
+              <p class="block text-sm font-medium text-gray-700">Bank Details</p>
+              <p class="block text-sm font-medium text-gray-700">Bank: BDO</p>
+              <p class="block text-sm font-medium text-gray-700">Acc. No.: 1234 5678 9012</p>
+              <p class="block text-sm font-medium text-gray-700">Acc. Name: Mabuhay Homes 2000 HOA</p>
+            </div>
+          </div>
             <input type="hidden" name="fee_assignment_id" value="<?= $fee['id'] ?>">
 
             <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm">
@@ -55,6 +68,7 @@ ob_start();
                         <input type="text" value="<?= htmlspecialchars($fee['homeowner_name']) ?>" readonly
                                class="mt-1 block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-gray-700">
                     </div>
+              
 
                     <div class="grid grid-cols-2 items-center">
                         <label class="block text-sm font-medium text-gray-700">Fee Description</label>
