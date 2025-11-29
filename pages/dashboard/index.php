@@ -152,152 +152,64 @@ ob_start();
 <?php 
   if($role != 6){
     ?>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
 
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-  <!-- Total Users -->
-  <a href="#" class="block">
-    <div class="bg-white rounded-lg shadow p-6 cursor-pointer">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Total Users</p>
-          <p class="text-2xl font-bold text-gray-900"><?= $users ?></p>
-        </div>
-        <div class="bg-teal-100 p-3 rounded-full text-teal-600">
-          <i class="fas fa-users"></i>
-        </div>
-      </div>
-    </div>
-  </a>
-
-  <!-- Total Events -->
-  <a href="#" class="block">
-    <div class="bg-white rounded-lg shadow p-6 cursor-pointer">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Total Posts</p>
-          <p class="text-2xl font-bold text-gray-900"><?= $total_post ?></p>
-        </div>
-        <div class="bg-teal-100 p-3 rounded-full text-teal-600">
-          <i class="ri-sticky-note-fill"></i>
-        </div>
-      </div>
-    </div>
-  </a>
-
-  <!-- Total Collected Fees -->
-  <div class="bg-white rounded-lg shadow p-6">
+  <!-- CARD 1: Total Users -->
+  <div class="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200 hover:shadow-3xl transition duration-300">
     <div class="flex items-center justify-between">
       <div>
-        <p class="text-sm font-medium text-gray-500">Total Collected Fees</p>
-        <p class="text-2xl font-bold text-gray-900">₱<?= number_format($total_collected, 2) ?></p>
+        <p class="text-gray-600 text-lg font-semibold">Total Registered Users</p>
+        <p class="text-6xl font-extrabold text-black mt-4"><?= $users ?></p>
+        <p class="text-gray-500 text-sm mt-2">Active homeowners</p>
       </div>
-      <div class="bg-green-100 p-3 rounded-full text-green-600">
-        <i class="fas fa-money-bill-wave"></i>
+      <div class="bg-gray-100 p-6 rounded-2xl">
+        <i class="fas fa-users text-5xl text-blue-600"></i>
       </div>
     </div>
   </div>
 
-  <!-- Pending Approvals -->
-  <a href="#" class="block">
-    <div class="bg-white rounded-lg shadow p-6 cursor-pointer">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium text-gray-500">Pending Approvals</p>
-          <p class="text-2xl font-bold text-gray-900">5</p>
-        </div>
-        <div class="bg-yellow-100 p-3 rounded-full text-yellow-600">
-          <i class="fas fa-clipboard-check"></i>
-        </div>
-      </div>
-    </div>
-  </a>
-</div>
-
-<!-- Today's Payments -->
-<div class="bg-white shadow rounded-lg overflow-hidden">
-  <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-    <h2 class="text-xl font-semibold text-gray-900">Today's Payments</h2>
-    <a href="president-payment-history.html" class="bg-teal-600 text-white px-3 py-1 rounded hover:bg-teal-800 text-sm font-medium">
-      View All
-    </a>
-  </div>
-  <div class="overflow-x-auto">
-    <table id="paymentTable" class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Name
-          </th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Email
-          </th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Actions
-          </th>
-        </tr>
-      </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
-        <tr data-user-id="USER001">
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm text-gray-900">Maria Santos</div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm text-gray-900">maria.santos@example.com</div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-            <button onclick="openPaymentHistoryModal('USER001', 'Maria Santos', 'maria.santos@example.com')"
-              class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-              View
-            </button>
-          </td>
-        </tr>
-        <tr data-user-id="USER002">
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm text-gray-900">Juan Cruz</div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm text-gray-900">juan.cruz@example.com</div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-            <button onclick="openPaymentHistoryModal('USER002', 'Juan Cruz', 'juan.cruz@example.com')"
-              class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-              View
-            </button>
-          </td>
-        </tr>
-        <tr data-user-id="USER003">
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm text-gray-900">Ana Reyes</div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm text-gray-900">ana.reyes@example.com</div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-            <button onclick="openPaymentHistoryModal('USER003', 'Ana Reyes', 'ana.reyes@example.com')"
-              class="bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-800">
-              View
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+  <!-- CARD 2: Total Posts -->
+  <div class="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200 hover:shadow-3xl transition duration-300">
     <div class="flex items-center justify-between">
-      <div id="paginationText" class="text-sm text-gray-700">
-        Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">3</span> results
+      <div>
+        <p class="text-gray-600 text-lg font-semibold">Total Community Posts</p>
+        <p class="text-6xl font-extrabold text-black mt-4"><?= $total_post ?></p>
+        <p class="text-gray-500 text-sm mt-2">Announcements & updates</p>
       </div>
-      <div class="flex space-x-2">
-        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-          Previous
-        </button>
-        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-          Next
-        </button>
+      <div class="bg-gray-100 p-6 rounded-2xl">
+        <i class="ri-sticky-note-fill text-5xl text-yellow-400"></i>
       </div>
     </div>
   </div>
+
+  <!-- CARD 3: Total Collected Fees -->
+  <div class="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200 hover:shadow-3xl transition duration-300">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-gray-600 text-lg font-semibold">Total Collected Fees</p>
+        <p class="text-6xl font-extrabold text-black mt-4">₱<?= number_format($total_collected, 2) ?></p>
+        <p class="text-gray-500 text-sm mt-2">All time collection</p>
+      </div>
+      <div class="bg-gray-100 p-6 rounded-2xl">
+        <i class="fas fa-money-bill-wave text-5xl text-teal-600"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 4: Pending Approvals -->
+  <div class="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200 hover:shadow-3xl transition duration-300">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-gray-600 text-lg font-semibold">Pending Approvals</p>
+        <p class="text-6xl font-extrabold text-black mt-4"><?= $pending_approvals ?? 0 ?></p>
+        <p class="text-gray-500 text-sm mt-2">Waiting for review</p>
+      </div>
+      <div class="bg-gray-100 p-6 rounded-2xl">
+        <i class="fas fa-clock text-5xl text-orange-400"></i>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div id="paymentHistoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
