@@ -23,7 +23,7 @@ ob_start();
       </div>
     </form>
     <?php 
-    if ($role == 1) {
+    if ($role == 2) {
       ?>
       <a href="create.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Create New</a>
       <?php
