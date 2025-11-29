@@ -182,12 +182,12 @@ ob_start();
             
             <?php if ($role == 'admin' || $role == 1): ?>
                 <?php if ($res['status'] == 0): // Pending only ?>
-                    <a href="reject_resolution.php?id=<?= $id ?>" 
+                    <a href="reject.php?id=<?= $id ?>" 
                        class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
                        onclick="return confirm('Are you sure you want to reject this resolution?')">
                         Reject
                     </a>
-                    <a href="approve_resolution.php?id=<?= $id ?>" 
+                    <a href="approve.php?id=<?= $id ?>" 
                        class="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
                        onclick="return confirm('Approve this resolution?')">
                         Approve
