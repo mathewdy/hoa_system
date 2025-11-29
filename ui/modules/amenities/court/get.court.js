@@ -63,36 +63,19 @@ const columns = [
   },
   row => { 
     return `
-      <button 
-      id="dropdownActions_${row.id}"
-        data-dropdown-toggle="actions_${row.id}"
-        type="button"
-        class="flex items-center bg-teal-600 text-white py-2 px-4 rounded-md"
-      >
-        Actions
-      </button>
-      <div 
-        id="actions_${row.id}" 
-        class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-50"
-      >
-        <ul class="py-1 text-sm text-gray-700">
-          <li>
-            <a 
-              href="view.php?id=${row.id}"  
-              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
-              <i class="ri-eye-line text-xl text-teal-600"></i> 
-              View
-            </a>
-            <a 
+       <div class="flex items-center gap-2">
+        <a 
+          href="view.php?id=${row.id}" 
+          class="text-teal-600 hover:text-teal-800" 
+          title="View">
+          <i class="ri-eye-fill text-xl"></i>
+        </a>
+        <a 
               href="payment.php?id=${row.id}"  
-              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
-              <i class="ri-wallet-line text-xl text-teal-600"></i> 
-              Payment
+              class="flex items-center gap-2 px-4 py-2 transition">
+              <i class="ri-wallet-line text-xl text-green-600"></i> 
             </a>
-          </li>
-        </ul>
-      </div>
-      `;
+      </div>`;
   }
 ];
 
