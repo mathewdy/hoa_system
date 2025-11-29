@@ -21,12 +21,20 @@ foreach ($tables as $table) {
 }
 
 $sql = "SELECT COUNT(*) AS users_today 
-        FROM users";
+        FROM news_feed";
 
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 
 $users = $row['users_today'];
+
+$post_sql = "SELECT COUNT(*) AS posts 
+        FROM news_feed";
+
+$feed_res = $conn->query($post_sql);
+$feed_row = $feed_res->fetch_assoc();
+
+$total_post = $feed_row['posts'];
 ob_start();
 
 ?>
@@ -167,11 +175,11 @@ ob_start();
     <div class="bg-white rounded-lg shadow p-6 cursor-pointer">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-500">Total Events</p>
-          <p class="text-2xl font-bold text-gray-900">24</p>
+          <p class="text-sm font-medium text-gray-500">Total Posts</p>
+          <p class="text-2xl font-bold text-gray-900"><?= $total_post ?></p>
         </div>
         <div class="bg-teal-100 p-3 rounded-full text-teal-600">
-          <i class="fas fa-calendar-alt"></i>
+          <i class="ri-sticky-note-fill"></i>
         </div>
       </div>
     </div>
