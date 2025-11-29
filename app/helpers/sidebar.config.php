@@ -114,7 +114,7 @@ $sidebarItems = [
 
   'Auditor' => [
     ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
-    ['label' => 'Liquidation of Expenses', 'icon' => 'ri-money-dollar-box-line', 'url' => BASE_URL . 'pages/liquidation.php'],
+    ['label' => 'Liquidation of Expenses', 'icon' => 'ri-money-dollar-box-line', 'url' => BASE_URL . 'pages/liquidation-of-expenses/list.php'],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
     ['label' => 'Ledger', 'icon' => 'ri-book-line', 'url' => BASE_URL . 'pages/ledger.php'],
