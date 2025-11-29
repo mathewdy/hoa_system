@@ -180,8 +180,8 @@ ob_start();
         <div class="flex justify-end gap-2 pt-4">
             <a href="list.php" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Back to List</a>
             
-            <?php if ($role == 'admin' || $role == 1): ?>
-                <?php if ($res['status'] == 0): // Pending only ?>
+            <?php if ($role == 1): ?>
+                <?php if ($res['status'] == 0): ?>
                     <a href="reject.php?id=<?= $id ?>" 
                        class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
                        onclick="return confirm('Are you sure you want to reject this resolution?')">
