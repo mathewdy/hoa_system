@@ -37,7 +37,7 @@ const columns = [
       minimumFractionDigits: 2
     }).format(row.total_unpaid_amount);
 
-    return `<span class="font-medium text-green-600 text-lg">${formatted}</span>`;
+    return `<span class="font-medium text-green-600">${formatted}</span>`;
   },
 
   row => row.status == '1'
@@ -52,29 +52,19 @@ const columns = [
   },
   row => { 
     return `
-      <button 
-      id="dropdownActions_${row.id}"
-        data-dropdown-toggle="actions_${row.id}"
-        type="button"
-        class="flex items-center bg-teal-600 text-white py-2 px-4 rounded-md z-100"
-
-      >
-        Actions
-      </button>
-      <div 
-        id="actions_${row.id}" 
-        class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-50"
-      >
-        <ul class="py-1 text-sm text-gray-700">
-          <li>
-            <a 
-              href="view.php?id=${row.user_id}"  
-              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition">
-              <i class="ri-eye-line text-xl text-teal-600"></i> 
-              View
-            </a>
-          </li>
-        </ul>
+      <div class="flex gap-2">
+        <a 
+          href="view.php?id=${row.user_id}"  
+          class="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-800 transition">
+          <i class="ri-eye-fill text-xl text-white"></i> 
+          View
+        </a>
+        <a 
+          href="assign.php?id=${row.user_id}"  
+          class="flex items-center gap-2 px-3 py-1 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition">
+          <i class="ri-cash-line text-xl text-white"></i> 
+          Assign
+        </a>
       </div>
       `;
   }
