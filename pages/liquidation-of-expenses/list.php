@@ -3,7 +3,7 @@ $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
 require_once $root . 'app/includes/session.php';
 
-$pageTitle = 'Liquidation of expenses';
+$pageTitle = 'Liquidation of Expenses';
 ob_start();
 ?>
 
@@ -19,10 +19,14 @@ ob_start();
         <input type="text" id="simple-search"
           class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-teal-600 focus:border-teal-600 block w-full ps-10 p-2.5 
                   bg-white placeholder-gray-400" 
-          placeholder="Search <?= strtolower($pageTitle) ?>..." />
+          placeholder="Search liquidation records..." />
       </div>
     </form>
-    <a href="create.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add TODA</a>
+    
+    <!-- Optional: Add new liquidation button (pag may create) -->
+    <!-- <a href="create-liquidation.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">
+      + New Liquidation
+    </a> -->
   </div>
 
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg border">
@@ -31,22 +35,25 @@ ob_start();
         <tr>
           <th class="px-6 py-3">Project Resolution</th>
           <th class="px-6 py-3">Budget Released</th>
-          <th class="px-6 py-3">Status</th>
+          <th class="px-6 py-3">Liquidation Status</th>
           <th class="px-6 py-3">Action</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        <!-- Filled by JS -->
+      </tbody>
     </table>
 
     <nav class="flex items-center justify-between p-4 text-sm">
       <span class="text-gray-500">
         Showing <span id="rangeStart">1</span>-<span id="rangeEnd">10</span>
-        of <span id="totalRecords">0</span>
+        of <span id="totalRecords">0</span> records
       </span>
       <ul id="paginationList" class="inline-flex -space-x-px h-8"></ul>
     </nav>
   </div>
 
+  <!-- Module trigger -->
   <div data-module="liquidation"></div>
 </div>
 
