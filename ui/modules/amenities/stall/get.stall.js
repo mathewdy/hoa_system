@@ -25,12 +25,12 @@ const columns = [
   row => `<div class="text-gray-500">${row.contact_no || '—'}</div>`,
   row => `<div class="text-gray-500">Stall ${row.stall_id || '—'}</div>`,
   row => {
-    const start = new Date(row.date_start).toLocaleDateString('en-PH', {
+    const start = new Date(row.start_date).toLocaleDateString('en-PH', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'
     });
-    const end = new Date(row.date_end).toLocaleDateString('en-PH', {
+    const end = new Date(row.end_date).toLocaleDateString('en-PH', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'
