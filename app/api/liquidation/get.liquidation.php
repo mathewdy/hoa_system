@@ -8,25 +8,28 @@ $page   = max(1, (int)($_GET['page'] ?? 1));
 $search = trim($_GET['search'] ?? '');
 $offset = ($page - 1) * $limit;
 
-$where = '';
+$where = "WHERE r.is_budget_released = 1";
 $params = [];
 $types = '';
 
 if ($id > 0) {
-    $where = "WHERE r.id = ?";
+    $where .= " AND r.id = ?";
     $params[] = $id;
     $types .= 'i';
 }
 elseif ($search !== '') {
-    $where = "WHERE r.project_resolution_title LIKE ? 
-                OR r.resolution_summary LIKE ? 
-                OR r.id LIKE ?";
+    $where .= " AND (
+        r.project_resolution_title LIKE ? 
+        OR r.resolution_summary LIKE ? 
+        OR r.id LIKE ?
+    )";
     $like = "%$search%";
     $params[] = $like;
     $params[] = $like;
     $params[] = $like;
     $types .= 'sss';
 }
+
 
 $totalSql = "SELECT COUNT(*) AS total 
              FROM resolution r
@@ -40,7 +43,6 @@ if (!empty($types)) {
 $totalStmt->execute();
 $total = (int)$totalStmt->get_result()->fetch_assoc()['total'];
 
-// === MAIN QUERY (WITH LEFT JOIN) ===
 $sql = "SELECT 
             r.id AS proj_id,
             r.project_resolution_title,
@@ -78,7 +80,6 @@ while ($row = $result->fetch_assoc()) {
     $resolutions[] = $row;
 }
 
-// === RESPONSE ===
 if ($id > 0) {
     echo json_encode([
         'success' => count($resolutions) > 0,
