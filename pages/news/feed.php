@@ -14,15 +14,22 @@ $role = $_SESSION['role'];
 ?>
 
   <div class="space-y-6">
-
-    <?php
-
+    <?php 
     if($role == 2 || $role == 3 ){
-        ?>
-        <button onclick="openModal()" 
+    ?>
+            <button onclick="openModal()" 
         class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
             Create Post
         </button>
+            <?php
+
+    }
+
+    ?>
+    <?php 
+    while($row = mysqli_fetch_assoc($result)):
+
+        ?>
 
         <div class="p-4 border-b flex items-center justify-end">
                  <!-- Edit/Delete buttons -->
@@ -40,12 +47,8 @@ $role = $_SESSION['role'];
                             </div>
                     <?php //endif; ?>
             </div>
-        <?php
-    }
 
-    ?>
   
-      <?php while($row = mysqli_fetch_assoc($result)): ?>
       <div class="bg-white rounded-lg shadow overflow-hidden">
             
             <div class="p-4">
