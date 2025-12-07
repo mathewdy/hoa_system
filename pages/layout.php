@@ -17,6 +17,18 @@ require_once $root . 'config.php';
   <?php include $root . 'app/includes/page-icon.php'; ?>
   <?php include $root . 'app/includes/styles.php'; ?>
 </head>
+<style>
+#sidebar a.active {
+    background-color: #4A90E2;
+    color: white;
+}
+
+#sidebar ul.submenu-item.active {
+    background-color: #4A90E2;
+    color: white;
+}
+
+</style>
 <body class="bg-gray-50 text-gray-900 font-sans">
   <div class="h-screen flex">
     <?php include $root . 'app/includes/sidebar.php'; ?>
