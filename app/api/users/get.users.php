@@ -83,7 +83,7 @@ mysqli_stmt_execute($totalStmt);
 $total = mysqli_fetch_assoc(mysqli_stmt_get_result($totalStmt))['total'];
 $totalPages = ceil($total / $limit);
 
-$sql = "SELECT $select FROM $table u $join WHERE $baseWhere $where ORDER BY id LIMIT ? OFFSET ?";
+$sql = "SELECT $select FROM $table u $join WHERE $baseWhere $where ORDER BY id DESC LIMIT ? OFFSET ?";
 $stmt = mysqli_prepare($conn, $sql);
 
 $bindParams = array_merge($params, [$limit, $offset]);
