@@ -8,7 +8,7 @@ if (!isset($_GET['id'])) {
 }
 
 $toda_id = intval($_GET['id']);
-
+$role = $_SESSION['role'] ?? 0;
 $sql = "SELECT * FROM toda WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $toda_id);
@@ -113,11 +113,13 @@ ob_start();
                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 font-medium transition">
                     Back to List
                 </a>
-
+                <?php if($role == 3) : ?>
                 <a href="edit.php?id=<?= $t['id'] ?>"
                    class="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 font-medium transition">
                     Edit Record
                 </a>
+                <?php endif; ?>
+
             </div>
 
         </div>

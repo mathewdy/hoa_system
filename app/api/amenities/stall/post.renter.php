@@ -33,8 +33,8 @@ $renter          = trim($_POST['renter_name']);
 $contact_no      = trim($_POST['contact_no']);
 $stall_id        = intval($_POST['stall_id']);
 $rental_duration = isset($_POST['rental_duration']) ? intval($_POST['rental_duration']) : null;
-$start_date      = $_POST['start_date'];
-$end_date        = $_POST['end_date'] ?? null; // optional
+$start_date      = $_POST['start_date'] ?? null;
+$end_date        = $_POST['end_date'] ?? null; 
 $amount          = floatval($_POST['amount']);
 $status          = trim($_POST['status']);
 $remarks         = trim($_POST['remarks'] ?? null);
@@ -60,7 +60,7 @@ try {
     ");
 
     $stmt->bind_param(
-        "ssisdsdsss",
+        "ssisssisss",
         $renter,
         $contact_no,
         $stall_id,
@@ -69,8 +69,8 @@ try {
         $end_date,
         $amount,
         $contract_path,
-        $status,
-        $remarks
+        $remarks,
+        $status
     );
 
     $stmt->execute();
@@ -80,7 +80,7 @@ try {
     echo json_encode([
         'success' => true,
         'message' => 'Stall rental record created successfully!',
-        'data' => ['id' => $new_id]
+        'data' => ['id' => $_POST]
     ]);
 
 } catch (Exception $e) {

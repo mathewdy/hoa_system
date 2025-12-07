@@ -11,9 +11,9 @@ $params = [];
 $types = '';
 
 if ($search !== '') {
-    $where = "AND (renter LIKE ? OR contact_no LIKE ? OR purpose LIKE ?)";
-    $params = ["%$search%", "%$search%", "%$search%"];
-    $types = 'sss';
+    $where = "AND (renter_name LIKE ? OR contact_no LIKE ? OR purpose LIKE ? OR `start_date` LIKE ? OR end_date LIKE ?)";
+    $params = ["%$search%", "%$search%", "%$search%" , "%$search%", "%$search%"];
+    $types = 'sssss';
 }
 
 $totalSql = "SELECT COUNT(*) AS total FROM court WHERE 1=1 $where";

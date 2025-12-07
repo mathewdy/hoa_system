@@ -13,13 +13,12 @@ $params = [];
 $types = '';
 
 if ($search !== '') {
-    $where = "AND (sr.renter_name LIKE ? OR sr.contact_no LIKE ? OR sr.start_date LIKE ? OR sr.end_date LIKE ?)";
+    $where = "AND (stall_no LIKE ? OR `status` LIKE ? OR date_created LIKE ?)";
     $params = ["%$search%", "%$search%", "%$search%", "%$search%"];
     $types = 'ssss';
 }
 
-// Total count
-$totalSql = "SELECT COUNT(*) AS total FROM stall_renter sr WHERE 1=1 $where";
+$totalSql = "SELECT COUNT(*) AS total FROM stalls WHERE 1=1 $where";
 $totalStmt = mysqli_prepare($conn, $totalSql);
 if ($types) {
     $refs = [];
@@ -31,26 +30,10 @@ $totalResult = mysqli_stmt_get_result($totalStmt);
 $total = mysqli_fetch_assoc($totalResult)['total'];
 $totalPages = ceil($total / $limit);
 
-// Fetch records
-$sql = "SELECT
-    sr.id,
-    sr.renter_name,
-    sr.contact_no,
-    sr.stall_id,
-    sr.rental_duration,
-    sr.start_date,
-    sr.end_date,
-    sr.amount,
-    sr.contract,
-    sr.status,
-    sr.remarks,
-    sr.date_created,
-    s.stall_no AS stall_number,
-    s.status AS stall_status
-FROM stall_renter sr
-INNER JOIN stalls s ON sr.stall_id = s.id
+$sql = "SELECT *
+FROM stalls
 WHERE 1=1 $where
-ORDER BY sr.id DESC
+ORDER BY id DESC
 LIMIT ? OFFSET ?";
 
 $stmt = mysqli_prepare($conn, $sql);
