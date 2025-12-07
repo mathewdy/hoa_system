@@ -64,7 +64,7 @@ ob_start();
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                     </div>
-                    <div class="grid grid-cols-2 items-center">
+                    <!-- <div class="grid grid-cols-2 items-center">
                         <label class="block text-sm font-medium text-gray-700">
                             Attachment (Proof of Payment)
                             <span class="text-xs block text-gray-500">JPG, PNG, PDF • Max 5MB</span>
@@ -75,7 +75,7 @@ ob_start();
                             accept=".jpg,.jpeg,.png,.pdf"
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
                                   focus:ring-teal-500 focus:border-teal-500 px-3 py-2 text-sm">
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
@@ -85,7 +85,7 @@ ob_start();
                 <button type="submit"
                         id="editBtn"
                         class="px-8 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition font-medium">
-                    Save Changes
+                    Save Record
                 </button>
             </div>
 

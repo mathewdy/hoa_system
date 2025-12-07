@@ -18,8 +18,8 @@ foreach ($required as $field) {
     }
 }
 
-$court_id     = (int)$_POST['id'];
-$amount       = (float)$_POST['amount'];
+$court_id     = $_POST['id'];
+$amount       = $_POST['amount'];
 
 if ($court_id <= 0) {
     echo json_encode(['success' => false, 'message' => 'Invalid court booking ID.']);
@@ -88,11 +88,11 @@ try {
     $check->close();
 
     $sql = "INSERT INTO court_fees 
-            (court_id, amount_paid, attachment, status, date_created) 
-            VALUES (?, ?, ?, 1, NOW())";
+            (court_id, amount_paid, status, date_created) 
+            VALUES (?, ?, 1, NOW())";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ids", $court_id, $amount, $attachmentPath);
+    $stmt->bind_param("id", $court_id, $amount);
 
     if ($stmt->execute()) {
         $payment_id = $stmt->insert_id;
