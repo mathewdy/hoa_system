@@ -125,7 +125,7 @@ ob_start();
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Project Proposal Document</label>
                     <?php if ($res['project_proposal_document']): ?>
-                        <a href="<?= htmlspecialchars($res['project_proposal_document']) ?>" target="_blank"
+                        <a href="../../uploads/resolutions/<?= htmlspecialchars($res['project_proposal_document']) ?>" target="_blank"
                            class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition">
                             <i class="ri-file-text-line text-xl"></i>
                             View Proposal Document
@@ -138,7 +138,7 @@ ob_start();
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Signed Resolution</label>
                     <?php if ($res['upload_signed_resolution']): ?>
-                        <a href="<?= htmlspecialchars($res['upload_signed_resolution']) ?>" target="_blank"
+                        <a href="../../uploads/resolutions/<?= htmlspecialchars($res['upload_signed_resolution']) ?>" target="_blank"
                            class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition">
                             <i class="ri-file-check-fill text-xl"></i>
                             View Signed Resolution
@@ -152,27 +152,41 @@ ob_start();
         </div>
 
         <!-- FINANCIAL SUMMARY FLAGS (Optional display) -->
-        <div class="border-2 border-teal-200 bg-teal-50 px-8 py-6 rounded-lg shadow-sm mb-6">
+        <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm mb-6">
             <h2 class="text-xl font-semibold text-teal-900 mb-4">Financial Status</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="flex items-center gap-3">
+              <div class="flex flex-col justify-center">
+                <div class="flex items-center gap-2">
                     <i class="ri-file-list-3-line text-2xl text-teal-600"></i>
-                    <div>
-                        <div class="font-medium">Financial Summary</div>
-                        <div class="text-sm <?= $res['has_financial_summary'] ? 'text-green-700' : 'text-orange-700' ?>">
-                            <?= $res['has_financial_summary'] ? 'Attached' : 'Not yet attached' ?>
-                        </div>
-                    </div>
+                    <div class="font-medium">Financial Summary</div>
                 </div>
-                <div class="flex items-center gap-3">
+                <div>
+                    <?php if ($res['has_financial_summary']): ?>
+                        <a href="financial-summary.php?id=<?= $id ?>" target="_blank"
+                           class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition">
+                            View Details
+                        </a>
+                    <?php else: ?>
+                        <span class="text-gray-500">No Record</span>
+                    <?php endif; ?>
+                </div>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-2">
                     <i class="ri-money-dollar-circle-line text-2xl text-teal-600"></i>
-                    <div>
-                        <div class="font-medium">Budget Released</div>
-                        <div class="text-sm <?= $res['is_budget_released'] ? 'text-green-700' : 'text-orange-700' ?>">
-                            <?= $res['is_budget_released'] ? 'Yes' : 'Not yet released' ?>
-                        </div>
-                    </div>
+                    <div class="font-medium">Budget Released</div>
                 </div>
+                <div>
+                    <?php if ($res['is_budget_released']): ?>
+                        <a href="view-budget.php?id=<?= $id ?>" target="_blank"
+                           class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition">
+                            View Details
+                        </a>
+                    <?php else: ?>
+                        <span class="text-gray-500">No file uploaded</span>
+                    <?php endif; ?>
+                </div>
+              </div>
             </div>
         </div>
 
