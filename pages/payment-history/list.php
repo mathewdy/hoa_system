@@ -40,11 +40,25 @@ ob_start();
   </div>
   <div id="default-tab-content">
     <div class="hidden rounded-lg" id="homeowners" role="tabpanel" aria-labelledby="homeowners-tab">
+      <div class="flex flex-col sm:flex-row items-center mb-4 gap-3">
+        <form class="flex flex-1 w-full">
+          <div class="relative w-full">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <i class="ri-search-line text-gray-400"></i>
+            </div>
+            <input type="text" id="homeowner-fee-search" 
+              class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-teal-600 focus:border-teal-600 block w-full ps-10 p-2.5 
+                      bg-white placeholder-gray-400" 
+              placeholder="Search <?= strtolower($pageTitle) ?>..." />
+          </div>
+        </form>
+      </div>
       <div class="relative shadow-md sm:rounded-lg border">
         <table id="paymentHistoryTable" class="w-full text-sm text-left text-gray-500">
           <thead class="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
               <th class="px-6 py-3">Payment Method</th>
+              <th class="px-6 py-3">Homeowner</th>
               <th class="px-6 py-3">Amount Paid</th>
               <th class="px-6 py-3">Ref. No.</th>
               <th class="px-6 py-3">Date</th>
@@ -58,7 +72,7 @@ ob_start();
             Showing <span id="rangeStart">1</span>-<span id="rangeEnd">10</span>
             of <span id="totalRecords">0</span>
           </span>
-          <ul id="paginationList" class="inline-flex -space-x-px h-8"></ul>
+          <ul id="homeowner_paginationList" class="inline-flex -space-x-px h-8"></ul>
         </nav>
       </div>
       <div data-module="payment-history"></div>
@@ -66,11 +80,25 @@ ob_start();
   </div>
   <div id="default-tab-content">
     <div class="hidden rounded-lg" id="tricycle" role="tabpanel" aria-labelledby="tricycle-tab">
+      <div class="flex flex-col sm:flex-row items-center mb-4 gap-3">
+        <form class="flex flex-1 w-full">
+          <div class="relative w-full">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <i class="ri-search-line text-gray-400"></i>
+            </div>
+            <input type="text" id="toda-fee-search" 
+              class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-teal-600 focus:border-teal-600 block w-full ps-10 p-2.5 
+                      bg-white placeholder-gray-400" 
+              placeholder="Search <?= strtolower($pageTitle) ?>..." />
+          </div>
+        </form>
+      </div>
       <div class="relative shadow-md sm:rounded-lg border">
         <table id="todaHistoryTable" class="w-full text-sm text-left text-gray-500">
           <thead class="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
               <th class="px-6 py-3">Payment Method</th>
+              <th class="px-6 py-3">Fee Payer</th>
               <th class="px-6 py-3">Amount Paid</th>
               <th class="px-6 py-3">Date</th>
             </tr>
@@ -82,7 +110,7 @@ ob_start();
             Showing <span id="rangeStart">1</span>-<span id="rangeEnd">10</span>
             of <span id="totalRecords">0</span>
           </span>
-          <ul id="paginationList" class="inline-flex -space-x-px h-8"></ul>
+          <ul id="toda_paginationList" class="inline-flex -space-x-px h-8"></ul>
         </nav>
       </div>
       <div data-module="toda-history"></div>
@@ -90,11 +118,25 @@ ob_start();
   </div>
   <div id="default-tab-content">
     <div class="hidden rounded-lg" id="stalls" role="tabpanel" aria-labelledby="stalls-tab">
+      <div class="flex flex-col sm:flex-row items-center mb-4 gap-3">
+        <form class="flex flex-1 w-full">
+          <div class="relative w-full">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <i class="ri-search-line text-gray-400"></i>
+            </div>
+            <input type="text" id="stall-fee-search" 
+              class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-teal-600 focus:border-teal-600 block w-full ps-10 p-2.5 
+                      bg-white placeholder-gray-400" 
+              placeholder="Search <?= strtolower($pageTitle) ?>..." />
+          </div>
+        </form>
+      </div>
       <div class="relative shadow-md sm:rounded-lg border">
         <table id="stallHistoryTable" class="w-full text-sm text-left text-gray-500">
           <thead class="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
               <th class="px-6 py-3">Payment Method</th>
+              <th class="px-6 py-3">Fee Payer</th>
               <th class="px-6 py-3">Amount Paid</th>
               <th class="px-6 py-3">Date</th>
             </tr>
@@ -107,7 +149,7 @@ ob_start();
             Showing <span id="rangeStart">1</span>-<span id="rangeEnd">10</span>
             of <span id="totalRecords">0</span>
           </span>
-          <ul id="paginationList" class="inline-flex -space-x-px h-8"></ul>
+          <ul id="stall_paginationList" class="inline-flex -space-x-px h-8"></ul>
         </nav>
       </div>
       <div data-module="stall-history"></div>
@@ -115,11 +157,25 @@ ob_start();
   </div>
   <div id="default-tab-content">
     <div class="hidden rounded-lg" id="court" role="tabpanel" aria-labelledby="court-tab">
+      <div class="flex flex-col sm:flex-row items-center mb-4 gap-3">
+        <form class="flex flex-1 w-full">
+          <div class="relative w-full">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <i class="ri-search-line text-gray-400"></i>
+            </div>
+            <input type="text" id="court-fee-search" 
+              class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-teal-600 focus:border-teal-600 block w-full ps-10 p-2.5 
+                      bg-white placeholder-gray-400" 
+              placeholder="Search <?= strtolower($pageTitle) ?>..." />
+          </div>
+        </form>
+      </div>
       <div class="relative shadow-md sm:rounded-lg border">
         <table id="courtHistoryTable" class="w-full text-sm text-left text-gray-500">
           <thead class="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
               <th class="px-6 py-3">Payment Method</th>
+              <th class="px-6 py-3">Fee Payer</th>
               <th class="px-6 py-3">Amount Paid</th>
               <th class="px-6 py-3">Date</th>
             </tr>
@@ -132,7 +188,7 @@ ob_start();
             Showing <span id="rangeStart">1</span>-<span id="rangeEnd">10</span>
             of <span id="totalRecords">0</span>
           </span>
-          <ul id="paginationList" class="inline-flex -space-x-px h-8"></ul>
+          <ul id="court_paginationList" class="inline-flex -space-x-px h-8"></ul>
         </nav>
       </div>
       <div data-module="court-history"></div>

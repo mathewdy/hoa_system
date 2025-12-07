@@ -40,6 +40,7 @@ const columns = [
       ${method.charAt(0).toUpperCase() + method.slice(1).replace('_', ' ')}
     </span>`;
   },
+  row => row.fullName || 'N/A',
   row => {
     const amount = parseFloat(row.amount_paid || 0);
     const formatted = new Intl.NumberFormat('en-PH', {
@@ -59,8 +60,8 @@ const columns = [
 
 new TableView($state, fetcher, {
   tableId: 'stallHistoryTable',
-  searchId: 'simple-search',
-  paginationId: 'paginationList',
+  searchId: 'stall-fee-search',
+  paginationId: 'stall_paginationList',
   columns
 });
 

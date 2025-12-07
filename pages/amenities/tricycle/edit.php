@@ -10,7 +10,7 @@ if (!isset($_GET['id'])) {
 
 $toda_id = intval($_GET['id']);
 
-$sql = "SELECT * FROM tricycle WHERE id = ?";
+$sql = "SELECT * FROM toda WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $toda_id);
 $stmt->execute();
@@ -114,7 +114,7 @@ ob_start();
                             type="date" 
                             name="date_start" 
                             required 
-                            value="<?= $toda['date_start'] ?>"
+                            value="<?= $toda['start_date'] ?>"
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                     </div>
@@ -126,7 +126,7 @@ ob_start();
                         <input 
                             type="date" 
                             name="date_end" 
-                            value="<?= $toda['date_end'] ?>"
+                            value="<?= $toda['end_date'] ?>"
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                     </div>

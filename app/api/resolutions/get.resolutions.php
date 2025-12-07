@@ -21,7 +21,7 @@ if ($id > 0) {
 elseif ($search !== '') {
     $where = "WHERE r.project_resolution_title LIKE ? 
                 OR r.resolution_summary LIKE ? 
-                OR r.resolution_number LIKE ?
+                OR r.id LIKE ?
                 OR r.proposed_by LIKE ?";
     $like = "%$search%";
     $params[] = $like;
@@ -54,8 +54,10 @@ $sql = "SELECT
             r.has_financial_summary,
             r.is_budget_released,
             r.created_by,
-            r.date_created
+            r.date_created,
+            CONCAT(u.first_name, ' ', u.last_name) AS creator_name
         FROM resolution r
+        LEFT JOIN user_info u ON r.created_by = u.user_id
         $where
         ORDER BY r.date_created DESC, r.id DESC
         LIMIT ? OFFSET ?";

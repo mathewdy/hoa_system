@@ -41,6 +41,9 @@ const columns = [
     </span>`;
   },
   row => {
+    return row.fullName || '—';
+  },
+  row => {
     const amount = parseFloat(row.amount_paid || 0);
     const formatted = new Intl.NumberFormat('en-PH', {
       style: 'currency',
@@ -64,8 +67,8 @@ const columns = [
 
 new TableView($state, fetcher, {
   tableId: 'paymentHistoryTable',
-  searchId: 'simple-search',
-  paginationId: 'paginationList',
+  searchId: 'homeowner-fee-search',
+  paginationId: 'homeowner_paginationList',
   columns
 });
 

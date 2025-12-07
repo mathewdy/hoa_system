@@ -7,6 +7,7 @@ if (!isset($_GET['id'])) {
     die("Invalid request — Missing ID.");
 }
 
+$role = $_SESSION['role'] ?? 0;
 $liq_id = intval($_GET['id']);
 
 $sql = "SELECT 
@@ -161,11 +162,11 @@ ob_start();
             </div>
         </div>
 
-        <div class="flex justify-between items-center mt-8 pt-6 border-t-2 border-gray-200">
+        <div class="flex justify-end gap-3 items-center mt-8 pt-6 border-t-2 border-gray-200">
             <a href="list.php" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium">
                 ← Back to List
             </a>
-
+            <?php if($role == 1):?>
             <?php if ($liq['status'] == 0): ?>
             <div class="flex gap-3">
                 <button onclick="rejectLiquidation(<?= $liq['id'] ?>)" 
@@ -177,6 +178,7 @@ ob_start();
                     Approve Liquidation
                 </button>
             </div>
+            <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>

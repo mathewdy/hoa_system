@@ -6,11 +6,11 @@ include_once($root . 'app/core/init.php');
 if (!isset($_GET['id'])) {
     die("Invalid request — Missing ID.");
 }
-
+ini_set('display_errors', 1);
+error_reporting(E_ALL);  
 $project_id = intval($_GET['id']);
 $user_id    = $_SESSION['user_id'] ?? 0;
-
-// ======================== HANDLE UPLOAD & VERIFY FIRST ========================
+$role = $_SESSION['role'] ?? 0;
 $upload_message   = '';
 $already_uploaded = false;
 $has_validated    = 0;
@@ -62,13 +62,11 @@ if (isset($_POST['upload']) || isset($_POST['verify'])) {
         }
     }
 
-    // --- VERIFY FINANCIAL SUMMARY ---
     if (isset($_POST['verify'])) {
         $stmt = $conn->prepare("UPDATE financial_summary SET has_validated = 1, date_updated = NOW() WHERE project_id = ?");
         $stmt->bind_param("i", $project_id);
         if ($stmt->execute()) {
             $has_validated = 1;
-            // Optional: Mark project as fully completed
             // $upd = $conn->prepare("UPDATE resolution SET status = 3 WHERE id = ?");
             // $upd->bind_param("i", $project_id);
             // $upd->execute();
@@ -78,12 +76,10 @@ if (isset($_POST['upload']) || isset($_POST['verify'])) {
     }
 }
 
-// Success message from redirect
 if (isset($_GET['success']) && $_GET['success'] === 'upload') {
     $upload_message = "<p class='text-green-600 font-medium'>Financial summary uploaded successfully!</p>";
 }
 
-// Check current status
 $stmt = $conn->prepare("SELECT id, has_validated FROM financial_summary WHERE project_id = ? LIMIT 1");
 $stmt->bind_param("i", $project_id);
 $stmt->execute();
@@ -96,7 +92,6 @@ if ($result->num_rows > 0) {
 $result->free();
 $stmt->close();
 
-// ======================== FETCH PROJECT & LIQUIDATION DATA ========================
 $stmt = $conn->prepare("SELECT * FROM resolution WHERE id = ?");
 $stmt->bind_param("i", $project_id);
 $stmt->execute();
@@ -107,7 +102,7 @@ $stmt->close();
 if (!$project) die("Project not found.");
 
 $stmt = $conn->prepare("
-    SELECT r.project_resolution_title, r.estimated_budget, l.total_expenses,
+    SELECT r.project_resolution_title, r.estimated_budget, l.total_expenses, l.status,
            d.audit_result, d.remaning_budget, d.remarks
     FROM resolution r
     JOIN liquidation_of_expenses l ON r.id = l.project_resolution_id
@@ -132,6 +127,19 @@ $stmt->bind_param("i", $project_id);
 $stmt->execute();
 $result_exp = $stmt->get_result();
 
+$stmt = $conn->prepare("
+    SELECT file, has_validated
+    FROM financial_summary 
+    WHERE project_id = ?
+    ORDER BY id ASC
+");
+$stmt->bind_param("i", $project_id);
+$stmt->execute();
+$res_fs = $stmt->get_result();
+
+$res_fs_info = $res_fs->fetch_assoc();  
+
+
 $pageTitle = 'Financial Summary';
 ob_start();
 ?>
@@ -139,11 +147,10 @@ ob_start();
 <div class="">
     <div class="rounded-lg shadow-sm">
         <div class="mb-6 border-b-2 border-gray-300 pb-5">
-            <h3 class="text-2xl font-semibold text-gray-900">Liquidation Details</h3>
+            <h3 class="text-2xl font-semibold text-gray-900">Financial Summary</h3>
             <p class="text-gray-600 mt-1">Viewing liquidation report and financial summary</p>
         </div>
 
-        <!-- Project Info -->
         <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm mb-6 bg-gradient-to-br from-teal-50 to-white">
             <h2 class="text-xl font-semibold text-gray-900 mb-5">Project Information</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -160,7 +167,6 @@ ob_start();
             </div>
         </div>
 
-        <!-- Expenses Table -->
         <div class="border-2 border-gray-200 rounded-lg shadow-sm overflow-hidden mb-6">
             <div class="px-8 py-5 bg-gray-50 border-b border-gray-200">
                 <h2 class="text-xl font-semibold text-gray-900">Expense Line Items</h2>
@@ -196,7 +202,6 @@ ob_start();
             </div>
         </div>
 
-        <!-- Liquidation Summary -->
         <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm mb-6 bg-gradient-to-br from-indigo-50 to-white">
             <h2 class="text-xl font-semibold text-gray-900 mb-5">Liquidation Summary</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
@@ -205,17 +210,11 @@ ob_start();
                 <div><span class="font-medium text-gray-700">Audit Result:</span> <span class="ml-3 <?= $liq_info['audit_result'] === 'Approved' ? 'text-green-600' : 'text-red-600' ?> font-medium"><?= htmlspecialchars($liq_info['audit_result']) ?></span></div>
                 <div class="md:col-span-2"><span class="font-medium text-gray-700">Remarks:</span> <p class="mt-1 text-gray-800 italic"><?= nl2br(htmlspecialchars($liq_info['remarks'] ?? 'None')) ?></p></div>
             </div>
-        </div>
-
-        <!-- FINANCIAL SUMMARY UPLOAD -->
+        </div> 
+        <?php if ($liq_info['status'] == 1): ?>
         <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm bg-gradient-to-br from-amber-50 to-white">
             <h2 class="text-xl font-semibold text-gray-900 mb-4">Financial Summary Attachment</h2>
-
-            <?php if ($upload_message): ?>
-                <div class="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800"><?= $upload_message ?></div>
-            <?php endif; ?>
-
-            <?php if (!$already_uploaded): ?>
+            <?php if (!$already_uploaded && $role == 5): ?>
                 <form action="" method="POST" enctype="multipart/form-data" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Upload Consolidated Financial Summary (PDF/Image)</label>
@@ -227,31 +226,38 @@ ob_start();
                         Upload Financial Summary
                     </button>
                 </form>
-            <?php else: ?>
+            <?php else: 
+             if ($res_fs_info): ?>
                 <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <p class="text-green-800 font-medium text-lg">Financial Summary has been uploaded and submitted.</p>
+                    <a href="/hoa_system/uploads/financial_summary/<?= htmlspecialchars($res_fs_info['file']) ?>" target="_blank">
+                        View Document
+                    </a>
                 </div>
-            <?php endif; ?>
+            <?php else: ?>
+                <div class="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+                    No financial summary uploaded yet.
+                </div>
+            <?php endif;
+              endif; ?>
         </div>
-
-        <!-- ACTION BUTTONS -->
+        <?php endif; ?>
         <div class="mt-8 flex justify-end gap-4 items-center">
             <a href="list.php" class="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium">
                 Back to List
             </a>
-
-            <?php if ($already_uploaded && $has_validated !== 1): ?>
-                <form action="" method="POST" class="inline">
-                    <button type="submit" name="verify"
-                            class="px-6 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition shadow">
-                        Verify Financial Summary
-                    </button>
-                </form>
-            <?php elseif ($has_validated === 1): ?>
-                <span class="inline-flex items-center px-6 py-2.5 bg-green-100 text-green-800 font-bold rounded-lg">
-                    Verified Successfully
-                </span>
-            <?php endif; ?>
+            
+            <?php 
+            if($role == 4) :
+              if ($already_uploaded && $has_validated !== 1): ?>
+                  <form action="" method="POST" class="inline">
+                      <button type="submit" name="verify"
+                              class="px-6 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition shadow">
+                          Verify Financial Summary
+                      </button>
+                  </form>
+            <?php 
+              endif; 
+            endif; ?>
         </div>
     </div>
 </div>

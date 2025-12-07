@@ -51,7 +51,7 @@ const columns = [
     return `
       <div class="text-sm">
         <div class="font-medium text-gray-900">${start} → ${end}</div>
-        <div class="text-xs text-gray-500">Proposed by: ${row.proposed_by || '—'}</div>
+        <div class="text-xs text-gray-500">Proposed by: ${row.creator_name || '—'}</div>
       </div>
     `;
   },
@@ -62,20 +62,44 @@ const columns = [
 
     if(role == 4){
       return released
-      ? '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"><i class="ri-check-line mr-1"></i> Released</span>'
-      : `<a href="budget-release.php?id=${row.id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">Add Budget Release</a>`;
+      ? `<a href="view-budget.php?id=${row.id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 hover:bg-green-200"><i class="ri-check-line mr-1"></i> Released</a>`
+      : `<a href="budget-release.php?id=${row.id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-gray-700"><i class="ri-add-large-line mr-1"></i> Add Budget</a>`;
     }
     
     return released
-      ? '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"><i class="ri-check-line mr-1"></i> Released</span>'
+      ? `<a href="view-budget.php?id=${row.id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 hover:bg-green-200"><i class="ri-check-line mr-1"></i> Released</a>`
       : '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700"><i class="ri-close-line mr-1"></i> Not Yet</span>';
   },
 
   row => {
-    const has = row.has_financial_summary;
-    return has
-      ? '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-teal-100 text-teal-800"><i class="ri-file-check-line mr-1"></i> Attached</span>'
-      : '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800"><i class="ri-file-warning-line mr-1"></i> Missing</span>';
+    const hasFS = row.has_financial_summary == 1
+    const role = localStorage.getItem('role') || ''
+    const isApproved = row.status == 1
+    const budgetReleased = row.budget_release == 1
+    const id = row.id ?? 0
+
+    if (hasFS) {
+      return `<a href="financial-summary.php?id=${id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 hover:bg-green-200">
+        <i class="ri-check-line mr-1"></i> Uploaded
+      </a>`
+    }
+
+    if (role == '4' && budgetReleased && isApproved) {
+      return `<a href="financial-summary.php?id=${id}" 
+        class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-teal-600 text-white hover:bg-teal-700 transition shadow-sm">
+        <i class="ri-upload-cloud-2-line mr-2"></i> Upload Summary
+      </a>`
+    }
+
+    if (role == '5') {
+      return `<a href="financial-summary.php?id=${id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+        Add Budget Release
+      </a>`
+    }
+
+    return `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+      <i class="ri-close-line mr-1"></i> Not Uploaded
+    </span>`
   },
 
   row => `
@@ -84,26 +108,6 @@ const columns = [
          class="text-teal-600 hover:text-teal-800" title="View Resolution">
         <i class="ri-eye-fill text-xl"></i>
       </a>
-      
-      ${row.project_proposal_document ? `
-        <a href="view_pdf.php?id=${row.id}&file=signed" target="_blank"
-           class="text-blue-600 hover:text-blue-800" title="View Proposal">
-          <i class="ri-file-text-line text-xl"></i>
-        </a>` : ''
-      }
-      ${row.is_budget_released ? `
-        <a href="view-budget.php?id=${row.id}&file=signed" target="_blank"
-           class="text-orange-600 hover:text-orange-800" title="View Proposal">
-          <i class="ri-cash-line text-xl"></i>
-        </a>` : ''
-      }
-
-      ${row.upload_signed_resolution == '' ? `
-        <a href="view_pdf.php?id=${row.id}&file=signed" target="_blank"
-          class="text-green-600 hover:text-green-800" title="View Signed Resolution">
-          <i class="ri-file-check-fill text-xl"></i>
-        </a>` : ''
-      }
     </div>
   `
 ];

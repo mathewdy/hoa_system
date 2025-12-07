@@ -11,7 +11,7 @@ $params = [];
 $types = '';
 
 if ($search !== '') {
-  $where = "AND due_name LIKE ? OR `status` LIKE ?)";
+  $where = "AND fee_name LIKE ? OR `status` LIKE ?)";
   $params = ["%$search%", "%$search%"];
   $types = 'ss';
 }
@@ -29,7 +29,7 @@ $totalPages = ceil($total / $limit);
 
 $sql = "SELECT * FROM fee_type 
   $where 
-  ORDER BY id 
+  ORDER BY id DESC 
   LIMIT ? 
   OFFSET ?";
 $stmt = mysqli_prepare($conn, $sql);

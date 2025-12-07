@@ -69,21 +69,11 @@ const columns = [
       return `
       <div class="flex gap-2">
         <a 
-          href="view.php?id=${row.user_id}"  
-          class="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-800 transition">
+          href="view.php?id=${row.id}"  
+          class="flex items-center gap-2 px-3 py-1 bg-teal-600 text-white rounded-lg hover:bg-teal-800 transition">
           <i class="ri-eye-fill text-xl text-white"></i> 
           View
         </a>
-         <a 
-            id="actionBtn_${row.id}"
-            href="javascript:void(0)" 
-            class="actionBtn flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition" 
-            title="${title}"
-            data-action="${row.status}"
-            data-id="${row.id}">
-            <i class="ri-shut-down-line text-xl text-${color}-500 hover:text-${color}-300"></i>
-            ${title}
-          </a>
       </div>
       `;
     } 
@@ -91,7 +81,7 @@ const columns = [
       <div class="flex gap-2">
         <a 
           href="view.php?id=${row.id}" 
-          class="flex items-center gap-2 px-4 py-2 text-white rounded-lg bg-teal-600 hover:bg-teal-700 transition">
+          class="flex items-center gap-2 px-3 py-1 text-white rounded-lg bg-teal-600 hover:bg-teal-700 transition">
           <i class="ri-eye-fill text-xl text-white"></i> 
           View
         </a> 

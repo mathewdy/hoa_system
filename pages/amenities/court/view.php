@@ -49,7 +49,7 @@ ob_start();
                             type="text"
                             name="renter_name"
                             value="<?= htmlspecialchars($booking['renter_name']) ?>"
-                            required
+                            readonly
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                     </div>
@@ -59,7 +59,7 @@ ob_start();
                         <input 
                             type="tel"
                             name="contact_no"
-                            required
+                            readonly
                             pattern="09[0-9]{9}"
                             value="<?= htmlspecialchars($booking['contact_no']) ?>"
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm
@@ -72,7 +72,7 @@ ob_start();
                             type="number"
                             name="amount"
                             min="0"
-                            required
+                            readonly
                             value="<?= htmlspecialchars($booking['amount']) ?>"
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
@@ -83,7 +83,7 @@ ob_start();
                         <input 
                             type="datetime-local"
                             name="start_date"
-                            required
+                            readonly
                             value="<?= date('Y-m-d\TH:i', strtotime($booking['start_date'])) ?>"
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
@@ -94,7 +94,7 @@ ob_start();
                         <input 
                             type="datetime-local"
                             name="end_date"
-                            required
+                            readonly
                             value="<?= date('Y-m-d\TH:i', strtotime($booking['end_date'])) ?>"
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
@@ -106,6 +106,7 @@ ob_start();
                             type="number"
                             name="no_of_participants"
                             min="1"
+                            readonly
                             value="<?= htmlspecialchars($booking['no_of_participants']) ?>"
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
@@ -116,6 +117,7 @@ ob_start();
                         <input 
                             type="text"
                             name="purpose"
+                            readonly
                             value="<?= htmlspecialchars($booking['purpose']) ?>"
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
@@ -123,7 +125,7 @@ ob_start();
 
                     <div class="grid grid-cols-2 items-center">
                         <label class="block text-sm font-medium text-gray-700">Status <span class="text-red-500">*</span></label>
-                        <select name="status" required
+                        <select name="status" disabled
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                             <option value="Active" <?= $booking['status'] === 'Active' ? 'selected' : '' ?>>Active</option>

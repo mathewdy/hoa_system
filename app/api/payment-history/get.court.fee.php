@@ -9,27 +9,43 @@ $search = trim($_GET['search'] ?? '');
 $offset = ($page - 1) * $limit;
 
 $sql = "
-    SELECT *
-    FROM court_fees 
-    WHERE status = 1
+  SELECT cf.*, c.renter_name AS fullName
+  FROM court_fees cf 
+  LEFT JOIN court c ON cf.court_id = c.id
+  WHERE cf.status = 1
 ";
 
 $params = [];
 $types = '';
 
 if ($search !== '') {
-    $sql .= " AND (court_id LIKE ? OR amount_paid LIKE ?)";
-    $searchTerm = "%$search%";
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $types .= 'sss';
+  $sql .= " AND (
+    c.renter_name LIKE ?
+    OR cf.court_id LIKE ?
+    OR cf.amount_paid LIKE ?
+  )";
+
+  $searchTerm = "%$search%";
+  $params[] = $searchTerm;
+  $params[] = $searchTerm;
+  $params[] = $searchTerm;
+  $types .= 'sss';
+}
+$countSql = "
+  SELECT COUNT(*) AS total
+  FROM court_fees cf
+  LEFT JOIN court c ON cf.court_id = c.id
+  WHERE cf.status = 1
+";
+
+if ($search !== '') {
+  $countSql .= " AND (
+    c.renter_name LIKE ?
+    OR cf.court_id LIKE ?
+    OR cf.amount_paid LIKE ?
+  )";
 }
 
-$countSql = "SELECT COUNT(*) as total FROM court_fees WHERE status = 1";
-if ($search !== '') {
-    $countSql .= " AND (court_id LIKE ? OR amount_paid LIKE ?)";
-}
 $countStmt = $conn->prepare($countSql);
 if ($search !== '') {
     $countStmt->bind_param(str_repeat('s', count($params)), ...$params);
@@ -54,11 +70,6 @@ $result = $stmt->get_result();
 $payments = [];
 while ($row = $result->fetch_assoc()) {
     $row['amount_paid'] = number_format((float)$row['amount_paid'], 2, '.', '');
-    
-    if ($row['attachment'] && !str_starts_with($row['attachment'], 'http')) {
-        $row['attachment'] = "/hoa_system/{$row['attachment']}";
-    }
-
     $payments[] = $row;
 }
 

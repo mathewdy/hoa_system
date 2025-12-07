@@ -2,14 +2,12 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
 header('Content-Type: application/json');
 
-// === PARAMETERS ===
 $id     = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $limit  = isset($_GET['limit']) ? max(1, (int)$_GET['limit']) : 10;
 $page   = max(1, (int)($_GET['page'] ?? 1));
 $search = trim($_GET['search'] ?? '');
 $offset = ($page - 1) * $limit;
 
-// === BUILD WHERE CLAUSE ===
 $where = '';
 $params = [];
 $types = '';
@@ -22,7 +20,7 @@ if ($id > 0) {
 elseif ($search !== '') {
     $where = "WHERE r.project_resolution_title LIKE ? 
                 OR r.resolution_summary LIKE ? 
-                OR r.resolution_number LIKE ?";
+                OR r.id LIKE ?";
     $like = "%$search%";
     $params[] = $like;
     $params[] = $like;
@@ -30,7 +28,6 @@ elseif ($search !== '') {
     $types .= 'sss';
 }
 
-// === TOTAL COUNT ===
 $totalSql = "SELECT COUNT(*) AS total 
              FROM resolution r
              LEFT JOIN liquidation_of_expenses l ON r.id = l.project_resolution_id
