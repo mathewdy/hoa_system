@@ -2,6 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/functions/mailer.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/functions/fees.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/functions/password-generate.php';
 
 header('Content-Type: application/json');
 
@@ -10,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$required = ['first_name', 'last_name', 'phone', 'hoa_number', 'home_address', 'lot', 'block', 'email_address', 'password'];
+$required = ['first_name', 'last_name', 'phone', 'hoa_number', 'home_address', 'lot', 'block', 'email_address'];
 foreach ($required as $field) {
   if (empty(trim($_POST[$field] ?? ''))) {
     echo json_encode(['success' => false, 'message' => ucfirst(str_replace('_', ' ', $field)) . ' is required']);
@@ -35,15 +36,10 @@ $phase          = trim($_POST['phase'] ?? '');
 $village        = trim($_POST['village'] ?? 'Your Village Name');
 
 $email          = trim($_POST['email_address']);
-$password       = $_POST['password'];
 $role_id        = (int)($_POST['role_id'] ?? 6);
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   echo json_encode(['success' => false, 'message' => 'Invalid email address']);
-  exit;
-}
-if (strlen($password) < 6) {
-  echo json_encode(['success' => false, 'message' => 'Password must be at least 6 characters']);
   exit;
 }
 
@@ -58,6 +54,7 @@ if ($check->num_rows > 0) {
 }
 $check->close();
 
+$password = generatePassword(16);
 $hashed = password_hash($password, PASSWORD_DEFAULT);
 $user_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3);
 

@@ -83,7 +83,6 @@ ob_start();
                     <div class="grid grid-cols-2 items-center">
                         <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
                         <input type="email" name="email_address" required class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
-                        <input type="hidden" name="password" value="MabuhayHomes@123">
                     </div>
                     <div class="grid grid-cols-2 items-center">
                         <label class="block text-sm font-medium text-gray-700">Role</label>
