@@ -9,27 +9,46 @@ $search = trim($_GET['search'] ?? '');
 $offset = ($page - 1) * $limit;
 
 $sql = "
-    SELECT *
-    FROM stall_renter_fees
-    WHERE status = 1
+    SELECT srf.*, sr.renter_name AS fullName
+    FROM stall_renter_fees srf
+    LEFT JOIN stall_renter sr ON srf.stall_renter_id = sr.id
+    WHERE srf.status = 1
 ";
 
 $params = [];
 $types = '';
 
 if ($search !== '') {
-    $sql .= " AND (stall_renter_id LIKE ? OR amount_paid LIKE ? OR status LIKE ?)";
-    $searchTerm = "%$search%";
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $types .= 'sss';
+  $sql .= " AND (
+    sr.renter_name LIKE ?
+    OR srf.stall_renter_id LIKE ?
+    OR srf.amount_paid LIKE ?
+    OR srf.status LIKE ?
+  )";
+
+  $searchTerm = "%$search%";
+  $params[] = $searchTerm;
+  $params[] = $searchTerm;
+  $params[] = $searchTerm;
+  $params[] = $searchTerm;
+  $types .= 'ssss';
+}
+$countSql = "
+  SELECT COUNT(*) AS total
+  FROM stall_renter_fees srf
+  LEFT JOIN stall_renter sr ON srf.stall_renter_id = sr.id
+  WHERE srf.status = 1
+";
+
+if ($search !== '') {
+  $countSql .= " AND (
+    sr.renter_name LIKE ?
+    OR srf.stall_renter_id LIKE ?
+    OR srf.amount_paid LIKE ?
+    OR srf.status LIKE ?
+  )";
 }
 
-$countSql = "SELECT COUNT(*) as total FROM stall_renter_fees WHERE status = 1";
-if ($search !== '') {
-    $countSql .= " AND (stall_renter_id LIKE ? OR amount_paid LIKE ? OR status LIKE ?)";
-}
 $countStmt = $conn->prepare($countSql);
 if ($search !== '') {
     $countStmt->bind_param(str_repeat('s', count($params)), ...$params);

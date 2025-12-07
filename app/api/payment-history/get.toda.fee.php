@@ -9,27 +9,40 @@ $search = trim($_GET['search'] ?? '');
 $offset = ($page - 1) * $limit;
 
 $sql = "
-    SELECT *
-    FROM toda_fees 
-    WHERE status = 1
+    SELECT tf.*, t.representative
+    FROM toda_fees tf
+    LEFT JOIN toda t ON tf.toda_id = t.id
+    WHERE tf.status = 1
 ";
 
 $params = [];
 $types = '';
 
 if ($search !== '') {
-    $sql .= " AND (u.name LIKE ? OR p.ref_no LIKE ? OR p.remarks LIKE ?)";
+    $sql .= " AND (
+      t.representative LIKE ? 
+      OR tf.amount_paid LIKE ?
+    )";
+    
     $searchTerm = "%$search%";
     $params[] = $searchTerm;
     $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $types .= 'sss';
+    $types .= 'ss';
+}
+$countSql = "
+  SELECT COUNT(*) AS total
+  FROM toda_fees tf
+  LEFT JOIN toda t ON tf.toda_id = t.id
+  WHERE tf.status = 1
+";
+
+if ($search !== '') {
+  $countSql .= " AND (
+      t.representative LIKE ?
+      OR tf.amount_paid LIKE ?
+  )";
 }
 
-$countSql = "SELECT COUNT(*) as total FROM toda_fees WHERE status = 1";
-if ($search !== '') {
-    $countSql .= " AND (u.name LIKE ? OR p.ref_no LIKE ? OR p.remarks LIKE ?)";
-}
 $countStmt = $conn->prepare($countSql);
 if ($search !== '') {
     $countStmt->bind_param(str_repeat('s', count($params)), ...$params);

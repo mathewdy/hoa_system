@@ -12,7 +12,7 @@ $sql = "
     SELECT 
         p.id,
         p.user_id,
-        u.first_name AS user_name,
+        CONCAT(u.first_name, ' ', u.last_name) as fullName,
         p.amount_paid,
         p.payment_method,
         p.ref_no,
@@ -29,7 +29,14 @@ $params = [];
 $types = '';
 
 if ($search !== '') {
-    $sql .= " AND (u.name LIKE ? OR p.ref_no LIKE ? OR p.remarks LIKE ?)";
+    $sql .= " 
+        AND (
+            CONCAT(u.first_name, ' ', u.last_name) LIKE ?
+            OR p.ref_no LIKE ?
+            OR p.remarks LIKE ?
+        )
+    ";
+
     $searchTerm = "%$search%";
     $params[] = $searchTerm;
     $params[] = $searchTerm;
@@ -37,10 +44,25 @@ if ($search !== '') {
     $types .= 'sss';
 }
 
-$countSql = "SELECT COUNT(*) as total FROM homeowner_fees p LEFT JOIN user_info u ON p.user_id = u.user_id WHERE 1=1";
+
+$countSql = "
+    SELECT 
+        COUNT(*) AS total,  
+        CONCAT(u.first_name, ' ', u.last_name) AS fullName
+    FROM homeowner_fees p
+    LEFT JOIN user_info u ON p.user_id = u.user_id
+    WHERE 1=1
+";
+    
 if ($search !== '') {
-    $countSql .= " AND (u.name LIKE ? OR p.ref_no LIKE ? OR p.remarks LIKE ?)";
+    $countSql .= " 
+        AND (
+            CONCAT(u.first_name, ' ', u.last_name) LIKE ?
+            OR p.ref_no LIKE ?
+            OR p.remarks LIKE ?
+        )";
 }
+
 $countStmt = $conn->prepare($countSql);
 if ($search !== '') {
     $countStmt->bind_param(str_repeat('s', count($params)), ...$params);
