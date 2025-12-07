@@ -11,9 +11,9 @@ $params = [];
 $types = '';
 
 if ($search !== '') {
-    $where = "AND (toda_name LIKE ? OR representative LIKE ? OR contact_no LIKE ?)";
-    $params = ["%$search%", "%$search%", "%$search%"];
-    $types = 'sss';
+    $where = "AND (toda_name LIKE ? OR representative LIKE ? OR contact_no LIKE ? OR `start_date` LIKE ? OR end_date LIKE ? OR fee_amount LIKE ?)";
+    $params = ["%$search%", "%$search%", "%$search%", "%$search%", "%$search%", "%$search%"];
+    $types = 'ssssss';
 }
 
 $totalSql = "SELECT COUNT(*) AS total FROM toda WHERE 1=1 $where";

@@ -10,7 +10,7 @@ if (!isset($_GET['id'])) {
 
 $rental_id = intval($_GET['id']);
 
-$sql = "SELECT * FROM stall_rent WHERE id = ?";
+$sql = "SELECT * FROM stall_renter WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $rental_id);
 $stmt->execute();
@@ -48,7 +48,7 @@ ob_start();
                         <input 
                             type="text" 
                             name="renter_name" 
-                            value="<?= htmlspecialchars($rental['renter']) ?>"
+                            value="<?= htmlspecialchars($rental['renter_name']) ?>"
                             required 
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                     </div>
@@ -101,7 +101,7 @@ ob_start();
                         <input 
                             type="date" 
                             name="date_start"
-                            value="<?= $rental['date_start'] ?>"
+                            value="<?= $rental['start_date'] ?>"
                             required
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                     </div>
@@ -111,7 +111,7 @@ ob_start();
                         <input 
                             type="date" 
                             name="date_end"
-                            value="<?= $rental['date_end'] ?>"
+                            value="<?= $rental['end_date'] ?>"
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                     </div>
 

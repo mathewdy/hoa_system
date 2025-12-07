@@ -50,14 +50,6 @@ if ($fee_amount < 0) {
     exit;
 }
 
-// Normalize status
-$status = strtolower($status);
-$status = $status === '1' ? 'active' : ($status === '0' ? 'inactive' : $status);
-if (!in_array($status, ['active', 'inactive', 'pending'])) {
-    echo json_encode(['success' => false, 'message' => 'Invalid status']);
-    exit;
-}
-
 $contractFilePath = null;
 
 if (isset($_FILES['contract']) && $_FILES['contract']['error'] !== UPLOAD_ERR_NO_FILE) {

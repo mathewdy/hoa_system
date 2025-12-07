@@ -24,14 +24,12 @@ $role = $_SESSION['role'];
           placeholder="Search <?= strtolower($pageTitle) ?>..." />
       </div>
     </form>
-      <a href="stalls/list.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Stalls</a>
 
     <?php
 
     if($role  == 3){
       ?>
-        <a href="new-rental.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">New Rental</a>
-
+        <a href="create-stall.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">New Stall</a>
       <?php
     }
 
@@ -43,12 +41,9 @@ $role = $_SESSION['role'];
     <table id="dataTable" class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>
-          <th class="px-6 py-3">Renter</th>
-          <th class="px-6 py-3">Contact No.</th>
           <th class="px-6 py-3">Stall No.</th>
-          <th class="px-6 py-3">Start & End</th>
-          <th class="px-6 py-3">Amount</th>
           <th class="px-6 py-3">Status</th>
+          <th class="px-6 py-3">Date Created</th>
           <th class="px-6 py-3">Action</th>
         </tr>
       </thead>
@@ -66,13 +61,20 @@ $role = $_SESSION['role'];
 
   <!-- MODULE TRIGGER -->
   <div data-module="stallrentals"></div>
+
+   <div class="flex flex-wrap justify-end gap-4 pt-6 border-t border-gray-300">
+      <a href="../list.php" 
+          class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 font-medium transition">
+          Back to List
+      </a>
+  </div>
 </div>
 
 <?php
 $content = ob_get_clean();
 
 $pageScripts = '
-  <script type="module" src="/hoa_system/ui/modules/amenities/stall/get.stall.js"></script>
+  <script type="module" src="/hoa_system/ui/modules/amenities/stall/get.available.stalls.js"></script>
 ';
 
 require_once BASE_PATH . '/pages/layout.php';

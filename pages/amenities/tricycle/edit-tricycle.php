@@ -34,13 +34,13 @@ $date_end        = !empty($_POST['date_end']) ? $_POST['date_end'] : null;
 
 try {
     $stmt = $conn->prepare("
-        UPDATE tricycle 
+        UPDATE toda 
         SET toda_name = ?, 
             no_of_tricycles = ?, 
             representative = ?, 
             contact_no = ?, 
-            date_start = ?, 
-            date_end = ?, 
+            start_date = ?, 
+            end_date = ?, 
             date_updated = NOW()
         WHERE id = ?
     ");
