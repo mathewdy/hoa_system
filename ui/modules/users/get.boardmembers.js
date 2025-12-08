@@ -87,5 +87,7 @@ function toast(msg, type = 'info') {
   $('body').append($toast);
   setTimeout(() => $toast.addClass('animate-fade-out').on('animationend', () => $toast.remove()), 3000);
 }
-
+$('#downloadPdfBtn').on('click', function() {
+  window.open('/hoa_system/app/api/users/get.boardmembers-file.php', '_blank');
+});
 $(document).on('fetch:error', (e, msg) => toast(msg || 'Failed to load.', 'error'));
