@@ -11,9 +11,9 @@ $params = [];
 $types = '';
 
 if ($search !== '') {
-  $where = "AND fee_name LIKE ? OR `status` LIKE ?)";
-  $params = ["%$search%", "%$search%"];
-  $types = 'ss';
+    $where = "WHERE (fee_name LIKE ? OR `status` LIKE ?)";
+    $params = ["%$search%", "%$search%"];
+    $types = 'ss';
 }
 
 $totalSql = "SELECT COUNT(*) AS total 
