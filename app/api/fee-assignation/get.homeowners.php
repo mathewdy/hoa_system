@@ -6,7 +6,7 @@ $page   = max(1, (int)($_GET['page'] ?? 1));
 $search = trim($_GET['search'] ?? '');
 $offset = ($page - 1) * $limit;
 
-$where = 'WHERE u.role_id = 6';
+$where = 'WHERE u.role_id = 6 AND u.status = 1';
 $params = [];
 $types = '';
 
@@ -46,7 +46,7 @@ SELECT
 FROM fee_assignments fa
 LEFT JOIN users u ON fa.user_id = u.user_id
 LEFT JOIN user_info ui ON ui.user_id = u.user_id
-WHERE u.role_id = 6
+WHERE u.role_id = 6 AND u.status = 1
 GROUP BY u.user_id
 ORDER BY ui.last_name, ui.first_name
 LIMIT ? OFFSET ?";
