@@ -30,7 +30,8 @@ try {
         $today = date('Y-m-d');
         $tables = ['homeowner_fees','toda_fees','stall_renter_fees','court_fees'];
         foreach ($tables as $table) {
-            $conn->query("UPDATE $table SET is_remitted = 1 WHERE status = 1 AND DATE(date_created) = '$today'");
+            $conn->query("UPDATE $table SET is_remitted = 1 WHERE status = 1 AND date_created >= DATE_FORMAT(CURDATE(), '%Y-%m-01 00:00:00')
+AND date_created <= NOW()");
         }
         
     }

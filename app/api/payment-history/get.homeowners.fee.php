@@ -71,7 +71,7 @@ $countStmt->execute();
 $totalRecords = $countStmt->get_result()->fetch_assoc()['total'];
 $countStmt->close();
 
-$sql .= " ORDER BY p.date_created DESC LIMIT ? OFFSET ?";
+$sql .= " ORDER BY p.id DESC LIMIT ? OFFSET ?";
 $params[] = $limit;
 $params[] = $offset;
 $types .= 'ii';
