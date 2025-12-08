@@ -13,186 +13,102 @@ ob_start();
 $role = $_SESSION['role'];
 ?>
 
-  <div class="space-y-6">
-    <?php 
-    if($role == 2 || $role == 3 ){
-    ?>
-            <button onclick="openModal()" 
-        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-            Create Post
+<div class="mt-4">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-semibold">News Feed</h2>
+  </div>
+
+  <div class="flex gap-4 mb-4">
+    <input type="text" id="simple-search" placeholder="Search posts..." 
+    class="flex-1 border rounded-lg p-2 focus:ring-1 focus:ring-teal-600">
+     <button id="openCreateModal" 
+            class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700">
+      + Create Post
+    </button>
+  </div>
+  <div id="newsfeed-container">
+    <div id="newsfeed-list"></div>
+
+    <nav class="flex items-center justify-between p-4 text-sm"> 
+      <span class="text-gray-500"> Showing <span id="rangeStart">1</span>-<span id="rangeEnd">10</span> of <span id="totalRecords">0</span> 
+      </span> 
+      <ul id="paginationList" class="inline-flex -space-x-px h-8"></ul> 
+    </nav>
+  </div>
+
+</div>
+<div id="createNewsfeedModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white w-full max-w-lg rounded-lg p-6 relative">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-semibold">Create Newsfeed Post</h3>
+      <button id="closeCreateModal" class="text-gray-500 hover:text-gray-700">
+        <i class="ri-close-large-line"></i>
+      </button>
+    </div>
+    <form id="create-newsfeed-form" enctype="multipart/form-data">
+      <input type="hidden" name="created_by" value="<?= $_SESSION['user_id'] ?>">
+
+      <label class="block mb-1">Title</label>
+      <input type="text" name="post_title" required class="border rounded p-2 w-full mb-3">
+
+      <label class="block mb-1">Description</label>
+      <textarea name="description" required class="border rounded p-2 w-full mb-3"></textarea>
+
+      <label class="block mb-1">Post Image</label>
+      <input type="file" name="post_images" class="mb-3 w-full bg-gray-100 p-2 rounded" required>
+
+      <label class="block mb-1">Project File</label>
+      <input type="file" name="project_file" class="mb-3 w-full bg-gray-100 p-2 rounded" required>
+
+      <div class="flex justify-end gap-2">
+        <button type="button" id="cancelCreatePost" class="px-4 py-2 border rounded">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700">
+          Create
         </button>
-            <?php
-
-    }
-
-    ?>
-    <?php 
-    while($row = mysqli_fetch_assoc($result)):
-
-        ?>
-
-        <div class="p-4 border-b flex items-center justify-end">
-                 <!-- Edit/Delete buttons -->
-                    <?php //if($user_id['user_id'] === $row['created_by']): ?>
-                            <div class="flex space-x-2">
-                                <a href="edit.php?id=<?= $row['id'] ?>" 
-                                  class="text-teal-600 hover:text-teal-700 text-sm font-medium flex items-center">
-                                    <i class="fas fa-edit mr-1"></i> Edit
-                                </a>
-                                <a href="delete.php?id=<?= $row['id'] ?>" 
-                                  onclick="return confirm('Are you sure you want to delete this post?');"
-                                  class="text-red-600 hover:text-red-700 text-sm font-medium flex items-center">
-                                    <i class="fas fa-trash mr-1"></i> Delete
-                                </a>
-                            </div>
-                    <?php //endif; ?>
-            </div>
-
-  
-      <div class="bg-white rounded-lg shadow overflow-hidden">
-            
-            <div class="p-4">
-                <h3 class="text-lg font-semibold mb-2"><?= htmlspecialchars($row['post_title']) ?></h3>
-                <p class="text-gray-700 mb-4"><?= nl2br(htmlspecialchars($row['description'])) ?></p>
-
-                <!-- Images -->
-                <div class="grid grid-cols-2 gap-2 mb-4">
-                    <?php 
-                        $images = !empty($row['post_images']) ? explode(",", $row['post_images']) : [];
-                        foreach($images as $img):
-                            if(!empty($img)):
-                    ?>
-                        <img src="../../uploads/images/<?= htmlspecialchars($img) ?>" 
-                              alt="<?= htmlspecialchars($row['post_title']) ?>" 
-                              class="rounded-lg w-full h-48 object-cover">
-                    <?php 
-                            endif;
-                        endforeach;
-                    ?>
-
-                   
-                </div>
-
-                <?php if(!empty($row['project_file'])): ?>
-                    <a href="../../uploads/files/<?= htmlspecialchars($row['project_file']) ?>" target="_blank" 
-                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700">
-                        <i class="fas fa-file-pdf mr-2"></i> View Project Details (PDF)
-                    </a>
-                <?php endif; ?>
-            </div>
       </div>
-      <?php endwhile; ?>
+    </form>
   </div>
 </div>
-  <!-- Modal Background -->
-<div id="createPostModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white w-full max-w-2xl rounded-xl shadow-lg p-6">
 
-        <!-- Modal Header -->
-        <div class="flex justify-between items-center border-b pb-3">
-            <h2 class="text-xl font-semibold">Create News Feed Post</h2>
-            <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-        </div>
+<div id="editNewsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+    <h3 class="text-xl font-bold mb-4">Edit Post</h3>
+    <form id="edit-news-form" enctype="multipart/form-data">
+      <input type="hidden" id="edit_post_id" name="id">
 
-        <!-- FORM -->
-        <form action="../../Query/create-news-feed.php" method="POST" enctype="multipart/form-data" class="mt-4">
+      <div class="mb-4">
+        <label for="edit_post_title" class="block font-medium mb-1">Post Title</label>
+        <input type="text" id="edit_post_title" name="post_title" class="w-full border rounded p-2">
+      </div>
 
-            <div class="mb-4">
-                <label class="block font-medium mb-1">Post Title:</label>
-                <input type="text" name="post_title" 
-                    class="w-full border rounded-lg px-3 py-2" required>
-            </div>
+      <div class="mb-4">
+        <label for="edit_description" class="block font-medium mb-1">Description</label>
+        <textarea id="edit_description" name="description" class="w-full border rounded p-2" rows="4"></textarea>
+      </div>
 
-            <div class="mb-4">
-                <label class="block font-medium mb-1">Description:</label>
-                <textarea name="description" rows="4" 
-                    class="w-full border rounded-lg px-3 py-2" required></textarea>
-            </div>
+      <div class="mb-4">
+        <label for="edit_post_images" class="block font-medium mb-1">Post Image</label>
+        <input type="file" id="edit_post_images" name="post_images" accept="image/*">
+      </div>
 
-            <div class="mb-4">
-                <label class="block font-medium mb-1">Post Images (Multiple):</label>
+      <div class="mb-4">
+        <label for="edit_project_file" class="block font-medium mb-1">Project File</label>
+        <input type="file" id="edit_project_file" name="project_file">
+      </div>
 
-                <!-- MULTIPLE IMAGES -->
-                <input type="file" name="post_images[]" id="post_images" 
-                    class="w-full border rounded-lg px-3 py-2"
-                    accept="image/*" multiple>
-
-                <div id="image_preview_container" class="flex flex-wrap gap-3 mt-3"></div>
-            </div>
-
-            <div class="mb-4">
-                <label class="block font-medium mb-1">Project File (PDF Only):</label>
-
-                <!-- PDF ONLY -->
-                <input type="file" name="project_details" id="project_details"
-                    class="w-full border rounded-lg px-3 py-2"
-                    accept="application/pdf">
-
-                <div id="file_preview" 
-                    class="mt-2 font-semibold text-gray-700 hidden"></div>
-            </div>
-
-            <!-- Footer Buttons -->
-            <div class="flex justify-end gap-3 mt-6">
-                <button type="button" onclick="closeModal()" 
-                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
-                    Cancel
-                </button>
-
-                <button type="submit" name="create_post"
-                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                    Submit Post
-                </button>
-            </div>
-
-        </form>
-    </div>
+      <div class="flex justify-end gap-2">
+        <button type="button" id="closeEditModal" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Update</button>
+      </div>
+    </form>
+  </div>
 </div>
 
-
-  
-<script>
-function openModal() {
-    document.getElementById("createPostModal").classList.remove("hidden");
-}
-
-function closeModal() {
-    document.getElementById("createPostModal").classList.add("hidden");
-}
-
-document.getElementById('post_images').addEventListener('change', function(event) {
-    let container = document.getElementById('image_preview_container');
-    container.innerHTML = ""; 
-
-    Array.from(event.target.files).forEach(file => {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            let img = document.createElement("img");
-            img.src = e.target.result;
-            img.classList = "w-24 h-24 object-cover rounded-lg border";
-            container.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-    });
-});
-
-document.getElementById('project_details').addEventListener('change', function(event) {
-    let file = event.target.files[0];
-    let preview = document.getElementById('file_preview');
-
-    if (file && file.type === "application/pdf") {
-        preview.textContent = "PDF Selected: " + file.name;
-        preview.classList.remove("hidden");
-    } else {
-        preview.textContent = "Invalid file. PDF only!";
-        preview.classList.remove("hidden");
-    }
-});
-</script>
 <?php
 $content = ob_get_clean();
 
 $pageScripts = '
+    <script type="module" src="/hoa_system/ui/modules/news-feed/get.news-feed.js"></script>
 ';
 
 require_once BASE_PATH . '/pages/layout.php';
