@@ -13,21 +13,27 @@ ob_start();
 ?>
 <div class="mt-1">
   <div class="bg-white rounded-lg shadow-sm p-6 mb-6 w-full">
-    <div class="flex items-center space-x-4">
-      <div class="relative">
-        <img class="rounded-full border border-gray-100" src="<?= BASE_URL . 'assets/img/user-alt-64.png'?>" alt="User">
-        <label for="profile-picture" class="absolute -bottom-3 -right-3 bg-teal-600 text-white rounded-full py-1 px-2 cursor-pointer hover:bg-teal-700 transition-colors shadow-lg text-center">
-          <i class="ri-camera-lens-fill text-lg"></i>
-          <input type="file" id="profile-picture" class="hidden" accept="image/png,image/jpeg" />
-        </label>
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <div class="relative">
+          <img class="rounded-full border border-gray-100" src="<?= BASE_URL . 'assets/img/user-alt-64.png'?>" alt="User">
+          <label for="profile-picture" class="absolute -bottom-3 -right-3 bg-teal-600 text-white rounded-full py-1 px-2 cursor-pointer hover:bg-teal-700 transition-colors shadow-lg text-center">
+            <i class="ri-camera-lens-fill text-lg"></i>
+            <input type="file" id="profile-picture" class="hidden" accept="image/png,image/jpeg" />
+          </label>
+        </div>
+        <div class="w-100">
+          <div id="heading" class="text-2xl font-bold text-gray-900"></div>
+          <p id="subheading" class="text-gray-600"></p>
+        </div>
       </div>
-      <div class="w-100">
-        <div id="heading" class="text-2xl font-bold text-gray-900"></div>
-        <p id="subheading" class="text-gray-600"></p>
-      </div>
+      <?php if($userRole == 1): ?>
+        <div class="">
+          <button id="downloadPdfBtn" class="px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium transition whitespace-nowrap">Download PDF</button>
+        </div>
+        <?php endif; ?>
     </div>
   </div>
-
   <div class="mb-4 border-b border-default">
     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
       <li class="me-2" role="presentation">
@@ -240,6 +246,8 @@ $content = ob_get_clean();
 
 $pageScripts = '
   <script type="module" src="' . BASE_URL . 'ui/modules/profile/fetch.profile.js"></script>
+  <script type="module" src="' . BASE_URL . 'ui/modules/users/homeowner.downloadable.js"></script>
+
 ';
 
 require_once BASE_PATH . '/pages/layout.php';
