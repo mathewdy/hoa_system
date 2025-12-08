@@ -13,16 +13,25 @@ $where = '';
 $params = [];
 $types = '';
 
+if ($_SESSION['role'] == 6) {
+    $where = "WHERE r.status = 1";
+}
+
 if ($id > 0) {
-    $where = "WHERE r.id = ?";
+    if ($where) $where .= " AND r.id = ?";
+    else $where = "WHERE r.id = ?";
     $params[] = $id;
     $types .= 'i';
 }
 elseif ($search !== '') {
-    $where = "WHERE r.project_resolution_title LIKE ? 
-                OR r.resolution_summary LIKE ? 
-                OR r.id LIKE ?
-                OR r.proposed_by LIKE ?";
+    if ($where) $where .= " AND (r.project_resolution_title LIKE ? 
+        OR r.resolution_summary LIKE ? 
+        OR r.id LIKE ? 
+        OR r.proposed_by LIKE ?)";
+    else $where = "WHERE (r.project_resolution_title LIKE ? 
+        OR r.resolution_summary LIKE ? 
+        OR r.id LIKE ? 
+        OR r.proposed_by LIKE ?)";
     $like = "%$search%";
     $params[] = $like;
     $params[] = $like;
@@ -30,6 +39,7 @@ elseif ($search !== '') {
     $params[] = $like;
     $types .= 'ssss';
 }
+
 
 $totalSql = "SELECT COUNT(*) AS total FROM resolution r $where";
 $totalStmt = $conn->prepare($totalSql);
