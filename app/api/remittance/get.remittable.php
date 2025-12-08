@@ -2,8 +2,6 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
 header('Content-Type: application/json');
 
-$today = date('Y-m-d');
-
 $tables = [
     "homeowner_fees",
     "court_fees",
@@ -16,15 +14,14 @@ $totalCollected = 0;
 foreach ($tables as $table) {
     $sql = "SELECT COALESCE(SUM(amount_paid), 0) AS total 
             FROM $table 
-            WHERE status = 1 AND is_remitted = 0 AND DATE(date_created) = ?";
+            WHERE status = 1 AND is_remitted = 0 AND date_created >= DATE_FORMAT(CURDATE(), '%Y-%m-01 00:00:00')
+AND date_created <= NOW()";
     
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $today);
-    $stmt->execute();
-    $result = $stmt->get_result()->fetch_assoc();
-
-    $totalCollected += (float)$result['total'];
-    $stmt->close();
+    $result = $conn->query($sql);
+    if($result) {
+        $row = $result->fetch_assoc();
+        $totalCollected += (float)$row['total'];
+    }
 }
 
 echo json_encode([

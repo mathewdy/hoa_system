@@ -1,12 +1,9 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
-// require_once $root . 'app/includes/session.php';
-include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php');
-
+require_once $root . 'app/includes/session.php';
+$role = $_SESSION['role'] ?? 0;
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM news_feed ORDER BY date_created DESC";
-$result = mysqli_query($conn, $sql);
 $pageTitle = 'News Feed';
 ob_start();
 
@@ -21,10 +18,12 @@ $role = $_SESSION['role'];
   <div class="flex gap-4 mb-4">
     <input type="text" id="simple-search" placeholder="Search posts..." 
     class="flex-1 border rounded-lg p-2 focus:ring-1 focus:ring-teal-600">
+    <?php if($role == 2 || $role == 3): ?>
      <button id="openCreateModal" 
             class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700">
       + Create Post
     </button>
+    <?php endif; ?>
   </div>
   <div id="newsfeed-container">
     <div id="newsfeed-list"></div>

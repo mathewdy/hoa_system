@@ -59,20 +59,20 @@ $(document).on('fetch:error', (_, msg) => {
 
 
 function loadTotalCollected() {
-    $.get('/hoa_system/app/api/remittance/get.remittable.php')
-        .done(res => {
-            if (res.success && res.data.length > 0) {
-                const total = Number(res.data[0].total).toLocaleString("en-PH", {
-                    minimumFractionDigits: 2
-                });
+  $.get('/hoa_system/app/api/remittance/get.remittable.php')
+    .done(res => {
+        if (res.success && res.data.length > 0) {
+            const total = Number(res.data[0].total).toLocaleString("en-PH", {
+                minimumFractionDigits: 2
+            });
 
-                $("#totalCollected").text(`₱${total}`);
-                $("#amount").val(total);
-            }
-        })
-        .fail(() => {
-            console.error("Failed to load remittance total");
-        });
+            $("#totalCollected").text(`₱${total}`);
+            $("#amount").val(total);
+        }
+    })
+    .fail(() => {
+        console.error("Failed to load remittance total");
+    });
 }
 
 function openRemitModal() {
