@@ -36,8 +36,10 @@ mysqli_stmt_execute($totalStmt);
 $totalResult = mysqli_stmt_get_result($totalStmt);
 $total = ($row = mysqli_fetch_assoc($totalResult)) ? (int)$row['total'] : 0;
 
-$sql = "SELECT r.id, r.user_id, r.particular, r.amount, r.date, r.transaction_type, r.is_approved, r.date_created
+$sql = "SELECT r.id, r.user_id, r.particular, r.amount, r.date, r.transaction_type, r.status, r.date_created,
+        CONCAT(u.first_name, ' ', COALESCE(u.middle_name, ''), ' ', u.last_name) AS full_name
         FROM remittance r
+        LEFT JOIN user_info u ON r.user_id = u.user_id
         $where
         ORDER BY r.id DESC
         LIMIT ? OFFSET ?";
@@ -59,7 +61,7 @@ $result = mysqli_stmt_get_result($stmt);
 $records = [];
 while ($row = mysqli_fetch_assoc($result)) {
     $row['amount'] = (float)$row['amount'];
-    $row['is_approved'] = (int)$row['is_approved'];
+    $row['status'] = (int)$row['status'];
     $records[] = $row;
 }
 
