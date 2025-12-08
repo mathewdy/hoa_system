@@ -16,7 +16,6 @@ if ($fee_id <= 0 || empty($method)) {
     exit;
 }
 
-// Validate fee exists and unpaid
 $stmt = $conn->prepare("SELECT fa.amount, ft.fee_name 
   FROM fee_assignments fa 
   LEFT JOIN fee_type ft ON fa.fee_type_id = ft.id 
@@ -32,7 +31,6 @@ if ($result->num_rows === 0) {
 
 $fee = $result->fetch_assoc();
 
-// Handle file upload
 $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/uploads/payments/';
 if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
@@ -55,11 +53,9 @@ if (!empty($_FILES['attachment']['name'])) {
     }
 }
 
-// Start transaction
 $conn->autocommit(false);
 
 try {
-    // 1. Insert to homeowner_fees (payment history + proof)
     $stmt1 = $conn->prepare("INSERT INTO homeowner_fees 
         (user_id, amount_paid, payment_method, ref_no, attachment, status, remarks, is_remitted, date_created)
         VALUES (?, ?, ?, ?, ?, 0, 'Submitted via online payment', 0, NOW())");
@@ -76,7 +72,6 @@ try {
         throw new Exception("Failed to save payment record");
     }
 
-    // 2. Insert to payment_verification (for admin approval)
     $stmt2 = $conn->prepare("INSERT INTO payment_verification 
         (user_id, payment_for, amount, status, date_created)
         VALUES (?, 'Monthly Fee', ?, 0, NOW())");
@@ -87,8 +82,7 @@ try {
         throw new Exception("Failed to submit for verification");
     }
 
-    // Optional: Update fee_assignments status to "payment submitted"
-    $conn->query("UPDATE fee_assignments SET status = 2 WHERE id = $fee_id");
+    $conn->query("UPDATE fee_assignments SET status = 1 WHERE id = $fee_id");
 
     $conn->commit();
     echo json_encode(['success' => true, 'message' => 'Payment submitted! Waiting for verification.']);

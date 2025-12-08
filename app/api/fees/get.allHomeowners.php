@@ -46,7 +46,7 @@ $sql = "SELECT
         FROM users u 
         LEFT JOIN user_info i ON u.user_id = i.user_id 
         LEFT JOIN fees f ON u.user_id = f.user_id
-        WHERE u.role_id = 6 $where
+        WHERE u.role_id = 6 AND u.status = 1 $where
         ORDER BY full_name, f.date_created DESC
         LIMIT ? OFFSET ?";
 

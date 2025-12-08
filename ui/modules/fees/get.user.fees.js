@@ -1,6 +1,7 @@
 import { $State } from '../../core/state.js';
 import { DataFetcher } from '../../core/data-fetch.js';
 import { TableView } from '../../core/table-view.js';
+import { showToast } from '../../utils/toast.js';
 
 if (!$('[data-module="my-fees"]').length) {
   console.log('[My Fees] Not on this page');
@@ -8,7 +9,7 @@ if (!$('[data-module="my-fees"]').length) {
   console.log('[My Fees] LOADED – Homeowner Portal');
 }
 
-const API_URL = '/hoa_system/app/api/fees/get.user.fee.php';
+const API_URL = '/hoa_system/app/api/my-fees/getById.fees.php';
 
 const $state = $State({
   search: '',
@@ -35,22 +36,30 @@ const columns = [
   },
 
   row => {
-    const due = new Date(row.due_date).toLocaleDateString('en-PH', { month: 'long', day: 'numeric', year: 'numeric' });
-    let badge = '';
+    const statusStyles = {
+      'Paid': {
+        bg: 'bg-green-100',
+        text: 'text-green-800'
+      },
+      'Unpaid': {
+        bg: 'bg-red-100',
+        text: 'text-red-800'
+      },
+      'Waiting for Verification': {
+        bg: 'bg-yellow-100',
+        text: 'text-yellow-800'
+      }
+    };
 
-    if (row.status == 1) {
-      badge = '<span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">PAID</span>';
-    } else if (row.is_overdue) {
-      badge = '<span class="px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800 animate-pulse">OVERDUE</span>';
-    } else {
-      badge = '<span class="px-3 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">UNPAID</span>';
-    }
+    const s = statusStyles[row.status_text] || {
+      bg: 'bg-gray-100',
+      text: 'text-gray-800'
+    };
 
     return `
-      <div>
-        <div class="font-medium">${due}</div>
-        <div class="mt-1">${badge}</div>
-      </div>
+      <span class="text-nowrap inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${s.bg} ${s.text}">
+        ${row.status_text}
+      </span>
     `;
   },
 
@@ -61,13 +70,23 @@ const columns = [
       <div class="text-xs text-gray-400">${d.toLocaleTimeString('en-PH', { hour: 'numeric', minute: '2-digit' })}</div>
     </div>`;
   },
-  row => {
 
-  return `
-    <a href="payment.php?id=${row.id}" class="pay bg-teal-600 hover:bg-teal-700 py-2 px-4 rounded-lg text-white">
-      Payment
-    </a>
-  `
+  row => { 
+    if(row.status !== 4) {
+    return `
+    <div class="flex gap-2">
+      <button 
+        class="openPaymentModal bg-teal-600 hover:bg-teal-700 py-2 px-4 rounded-lg text-white transition"
+        data-user-id="${row.user_id}"
+        data-fee-ids='${JSON.stringify([row.id])}'
+        data-total="${row.amount}"
+      >
+        Pay Now
+      </button>
+    </div>` 
+    }
+
+    return `<span class="text-sm text-gray-500">—</span>`
   }
 ];
 
@@ -78,7 +97,6 @@ new TableView($state, fetcher, {
   columns
 });
 
-// Filter buttons
 $(document).on('click', '[data-status]', function () {
   const status = $(this).data('status');
   $state.set({ status, 'pagination.currentPage': 1 });
@@ -87,19 +105,106 @@ $(document).on('click', '[data-status]', function () {
   fetcher.fetch();
 });
 
-// Toast
-function toast(msg, type = 'info') {
-  const colors = { success: 'bg-green-600', error: 'bg-red-600', info: 'bg-blue-600' };
-  const icons  = { success: 'ri-check-line', error: 'ri-close-line', info: 'ri-information-line' };
-
-  const $t = $(`
-    <div class="fixed bottom-6 right-6 ${colors[type]} text-white px-6 py-4 rounded-lg shadow-2xl z-50 flex items-center gap-3 animate-fade-in">
-      <i class="${icons[type]} text-xl"></i>
-      <span class="font-medium">${msg}</span>
-    </div>
-  `);
-  $('body').append($t);
-  setTimeout(() => $t.addClass('animate-fade-out').on('animationend', () => $t.remove()), 4000);
-}
-
 $(document).on('fetch:error', (_, msg) => toast(msg || 'Failed to load fees', 'error'));
+
+$(document).on('click', '.openPaymentModal', function () {
+  const userId = $('#user_id').data('user-id');
+  const feeIds = $(this).data('fee-ids');
+  const total  = $(this).data('total');
+
+  $('#paymentModal').removeClass('hidden');
+
+  // SET user_id value sa hidden input
+  $('#user_id').val(userId);
+
+  // Display total amount
+  $('#amount').val(
+    new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(total)
+  );
+
+  // Save fee IDs globally
+  window.selectedFeeIds = feeIds;
+
+  // Reset form fields
+  $('#payment-method').val('Cash').trigger('change');
+  $('#payment-date').val(new Date().toISOString().slice(0, 10)); // today
+  $('#receipt-name').val('');
+  $('#payment-proof').val('');
+  $('#remarks').val('');
+});
+
+
+// Show payment-source if Bank or GCash is selected
+$('#payment-method').on('change', function () {
+  const val = $(this).val();
+  if (val === 'Bank Transfer' || val === 'GCash') {
+    $('#payment-source-container').removeClass('hidden');
+  } else {
+    $('#payment-source-container').addClass('hidden');
+    $('#payment-source').val('');
+  }
+});
+
+$('#payment-form').on('submit', function (e) {
+  e.preventDefault();
+
+  const formData = new FormData();
+  const userId = $("#user_id").val();
+  const feeIds = window.selectedFeeIds || [];
+  const paymentMethod = $("#payment-method").val();
+  const paymentDate = $("#payment-date").val();
+  const receiptName = $("#receipt-name").val();
+  const remarks = $("#remarks").val();
+  const proofFile = $("#payment-proof")[0].files[0];
+
+  // Append fields
+  formData.append('user_id', userId);
+
+  // Append fee IDs as array
+  feeIds.forEach(id => formData.append('fee_ids[]', id));
+
+  formData.append('payment_method', paymentMethod);
+  formData.append('payment_date', paymentDate);
+  formData.append('receipt_name', receiptName);
+  formData.append('remarks', remarks);
+
+  if (proofFile) {
+    formData.append('attachment', proofFile);
+  }
+
+  $.ajax({
+    url: '/hoa_system/app/api/fee-assignation/post.fee-payment.php',
+    type: 'POST',
+    data: formData,
+    processData: false,
+    contentType: false,
+    beforeSend: () => {
+      $('#payment-form button[type="submit"]').prop('disabled', true).text('Submitting...');
+    },
+    success: res => {
+      if (res.success) {
+        showToast({ message: 'Payment recorded successfully!', type: 'success' });
+
+        // Close modal and reset form
+        $('#paymentModal').addClass('hidden');
+        $('#payment-form')[0].reset();
+        window.selectedFeeIds = [];
+
+        // Refresh table
+        fetcher.fetch();
+      } else {
+        showToast({ message: res.message || 'Payment failed', type: 'error' });
+      }
+    },
+    error: () => {
+      showToast({ message: 'Request error', type: 'error' });
+    },
+    complete: () => {
+      $('#payment-form button[type="submit"]').prop('disabled', false).text('Submit Payment');
+    }
+  });
+});
+
+
+// Close modal
+$('#closePaymentModal').on('click', () => $('#paymentModal').addClass('hidden'));

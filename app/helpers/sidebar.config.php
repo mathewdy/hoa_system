@@ -124,8 +124,8 @@ $sidebarItems = [
   'Home Owner' => [
     ['label' => 'Dashboard', 'icon' => 'ri-dashboard-line', 'url' => BASE_URL . 'pages/dashboard/index.php'],
     ['label' => 'Payments', 'icon' => 'ri-wallet-line', 'submenu' => [
-        ['label' => 'View Payments', 'icon' => 'ri-eye-line', 'url' => BASE_URL . 'pages/my-fees/list.php'],
-        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/my-fees/history.php'],
+        ['label' => 'View Payments', 'icon' => 'ri-eye-line', 'url' => BASE_URL . 'pages/my-fees/fees/list.php'],
+        ['label' => 'Payment History', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/my-fees/history/list.php'],
     ]],
     ['label' => 'Resolution', 'icon' => 'ri-file-paper-line', 'url' => BASE_URL . 'pages/resolution/list.php'],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],

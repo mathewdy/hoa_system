@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
-
 header('Content-Type: application/json');
 
 $limit  = (int)($_GET['limit'] ?? 10);
@@ -8,16 +7,21 @@ $page   = max(1, (int)($_GET['page'] ?? 1));
 $search = trim($_GET['search'] ?? '');
 $offset = ($page - 1) * $limit;
 
-$where = " WHERE pv.status = 0 ";
+$where = " WHERE status = 0 ";
 $params = [];
-$types = '';
+$types = "";
 
-if ($search !== '') {
-    $where .= " AND (CONCAT(u.first_name, ' ', COALESCE(u.middle_name,''), ' ', u.last_name) LIKE ? 
-                   OR pv.payment_for LIKE ?)";
+if ($search !== "") {
+    $where .= " AND (
+        CONCAT(u.first_name, ' ', COALESCE(u.middle_name,''), ' ', u.last_name) LIKE ?
+        OR pv.ref_no LIKE ?
+        OR pv.payment_for LIKE ?
+    )";
+
     $params[] = "%$search%";
     $params[] = "%$search%";
-    $types .= 'ss';
+    $params[] = "%$search%";
+    $types .= "sss";
 }
 
 $totalSql = "
@@ -26,79 +30,67 @@ $totalSql = "
     LEFT JOIN user_info u ON pv.user_id = u.user_id
     $where
 ";
-$totalStmt = mysqli_prepare($conn, $totalSql);
 
-if ($types !== '') {
-    $refs = [];
-    foreach ($params as $k => $v) {
-        $refs[$k] = &$params[$k];
-    }
-    call_user_func_array([$totalStmt, 'bind_param'], array_merge([$types], $refs));
+$totalStmt = $conn->prepare($totalSql);
+if ($types !== "") {
+    $totalStmt->bind_param($types, ...$params);
 }
+$totalStmt->execute();
+$total = (int)$totalStmt->get_result()->fetch_assoc()['total'];
+$totalStmt->close();
 
-mysqli_stmt_execute($totalStmt);
-$totalResult = mysqli_stmt_get_result($totalStmt);
-$totalRow = mysqli_fetch_assoc($totalResult);
-$total = (int)$totalRow['total'];
-$totalPages = max(1, ceil($total / $limit));
 
 $sql = "
     SELECT 
         pv.id,
         pv.user_id,
         pv.payment_for,
-        pv.amount AS pv_amount,
-        pv.status AS pv_status,
-        pv.date_created AS pv_date_created,
-        hf.id AS hf_id,
-        hf.amount_paid,
-        hf.payment_method,
-        hf.ref_no,
-        hf.attachment,
-        hf.status AS hf_status,
-        hf.remarks,
-        hf.date_created AS hf_date_created,
-        CONCAT(u.first_name, ' ', COALESCE(u.middle_name,''), ' ', u.last_name) AS full_name
+        pv.amount,
+        pv.status,
+        pv.ref_no,
+        pv.date_created,
+        CONCAT(u.first_name,' ',COALESCE(u.middle_name,''),' ',u.last_name) AS full_name
     FROM payment_verification pv
-    LEFT JOIN homeowner_fees hf ON hf.user_id = pv.user_id
-    LEFT JOIN user_info u ON u.user_id = pv.user_id
+    LEFT JOIN user_info u ON pv.user_id = u.user_id
     $where
     ORDER BY pv.id DESC
     LIMIT ? OFFSET ?
 ";
 
-$stmt = mysqli_prepare($conn, $sql);
+$allParams = $params;
+$allParams[] = $limit;
+$allParams[] = $offset;
 
-$bindParams = $params;
-$bindParams[] = $limit;
-$bindParams[] = $offset;
-$bindTypes = $types . 'ii';
+$stmt = $conn->prepare($sql);
+$stmt->bind_param($types . "ii", ...$allParams);
+$stmt->execute();
 
-$refs = [];
-foreach ($bindParams as $k => $v) {
-    $refs[$k] = &$bindParams[$k];
-}
-
-call_user_func_array([$stmt, 'bind_param'], array_merge([$bindTypes], $refs));
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
+$result = $stmt->get_result();
 
 $records = [];
-while ($row = mysqli_fetch_assoc($result)) {
-    $row['pv_status'] = (int)$row['pv_status'];
-    $row['hf_status'] = (int)$row['hf_status'];
-    $row['pv_amount'] = (float)$row['pv_amount'];
-    $row['amount_paid'] = isset($row['amount_paid']) ? (float)$row['amount_paid'] : 0;
-    $records[] = $row;
+while ($row = $result->fetch_assoc()) {
+    $records[] = [
+        "id" => (int)$row['id'],
+        "user_id" => $row['user_id'],
+        "full_name" => $row['full_name'],
+        "payment_for" => $row['payment_for'],
+        "amount" => (float)$row['amount'],
+        "status" => (int)$row['status'],
+        "ref_no" => $row['ref_no'],
+        "date_created" => $row['date_created']
+    ];
 }
 
 echo json_encode([
-    'success' => true,
-    'data' => $records,
-    'pagination' => [
-        'totalRecords' => $total,
-        'totalPages' => $totalPages,
-        'currentPage' => $page,
-        'limit' => $limit
+    "success" => true,
+    "data" => $records,
+    "pagination" => [
+        "totalRecords" => $total,
+        "totalPages" => max(1, ceil($total / $limit)),
+        "currentPage" => $page,
+        "limit" => $limit
     ]
 ]);
+
+$conn->close();
+?>
