@@ -29,15 +29,15 @@ if ($result->num_rows === 0) {
 }
 
 $due = $result->fetch_assoc();
-$pageTitle = 'View Due';
+$pageTitle = 'View Fee Type';
 ob_start();
 ?>
 
 <div class="">
     <div class="rounded-lg">
         <div class="mb-5 border-b-2 border-gray-300 pb-4">
-            <h3 class="text-2xl font-medium text-gray-900 leading-none">View Due</h3>
-            <p class="text-gray-600">Details of the selected due</p>
+            <h3 class="text-2xl font-medium text-gray-900 leading-none"><?= $pageTitle ?></h3>
+            <p class="text-gray-600">Details of the selected fee</p>
         </div>
 
         <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm">

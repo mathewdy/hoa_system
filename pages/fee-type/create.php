@@ -3,15 +3,15 @@ $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
 require_once $root . 'app/includes/session.php';
 
-$pageTitle = 'Add New Due';
+$pageTitle = 'Add New Fee';
 ob_start();
 ?>
 
 <div class="">
     <div class="rounded-lg shadow-sm">
         <div class="mb-5 border-b-2 border-gray-300 pb-4">
-            <h3 class="text-2xl font-medium text-gray-900 leading-none">Create New Due</h3>
-            <p class="text-gray-600">Add a new due or fee for the homeowners association</p>
+            <h3 class="text-2xl font-medium text-gray-900 leading-none"><?= $pageTitle ?></h3>
+            <p class="text-gray-600">Add a new fee for the homeowners association</p>
         </div>
 
         <form id="createDueForm" class="space-y-4">
@@ -50,8 +50,8 @@ ob_start();
             </div>
 
             <div class="flex justify-end gap-4 pt-4">
-                <a href="list.php" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Cancel</a>
-                <button type="submit" id="createBtn" class="px-8 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition font-medium">
+                <a href="list.php" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Cancel</a>
+                <button type="submit" id="createBtn" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition font-medium">
                     Create Fee
                 </button>
             </div>

@@ -51,12 +51,14 @@ const columns = [
         </span>
     `;
   },
-  row => { 
-    return `
-      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
-        ${row.effectivity_date}
-      </span>
-    `
+   row => {
+    const effectivity_date = new Date(row.effectivity_date).toLocaleDateString('en-PH', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
+    return `<span class="text-gray-500">${effectivity_date}</span>`;
   },
   
   row => { 
