@@ -20,8 +20,10 @@ foreach ($tables as $table) {
     $total_collected += $result->fetch_row()[0];
 }
 
+$src = $role == 1 ? "WHERE role_id != 6" : "WHERE role_id = 6";
+
 $sql = "SELECT COUNT(*) AS users_today 
-        FROM users WHERE role_id = 6 AND status = 1";
+        FROM users $src AND status = 1";
 
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
