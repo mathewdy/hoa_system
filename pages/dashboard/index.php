@@ -15,13 +15,13 @@ $total_collected = 0;
 $tables = ['homeowner_fees', 'court_fees', 'stall_renter_fees', 'toda_fees'];
 
 foreach ($tables as $table) {
-    $sql = "SELECT COALESCE(SUM(amount_paid), 0) FROM $table WHERE status='1' AND DATE(date_created)='$today'";
+    $sql = "SELECT COALESCE(SUM(amount_paid), 0) FROM $table WHERE status= 1 AND is_remitted = 1 AND DATE(date_created)='$today'";
     $result = $conn->query($sql);
     $total_collected += $result->fetch_row()[0];
 }
 
 $sql = "SELECT COUNT(*) AS users_today 
-        FROM news_feed";
+        FROM users WHERE role_id = 6 AND status = 1";
 
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();

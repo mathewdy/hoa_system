@@ -2,7 +2,7 @@
 $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
 require_once $root . 'app/includes/session.php';
-
+$role = $_SESSION['role'];
 $pageTitle = 'Monthly Fees';
 ob_start();
 ?>
@@ -22,7 +22,9 @@ ob_start();
           placeholder="Search <?= strtolower($pageTitle) ?>..." />
       </div>
     </form>
+    <?php if ($role == 3): ?>
     <a href="create.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add Fee</a>
+    <?php endif; ?>
   </div>
   
   <div class="relative shadow-md sm:rounded-lg border">
