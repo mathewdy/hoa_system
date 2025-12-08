@@ -1,6 +1,7 @@
 import { $State } from '../../core/state.js';
 import { DataFetcher } from '../../core/data-fetch.js';
 import { TableView } from '../../core/table-view.js';
+import { showToast } from '../../utils/toast.js';
 
 const BASE_URL = '/hoa_system/';
 const API_URL = `${BASE_URL}app/api/remittance/get.remittance.php`;
@@ -17,13 +18,30 @@ const fetcher = new DataFetcher($state, API_URL);
 const columns = [
   row => `<div class="font-medium text-gray-900">${row.particular || '—'}</div>`,
   row => `<div class="text-green-700 font-medium">₱${parseFloat(row.amount).toFixed(2)}</div>`,
-  row => row.is_approved
-    ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Approved</span>'
-    : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending</span>',
+  row => {
+    switch(row.status) {
+        case 1:
+            return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Approved</span>';
+        case 2:
+            return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Rejected</span>';
+        default:
+            return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending</span>';
+    }
+  },
+
   row => {
     const role = localStorage.getItem('role');
     if(role == 3 || role == 4){
-      return `<button class="viewBtn text-teal-600 hover:underline" data-id="${row.id}">View</button>`
+      return `
+      <div class="flex gap-2">
+        <button 
+          class="view-remittance bg-teal-600 hover:bg-teal-700 py-2 px-4 rounded-lg text-white transition"
+          data-id="${row.id}"
+        >
+          <i class="ri-eye-fill"></i>
+          View
+        </button>
+      </div>` 
     }
   }
 ];
@@ -35,71 +53,175 @@ new TableView($state, fetcher, {
   columns
 });
 
-const modal = document.getElementById('remittanceModal');
-const modalContent = document.getElementById('modalContent');
-const closeModal = document.getElementById('closeModal');
-const approveBtn = document.getElementById('approveBtn');
-const rejectBtn = document.getElementById('rejectBtn');
-const cancelBtn = document.getElementById('cancelBtn');
+$(document).on('fetch:error', (_, msg) => {
+  alert(msg || 'Failed to load remittances');
+})
 
-let currentId = null;
 
-document.addEventListener('click', e => {
-  if (e.target.matches('.viewBtn')) {
-    currentId = e.target.dataset.id;
-    fetch(`${BASE_URL}app/api/remittance/get.remittance.php?id=${currentId}`)
-      .then(res => res.json())
-      .then(data => {
-        if(data.success){
-          const row = data.data;
-          modalContent.innerHTML = `
-            <p><strong>ID:</strong> ${row.id}</p>
-            <p><strong>User ID:</strong> ${row.user_id}</p>
-            <p><strong>Particular:</strong> ${row.particular}</p>
-            <p><strong>Amount:</strong> ₱${parseFloat(row.amount).toFixed(2)}</p>
-            <p><strong>Date:</strong> ${row.date}</p>
-            <p><strong>Transaction Type:</strong> ${row.transaction_type}</p>
-            <p><strong>Secretary Name:</strong> ${row.secretary_name}</p>
-            <p><strong>Approved:</strong> ${row.is_approved ? "Yes" : "No"}</p>
-            <p><strong>Date Created:</strong> ${row.date_created}</p>
-          `;
-          modal.classList.remove('hidden');
+function loadTotalCollected() {
+    $.get('/hoa_system/app/api/remittance/get.remittable.php')
+        .done(res => {
+            if (res.success && res.data.length > 0) {
+                const total = Number(res.data[0].total).toLocaleString("en-PH", {
+                    minimumFractionDigits: 2
+                });
+
+                $("#totalCollected").text(`₱${total}`);
+                $("#amount").val(total);
+            }
+        })
+        .fail(() => {
+            console.error("Failed to load remittance total");
+        });
+}
+
+function openRemitModal() {
+  const modal = $("#remitModal");
+  modal.removeClass("hidden").addClass("flex");
+  $.get('/hoa_system/app/api/remittance/get.remittable.php')
+    .done(res => {
+      if (res.success && res.data.length > 0) {
+        const total = Number(res.data[0].total).toLocaleString("en-PH", {
+            minimumFractionDigits: 2
+        });
+        $("#amount").val(total);
+      }
+    });
+}
+
+function openViewRemittanceModal(remittanceId) {
+  const modal = $("#viewRemittanceModal");
+  modal.removeClass("hidden").addClass("flex");
+  $("#viewRequestedBy, #viewParticular, #viewAmount, #viewDate, #viewTransType").val("");
+ $.get("/hoa_system/app/api/remittance/get.remittance.php", { id: remittanceId })
+  .done(res => {
+    if (!res.success) {
+      alert(res.message || "Failed to fetch remittance details");
+      modal.addClass("hidden").removeClass("flex");
+      return;
+    }
+
+    const data = res.data;
+
+    $("#viewRequestedBy").val(data.full_name);
+    $("#viewParticular").val(data.particular);
+    $("#viewAmount").val("₱" + Number(data.amount).toLocaleString("en-PH", { minimumFractionDigits: 2 }));
+    $("#viewDate").val(data.date);
+    $("#viewTransType").val(data.transaction_type);
+
+    if (data.status == 1 || data.status == 2) {
+      $("#approveRemit").hide();
+      $("#rejectRemit").hide();
+      $("#viewRemittanceModal .modal-footer").prepend(
+        '<div class="text-green-700 font-bold text-lg mb-4">✓ Already Approved</div>'
+      );
+    } else {
+      $("#approveRemit").show();
+      $("#rejectRemit").show();
+      $("#viewRemittanceModal .modal-footer .text-green-700.font-bold").remove();
+    }
+    $("#approveRemit").off("click").on("click", function() {
+      updateRemittanceStatus(remittanceId, 1);
+    });
+
+    $("#rejectRemit").off("click").on("click", function() {
+      updateRemittanceStatus(remittanceId, 0);
+    });
+  })
+}
+
+function updateRemittanceStatus(remittanceId, status) {
+    $.post('/hoa_system/app/api/remittance/post.update-status.php', {
+        id: remittanceId,
+        status: status
+    }, null, 'json') 
+    .done(res => {
+        console.log(res); 
+        if(res.success) {
+            showToast({ 
+                message: "Remittance " + (status === 1 ? "approved" : "rejected") + " successfully!", 
+                type: "success" 
+            });
+            $("#viewRemittanceModal").addClass("hidden").removeClass("flex");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+            $state.fetchData(); 
         } else {
-          alert('Failed to fetch details.');
+            showToast({ 
+                message: res.message || "Failed to update remittance", 
+                type: "error" 
+            });
         }
-      });
-  }
+    })
+    .fail((xhr) => {
+        console.error(xhr.responseText);
+        showToast({ message: "Connection error", type: "error" });
+    });
+}
+
+$(document).on("click", "#closeViewModal", function() {
+    $("#viewRemittanceModal").addClass("hidden").removeClass("flex");
 });
 
-closeModal.addEventListener('click', () => modal.classList.add('hidden'));
-cancelBtn.addEventListener('click', () => modal.classList.add('hidden'));
+$(document).ready(function () {
+    loadTotalCollected();
+});
+$(document).on("click", "#openRemitModal", function () {
+    openRemitModal();
+});
+$(document).on("click", ".view-remittance", function () {
+    const remittanceId = $(this).data("id");
+    openViewRemittanceModal(remittanceId);
+});
+$("#closeModal, #cancelRemit").on("click", function () {
+    $("#remitModal").addClass("hidden").removeClass("flex");
+});
+$(document).on("click", "#confirmRemit", function () {
+    const user_id = $("#user_id").val();
+    const amount = $("#amount").val().replace(/,/g, "");
+    const date = $("#remitDate").val();
+    const transaction_type = $("#transType").val();
+    const particular = $("#particular").val();
 
-approveBtn.addEventListener('click', () => updateStatus(currentId, 1));
-rejectBtn.addEventListener('click', () => updateStatus(currentId, 0));
-
-function updateStatus(id, status) {
-  const action = status === 1 ? "approve" : "reject";
-
-  const formData = new FormData();
-  formData.append("remittance_id", id);
-  formData.append("action", action);
-
-  fetch(`${BASE_URL}app/api/remittance/verify.php`, {
-    method: 'POST',
-    body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
-      alert(data.message);
-      modal.classList.add('hidden');
-      $state.fetch();
-    } else {
-      alert(data.message || 'Failed to update status');
+    if (!amount || Number(amount) <= 0) {
+        alert("Amount must be greater than 0");
+        return;
     }
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Network error.");
-  });
-}
+
+    const data = {
+        user_id,
+        amount,
+        date,
+        transaction_type,
+        particular
+    };
+
+    $(this).prop("disabled", true).text("Submitting...");
+
+    $.post('/hoa_system/app/api/remittance/post.remittance-request.php', data)
+        .done(res => {
+            if (res.success) {
+                showToast({ message: "Remittance submitted successfully!", type: "success" });
+                $("#remitModal").addClass("hidden").removeClass("flex");
+                $("#totalCollected").text("₱" + Number(amount).toLocaleString("en-PH", { minimumFractionDigits: 2 }));
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+            } else {
+                showToast({ message: res.message || "Failed to submit remittance" , type: "error"});
+            }
+        })
+        .fail(() => alert("Request failed"))
+        .always(() => {
+            $("#confirmRemit").prop("disabled", false).text("Confirm Remit");
+        });
+});
+
+$("#approveRemit").on("click", function() {
+    updateRemittanceStatus(remittanceId, 1);
+});
+$("#rejectRemit").on("click", function() {
+    updateRemittanceStatus(remittanceId, 2);
+});
+

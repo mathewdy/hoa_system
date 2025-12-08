@@ -7,12 +7,10 @@ error_reporting(E_ALL);
 // User ID (you may replace with dynamic $_GET['user_id'])
 $user_id = '20252509';
 
-$sql_fees = "SELECT fa.id, fa.fee_type_id, fa.next_due, fa.is_paid, fa.is_approved,
-                    ft.fee_name, ft.amount, ft.cadence
-             FROM fee_assignation fa
-             JOIN fee_type ft ON fa.fee_type_id = ft.fee_type_id
+$sql_fees = "SELECT fa.id, fa.fee_type_id, fa.due_date, fa.status
+             FROM fee_assignments fa
              WHERE fa.user_id = '$user_id'
-             ORDER BY fa.next_due DESC";
+             ORDER BY fa.id DESC";
 $res_fees = mysqli_query($conn, $sql_fees);
 ?>
 
