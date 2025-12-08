@@ -143,10 +143,7 @@ ob_start();
               ></div>
             </div>
           </div>
-
           
-          <!-- Stats Cards -->
-
   <!-- Total Collected Fees Card -->
   <div class="bg-gradient-to-br from-white to-teal-50 rounded-2xl shadow-lg p-6 border border-teal-100 hover:shadow-2xl transition-shadow duration-300">
     <div class="flex items-center justify-between mb-4">
@@ -164,11 +161,11 @@ ob_start();
         <p class="text-sm text-teal-600 mt-1">as of <?= $month ?></p>
       </div>
     </div>
-    <div class="mt-6">
+    <!-- <div class="mt-6">
       <a href="#" class="inline-flex items-center text-teal-600 hover:text-teal-800 text-sm font-medium transition-colors">
         View breakdown <i class="fas fa-arrow-right ml-1"></i>
       </a>
-    </div>
+    </div> -->
   </div>
 
 
