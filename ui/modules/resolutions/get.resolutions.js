@@ -40,6 +40,12 @@ const columns = [
       4: { label: 'Completed', color: 'bg-purple-100 text-purple-800' }
     };
     const s = statusMap[row.status] || statusMap[0];
+    if (row.is_budget_released == 1 && row.has_financial_summary == 1 && row.status == 1) {
+       return `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${s.color}">
+        Completed
+      </span>`;
+    }
+
     return `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${s.color}">
       ${s.label}
     </span>`;
