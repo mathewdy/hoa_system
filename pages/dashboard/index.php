@@ -143,10 +143,7 @@ ob_start();
               ></div>
             </div>
           </div>
-
           
-          <!-- Stats Cards -->
-
   <!-- Total Collected Fees Card -->
   <div class="bg-gradient-to-br from-white to-teal-50 rounded-2xl shadow-lg p-6 border border-teal-100 hover:shadow-2xl transition-shadow duration-300">
     <div class="flex items-center justify-between mb-4">
