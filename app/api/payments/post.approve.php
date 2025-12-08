@@ -1,5 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
+include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/functions/create-log.php');
+
 header('Content-Type: application/json');
 
 $ref_no = $_POST['ref_no'] ?? null;
@@ -68,7 +70,8 @@ try {
     $conn->commit();
 
     echo json_encode(['success' => true, 'message' => 'Payment approved successfully.']);
-
+    log_activity($conn, $_SESSION['user_id'], "Approve Payment", "Approved payment with ref_no: $ref_no for user_id: $user_id");
+    
 } catch (Exception $e) {
     $conn->rollback();
     echo json_encode(['success' => false, 'message' => 'Approval failed: ' . $e->getMessage()]);

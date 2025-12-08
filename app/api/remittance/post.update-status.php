@@ -1,5 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
+include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/includes/functions/create-log.php');
 
 $remittance_id = (int)($_POST['id'] ?? 0);
 $status        = (int)($_POST['status'] ?? 0);
@@ -31,10 +32,12 @@ try {
         foreach ($tables as $table) {
             $conn->query("UPDATE $table SET is_remitted = 1 WHERE status = 1 AND DATE(date_created) = '$today'");
         }
+        
     }
 
     $conn->commit();
     echo json_encode(['success' => true, 'message' => 'Remittance updated successfully', 'status' => $status]);
+    log_activity($conn, $_SESSION['user_id'], "Update Remittance Status", "Updated remittance ID $remittance_id to status $status");
 
 } catch (Exception $e) {
     $conn->rollback();
