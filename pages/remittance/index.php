@@ -13,7 +13,7 @@ ob_start();
     <h3 class="text-2xl font-medium text-gray-900 mb-4"><?= $pageTitle ?></h3>
     <div class="flex items-center space-x-6 bg-teal-50 border border-teal-200 rounded-xl px-6 py-3 shadow-sm">
       <div>
-        <p class="text-sm font-medium text-teal-700">Total Collected (₱)</p>
+        <p class="text-sm font-medium text-teal-700">Total Available For Collection (₱)</p>
         <p id="totalCollected" class="text-2xl font-bold text-black-900"></p>
       </div>
       <?php if($role == '3'){
