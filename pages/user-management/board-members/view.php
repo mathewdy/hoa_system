@@ -224,10 +224,10 @@ ob_start();
           <label class="block text-sm font-medium text-gray-500">Email Address</label>
           <input type="email" name="email_address" class="mt-1 block w-full rounded-lg border-gray-300 bg-gray-50 px-3 py-2.5" readonly>
         </div>
-        <div>
+        <!-- <div>
           <label class="block text-sm font-medium text-gray-500">New Password (leave blank to keep current)</label>
           <input type="password" name="password" class="mt-1 block w-full rounded-lg border-gray-300 bg-gray-50 px-3 py-2.5" placeholder="••••••••" readonly>
-        </div>
+        </div> -->
       </div>
     </form>
   </div>

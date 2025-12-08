@@ -65,6 +65,7 @@ $sidebarItems = [
       ['label' => 'Stall', 'icon' => 'ri-store-3-line', 'url' => BASE_URL . 'pages/amenities/stall/list.php'],
     ]],
     ['label' => 'News Feed', 'icon' => 'ri-news-line', 'url' => BASE_URL . 'pages/news/feed.php'],
+    ['label' => 'Activity Logs', 'icon' => 'ri-history-line', 'url' => BASE_URL . 'pages/activity-logs/list.php'],
     // ['label' => 'Calendar', 'icon' => 'ri-calendar-line', 'url' => BASE_URL . 'pages/calendar/index.php']
   ],
 
