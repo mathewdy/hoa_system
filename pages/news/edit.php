@@ -87,7 +87,7 @@ if (isset($_POST['update_post'])) {
 }
 
 ?>
-<div class="max-w-3xl mx-auto bg-white shadow rounded-lg p-6">
+<div class="bg-white shadow rounded-lg p-6">
     <h2 class="text-2xl font-bold mb-4">Edit Post</h2>
 
     <?php if (!empty($success)): ?>
