@@ -18,6 +18,7 @@ $role = $_SESSION['role'];
   <div class="flex gap-4 mb-4">
     <input type="text" id="simple-search" placeholder="Search posts..." 
     class="flex-1 border rounded-lg p-2 focus:ring-1 focus:ring-teal-600">
+    <input type="hidden" id="loggedInUserId" value="<?= $user_id ?>">
     <?php if($role == 2 || $role == 3): ?>
      <button id="openCreateModal" 
             class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700">

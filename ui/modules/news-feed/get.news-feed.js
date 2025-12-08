@@ -29,11 +29,12 @@ $(document).ready(function() {
   }
 
   function renderNews(posts) {
+    const loggedInUserId = $('#loggedInUserId').val();
     if (posts.length === 0) {
       $('#newsfeed-list').html('<p>No posts found.</p>');
       return;
     }
-
+    console.log(loggedInUserId);
     const html = posts.map(post => `
       <div class="newsfeed-item bg-white rounded-lg shadow mb-6">
         <div class="flex items-center px-4 py-3 border-b gap-4">
@@ -44,10 +45,12 @@ $(document).ready(function() {
             <p class="font-semibold text-gray-800">${post.full_name}</p>
             <p class="text-gray-500 text-sm">${post.date_created}</p>
           </div>
+          ${post.created_by == loggedInUserId ? `
           <button class="btn-edit-post text-blue-500 font-semibold text-sm px-3 py-1 rounded hover:bg-blue-50" 
                   data-post='${JSON.stringify(post)}'>
             Edit
           </button>
+          ` : ''}
         </div>
         <div class="px-4 py-5">
           <h3 class="font-bold text-lg mb-2">${post.post_title}</h3>
@@ -57,6 +60,7 @@ $(document).ready(function() {
         </div>
       </div>
     `).join('');
+
 
 
     $('#newsfeed-list').html(html);
