@@ -4,10 +4,8 @@ require_once $root . 'config.php';
 include_once($root . 'app/core/init.php');
 
 if (!isset($_GET['id'])) {
-    die("Invalid request — Missing ID.");
+    echo "<script>window.location.href = 'list.php';</script>";
 }
-ini_set('display_errors', 1);
-error_reporting(E_ALL);  
 $project_id = intval($_GET['id']);
 $user_id    = $_SESSION['user_id'] ?? 0;
 $role = $_SESSION['role'] ?? 0;
@@ -17,7 +15,6 @@ $has_validated    = 0;
 
 if (isset($_POST['upload']) || isset($_POST['verify'])) {
 
-    // --- UPLOAD FINANCIAL SUMMARY ---
     if (isset($_POST['upload'])) {
         $stmt = $conn->prepare("SELECT id FROM financial_summary WHERE project_id = ?");
         $stmt->bind_param("i", $project_id);
@@ -115,7 +112,10 @@ $result = $stmt->get_result();
 $liq_info = $result->fetch_assoc();
 $result->free();
 $stmt->close();
-if (!$liq_info) die("No liquidation data found.");
+if (!$liq_info) {
+    echo "<script>alert('No Liquidation Record yet.')</script>";
+    echo "<script>window.location.href = 'list.php';</script>";
+};
 
 $stmt = $conn->prepare("
     SELECT particular, amount, receipt 
