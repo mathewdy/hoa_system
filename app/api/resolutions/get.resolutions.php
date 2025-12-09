@@ -9,14 +9,20 @@ $page   = max(1, (int)($_GET['page'] ?? 1));
 $search = trim($_GET['search'] ?? '');
 $offset = ($page - 1) * $limit;
 
+$role = $_SESSION['role'];
+
 $where = '';
 $params = [];
 $types = '';
 
-if ($_SESSION['role'] == 1 || $_SESSION['role'] == 2) {
+if ($role == 4) {
+    $where = "WHERE r.status = 1 AND is_budget_released = 1 OR is_budget_released IS NULL";
+} else if ($role == 3 || $role == 5 || $role == 6) {
+    $where = "WHERE r.status = 1 AND is_budget_released = 1";
 } else {
-    $where = "WHERE r.status = 1";
+    $where = "";
 }
+
 if ($id > 0) {
     if ($where) $where .= " AND r.id = ?";
     else $where = "WHERE r.id = ?";
@@ -69,8 +75,12 @@ $sql = "SELECT
             r.is_budget_released,
             r.created_by,
             r.date_created,
+            fs.has_validated,
+            lq.status AS liquidation_status,
             CONCAT(u.first_name, ' ', u.last_name) AS creator_name
         FROM resolution r
+        LEFT JOIN financial_summary fs ON r.id = fs.project_id
+        LEFT JOIN liquidation_of_expenses lq ON r.id = lq.project_resolution_id
         LEFT JOIN user_info u ON r.created_by = u.user_id
         $where
         ORDER BY r.date_created DESC, r.id DESC

@@ -29,8 +29,8 @@ $date_end    = !empty($_POST['date_end']) ? $_POST['date_end'] : null;
 $status      = trim($_POST['status']);
 
 $sql = "
-    UPDATE stall_rent
-    SET renter = ?, contact_no = ?, stall_id = ?, amount = ?, date_start = ?, date_end = ?, status = ?
+    UPDATE stall_renter
+    SET renter_name = ?, contact_no = ?, stall_id = ?, amount = ?, start_date = ?, end_date = ?, status = ?
     WHERE id = ?
 ";
 

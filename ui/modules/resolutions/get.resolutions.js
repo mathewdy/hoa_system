@@ -32,22 +32,34 @@ const columns = [
   `,
 
   row => {
-    const statusMap = {
-      0: { label: 'Pending', color: 'bg-yellow-100 text-yellow-800' },
-      1: { label: 'Approved', color: 'bg-green-100 text-green-800' },
-      2: { label: 'Rejected', color: 'bg-red-100 text-red-800' },
-      3: { label: 'Ongoing', color: 'bg-blue-100 text-blue-800' },
-      4: { label: 'Completed', color: 'bg-purple-100 text-purple-800' }
-    };
-    const s = statusMap[row.status] || statusMap[0];
-    if (row.is_budget_released == 1 && row.has_financial_summary == 1 && row.status == 1) {
-       return `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${s.color}">
+    const approved = row.is_budget_released == 0 &&
+                    row.status == 1
+    const ongoing = row.is_budget_released == 1 &&
+                    row.status == 1 &&
+                    row.liquidation_status != 1
+
+    const completed = row.is_budget_released == 1 &&
+                      row.status == 1 &&
+                      row.liquidation_status == 1
+    if (approved) {
+      return `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+        Approved
+      </span>`;
+    }
+    if (ongoing) {
+      return `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+        Ongoing
+      </span>`;
+    }
+
+    if (completed) {
+      return `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
         Completed
       </span>`;
     }
 
-    return `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${s.color}">
-      ${s.label}
+    return `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+      Pending
     </span>`;
   },
 
@@ -84,25 +96,31 @@ const columns = [
     const budgetReleased = row.budget_release == 1
     const id = row.id ?? 0
 
-    if (hasFS) {
-      return `<a href="financial-summary.php?id=${id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 hover:bg-green-200">
-        <i class="ri-check-line mr-1"></i> Uploaded
-      </a>`
-    }
-
-    if (role == '4' && budgetReleased && isApproved) {
-      return `<a href="financial-summary.php?id=${id}" 
-        class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-teal-600 text-white hover:bg-teal-700 transition shadow-sm">
-        <i class="ri-upload-cloud-2-line mr-2"></i> Upload Summary
-      </a>`
-    }
-
-    if (role == '5') {
+    if (role == 4 && isApproved && budgetReleased && !hasFS && row.has_validated == 0) {
       return `<a href="financial-summary.php?id=${id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-        Add Financial Summary
+        Verify Financial Summary
       </a>`
     }
-
+    if (role == '5' && !hasFS && row.liquidation_status != 1) {
+      return `<a href="#" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+        No liquidation yet
+      </a>`
+    }
+    if (role == '5' && !hasFS && row.liquidation_status == 1) {
+      return `<a href="financial-summary.php?id=${id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+        Upload Liquidation
+      </a>`
+    }
+    if (hasFS && row.has_validated == 0) {
+      return `<a href="financial-summary.php?id=${id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 hover:bg-yellow-200">
+        <i class="ri-hourglass-fill mr-1"></i> Uploaded
+      </a>`
+    }
+    if (row.has_validated == 1) {
+      return `<a href="financial-summary.php?id=${id}" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 hover:bg-green-200">
+        <i class="ri-check-line mr-1"></i> Verified
+      </a>`
+    }
     return `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
       <i class="ri-close-line mr-1"></i> Not Uploaded
     </span>`

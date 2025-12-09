@@ -42,7 +42,7 @@ $sql = "SELECT u.id,
   FROM users u 
   LEFT JOIN user_info i ON u.user_id = i.user_id 
   LEFT JOIN roles r ON u.role_id = r.id
-  WHERE u.role_id != 6 $where 
+  WHERE u.role_id IN (2,3,4,5) $where 
   ORDER BY id DESC
   LIMIT ? 
   OFFSET ?";

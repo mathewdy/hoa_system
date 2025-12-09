@@ -86,18 +86,14 @@ ob_start();
 
                     <div class="grid grid-cols-2 items-center">
                         <label class="block text-sm font-medium text-gray-700">
-                            Rental Duration (months)
+                            Rental Duration
                         </label>
-                        <select 
+                        <input 
+                            type="text" 
                             name="rental_duration" 
-                            id="rentalDuration"
                             required
-                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
-                            <option value="">--Select--</option>
-                            <option value="Daily">Daily</option>
-                            <option value="Weekly">Weekly</option>
-                            <option value="Monthly">Monthly</option>
-                        </select>
+                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
+                                   focus:ring-teal-500 focus:border-teal-500 px-3 py-2" value="Monthly" readonly>
                     </div>
 
                     <div class="grid grid-cols-2 items-center">
@@ -127,16 +123,20 @@ ob_start();
                         <label class="block text-sm font-medium text-gray-700">
                             Contract
                         </label>
-                        <div class="flex items-center justify-center w-full">
+                        <div class="flex flex-col items-center justify-center w-full">
                             <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 bg-neutral-secondary-medium border border-dashed border-default-strong rounded-base cursor-pointer hover:bg-neutral-tertiary-medium">
                                 <div class="flex flex-col items-center justify-center text-body pt-5 pb-6">
-                                    <svg class="w-8 h-8 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2"/></svg>
-                                    <p class="mb-2 text-sm"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                    <p class="text-xs">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                <svg class="w-8 h-8 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2"/>
+                                </svg>
+                                <p class="mb-2 text-sm"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                <p class="text-xs">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                                 </div>
+                                <p id="file-name" class="mt-2 text-sm text-gray-700"></p>
                                 <input id="dropzone-file" type="file" name="contract" class="hidden" />
                             </label>
-                        </div> 
+                            <!-- Display selected file name -->
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-2 items-center">
@@ -148,8 +148,8 @@ ob_start();
                             required
                             class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm 
                                    focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
                         </select>
                     </div>
 
@@ -191,6 +191,19 @@ $content = ob_get_clean();
 $pageScripts = '
   <script type="module" src="/hoa_system/ui/modules/amenities/stall/get.stall-item.js"></script>
   <script type="module" src="/hoa_system/ui/modules/amenities/stall/post.rental.js"></script>
+  <script type="module" src="/hoa_system/ui/modules/amenities/stall/validations.js"></script>
+  <script>
+    const fileInput = document.getElementById("dropzone-file");
+    const fileNameDisplay = document.getElementById("file-name");
+
+    fileInput.addEventListener("change", function() {
+        if (fileInput.files.length > 0) {
+        fileNameDisplay.textContent = ` ${fileInput.files[0].name}`;
+        } else {
+        fileNameDisplay.textContent = "";
+        }
+    })
+  </script>
 ';
 
 require_once BASE_PATH . '/pages/layout.php';

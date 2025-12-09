@@ -90,7 +90,8 @@ ob_start();
                         <tr>
                             <th class="px-6 py-3">Particular</th>
                             <th class="px-6 py-3 text-right">Amount</th>
-                            <th class="px-6 py-3">Receipt</th>
+                            <th class="px-6 py-3">Quantity</th>
+                            <th class="px-6 py-3">Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,17 +108,8 @@ ob_start();
                         <tr class="border-b hover:bg-gray-50">
                             <td class="px-6 py-4 font-medium"><?= htmlspecialchars($d['particular']) ?></td>
                             <td class="px-6 py-4 text-right font-bold text-gray-800">₱<?= number_format($d['amount'], 2) ?></td>
-                            <td class="px-6 py-4">
-                                <?php if ($d['receipt']): ?>
-                                    <a href="/hoa_system/uploads/liquidation_expenses/<?= htmlspecialchars($d['receipt']) ?>" 
-                                       target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800">
-                                        <i class="ri-file-fill text-xl"></i>
-                                        <span class="text-sm underline">View Receipt</span>
-                                    </a>
-                                <?php else: ?>
-                                    <span class="text-gray-400 text-sm">No receipt</span>
-                                <?php endif; ?>
-                            </td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($d['quantity']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars(date("Y/m/d", strtotime($d['expense_date']))) ?></td>
                         </tr>
                         <?php 
                         if ($first_row) {

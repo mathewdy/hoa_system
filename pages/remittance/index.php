@@ -95,14 +95,7 @@ ob_start();
         <input type="date" id="remitDate" value="<?= date('Y-m-d') ?>"
           class="w-full border border-gray-300 rounded-lg px-4 py-3">
       </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Transaction Type</label>
-        <select id="transType" class="w-full border border-gray-300 rounded-lg px-4 py-3">
-          <option value="Credit">Credit</option>
-          <option value="Debit">Debit</option>
-        </select>
-      </div>
+        <input type="hidden" id="transType" value="Credit">
       <div class="flex justify-end gap-3 pt-4">
         <button id="cancelRemit" class="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 font-medium">
           Cancel
@@ -149,11 +142,8 @@ ob_start();
           class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50">
       </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Transaction Type</label>
-        <input type="text" id="viewTransType" readonly
+        <input type="hidden" id="viewTransType" readonly
           class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50">
-      </div>
       <?php if($role == 4):?>
       <div class="flex justify-end gap-3 pt-4">
         <button id="rejectRemit" class="px-8 py-3 bg-red-700 text-white rounded-lg hover:bg-red-800 font-bold shadow-lg">Reject</button>

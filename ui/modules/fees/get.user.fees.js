@@ -114,36 +114,21 @@ $(document).on('click', '.openPaymentModal', function () {
 
   $('#paymentModal').removeClass('hidden');
 
-  // SET user_id value sa hidden input
   $('#user_id').val(userId);
 
-  // Display total amount
   $('#amount').val(
     new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(total)
   );
 
-  // Save fee IDs globally
   window.selectedFeeIds = feeIds;
 
-  // Reset form fields
-  $('#payment-method').val('Cash').trigger('change');
-  $('#payment-date').val(new Date().toISOString().slice(0, 10)); // today
+  $('#payment-method').val('');
+  $('#payment-date').val(new Date().toISOString().slice(0, 10));
   $('#receipt-name').val('');
   $('#payment-proof').val('');
   $('#remarks').val('');
 });
 
-
-// Show payment-source if Bank or GCash is selected
-$('#payment-method').on('change', function () {
-  const val = $(this).val();
-  if (val === 'Bank Transfer' || val === 'GCash') {
-    $('#payment-source-container').removeClass('hidden');
-  } else {
-    $('#payment-source-container').addClass('hidden');
-    $('#payment-source').val('');
-  }
-});
 
 $('#payment-form').on('submit', function (e) {
   e.preventDefault();
@@ -157,10 +142,8 @@ $('#payment-form').on('submit', function (e) {
   const remarks = $("#remarks").val();
   const proofFile = $("#payment-proof")[0].files[0];
 
-  // Append fields
   formData.append('user_id', userId);
 
-  // Append fee IDs as array
   feeIds.forEach(id => formData.append('fee_ids[]', id));
 
   formData.append('payment_method', paymentMethod);
@@ -185,12 +168,10 @@ $('#payment-form').on('submit', function (e) {
       if (res.success) {
         showToast({ message: 'Payment recorded successfully!', type: 'success' });
 
-        // Close modal and reset form
         $('#paymentModal').addClass('hidden');
         $('#payment-form')[0].reset();
         window.selectedFeeIds = [];
 
-        // Refresh table
         fetcher.fetch();
       } else {
         showToast({ message: res.message || 'Payment failed', type: 'error' });
@@ -205,6 +186,4 @@ $('#payment-form').on('submit', function (e) {
   });
 });
 
-
-// Close modal
 $('#closePaymentModal').on('click', () => $('#paymentModal').addClass('hidden'));
