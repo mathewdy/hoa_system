@@ -20,6 +20,20 @@ if ($result->num_rows === 0) {
 }
 
 $booking = $result->fetch_assoc();
+$check_sql = "
+    SELECT id 
+    FROM court_fees 
+    WHERE id = ? 
+      AND YEAR(date_created) = YEAR(CURRENT_DATE())
+      AND MONTH(date_created) = MONTH(CURRENT_DATE())
+    LIMIT 1
+";
+$check_stmt = $conn->prepare($check_sql);
+$check_stmt->bind_param("i", $booking_id);
+$check_stmt->execute();
+$fee_result = $check_stmt->get_result();
+
+$has_paid_this_month = $fee_result->num_rows > 0;
 
 $pageTitle = 'Court Fee';
 ob_start();
@@ -37,7 +51,10 @@ ob_start();
             <input type="hidden" name="id" value="<?= $booking['id'] ?>">
 
             <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm">
-                <h2 class="text-xl font-semibold text-gray-900 mb-6">Rental Information</h2>
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">Rental Information</h2>
+                <span class="px-4 py-2 rounded-lg bg-<?= $has_paid_this_month > 0 ? 'green-200 text-green-500' : 'red-200 text-red-500' ?>"><?= $has_paid_this_month > 0 ? 'Paid' : 'Unpaid' ?></span>
+              </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
 
@@ -82,11 +99,13 @@ ob_start();
 
             <div class="flex justify-end gap-4 pt-4">
                 <a href="list.php" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Cancel</a>
+                <?php if ($has_paid_this_month <= 0): ?>
                 <button type="submit"
                         id="editBtn"
-                        class="px-8 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition font-medium">
-                    Save Record
+                        class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition font-medium">
+                    Submit  
                 </button>
+                <?php endif; ?>
             </div>
 
         </form>
@@ -115,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
 
             if (result.success) {
-                alert("Stall rental updated successfully!");
+                alert("Payment success!");
                 window.location.href = "/hoa_system/pages/amenities/court/list.php";
             } else {
                 alert("Update failed: " + result.message);

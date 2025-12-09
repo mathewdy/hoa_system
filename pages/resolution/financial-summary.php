@@ -219,10 +219,10 @@ ob_start();
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Upload Consolidated Financial Summary (PDF/Image)</label>
                         <input type="file" name="upload_receipt" accept=".pdf,.jpg,.jpeg,.png" required
-                               class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 cursor-pointer">
+                               class="mt-1 block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 px-3 rounded-lg">
                     </div>
                     <button type="submit" name="upload"
-                            class="px-6 py-2.5 bg-teal-600 text-white font-medium rounded-lg hover:bg-teal-700 transition shadow">
+                            class="px-4 py-2 bg-teal-600 text-white font-medium rounded-lg hover:bg-teal-700 transition shadow">
                         Upload Financial Summary
                     </button>
                 </form>

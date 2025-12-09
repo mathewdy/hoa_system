@@ -8,7 +8,7 @@ if (!isset($_GET['id'])) {
 }
 
 $project_id = intval($_GET['id']);
-
+$role = $_SESSION['role'] ?? 0;
 $stmt = $conn->prepare("SELECT id, project_resolution_title, estimated_budget FROM resolution WHERE id = ? AND is_budget_released = 1");
 $stmt->bind_param("i", $project_id);
 $stmt->execute();
@@ -33,7 +33,6 @@ ob_start();
         <form id="liquidationForm" class="space-y-6" enctype="multipart/form-data">
             <input type="hidden" name="project_id" value="<?= $project['id'] ?>">
 
-            <!-- PROJECT SUMMARY -->
             <div class="border-2 border-gray-200 px-8 py-6 rounded-lg shadow-sm">
                 <h2 class="text-xl font-semibold text-gray-900 mb-6">Project Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -66,7 +65,8 @@ ob_start();
                             <tr>
                                 <th class="px-6 py-3">Particular</th>
                                 <th class="px-6 py-3 w-32">Amount</th>
-                                <th class="px-6 py-3">Receipt / Proof</th>
+                                <th class="px-6 py-3">Quantity</th>
+                                <th class="px-6 py-3">Date</th>
                                 <th class="px-6 py-3 w-24">Action</th>
                             </tr>
                         </thead>
@@ -79,7 +79,10 @@ ob_start();
                                     <input type="number" step="0.01" min="0" name="expense_amount[]" required class="expense_amount w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-teal-500 focus:border-teal-500" placeholder="0.00">
                                 </td>
                                 <td class="px-6 py-4">
-                                    <input type="file" name="expense_receipt[]" accept=".jpg,.jpeg,.png,.pdf" class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300">
+                                    <input type="number" id="quantity" min="1" value="1" class="mt-1 border border-gray-300 py-2.5 px-4 rounded-lg w-full" required>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <input type="date" id="payment-date" value="<?= date('Y-m-d') ?>" class="mt-1 border border-gray-300 py-2.5 px-4 rounded-lg w-full" required>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <button type="button" class="removeRow text-red-600 hover:text-red-800 transition">
@@ -116,13 +119,15 @@ ob_start();
 
             <!-- SUBMIT -->
             <div class="flex justify-end gap-4 pt-4">
-                <a href="liquidation-list.php" class="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium">
+                <a href="list.php" class="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium">
                     Cancel
                 </a>
+                <?php if($role == 5): ?>
                 <button type="submit" id="submitBtn" class="px-8 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition font-medium flex items-center gap-2">
                     <i class="ri-send-plane-fill"></i>
                     Submit Liquidation
                 </button>
+                <?php endif; ?>
             </div>
         </form>
     </div>
@@ -165,11 +170,23 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#addExpenseRow").on("click", function() {
         const row = `
             <tr class="expense-row">
-                <td class="px-6 py-4"><input type="text" name="expense_particular[]" required placeholder="e.g. Cement, Labor" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-teal-500 focus:border-teal-500"></td>
-                <td class="px-6 py-4"><input type="number" step="0.01" min="0" name="expense_amount[]" required class="expense_amount w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-teal-500 focus:border-teal-500" placeholder="0.00"></td>
-                <td class="px-6 py-4"><input type="file" name="expense_receipt[]" accept=".jpg,.jpeg,.png,.pdf" class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300"></td>
-                <td class="px-6 py-4 text-center"><button type="button" class="removeRow text-red-600 hover:text-red-800"><i class="ri-delete-bin-line text-xl"></i></button></td>
-            </tr>`;
+    <td class="px-6 py-4">
+        <input type="text" name="expense_particular[]" required placeholder="e.g. Cement, Labor" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-teal-500 focus:border-teal-500">
+    </td>
+    <td class="px-6 py-4">
+        <input type="number" step="0.01" min="0" name="expense_amount[]" required class="expense_amount w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-teal-500 focus:border-teal-500" placeholder="0.00">
+    </td>
+    <td class="px-6 py-4">
+        <input type="number" min="1" name="quantity[]" value="1" required class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-teal-500 focus:border-teal-500" placeholder="Quantity">
+    </td>
+    <td class="px-6 py-4">
+        <input type="date" name="date[]" value="'. date('Y-m-d') .'" required class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-teal-500 focus:border-teal-500">
+    </td>
+    <td class="px-6 py-4 text-center">
+            <button type="button" class="removeRow text-red-600 hover:text-red-800"><i class="ri-delete-bin-line text-xl"></i></button>
+        </td>
+    </tr>
+    `;
         $table.append(row);
     });
 

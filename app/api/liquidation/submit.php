@@ -15,10 +15,12 @@ try {
         throw new Exception("Missing project ID");
     }
 
-    $project_id     = intval($_POST['project_id']);
-    $remarks        = trim($_POST['remarks'] ?? '');
-    $particulars    = $_POST['expense_particular'] ?? [];
-    $amounts        = $_POST['expense_amount'] ?? [];
+    $project_id   = intval($_POST['project_id']);
+    $remarks      = trim($_POST['remarks'] ?? '');
+    $particulars  = $_POST['expense_particular'] ?? [];
+    $amounts      = $_POST['expense_amount'] ?? [];
+    $quantities   = $_POST['quantity'] ?? [];
+    $dates        = $_POST['date'] ?? [];
 
     if (empty($particulars)) {
         throw new Exception("Please add at least one expense");
@@ -29,6 +31,7 @@ try {
         $total_expenses += floatval($amt);
     }
 
+    // Fetch project budget
     $stmt = $conn->prepare("SELECT estimated_budget FROM resolution WHERE id = ? AND is_budget_released = 1");
     $stmt->bind_param("i", $project_id);
     $stmt->execute();
@@ -48,12 +51,10 @@ try {
         $audit_result = 'Balanced';
     }
 
-    $upload_dir = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/uploads/liquidation_expenses/';
-    if (!is_dir($upload_dir)) mkdir($upload_dir, 0755, true);
-
     $conn->autocommit(FALSE);
     $in_transaction = true;
 
+    // Insert liquidation record
     $stmt = $conn->prepare("
         INSERT INTO liquidation_of_expenses 
         (project_resolution_id, status, total_expenses, date_created) 
@@ -65,44 +66,26 @@ try {
     }
     $liquidation_id = $conn->insert_id;
 
+    // Insert expense details
     $stmt_detail = $conn->prepare("
         INSERT INTO liquidation_expenses_details 
-        (liquidation_id, particular, amount, receipt, total_expenses, remaning_budget, audit_result, remarks, date_created)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
+        (liquidation_id, particular, amount, quantity, expense_date, total_expenses, remaning_budget, audit_result, remarks, date_created)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
     ");
 
     for ($i = 0; $i < count($particulars); $i++) {
         $particular = trim($particulars[$i]);
         $amount     = floatval($amounts[$i]);
-        $receipt    = '';
-
-        if (!empty($_FILES['expense_receipt']['name'][$i]) && $_FILES['expense_receipt']['error'][$i] === UPLOAD_ERR_OK) {
-            $file_name = $_FILES['expense_receipt']['name'][$i];
-            $tmp_name  = $_FILES['expense_receipt']['tmp_name'][$i];
-            $ext       = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-
-            if (!in_array($ext, ['jpg', 'jpeg', 'png', 'pdf'])) {
-                throw new Exception("Invalid file: $file_name");
-            }
-            if ($_FILES['expense_receipt']['size'][$i] > 10*1024*1024) {
-                throw new Exception("File too large: $file_name");
-            }
-
-            $new_filename = "liq_{$liquidation_id}_{$i}_" . time() . ".$ext";
-            $destination  = $upload_dir . $new_filename;
-
-            if (!move_uploaded_file($tmp_name, $destination)) {
-                throw new Exception("Upload failed: $file_name");
-            }
-            $receipt = $new_filename;
-        }
+        $quantity   = intval($quantities[$i] ?? 1);
+        $date       = $dates[$i] ?? date('Y-m-d');
 
         $stmt_detail->bind_param(
-            "isdssdss",
+            "isdissdss",
             $liquidation_id,
             $particular,
             $amount,
-            $receipt,
+            $quantity,
+            $date,
             $total_expenses,
             $remaining_budget,
             $audit_result,

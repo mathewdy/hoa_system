@@ -68,7 +68,7 @@ ob_start();
 
       <form id="payment-form" class="space-y-5" enctype="multipart/form-data">
         <!-- Hidden User ID -->
-        <input type="hidden" data-user-id="<?= $user_id ?>" id="user_id">
+        <input type="hidden" data-user-id="<?= $user_id ?>" id="user_id" value="<?= $user_id ?>">
 
         <!-- Total Amount -->
         <div>
@@ -80,7 +80,7 @@ ob_start();
         <div>
           <label class="text-sm font-medium text-gray-700">Payment Method</label>
           <select id="payment-method" class="mt-1 border border-gray-300 py-2.5 px-4 rounded-lg w-full" required>
-            <option value="Cash">Cash</option>
+            <option value="">-Select-</option>
             <option value="Bank Transfer">Bank Transfer</option>
             <option value="GCash">GCash</option>
           </select>

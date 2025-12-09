@@ -89,7 +89,6 @@ ob_start();
                         <select name="role_id" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 px-3 py-2">
                             <option value="4">Treasurer</option>
                             <option value="2">Secretary</option>
-                            <option value="3">President</option>
                             <option value="1">Admin</option>
                             <option value="5">Auditor</option>
                         </select>

@@ -157,7 +157,7 @@ ob_start();
                             Acknowledgement Receipt
                             <span class="text-xs block text-gray-500 mt-1">JPG, PNG, PDF • Max 10MB</span>
                         </label>
-                        <input type="file" name="acknowledgement_receipt" accept=".jpg,.jpeg,.png,.pdf" class="mt-1 block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300">
+                        <input type="file" name="acknowledgement_receipt" accept=".jpg,.jpeg,.png,.pdf" class="mt-1 block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 px-3 rounded-lg">
                     </div>
                 </div>
             </div>
