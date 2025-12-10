@@ -34,6 +34,9 @@ ob_start();
     <table id="dataTable" class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>
+          <?php if ($role == 3): ?>
+          <th class="px-6 py-3"></th>
+          <?php endif;?>
           <th class="px-6 py-3">Name</th>
           <th class="px-6 py-3">Amount</th>
           <th class="px-6 py-3">Status</th>

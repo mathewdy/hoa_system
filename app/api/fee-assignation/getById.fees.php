@@ -45,7 +45,6 @@ $totalStmt->bind_param($types, ...$params);
 $totalStmt->execute();
 $total = (int)$totalStmt->get_result()->fetch_assoc()['total'];
 
-/** Main Records */
 $sql = "SELECT 
             fa.id,
             fa.amount,

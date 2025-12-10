@@ -20,6 +20,29 @@ const $state = $State({
 const fetcher = new DataFetcher($state, API_URL);
 
 const columns = [
+  row => {
+    const role = localStorage.getItem('role')
+    const color = row.status === 'Active' ? 'red' : 'green';
+    const title = row.status === 'Active' ? 'Deactivate' : 'Activate';
+
+    if(role == 3 && (row.status == 'Active' || row.status == 'Inactive')) {
+      return `<a 
+          id="actionBtn"
+          href="javascript:void(0)" 
+          class="actionBtn" 
+          title="${title}" data-action="${row.status}" data-id="${row.id}">
+          <i class="ri-shut-down-line text-xl text-${color}-500 hover:text-${color}-300"></i>
+        </a>`
+    }else if (role == 3 && (row.status == 'Pending' || row.status == 'Rejected')){
+      return `<a 
+          href="javascript:void(0)" 
+          title="${title}">
+          <i class="ri-shut-down-line text-xl text-gray-500 hover:text-gray-300"></i>
+        </a>`
+    }
+
+    return ``
+  },
   row => `
     <div class="flex items-center">
       <div class="font-medium text-gray-900">${row.fee_name || '—'}</div>
@@ -67,21 +90,18 @@ const columns = [
     const role = localStorage.getItem('role')
 
     if (row.status === 'Active' || row.status === 'Inactive') {
-      
       return `
       <div class="flex items-center gap-2">
         <a 
           href="view.php?id=${row.id}"  
-          class="flex items-center gap-2 px-3 py-1 bg-teal-600 text-white rounded-lg hover:bg-teal-800 transition">
-          <i class="ri-eye-fill text-xl text-white"></i> 
-          View
+          class="text-teal-600">
+          <i class="ri-eye-fill text-xl"></i> 
         </a>
         ${role == 3 ? ` <a href="../../app/api/fee-type/getById.file.php?id=${row.id}" 
           target="_blank"
-          class="bg-red-600 text-red-600 hover:text-red-300 py-1 px-4 rounded-lg text-white transition flex items-center" 
+          class="text-red-600"
           title="Download PDF Report">
           <i class="ri-file-download-line text-xl"></i>
-          Download
         </a>` : ''}
       </div>
       `;
@@ -90,9 +110,8 @@ const columns = [
       <div class="flex gap-2">
         <a 
           href="view.php?id=${row.id}" 
-          class="flex items-center gap-2 px-3 py-1 text-white rounded-lg bg-teal-600 hover:bg-teal-700 transition">
-          <i class="ri-eye-fill text-xl text-white"></i> 
-          View
+          class="text-teal-600">
+          <i class="ri-eye-fill text-xl"></i> 
         </a> 
       </div>`
   }
@@ -123,5 +142,11 @@ function toast(msg, type = 'info') {
 }
 $('#downloadPdfBtn').on('click', function() {
   window.open('/hoa_system/app/api/fee-type/get.file.php', '_blank');
+});
+$(document).ready(function () {
+  if ($('.actionBtn').length === 0) {
+    $('table tbody td:first-child').hide();
+    $('table').css('width', '100%');
+  }
 });
 $(document).on('fetch:error', (e, msg) => toast(msg || 'Failed to load.', 'error'));

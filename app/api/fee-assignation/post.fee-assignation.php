@@ -25,7 +25,6 @@ try {
     foreach ($fee_ids as $fee_id) {
         $fee_id = (int)$fee_id;
 
-        // kunin muna amount mula sa fee_type
         $sqlFee = "SELECT amount FROM fee_type WHERE id = ?";
         $stmtFee = $conn->prepare($sqlFee);
         $stmtFee->bind_param("i", $fee_id);
