@@ -64,18 +64,25 @@ const columns = [
   row => { 
     const color = row.status === 'Active' ? 'red' : 'green';
     const title = row.status === 'Active' ? 'Deactivate' : 'Activate';
-
+    const role = localStorage.getItem('role')
 
     if (row.status === 'Active' || row.status === 'Inactive') {
       
       return `
-      <div class="flex gap-2">
+      <div class="flex items-center gap-2">
         <a 
           href="view.php?id=${row.id}"  
           class="flex items-center gap-2 px-3 py-1 bg-teal-600 text-white rounded-lg hover:bg-teal-800 transition">
           <i class="ri-eye-fill text-xl text-white"></i> 
           View
         </a>
+        ${role == 3 ? ` <a href="../../app/api/fee-type/getById.file.php?id=${row.id}" 
+          target="_blank"
+          class="bg-red-600 text-red-600 hover:text-red-300 py-1 px-4 rounded-lg text-white transition flex items-center" 
+          title="Download PDF Report">
+          <i class="ri-file-download-line text-xl"></i>
+          Download
+        </a>` : ''}
       </div>
       `;
     } 
@@ -114,5 +121,7 @@ function toast(msg, type = 'info') {
   $('body').append($toast);
   setTimeout(() => $toast.addClass('animate-fade-out').on('animationend', () => $toast.remove()), 3000);
 }
-
+$('#downloadPdfBtn').on('click', function() {
+  window.open('/hoa_system/app/api/fee-type/get.file.php', '_blank');
+});
 $(document).on('fetch:error', (e, msg) => toast(msg || 'Failed to load.', 'error'));
