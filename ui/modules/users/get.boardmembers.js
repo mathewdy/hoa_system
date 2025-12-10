@@ -61,6 +61,12 @@ const columns = [
         title="${title}" data-action="${row.status}" data-id="${row.user_id}">
         <i class="ri-shut-down-line text-xl text-${color}-500 hover:text-${color}-300"></i>
       </a>
+      <a href="../../../app/api/users/getById.boardmembers-file.php?id=${row.user_id}" 
+        target="_blank"
+        class="text-red-600 hover:text-red-800 transition" 
+        title="Download PDF Report">
+        <i class="ri-file-download-line text-xl"></i>
+      </a>
     </div>`
   }
 ];

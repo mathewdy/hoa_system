@@ -63,7 +63,7 @@ const columns = [
         </a>
       </div>`
     }
-    
+
     return `
       <div class="flex items-center gap-2">
         <a 
@@ -71,6 +71,12 @@ const columns = [
           class="text-teal-600 hover:text-teal-800" 
           title="View">
           <i class="ri-eye-fill text-xl"></i>
+        </a>
+        <a href="../../../app/api/users/getById.homeowner-file.php?id=${row.user_id}" 
+        target="_blank"
+        class="text-red-600 hover:text-red-800 transition" 
+        title="Download PDF Report">
+          <i class="ri-file-download-line text-xl"></i>
         </a>
       </div>`
   

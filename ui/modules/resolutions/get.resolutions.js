@@ -121,19 +121,37 @@ const columns = [
         <i class="ri-check-line mr-1"></i> Verified
       </a>`
     }
+
     return `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
       <i class="ri-close-line mr-1"></i> Not Uploaded
     </span>`
   },
 
-  row => `
-    <div class="flex items-center gap-3">
+  row => {
+    const role = localStorage.getItem('role')
+    if (role == 2) {
+     return `
+     <div class="flex items-center gap-3">
+      <a href="view.php?id=${row.id}" 
+         class="text-teal-600 hover:text-teal-800" title="View Resolution">
+        <i class="ri-eye-fill text-xl"></i>
+      </a>
+       <a href="../../app/api/resolutions/getById.file.php?id=${row.id}" 
+          target="_blank"
+          class="text-red-600 hover:text-red-500 transition" 
+          title="Download PDF Report">
+          <i class="ri-file-download-line text-xl"></i>
+        </a>
+    </div>
+    `
+    }
+    return `<div class="flex items-center gap-3">
       <a href="view.php?id=${row.id}" 
          class="text-teal-600 hover:text-teal-800" title="View Resolution">
         <i class="ri-eye-fill text-xl"></i>
       </a>
     </div>
-  `
+  `}
 ];
 
 new TableView($state, fetcher, {
@@ -158,5 +176,7 @@ function toast(msg, type = 'info') {
   $('body').append($toast);
   setTimeout(() => $toast.addClass('animate-fade-out').on('animationend', () => $toast.remove()), 3500);
 }
-
+$('#downloadPdfBtn').on('click', function() {
+  window.open('/hoa_system/app/api/resolutions/get.file.php', '_blank');
+});
 $(document).on('fetch:error', (e, msg) => toast(msg || 'Failed to load resolutions.', 'error'));

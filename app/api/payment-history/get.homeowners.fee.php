@@ -22,7 +22,7 @@ $sql = "
         p.date_created
     FROM homeowner_fees p
     LEFT JOIN user_info u ON p.user_id = u.user_id
-    WHERE 1=1
+    WHERE 1=1 AND status = 1
 ";
 
 $params = [];

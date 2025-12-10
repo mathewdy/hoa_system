@@ -41,6 +41,13 @@ const columns = [
           <i class="ri-eye-fill"></i>
           View
         </button>
+        <a href="../../app/api/remittance/getById.file.php?id=${row.id}" 
+          target="_blank"
+          class="bg-red-600 text-red-600 hover:text-red-500 py-2 px-4 rounded-lg text-white transition" 
+          title="Download PDF Report">
+          <i class="ri-file-download-line text-xl"></i>
+          Download
+        </a>
       </div>` 
     }
   }
@@ -224,4 +231,6 @@ $("#approveRemit").on("click", function() {
 $("#rejectRemit").on("click", function() {
     updateRemittanceStatus(remittanceId, 2);
 });
-
+$('#downloadPdfBtn').on('click', function() {
+  window.open('/hoa_system/app/api/remittance/get.file.php', '_blank');
+});
