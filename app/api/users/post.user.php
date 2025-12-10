@@ -13,10 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $required = ['first_name', 'last_name', 'phone', 'hoa_number', 'home_address', 'lot', 'block', 'email_address'];
 foreach ($required as $field) {
-  if (empty(trim($_POST[$field] ?? ''))) {
-    echo json_encode(['success' => false, 'message' => ucfirst(str_replace('_', ' ', $field)) . ' is required']);
-    exit;
-  }
+    if (empty(trim($_POST[$field] ?? ''))) {
+        echo json_encode(['success' => false, 'message' => ucfirst(str_replace('_', ' ', $field)) . ' is required']);
+        exit;
+    }
 }
 
 $first_name     = trim($_POST['first_name']);
@@ -39,26 +39,56 @@ $email          = trim($_POST['email_address']);
 $role_id        = (int)($_POST['role_id'] ?? 6);
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-  echo json_encode(['success' => false, 'message' => 'Invalid email address']);
-  exit;
+    echo json_encode(['success' => false, 'message' => 'Invalid email address']);
+    exit;
 }
+
+$errors = [];
 
 $check = $conn->prepare("SELECT user_id FROM users WHERE email_address = ?");
 $check->bind_param("s", $email);
 $check->execute();
 $check->store_result();
 if ($check->num_rows > 0) {
-    $check->close();
-    echo json_encode(['success' => false, 'message' => 'Email or HOA Number already exists']);
-    exit;
+    $errors[] = 'Email address already exists';
 }
 $check->close();
 
+$check = $conn->prepare("SELECT user_id FROM hoa_info WHERE hoa_number = ?");
+$check->bind_param("s", $hoa_number);
+$check->execute();
+$check->store_result();
+if ($check->num_rows > 0) {
+    $errors[] = 'HOA Number already exists';
+}
+$check->close();
+
+$check = $conn->prepare("
+    SELECT user_id FROM hoa_info 
+    WHERE lot = ? AND block = ? AND phase = ?
+");
+$check->bind_param("sss", $lot, $block, $phase);
+$check->execute();
+$check->store_result();
+if ($check->num_rows > 0) {
+    $errors[] = 'Lot ' . $lot . ', Block ' . $block . (empty($phase) ? '' : ', Phase ' . $phase) . ' is already registered';
+}
+$check->close();
+
+if (!empty($errors)) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'The following records already exist: ' . implode(', ', $errors)
+    ]);
+    exit;
+}
+
 $password = generatePassword(16);
-$hashed = password_hash($password, PASSWORD_DEFAULT);
-$user_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3);
+$hashed   = password_hash($password, PASSWORD_DEFAULT);
+$user_id  = "2025" . rand(1, 99) . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 4);
 
 try {
+    $conn->autocommit(false);
     $conn->begin_transaction();
 
     $stmt1 = $conn->prepare("
@@ -88,41 +118,34 @@ try {
     $stmt3->close();
 
     assignMonthlyFeesToUser($conn, $user_id);
-    $title = 'Account Created';
-    $message = "Dear User,<br><br>
-        Welcome aboard! Your account has been successfully created. We are excited to have you with us!.
-        <br><br>
-        Your initial password is $password
-        <br><br>
+
+    $title   = 'Account Created';
+    $message = "Dear {$first_name} {$last_name},<br><br>
+        Welcome aboard! Your account has been successfully created.<br><br>
+        <strong>Username (Email):</strong> {$email}<br>
+        <strong>Temporary Password:</strong> {$password}<br><br>
+        Please change your password upon first login.<br><br>
         HOAConnect Team";
 
-    $mailSent = sendEmail($message, $title, $email);
-
-    if (!$mailSent) {
-        $conn->rollback();
-        echo json_encode([
-            'success' => false,
-            'message' => 'Failed to send email.'
-        ]);
-        exit;
+    if (!sendEmail($message, $title, $email)) {
+        throw new Exception("Failed to send welcome email");
     }
-
 
     $conn->commit();
 
     echo json_encode([
         'success' => true,
         'message' => 'Homeowner created successfully!',
-        'data' => ['user_id' => $user_id]
+        'data'    => ['user_id' => $user_id]
     ]);
 
 } catch (Exception $e) {
     $conn->rollback();
-    
     echo json_encode([
         'success' => false,
-        'message' => 'DB Error: ' . $e->getMessage()
+        'message' => 'System error: ' . $e->getMessage()
     ]);
-    
+} finally {
+    $conn->autocommit(true);
 }
 ?>

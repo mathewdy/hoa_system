@@ -31,7 +31,7 @@ ob_start();
         <?php 
       }
     ?>
-    <?php if ($role == 1): ?>
+    <?php if ($role == 1 || $role == 3): ?>
     <button id="downloadPdfBtn" class="px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium transition whitespace-nowrap">Download PDF</button>
     <?php endif; ?>
   </div>

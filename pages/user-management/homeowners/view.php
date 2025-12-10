@@ -27,7 +27,7 @@ ob_start();
           <p id="subheading" class="text-gray-600"></p>
         </div>
       </div>
-      <?php if($userRole == 1): ?>
+      <?php if($userRole == 1 || $userRole == 3): ?>
         <div class="">
           <button id="downloadPdfBtn" class="px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium transition whitespace-nowrap">Download PDF</button>
         </div>

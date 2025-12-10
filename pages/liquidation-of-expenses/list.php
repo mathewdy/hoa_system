@@ -3,6 +3,8 @@ $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
 require_once $root . 'app/includes/session.php';
 
+$role = $_SESSION['role'];
+
 $pageTitle = 'Liquidation of Expenses';
 ob_start();
 ?>
@@ -22,11 +24,9 @@ ob_start();
           placeholder="Search liquidation records..." />
       </div>
     </form>
-    
-    <!-- Optional: Add new liquidation button (pag may create) -->
-    <!-- <a href="create-liquidation.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">
-      + New Liquidation
-    </a> -->
+    <?php if ($role == 1): ?>
+    <button id="downloadPdfBtn" class="px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium transition whitespace-nowrap">Download PDF</button>
+    <?php endif; ?>
   </div>
 
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg border">
