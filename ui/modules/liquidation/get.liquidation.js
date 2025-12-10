@@ -57,23 +57,32 @@ const columns = [
             </span>`;
   },
 
-  row => `
-    <div class="flex items-center gap-3">
+  row => {
+    const role = localStorage.getItem('role')
+    return `<div class="flex items-center gap-3">
       ${row.liq_status !== null ? `
         <a href="view.php?id=${row.liq_id}" 
            class="text-purple-600 hover:text-purple-800 transition" title="View Liquidation">
           <i class="ri-file-search-line text-xl"></i>
         </a>` : ''
       }
-
+      ${row.liq_id && (role == 1 || role == 5) ? `
+        <a href="../../app/api/liquidation/getById.liquidation-file.php?id=${row.liq_id}" 
+          target="_blank"
+          class="text-red-600 hover:text-red-800 transition" 
+          title="Download PDF Report">
+          <i class="ri-file-download-line text-xl"></i>
+        </a>` : ''
+      }
       ${row.is_budget_released && row.liq_status === null ? `
         <a href="generate.php?id=${row.proj_id}" 
            class="text-blue-600 hover:text-blue-800 transition" title="Create Liquidation">
           <i class="ri-add-box-line text-xl"></i>
         </a>` : ''
       }
-    </div>
-  `
+
+    </div>`
+  }
 ];
 
 new TableView($state, fetcher, {
@@ -98,5 +107,7 @@ function toast(msg, type = 'info') {
   $('body').append($toast);
   setTimeout(() => $toast.addClass('animate-slide-out').on('animationend', () => $toast.remove()), 4000);
 }
-
+$('#downloadPdfBtn').on('click', function() {
+  window.open('/hoa_system/app/api/liquidation/get.liquidation-file.php', '_blank');
+});
 $(document).on('fetch:error', (e, msg) => toast(msg || 'Failed to load data.', 'error'));

@@ -1,10 +1,13 @@
 import { $State } from '../../core/state.js';
 import { showToast } from '../../utils/toast.js';
+import { mobileNumberOnly } from '../../utils/input.mobile.js';
 
 const createState = $State({ loading: false });
 
 $(document).on('change', () => render());
-
+$(document).ready(function() {
+    mobileNumberOnly('input[name=phone]')
+})
 $('#createHomeownerForm').on('submit', function (e) {
     e.preventDefault();
     const $form = $(this);

@@ -1,6 +1,4 @@
 <?php
-// app/api/users/put.homeDetails.php
-// PROCEDURAL, CLEAN, SECURE — NOV 17, 2025
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/config.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php';
 
@@ -17,7 +15,6 @@ if (!$user_id || !is_numeric($user_id)) {
     exit;
 }
 
-// Whitelist + sanitize
 $allowed = ['hoa_number', 'home_address', 'lot', 'block', 'phase', 'village'];
 $data = [];
 
@@ -26,7 +23,6 @@ foreach ($allowed as $field) {
     $data[$field] = $value;
 }
 
-// Check if record exists
 $check = $conn->prepare("SELECT 1 FROM hoa_info WHERE user_id = ?");
 $check->bind_param("s", $user_id);
 $check->execute();
@@ -34,7 +30,6 @@ $check->store_result();
 $exists = $check->num_rows > 0;
 $check->close();
 
-// Build query
 if ($exists) {
     $setParts = [];
     foreach ($data as $key => $val) {
@@ -47,10 +42,9 @@ if ($exists) {
     $sql = "INSERT INTO hoa_info (user_id, $columns) VALUES (?, $placeholders)";
 }
 
-// Prepare values (user_id first for INSERT, last for UPDATE)
 $values = $exists ? array_values($data) : [$user_id, ...array_values($data)];
-$values[] = $user_id; // user_id always last for WHERE
-$types = str_repeat('s', count($values) - 1) . 's'; // all strings except maybe user_id, but safe
+$values[] = $user_id;
+$types = str_repeat('s', count($values) - 1) . 's';
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
