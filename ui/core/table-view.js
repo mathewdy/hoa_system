@@ -83,12 +83,25 @@ export class TableView {
       return
     }
 
-    data.forEach(row => {
-      const cells = this.c.columns.map(col => col(row))
-      $tbody.append(`<tr class="border-b hover:bg-gray-50">
-        ${cells.map(c => `<td class="px-6 py-4">${c}</td>`).join('')}
-      </tr>`)
-    })
+      data.forEach(row => {
+      const cellContents = this.c.columns.map(col => {
+        const content = col(row);
+        return {
+          html: content,
+          empty: !content || content.toString().trim() === ''
+        };
+      });
+
+      let trHtml = '<tr class="border-b hover:bg-gray-50">';
+      cellContents.forEach(cell => {
+        if (!cell.empty) {
+          trHtml += `<td class="px-6 py-4">${cell.html}</td>`;
+        }
+      });
+      trHtml += '</tr>';
+
+      $tbody.append(trHtml);
+    });
 
     this.renderPagination($pg, this.$s.val('pagination'))
   }

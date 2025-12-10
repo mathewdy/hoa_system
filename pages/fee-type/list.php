@@ -25,12 +25,18 @@ ob_start();
     <?php if ($role == 3): ?>
     <a href="create.php" class="px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition whitespace-nowrap">Add Fee</a>
     <?php endif; ?>
+    <?php if ($role == 3): ?>
+    <button id="downloadPdfBtn" class="px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium transition whitespace-nowrap">Download PDF</button>
+    <?php endif; ?>
   </div>
   
   <div class="relative shadow-md sm:rounded-lg border">
     <table id="dataTable" class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
         <tr>
+          <?php if ($role == 3): ?>
+          <th class="px-6 py-3"></th>
+          <?php endif;?>
           <th class="px-6 py-3">Name</th>
           <th class="px-6 py-3">Amount</th>
           <th class="px-6 py-3">Status</th>

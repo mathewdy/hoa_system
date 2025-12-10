@@ -33,7 +33,35 @@ $amount       = floatval($_POST['amount']);
 $start        = trim($_POST['start_date']);
 $is_recurring = trim($_POST['is_recurring']);
 $created_by   = trim($_POST['created_by']);
-$status       = 0;  
+$status       = 0; 
+
+if ($is_recurring == 1) {
+    $current_month = date('Y-m');
+
+    $sql = "
+        SELECT id 
+        FROM fee_type 
+        WHERE is_recurring = 1 
+          AND DATE_FORMAT(effectivity_date, '%Y-%m') = ?
+          AND status = 1
+        LIMIT 1
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $current_month);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'There is already an active recurring fee for this month.'
+        ]);
+        exit;
+    }
+
+    $stmt->close();
+}
 
 try {
 
