@@ -9,7 +9,6 @@ if (!$refNo) {
     exit;
 }
 
-// Fetch homeowner fee record
 $sql = "
     SELECT 
         hf.id,
@@ -45,7 +44,6 @@ if ($result->num_rows === 0) {
 
 $data = $result->fetch_assoc();
 
-// Fetch associated fees
 $feeSql = "
     SELECT fa.id, fa.amount, ft.fee_name AS fee_name
     FROM fee_assignments fa

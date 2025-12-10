@@ -9,77 +9,95 @@ if (!isset($_GET['id'])) {
 }
 
 $feeId = intval($_GET['id']);
-
+$conn->autocommit(false);
 $conn->begin_transaction();
 
 try {
-    $approveSql = "UPDATE fee_type SET `status` = 1 WHERE id = ? AND `status` = 0";
+    $approveSql = "UPDATE fee_type 
+                   SET `status` = 1 
+                   WHERE id = ? 
+                     AND `status` = 0";
     $stmt = $conn->prepare($approveSql);
     $stmt->bind_param("i", $feeId);
-    
-    if (!$stmt->execute()) {
-        throw new Exception("Failed to approve fee type.");
-    }
+    $stmt->execute();
     $stmt->close();
 
     if ($conn->affected_rows === 0) {
         throw new Exception("Fee type already approved or not found.");
     }
 
-    $feeInfoSql = "SELECT fee_name, amount FROM fee_type WHERE id = ?";
-    $stmt = $conn->prepare($feeInfoSql);
+    $feeSql = "SELECT fee_name, amount, is_recurring 
+               FROM fee_type 
+               WHERE id = ? 
+                 AND status = 1";
+    $stmt = $conn->prepare($feeSql);
     $stmt->bind_param("i", $feeId);
     $stmt->execute();
     $result = $stmt->get_result();
     
     if ($result->num_rows === 0) {
-        throw new Exception("Fee type not found after approval.");
+        throw new Exception("Approved fee not found.");
     }
-    
+
     $fee = $result->fetch_assoc();
-    $feeAmount = $fee['amount'];
+    $feeAmount     = $fee['amount'];
+    $isRecurring   = (int)$fee['is_recurring'];
+    $feeName       = $fee['fee_name'];
     $stmt->close();
 
-    $usersSql = "SELECT user_id FROM users WHERE role_id = 6";
-    $usersResult = $conn->query($usersSql);
+    if ($isRecurring !== 1) {
+        $conn->commit();
+        echo "<script>
+                alert('Fee type \"{$feeName}\" approved successfully! (Non-recurring - not assigned to members)');
+                window.location.href='list.php';
+              </script>";
+        exit;
+    }
+
+    $usersResult = $conn->query("SELECT user_id FROM users WHERE role_id = 6");
     
     if ($usersResult->num_rows === 0) {
-        throw new Exception("No TODA members (role 6) found.");
+        $conn->commit();
+        echo "<script>
+                alert('Fee type approved but no TODA members found to assegn.');
+                window.location.href='list.php';
+              </script>";
+        exit;
     }
 
     $insertSql = "INSERT INTO fee_assignments 
                   (user_id, fee_type_id, amount, due_date, status, date_created) 
-                  VALUES (?, ?, ?, DATE_FORMAT(NOW(), '%Y-%m-01') + INTERVAL 1 MONTH, 0, NOW())";
-                  
+                  VALUES (?, ?, ?, DATE_FORMAT(NOW() + INTERVAL 1 MONTH, '%Y-%m-01'), 0, NOW())";
+
     $insertStmt = $conn->prepare($insertSql);
+    $assignedCount = 0;
 
     while ($user = $usersResult->fetch_assoc()) {
         $userId = $user['user_id'];
         $insertStmt->bind_param("iid", $userId, $feeId, $feeAmount);
         
-        if (!$insertStmt->execute()) {
-            throw new Exception("Failed to assign fee to user ID: $userId");
+        if ($insertStmt->execute()) {
+            $assignedCount++;
         }
     }
-    
     $insertStmt->close();
 
     $conn->commit();
-    
+
     echo "<script>
-            alert('Fee type approved and successfully assigned to all TODA members!');
+            alert('Success! \"{$feeName}\" approved and assigned to {$assignedCount} TODA members.\\nDue: " . date('F Y', strtotime('+1 month')) . "');
             window.location.href='list.php';
           </script>";
 
 } catch (Exception $e) {
     $conn->rollback();
-    
     echo "<script>
             alert('Error: " . addslashes($e->getMessage()) . "');
             window.location.href='list.php';
           </script>";
 }
 
+$conn->autocommit(true);
 $conn->close();
 exit;
 ?>

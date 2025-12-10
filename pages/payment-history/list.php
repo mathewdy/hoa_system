@@ -4,12 +4,17 @@ $root = $_SERVER['DOCUMENT_ROOT'] . '/hoa_system/';
 require_once $root . 'config.php';
 // require_once $root . 'app/includes/session.php';
 include_once($_SERVER['DOCUMENT_ROOT'] . '/hoa_system/app/core/init.php');
-
+$role = $_SESSION['role'];
 $pageTitle = 'Payment History';
 ob_start();
 ?>
 <div class="mt-1">
-  <h3 class="text-2xl font-medium text-gray-900 mb-4"><?= $pageTitle ?></h3>
+  <div class="flex items-center justify-between">
+    <h3 class="text-2xl font-medium text-gray-900 mb-4"><?= $pageTitle ?></h3>
+     <?php if ($role == 4 || $role == 3): ?>
+        <button id="downloadPdfBtn" class="px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium transition whitespace-nowrap">Download PDF</button>
+        <?php endif; ?>
+  </div>
   <div class="mb-4 border-b border-default">
     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
       <li class="me-2" role="presentation">
@@ -62,6 +67,9 @@ ob_start();
               <th class="px-6 py-3">Amount Paid</th>
               <th class="px-6 py-3">Ref. No.</th>
               <th class="px-6 py-3">Date</th>
+              <?php if($role == 1 || $role == 3 || $role == 4): ?>
+              <th class="px-6 py-3"></th>  
+              <?php endif; ?>
             </tr>
           </thead>
           <tbody></tbody>
@@ -101,6 +109,9 @@ ob_start();
               <th class="px-6 py-3">Fee Payer</th>
               <th class="px-6 py-3">Amount Paid</th>
               <th class="px-6 py-3">Date</th>
+              <?php if($role == 1 || $role == 3 || $role == 4): ?>
+              <th class="px-6 py-3"></th>  
+              <?php endif; ?>
             </tr>
           </thead>
           <tbody></tbody>
@@ -139,6 +150,9 @@ ob_start();
               <th class="px-6 py-3">Fee Payer</th>
               <th class="px-6 py-3">Amount Paid</th>
               <th class="px-6 py-3">Date</th>
+              <?php if($role == 1 || $role == 3 || $role == 4): ?>
+              <th class="px-6 py-3"></th>  
+              <?php endif; ?>
             </tr>
           </thead>
           <tbody></tbody>
@@ -178,6 +192,9 @@ ob_start();
               <th class="px-6 py-3">Fee Payer</th>
               <th class="px-6 py-3">Amount Paid</th>
               <th class="px-6 py-3">Date</th>
+              <?php if($role == 1 || $role == 3 || $role == 4): ?>
+              <th class="px-6 py-3"></th>  
+              <?php endif; ?>
             </tr>
           </thead>
           <tbody></tbody>
@@ -204,6 +221,11 @@ $pageScripts = '
   <script type="module" src="/hoa_system/ui/modules/payment-history/get.amenities.toda.fee.js"></script>
   <script type="module" src="/hoa_system/ui/modules/payment-history/get.amenities.stall.fee.js"></script>
   <script type="module" src="/hoa_system/ui/modules/payment-history/get.amenities.court.fee.js"></script>
+  <script>
+  $("#downloadPdfBtn").on("click", function() {
+    window.open("/hoa_system/app/api/payment-history/get.file.php", "_blank");
+  });
+  </script>
 ';
 
 require_once BASE_PATH . '/pages/layout.php';

@@ -55,6 +55,18 @@ const columns = [
       ${date.toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' })}
       <div class="text-xs text-gray-400">${date.toLocaleTimeString('en-PH', { hour: 'numeric', minute: '2-digit' })}</div>
     </div>`;
+  },
+  row => {
+    const role = localStorage.getItem('role')
+    if(role == 1 || role == 3 || role == 4){
+      return `<a href="../../app/api/payment-history/getById.stall.file.php?id=${row.id}" 
+          target="_blank"
+          class="text-red-600 hover:text-red-500 " 
+          title="Download PDF Report">
+          <i class="ri-file-download-line text-xl"></i>
+        </a>`
+    }
+    return ``
   }
 ];
 

@@ -52,6 +52,12 @@ const columns = [
           class="flex items-center gap-2 px-4 py-2 transition">
           <i class="ri-wallet-line text-xl text-green-600"></i> 
         </a>
+        <a href="../../../app/api/amenities/tricycle/getById.file.php?id=${row.id}" 
+          target="_blank"
+          class="text-red-600 hover:text-red-800 transition" 
+          title="Download PDF Report">
+          <i class="ri-file-download-line text-xl"></i>
+        </a>
       </div>`;
     }
     return `<a 
@@ -85,5 +91,7 @@ function toast(msg, type = 'info') {
   $('body').append($toast);
   setTimeout(() => $toast.addClass('animate-fade-out').on('animationend', () => $toast.remove()), 3000);
 }
-
+$('#downloadPdfBtn').on('click', function() {
+  window.open('/hoa_system/app/api/amenities/tricycle/get.file.php', '_blank');
+});
 $(document).on('fetch:error', (e, msg) => toast(msg || 'Failed to load.', 'error'));

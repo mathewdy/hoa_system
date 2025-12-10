@@ -26,11 +26,10 @@ ob_start();
         <?php
 
       }?>
-      
     </div>
   </div>
   <div class="flex flex-col sm:flex-row items-center mb-4 gap-3">
-    <form class="flex flex-1 w-full">
+    <form class="flex flex-1 w-full gap-2">
       <div class="relative w-full">
         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
           <i class="ri-search-line text-gray-400"></i>
@@ -40,6 +39,9 @@ ob_start();
                   bg-white placeholder-gray-400" 
           placeholder="Search <?= strtolower($pageTitle) ?>..." />
       </div>
+      <?php if ($role == 4 || $role == 3): ?>
+      <button id="downloadPdfBtn" class="px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium transition whitespace-nowrap">Download PDF</button>
+      <?php endif; ?>
     </form>
   </div>
 
